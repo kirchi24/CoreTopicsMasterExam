@@ -1,8 +1,68 @@
 \documentclass[11pt,a4paper]{article}
 
-\input{config/packages}
-\input{config/layout}
-\input{config/commands}
+% Sprache & Encoding
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman]{babel}
+
+% Mathematik
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{bm}
+
+% Layout
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\usepackage{parskip}
+
+% Grafiken
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{subcaption}
+
+% Tabellen
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+
+% Code
+\usepackage{listings}
+\usepackage{courier}
+
+% Links
+\usepackage[hidelinks]{hyperref}
+
+% Aufzählungen
+\usepackage{enumitem}
+
+% TikZ
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+
+% eigene commands
+
+\let\oldsection\section
+\renewcommand{\section}[1]{
+    \clearpage
+    \oldsection{#1}
+}
+
+\newcommand{\definition}[1]{
+\textbf{Definition:} #1
+}
+
+\newcommand{\beispiel}[1]{
+\textbf{Beispiel:} #1
+}
+
+\newcommand{\formel}[1]{
+\[
+#1
+\]
+}
 
 \title{DAT24 Masterprüfung\\Core Topics Zusammenfassung}
 \author{Vorname Nachname}
@@ -14,15 +74,12 @@
 \tableofcontents
 \newpage
 
-\input{sections/mathematik}
-\input{sections/informationstheorie}
-\input{sections/statistik_learning}
-\input{sections/modellierung_simulation}
-\input{sections/entscheidung_spieltheorie}
-\input{sections/computational_intelligence}
-\input{sections/informatik}
-
-\bibliographystyle{plain}
-\bibliography{references}
+\input{sections/mathematik.tex}
+\input{sections/informationstheorie.tex}
+\input{sections/statistik_learning.tex}
+\input{sections/modellierung_simulation.tex}
+\input{sections/entscheidung_spieltheorie.tex}
+\input{sections/computational_intelligence.tex}
+\input{sections/informatik.tex}
 
 \end{document}
