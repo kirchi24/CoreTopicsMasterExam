@@ -1,19 +1,197 @@
 \section{Informationstheorie, Algorithmen und Datenqualität}
 
-\subsection{Teile-und-Herrsche-Prinzip und dynamisches Programmieren}
-\newpage
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Teile-und-Herrsche-Prinzip sowie Prinzip des dynamischen Programmierens}
 
-\subsection{Informationsentropie}
-\newpage
+\definition{\textbf{Teile und Herrsche} (Divide and Conquer): Umfangreiche Aufgaben werden in kleinere Teilprobleme zerlegt, diese werden gelöst, und die Teillösungen zur Gesamtlösung zusammengesetzt. Realisierung meistens mittels Rekursion.
+    \begin{enumerate}[leftmargin=2em]
+        \item \textbf{Teile:} Problem in kleinere Teilprobleme zerlegen.
+        \item \textbf{Herrsche:} Jedes Teilproblem (rekursiv) lösen.
+        \item \textbf{Verbinde:} Teillösungen zur Gesamtlösung zusammensetzen.
+    \end{enumerate}}
 
+\textbf{Beispiel Mergesort:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Teile:} Datensatz in zwei Hälften aufteilen.
+    \item \textbf{Herrsche:} Jede Hälfte getrennt (rekursiv) sortieren -- bis jeder Teildatensatz nur noch aus einem Element besteht.
+    \item \textbf{Verbinde:} Zwei sortierte Hälften ordnungserhaltend zusammenführen (merge). Laufzeit: $\mathcal{O}(n \log n)$.
+\end{itemize}
+
+\textbf{Quicksort} funktioniert ähnlich, trennt aber anhand eines Pivot-Elements (im schlechtesten Fall $\mathcal{O}(n^2)$, im Durchschnitt $\mathcal{O}(n \log n)$).
+
+\definition{\textbf{Dynamisches Programmieren:} Rekursiv formulierte Aufgaben sind oft nicht am besten rekursiv lösbar, weil dieselben Teilprobleme exponentiell oft neu berechnet werden.
+
+    \textbf{Idee:} Am einfachsten Punkt ansetzen, schrittweise vorarbeiten und \textbf{Zwischenergebnisse speichern} (Memoization / Tabellierung), um wiederholte Berechnung zu vermeiden.}
+
+\beispiel{Fibonacci-Folge $f_n = f_{n-1} + f_{n-2}$, $f_1 = f_2 = 1$: Die naive rekursive Implementierung berechnet $f_k$ für kleinere $k$ exponentiell oft neu ($\mathcal{O}(2^n)$). Mit dynamischem Programmieren: $f_k$ der Reihe nach für $k=1,2,\ldots,n$ berechnen und speichern $\Rightarrow$ $\mathcal{O}(n)$.}
+
+\textbf{Bellman-Gleichung:} Das dynamische Programmieren liegt der Bellman-Gleichung zugrunde, die zentral im \textbf{Reinforcement Learning} ist. Sie beschreibt den optimalen Wert eines Zustands als Funktion der optimalen Werte der Folgezustände -- typisches Bottom-up-Vorgehen des dynamischen Programmierens.
+
+\textbf{Abgrenzung:} Teile-und-Herrsche zerlegt das Problem in \emph{unabhängige} Teilprobleme. Dynamisches Programmieren ist geeignet, wenn Teilprobleme \emph{überlappen} (d.\,h.\ dieselben Teilprobleme mehrfach auftreten).
+
+\newpage
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Informationsentropie: Definition, Bedeutung, Einsatzmöglichkeiten}
+
+\textbf{Informationsgehalt:} Für ein Ereignis mit Wahrscheinlichkeit $p_i$ ist der Informationsgehalt:
+\formel{I(p_i) = \log_2\frac{1}{p_i} = -\log_2 p_i \quad \text{(in Bit)}}
+Seltene Ereignisse tragen mehr Information als häufige. Für $n$ gleichwahrscheinliche Ereignisse: $I = \log_2 n$.
+
+\definition{\textbf{Informationsentropie} $H$ ist der \emph{Erwartungswert} des Informationsgehalts einer Verteilung $\bm{p} = (p_1,\ldots,p_N)$:
+    \formel{H(\bm{p}) = -K\sum_{i=1}^{N} p_i \lg p_i}
+    mit Konstante $K > 0$ und Logarithmus $\lg$. Wahl von $K$ und $\lg$ legen die Einheit fest: $K=1$, $\lg_2$ $\Rightarrow$ Bit; $K=1$, $\ln$ $\Rightarrow$ Nat. Für $p_i = 0$ setzt man den Summanden $= 0$. Im diskreten Fall gilt stets $H \geq 0$.}
+
+\textbf{Eigenschaften:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $H$ ist \textbf{maximal} für Gleichverteilung: $p_i = \frac{1}{N}$ für alle $i$ $\Rightarrow$ $H_{\max} = \log_2 N$ Bit.
+    \item $H = 0$ wenn ein Ereignis sicher eintritt ($p_i = 1$ für ein $i$): keine Unsicherheit, keine Information.
+    \item Für eine \textbf{kontinuierliche} Verteilung $p(x)$: $H[p] = -K\int_a^b p(x)\lg p(x)\,\mathrm{d}x$; kann negativ werden (da $p(x) > 1$ möglich).
+\end{itemize}
+
+\textbf{Einsatzmöglichkeiten:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Datenkompression:} Optimale Codierung nutzt Entropie als Untergrenze der mittleren Codewortlänge (\textbf{Quellencodierungstheorem} von Shannon). Häufige Symbole erhalten kurze Codewörter (Huffman-Code, Morse-Code).
+    \item \textbf{Kanalkapazität:} Kapazität $C = \lim_{t\to\infty}\frac{\lg N(t)}{t}$ -- Entropie gibt an, wie viele Symbole pro Sekunde übertragen werden können.
+    \item \textbf{Machine Learning:} Kreuzentropie als Verlustfunktion bei Klassifikation; Entropie als Splitting-Kriterium in Entscheidungsbäumen.
+\end{itemize}
+
+\beispiel{Code mit vier Symbolen: $p_A=\frac{1}{2}$, $p_B=\frac{1}{4}$, $p_C=p_D=\frac{1}{8}$. Mittlere Entropie: $H = \frac{1}{2}\cdot 1 + \frac{1}{4}\cdot 2 + \frac{1}{8}\cdot 3 + \frac{1}{8}\cdot 3 = 1{,}75$ Bit/Symbol. Optimale Codierung (Huffman): $A\hat{=}0$, $B\hat{=}10$, $C\hat{=}110$, $D\hat{=}111$.}
+
+\newpage
+% ─────────────────────────────────────────────────────────────────────────────
 \subsection{Kreuzentropie und KL-Divergenz}
-\newpage
 
+Betrachte zwei Wahrscheinlichkeitsverteilungen $p$ (wahre/empirische Verteilung) und $q$ (Modellverteilung) auf einem Ereignisraum $X$.
+
+\definition{\textbf{Kreuzentropie (Cross-Entropy):}
+    \formel{H_\mathrm{cross}(p \| q) = -\sum_{x \in X} p(x)\lg q(x)}
+    Interpretation: durchschnittliche Anzahl der Bits, um ein Symbol zu beschreiben, wenn die Codierung für Modellverteilung $q$ statt für die wahre Verteilung $p$ optimiert ist. Es gilt: $H_\mathrm{cross}(p\|q) \geq H(p)$, mit Gleichheit genau dann wenn $q = p$.}
+
+\definition{\textbf{Kullback-Leibler-Divergenz (KL-Divergenz, relative Entropie):}
+    \formel{D_\mathrm{KL}(p\|q) = \sum_{x \in X} p(x)\lg\frac{p(x)}{q(x)} = -H(p) + H_\mathrm{cross}(p\|q)}
+    Interpretation: durchschnittliche Anzahl der \emph{zusätzlichen} Bits, wenn $q$ statt $p$ verwendet wird. Eigenschaften: $D_\mathrm{KL}(p\|q) \geq 0$; $D_\mathrm{KL}(p\|q) = 0 \Leftrightarrow p = q$. Die KL-Divergenz ist \textbf{kein} echter Abstand (i.\,A.\ $D_\mathrm{KL}(p\|q) \neq D_\mathrm{KL}(q\|p)$).}
+
+\textbf{Einsatz in Machine Learning -- Klassifikation:} Bei One-hot-Encoding $\bm{y} = (y_1,\ldots,y_n)$ und Modellausgabe $\hat{\bm{y}} = (\hat{y}_1,\ldots,\hat{y}_n)$ mit $\hat{y}_i \geq 0$, $\sum \hat{y}_i = 1$:
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Least-Squares-Loss:} $L_\mathrm{LSq} = \sum_i (\hat{y}_i - y_i)^2$ -- funktioniert prinzipiell.
+    \item \textbf{Kreuzentropie-Loss:} $L_\mathrm{CE} = H_\mathrm{cross}(\bm{y}\|\hat{\bm{y}}) = -\sum_i y_i \ln \hat{y}_i$ -- meist schnelleres Training, bessere Ergebnisse.
+\end{itemize}
+
+\beispiel{Für $\bm{y} = (1,0,0)$ (Klasse $c_1$) vereinfacht sich der Kreuzentropie-Loss zu $L_\mathrm{CE} = -\ln\hat{y}_1$. Dieser Wert wird minimal für $\hat{y}_1 = 1$ und divergiert für $\hat{y}_1 \to 0$ -- kleine Werte für $\hat{y}_1$ werden also viel strenger bestraft als bei Least-Squares, was schnellere Konvergenz bewirkt.}
+
+\textbf{Zusammenhang:} Da $H(p)$ konstant bzgl.\ $q$, ist Minimierung von $H_\mathrm{cross}(p\|q)$ äquivalent zur Minimierung von $D_\mathrm{KL}(p\|q)$.
+
+
+\newpage
+% ─────────────────────────────────────────────────────────────────────────────
 \subsection{Fehlererkennende und -korrigierende Codes}
-\newpage
 
-\subsection{Strategien zum Umgang mit fehlenden Daten}
-\newpage
+\textbf{Motivation:} Bei jeder Datenübertragung (WLAN, Glasfaser, DVD-Lesen, manuelle Eingabe) können Fehler auftreten. Mit systematischen Codes lassen sich typische Fehler erkennen oder sogar korrigieren, ohne die gesamte Übertragung zu wiederholen.
 
+\textbf{Fehlertypen:} Die häufigsten sind \emph{Einzelbitfehler} bei Zeichenübertragung und \emph{Ziffernfehler} (falsche Ziffer oder Vertauschung benachbarter Ziffern) bei numerischen Codes.
+
+\definition{\textbf{Paritätsbit (ASCII):} Der 7-Bit ASCII-Code nutzt das 8.\ Bit als Prüfbit. Das Paritätsbit wird so gesetzt, dass die Gesamtzahl der 1-Bits gerade ist:
+    \formel{p_8 = \mathbf{1}_7^\top \cdot b \quad \text{mit } b = (b_1,\ldots,b_7) \in \mathbb{Z}_2^7}
+    Findet sich bei Empfang ein Byte mit ungerader Anzahl an 1-Bits, liegt ein Fehler vor. \textbf{Nachteil:} Nur Einzelfehler werden erkannt; zwei gleichzeitige Bitfehler entstehen unbemerkt.}
+
+\definition{\textbf{ISBN-10-Code:} Jede Ziffer $z_i$ wird mit ihrer Position multipliziert, die Summe wird modulo 11 reduziert:
+    \formel{\text{Prüfziffer} = \left(\sum_{i=1}^{9} i \cdot z_i\right) \bmod 11}
+    Da $\mathbb{Z}_{11}$ nullteilerfrei ist, werden \emph{beliebige Ziffernfehler und Vertauschungen} erkannt. Bei Prüfziffer $= 10$ wird das Symbol `` X'' verwendet.}
+
+\textbf{Fehlerkorrigierende Codes:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Hamming-Code:} Nutzt mehrere unabhängige Paritätsbits, von denen jedes nur einen Teil der Datenbits überwacht. Aus dem Muster, welche Paritätsbits nicht passen, lässt sich die Position des Einzelfehlers bestimmen und korrigieren. Mit Parity-Check-Matrix $H$ kontrolliert man: Ist $Hm = \mathbf{0}$, ist kein Fehler vorhanden; sonst zeigt die Spalte von $H$, die $Hm$ entspricht, die Fehlerposition an.
+    \item \textbf{Bauer-Code:} Erweiterung des Hamming-Codes mit 4 Daten- und 4 Prüfbits. Die Hamming-Distanz zwischen erlaubten Codemustern beträgt mindestens 4, was \emph{Korrektur von Einzelfehlern} und \emph{Erkennung von Doppelfehlern} ermöglicht.
+    \item \textbf{Reed-Solomon-Code:} Kodiert Daten als Koeffizienten eines Polynoms und überträgt Funktionswerte an mehreren Stützstellen. Ein Polynom $n$-ten Grades ist durch $n+1$ Punkte eindeutig bestimmt. Sind mehrere Punkte verfälscht, kann durch polynomiale Interpolation die beste Lösung gefunden werden -- sehr robust gegen \emph{Büschelfehler} (Fehler in Gruppen).
+\end{itemize}
+
+\textbf{Zyklische Redundanzprüfung (CRC):} Wird z.\,B.\ im Ethernet-Protokoll eingesetzt. Die Daten werden als Polynom in $\mathbb{Z}_2[x]$ interpretiert, mit einem Generatorpolynom $g$ dividiert, und der Rest zur Nachricht hinzugefügt. Am Empfänger wird die Nachricht wieder durch $g$ dividiert: Ist der Rest ungleich Null, liegt ein Fehler vor. CRC-32 mit geeignetem $g$ erkennt jeden Einzelfehler, jeden Doppelfehler und alle Büschelfehler bis 32 Bits Länge.
+
+
+\newpage
+% ─────────────────────────────────────────────────────────────────────────────
+\subsection{Strategien zum Umgang mit fehlenden Daten, Gibbs-Sampling und Imputation}
+
+\textbf{Strategien zur Imputation fehlender Daten:}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Regression Imputation:} Fehlende Werte werden durch Vorhersagewerte aus einem Regressionsmodell ersetzt, das auf den beobachteten Daten trainiert wurde.
+
+    \item \textbf{Stochastic Regression Imputation:} Erweiterte Version, die zusätzlich einen zufälligen Fehlerterm hinzufügt, um die Unsicherheit bei der Imputation abzubilden.
+
+    \item \textbf{Stochastic Regression Imputation (Bootstrap/Bayes'sche Methoden):} Nutzt Bootstrap-Resampling oder Bayessche Methoden, um mehrere imputierte Werte zu generieren und damit Unsicherheit zu quantifizieren.
+
+    \item \textbf{Stochastic Regression Imputation mit zusätzlichen Prädiktoren:} Verwendet mehrere Vorhersagegrößen zur Verbesserung der Imputationsgenauigkeit.
+
+    \item \textbf{Predictive Mean Matching (PMM):} Findet aus den beobachteten Daten die Beobachtungen, deren vorhergesagte Werte dem vorhergesagten Wert für die fehlende Beobachtung am nächsten liegen, und imputiert deren beobachtete Werte.
+\end{enumerate}
+
+\definition{\textbf{Gibbs-Sampling:} Ein stochastisches Verfahren zur Erzeugung von Stichproben aus einer komplexen multivariaten Verteilung.
+
+    \textbf{Motivation:} Bei komplexen multivariaten Verteilungen ist es oft schwierig oder unmöglich, Samples direkt zu generieren.
+
+    \textbf{Idee:} Nutze stattdessen die \emph{bedingten Randverteilungen}, um Samples iterativ zu generieren.
+
+    \textbf{Ziel:} Generiere $k$ Samples der Form einer multivariaten Verteilung $p(\bm{x})$ mit $\bm{x} = (x_1, x_2, \ldots, x_n)$.
+
+    \textbf{Vorgehen:}
+    \begin{enumerate}[leftmargin=1.5em]
+        \item Starte mit einem beliebigen initialen Wert $\bm{x}^{(0)} = (x_1^{(0)}, x_2^{(0)}, \ldots, x_n^{(0)})$.
+        \item Für Iteration $t$: Generiere das $(t+1)$-te Sample in $n$ Schritten. Im $j$-ten Schritt wird der Wert $x_j^{(t+1)}$ aus der bedingten Verteilung $p(x_j | x_1^{(t+1)}, \ldots, x_{j-1}^{(t+1)}, x_{j+1}^{(t)}, \ldots, x_n^{(t)})$ gezogen.
+        \item Die generierten Samples konvergieren nach einem Burn-in gegen die Zielverteilung.
+    \end{enumerate}}
+
+\beispiel{\textbf{Bivariate Normalverteilung:} Wähle einen beliebigen Startpunkt $(x_0, y_0)$ und generiere dann abwechselnd:
+    \begin{itemize}[leftmargin=1.5em]
+        \item Werte für $x$ in Abhängigkeit des letzten Wertes von $y$: $x^{(t+1)} \sim p(x | y^{(t)})$
+        \item Werte für $y$ in Abhängigkeit des neu generierten Wertes für $x$: $y^{(t+1)} \sim p(y | x^{(t+1)})$
+    \end{itemize}
+    Wiederholt man diesen Prozess und variiert den Korrelationskoeffizient $\rho$, entstehen Samples aus einer bivariaten Normalverteilung mit dieser Korrelation.}
+
+\definition{\textbf{Multiple Imputation (MI):} Methode zur Behandlung von fehlenden Daten unter Berücksichtigung der damit verbundenen Unsicherheit.
+
+    \textbf{Ausgangsproblematik:} Die meisten Imputationsmethoden sind stochastisch. Der imputierte Wert kann daher zufällig weit vom tatsächlichen Wert entfernt sein.
+
+    \textbf{Vorgehen:}
+    \begin{enumerate}[leftmargin=1.5em]
+        \item Erzeuge $m$ verschiedene vollständige Datensätze mit unterschiedlich imputierten Werten (typischerweise $m \in \{3,5,10\}$).
+        \item Analysiere jeden Datensatz separat mit der gleichen statistischen Methode.
+        \item Kombiniere die Analyseergebnisse nach Rubin's Regeln: Punkt- und Intervallschätzungen werden gemittelt, und die Varianz berücksichtigt sowohl die Within- als auch die Between-Datensatz-Variabilität.
+    \end{enumerate}}
+
+\textit{``Imputing one value for a missing datum cannot be correct in general, because we don't know what value to impute with certainty (if we did, it wouldn't be missing).''} -- Donald B.\ Rubin
+
+\textbf{Vorteile von Multiple Imputation:} Die Verwendung mehrerer Imputationen bringt die inhärente \emph{Unsicherheit} hinsichtlich der Imputation zum Ausdruck und führt zu korrekten statistischen Schlussfolgerungen, die nicht zu liberal sind (im Gegensatz zu Einfachimputation, die die Variabilität unterschätzt).
+
+
+\newpage
+% ─────────────────────────────────────────────────────────────────────────────
 \subsection{Grundbegriffe der Kryptographie und des Hashings}
+
+\textbf{Ziel der Kryptographie:} Sichere Übertragung von Informationen, sodass Lauscher (Eve) die Nachricht auch mit Zugang zum verschlüsselten Text nicht verstehen können. Zentral ist das \textbf{Kerckhoffs'sche Prinzip}: Die Sicherheit hängt nur vom geheimen Schlüssel ab, nicht von der Geheimhaltung des Algorithmus selbst (security through transparency, nicht obscurity).
+
+\textbf{Symmetrische vs.\ asymmetrische Verfahren:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Symmetrisch:} Ein gemeinsamer Schlüssel zum Verschlüsseln und Entschlüsseln (z.\,B.\ Vigenère-Chiffre, AES). Effizient, aber Schlüsselaustausch problematisch.
+    \item \textbf{Asymmetrisch (Public Key):} Zwei komplementäre Schlüssel -- öffentlicher zum Verschlüsseln, privater zum Entschlüsseln (z.\,B.\ RSA). Ermöglicht \textbf{digitale Signaturen}: Bob verschlüsselt eine bekannte Sequenz mit seinem privaten Schlüssel; Jeder kann mit Bobs öffentlichem Schlüssel prüfen, dass die Nachricht wirklich von Bob stammt.
+\end{itemize}
+
+\definition{\textbf{Caesar-Cipher:} Einfachster Strom-Cipher (jedes Symbol einzeln verschlüsselt): $z \mapsto (z + k) \bmod 26$ mit Shift $k \in \{1,\ldots,25\}$. Nur 25 mögliche Schlüssel $\Rightarrow$ trivial zu knacken.}
+
+\definition{\textbf{Substitutions-Cipher:} Jeder Buchstabe wird bijektiv auf einen anderen abgebildet. $26! \approx 4 \times 10^{26}$ mögliche Zuordnungen klingen sicher, doch \textbf{Häufigkeitsanalyse} der Sprache (häufige Buchstaben wie E, Wortmuster) macht Code knackbar.}
+
+\definition{\textbf{Vigenère-Cipher:} Positionsabhängige Verschiebung $z_i \mapsto (z_i + k_i) \bmod 26$ mit Schlüsselwort, das wiederholt wird. Deutlich sicherer als Caesar. Ist der Schlüssel mindestens so lang wie die Nachricht, besteht aus unabhängig gleichverteilten Symbolen und wird nur einmal verwendet (\textbf{One-Time Pad}), ist der Code \emph{uneingeschränkt sicher} -- Entschlüsselung ohne Schlüssel unmöglich (Shannon-Beweis).}
+
+\definition{\textbf{Kryptographische Hash-Funktionen:} $H: \{0,1\}^* \to \{0,1\}^n$ mit folgenden Eigenschaften:
+    \begin{enumerate}[leftmargin=1.5em]
+        \item \textbf{Effizienz:} Schnelle Berechnung aus Eingabe beliebiger Länge.
+        \item \textbf{Kollisionsresistenz:} Praktisch unmöglich, zwei unterschiedliche Eingaben mit gleichem Hash zu finden.
+        \item \textbf{Einwegfunktion:} Aus Hash schwer, Eingabe zu rekonstruieren.
+        \item \textbf{Avalanche-Effekt:} Kleine Änderung der Eingabe führt zu völlig anderem Hash (wichtig für Datenintegrität).
+    \end{enumerate}
+    Beispiele: SHA-256, MD5 (veraltet), Blake2. Anwendungen: Passwort-Speicherung, Digitale Signaturen, Blockchain, Datenintegrität.}
+
+\textbf{Salting und Stretching:} Bei Passwort-Hashing wird ein zufälliges \textbf{Salt} (Zusatzbyte) hinzugefügt, um zu verhindern, dass Tabellen vorgefasster Hashes (Rainbow Tables) funktionieren. \textbf{Key Derivation Functions} (z.\,B.\ bcrypt, scrypt, Argon2) wenden die Hash-Funktion iteriert an (\textbf{Stretching}), um Brute-Force-Angriffe zu verlangsamen.
+
 \newpage
