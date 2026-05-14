@@ -647,31 +647,1398 @@ Die \textbf{standardisierte Form}:
 \newpage
 
 \subsection{Mehrdimensionale Zufallsvariablen}
+
+\definition{\textbf{Mehrdimensionale (Bivariate) Zufallsvariablen:} Ein zufälliger Vektor oder eine gemeinsame Zufallsvariable mit $n$ Komponenten:
+\formel{\mathbf{X} = \begin{pmatrix} X_1 \\ X_2 \\ \vdots \\ X_n \end{pmatrix} \quad \text{oder im bivariaten Fall:} \quad (X, Y) = \begin{pmatrix} X \\ Y \end{pmatrix}}
+wobei jede Komponente selbst eine diskrete oder stetige Zufallsvariable ist. Der Wertemenge ist eine Teilmenge von $\mathbb{R}^n$.
+
+\textbf{Beispiel:} Bei einer zufällig ausgewählten Person interessieren wir uns für $(X, Y)$ mit $X$ = Körpergröße, $Y$ = Körpergewicht.}
+
+\definition{\textbf{Gemeinsame Verteilung (Joint Distribution):} 
+
+\textbf{Im diskreten Fall:} Die gemeinsame Wahrscheinlichkeitsfunktion (joint PMF) ist:
+\formel{f_{X,Y}(x, y) = P(X = x, Y = y)}
+mit der Normierungsbedingung: $\sum_x \sum_y f_{X,Y}(x, y) = 1$.
+
+\textbf{Im stetigen Fall:} Die gemeinsame Dichtefunktion (joint PDF) ist:
+\formel{f_{X,Y}(x, y) \geq 0 \quad \text{mit} \quad \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f_{X,Y}(x, y) \, dx \, dy = 1}
+
+Die gemeinsame Verteilungsfunktion (CDF) für beide Fälle:
+\formel{F_{X,Y}(x, y) = P(X \leq x, Y \leq y)}
+
+Die gemeinsame Verteilung enthält vollständige Information über das Verhalten beider Variablen und deren Abhängigkeitsstruktur.}
+
+\definition{\textbf{Randverteilungen (Marginal Distributions):} Die Verteilung einer einzelnen Komponente, wenn wir die Information über die anderen ``heraussummieren'':
+
+\textbf{Im diskreten Fall:}
+\formel{f_X(x) = \sum_y f_{X,Y}(x, y) \quad \text{und} \quad f_Y(y) = \sum_x f_{X,Y}(x, y)}
+
+\textbf{Im stetigen Fall:}
+\formel{f_X(x) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \, dy \quad \text{und} \quad f_Y(y) = \int_{-\infty}^{\infty} f_{X,Y}(x, y) \, dx}
+
+Die Randverteilungen sind wieder Verteilungen eindimensionaler Zufallsvariablen. Sie enthalten weniger Information als die gemeinsame Verteilung.
+
+\textbf{Beispiel (Kontingenztafel):} Bei diskreten Variablen sind die Randverteilungen die Zeilen- und Spaltensummen der Kontingenztafel.}
+
+\definition{\textbf{Bedingte Verteilungen (Conditional Distributions):} Die Verteilung einer Variablen unter der Bedingung, dass eine andere einen bestimmten Wert hat.
+
+\textbf{Im diskreten Fall:}
+\formel{P(X = x \mid Y = y) = \frac{P(X = x, Y = y)}{P(Y = y)} = \frac{f_{X,Y}(x, y)}{f_Y(y)}}
+wenn $P(Y = y) > 0$.
+
+\textbf{Im stetigen Fall:}
+\formel{f_{X \mid Y}(x \mid y) = \frac{f_{X,Y}(x, y)}{f_Y(y)}}
+wenn $f_Y(y) > 0$.
+
+Die bedingte Dichtefunktion erfüllt: $\int_{-\infty}^{\infty} f_{X \mid Y}(x \mid y) \, dx = 1$ für jedes feste $y$.}
+
+\definition{\textbf{Unabhängigkeit von Zufallsvariablen:} Zwei Zufallsvariablen $X$ und $Y$ sind unabhängig, wenn ihre gemeinsame Verteilung das Produkt der Randverteilungen ist:
+
+\textbf{Im diskreten Fall:}
+\formel{f_{X,Y}(x, y) = f_X(x) \cdot f_Y(y) \quad \text{für alle } x, y}
+
+\textbf{Im stetigen Fall:}
+\formel{f_{X,Y}(x, y) = f_X(x) \cdot f_Y(y) \quad \text{für alle } x, y}
+
+\textbf{Äquivalente Bedingung (für bedingte Wahrscheinlichkeiten):} Die bedingte Verteilung gleicht der Randverteilung:
+\formel{P(X = x \mid Y = y) = P(X = x) \quad \text{und} \quad P(Y = y \mid X = x) = P(Y = y)}
+
+\textbf{Intuition:} Die Information, dass $Y$ einen bestimmten Wert hat, ändert unsere Wahrscheinlichkeitsaussagen über $X$ nicht.
+
+\textbf{Wichtig:} Unkorreliertheit $\Rightarrow$ NICHT notwendig unabhängig, aber Unabhängigkeit $\Rightarrow$ Unkorreliertheit.}
+
+\textbf{Zusammenfassung (Schema):}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Konzept} & \textbf{Diskret} & \textbf{Stetig} \\
+        \hline
+        Gemeinsam & $f_{X,Y}(x, y) = P(X=x, Y=y)$ & $f_{X,Y}(x, y)$ Dichtefunktion \\
+        \hline
+        Rand ($X$) & $f_X(x) = \sum_y f_{X,Y}(x, y)$ & $f_X(x) = \int f_{X,Y}(x, y) dy$ \\
+        \hline
+        Bedingt & $P(X=x \mid Y=y) = \frac{f_{X,Y}(x,y)}{f_Y(y)}$ & $f_{X \mid Y}(x \mid y) = \frac{f_{X,Y}(x,y)}{f_Y(y)}$ \\
+        \hline
+        Unabhängig & $f_{X,Y}(x,y) = f_X(x) \cdot f_Y(y)$ & $f_{X,Y}(x,y) = f_X(x) \cdot f_Y(y)$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \newpage
 
 \subsection{Kovarianz und Korrelation}
+
+\definition{\textbf{Kovarianz (Covariance):} Ein Maß für den linearen Zusammenhang zwischen zwei Zufallsvariablen $X$ und $Y$. Sie misst, wie zwei Variablen gemeinsam von ihren Mittelwerten abweichen.
+
+\textbf{Definition:}
+\formel{\text{Cov}(X, Y) = \sigma_{XY} = \mathbb{E}[(X - \mu_X)(Y - \mu_Y)] = \mathbb{E}[XY] - \mathbb{E}[X] \mathbb{E}[Y]}
+
+\textbf{Im Stichprobenfall (empirische Kovarianz):}
+\formel{s_{XY} = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}
+
+\textbf{Interpretation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $\text{Cov}(X, Y) > 0$: Positive Assoziation (wenn $X$ größer als $\mu_X$, dann tendenziell $Y > \mu_Y$).
+    \item $\text{Cov}(X, Y) < 0$: Negative Assoziation (wenn $X$ größer als $\mu_X$, dann tendenziell $Y < \mu_Y$).
+    \item $\text{Cov}(X, Y) = 0$: Keine lineare Assoziation (unkorreliert).
+\end{itemize}
+
+\textbf{Probleme:} Die Kovarianz hängt von der Skalierung der Variablen ab — zwei äquivalente Variablen mit unterschiedlichen Einheiten haben unterschiedliche Kovarianzen. Dies erschwert Vergleiche.}
+
+\definition{\textbf{Korrelationskoeffizient (Pearson's Correlation Coefficient):} Das standardisierte Maß für den linearen Zusammenhang zwischen $X$ und $Y$:
+
+\formel{\rho_{X,Y} = \frac{\text{Cov}(X, Y)}{\sigma_X \cdot \sigma_Y} \in [-1, 1]}
+
+\textbf{Im Stichprobenfall (empirischer Korrelationskoeffizient):}
+\formel{r = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^n (x_i - \bar{x})^2} \cdot \sqrt{\sum_{i=1}^n (y_i - \bar{y})^2}} = \frac{s_{XY}}{s_X \cdot s_Y}}
+
+\textbf{Interpretation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $\rho = 1$: Perfekte positive lineare Beziehung ($Y = a + bX$ mit $b > 0$).
+    \item $\rho = -1$: Perfekte negative lineare Beziehung ($Y = a + bX$ mit $b < 0$).
+    \item $\rho = 0$: Keine lineare Beziehung (kann aber nichtlineare Beziehung existieren!).
+    \item $|\rho|$ nähe 0: Schwache lineare Beziehung; $|\rho|$ nahe 1: Starke lineare Beziehung.
+\end{itemize}
+
+\textbf{Faustregel für Stärke:} $|\rho| > 0{,}7$ = Stark; $0{,}4 < |\rho| \leq 0{,}7$ = Moderat; $|\rho| \leq 0{,}4$ = Schwach (variiert je nach Kontext).}
+
+\definition{\textbf{Eigenschaften der Korrelation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Dimensionslos:} Im Gegensatz zur Kovarianz ist die Korrelation unabhängig von der Skalierung.
+    \item \textbf{Symmetrisch:} $\rho_{X,Y} = \rho_{Y,X}$.
+    \item \textbf{Invariant unter linearen Transformationen:} Wenn $X' = aX + b$ und $Y' = cY + d$ mit $a, c > 0$, dann $\text{Corr}(X', Y') = \text{Corr}(X, Y)$.
+    \item \textbf{Nur bei gemeinsamer Normalverteilung äquivalent zu Unabhängigkeit:} $\rho = 0$ $\Leftrightarrow$ Unabhängigkeit nur für $(X,Y) \sim N(\mu_X, \mu_Y, \sigma_X^2, \sigma_Y^2, \rho)$. In anderen Fällen: Unkorreliertheit $\not\Rightarrow$ Unabhängigkeit.
+\end{itemize}}
+
+\textbf{Korrelationsmatrix:} Für mehrdimensionale Vektoren $(X_1, \ldots, X_p)$ die $p \times p$-Matrix:
+\formel{\mathbf{R} = \begin{pmatrix}
+1 & \rho_{12} & \cdots & \rho_{1p} \\
+\rho_{21} & 1 & \cdots & \rho_{2p} \\
+\vdots & \vdots & \ddots & \vdots \\
+\rho_{p1} & \rho_{p2} & \cdots & 1
+\end{pmatrix}}
+mit $\rho_{ij} = \rho_{ji}$ und $\rho_{ii} = 1$.
+
+\textbf{Heatmap-Visualisierung:} Korrelationsmatrizen werden oft als Heatmaps gezeigt, um Muster schnell zu erkennen.
+
+\definition{\textbf{Kovarianzmatrix und Varianz-Kovarianz-Matrix:} Für einen Vektor $\mathbf{X} = (X_1, \ldots, X_p)^T$ mit Mittelwert $\boldsymbol{\mu} = (\mu_1, \ldots, \mu_p)^T$:
+
+\formel{\boldsymbol{\Sigma} = \text{Cov}(\mathbf{X}) = \mathbb{E}[(\mathbf{X} - \boldsymbol{\mu})(\mathbf{X} - \boldsymbol{\mu})^T] = \begin{pmatrix}
+\sigma_1^2 & \sigma_{12} & \cdots & \sigma_{1p} \\
+\sigma_{21} & \sigma_2^2 & \cdots & \sigma_{2p} \\
+\vdots & \vdots & \ddots & \vdots \\
+\sigma_{p1} & \sigma_{p2} & \cdots & \sigma_p^2
+\end{pmatrix}}
+
+Die Diagonalelemente sind Varianzen, die Off-Diagonalelemente sind Kovarianzen. Diese Matrix ist symmetrisch und positiv semi-definit.}
+
+\textbf{Korrelation vs. Kausalität — das wichtigste Konzept:}
+
+\textbf{Fundamentale Warnung:} ``Korrelation impliziert NICHT Kausalität!'' Eine hohe Korrelation $\rho \approx 1$ zwischen zwei Variablen bedeutet nicht, dass eine die andere verursacht. Es gibt mehrere Szenarien:
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Kausalität:} $X$ beeinflusst $Y$ (z.\,B.\ Rauchen $\to$ Lungenkrebs).
+    \item \textbf{Umgekehrte Kausalität:} $Y$ beeinflusst $X$.
+    \item \textbf{Gemeinsame Ursache:} Beide werden durch eine dritte Variable $Z$ beeinflusst (Confounding). Z.\,B.\ Eiscreme-Konsum und Ertranken — beide steigen mit der Temperatur.
+    \item \textbf{Zufälliger Zusammenhang:} Spurious Correlation, besonders bei vielen Variablen (wenn $p$ groß ist, findet man zufällig hohe Korrelationen).
+\end{itemize}
+
+\textbf{Beispiel (Simpson's Paradoxon):} Gesamt-Korrelation kann unterschiedliches Vorzeichen haben als die Korrelation in Subgruppen!
+
+\textbf{Fazit:} Für Kausalitätsaussagen braucht man experimentelle Designs oder Kausalitäts-Modellierung (Causal Inference), nicht nur Korrelationen.
+
 \newpage
 
 \subsection{Regressionen}
+
+\definition{\textbf{Regressionsanalyse:} Ein statistisches Verfahren zur Modellierung des Zusammenhangs zwischen einer oder mehreren unabhängigen Variablen (\textbf{Prädiktoren, Features}) $x_1, \ldots, x_p$ und einer abhängigen Variable (\textbf{Response}) $y$. 
+
+\textbf{Ziele:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Prognose (Prediction):} Vorhersage von $y$ für neue, unbekannte Prädiktoren.
+    \item \textbf{Inferenz (Inference):} Verständnis und Quantifizierung des Einflusses einzelner Prädiktoren auf $y$.
+    \item \textbf{Modellierung:} Formulierung des funktionalen Zusammenhangs $y = f(\mathbf{x}) + \varepsilon$.
+\end{itemize}}
+
+\subsubsection{Einfache Lineare Regression (SLR)}
+
+\definition{\textbf{Modell der Einfachen Linearen Regression:} Ein Regressionsmodell mit genau \textbf{einem} Prädiktor $x$ und einer stetigen Response $y$:
+
+\formel{y_i = \beta_0 + \beta_1 x_i + \varepsilon_i, \quad i = 1, \ldots, n}
+
+wobei:
+\begin{itemize}[leftmargin=1.5em]
+    \item $\beta_0$ = Intercept (Achsenabschnitt), der y-Wert bei $x=0$.
+    \item $\beta_1$ = Slope (Steigung), die Änderung von $y$ pro Einheit Änderung in $x$.
+    \item $\varepsilon_i$ = Fehlerterm (zufällig, unbeobachtbar).
+    \item Die Beziehung $E[y \mid x] = \beta_0 + \beta_1 x$ ist linear in $x$.
+\end{itemize}}
+
+\definition{\textbf{Annahmen der SLR:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Linearität:} Der Mittelwert von $y$ ist eine lineare Funktion von $x$.
+    \item \textbf{Unabhängigkeit:} Fehler $\varepsilon_i$ und $\varepsilon_j$ sind unabhängig für $i \neq j$.
+    \item \textbf{Homoskedastizität:} Die Varianz $\text{Var}(\varepsilon) = \sigma^2$ ist konstant (hängt nicht von $x$ ab).
+    \item \textbf{Normalverteilung der Fehler:} $\varepsilon_i \sim N(0, \sigma^2)$ (nötig für Inferenz, nicht für Punktschätzung).
+\end{itemize}}
+
+\textbf{Schätzung via Kleinste-Quadrate (Ordinary Least Squares, OLS):}
+
+\textbf{Herleitung (Kurz):} Minimiere die Summe der quadrierten Residuen:
+\formel{S(\beta_0, \beta_1) = \sum_{i=1}^n (y_i - \beta_0 - \beta_1 x_i)^2}
+
+Partielle Ableitungen nach $\beta_0, \beta_1$ setzen gleich Null:
+\formel{\frac{\partial S}{\partial \beta_0} = -2 \sum_{i=1}^n (y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i) = 0}
+\formel{\frac{\partial S}{\partial \beta_1} = -2 \sum_{i=1}^n x_i(y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i) = 0}
+
+Dies führt zu den \textbf{Normalgleichungen} mit den Lösungen:
+\formel{\hat{\beta}_1 = \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2} = \frac{s_{xy}}{s_x^2} = r_{xy} \frac{s_y}{s_x}}
+
+\formel{\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}}
+
+Die geschätzte Regressionsgerade ist: $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x$.
+
+\definition{\textbf{Residuen und Varianzzerlegung:} 
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Residuum:} $e_i = y_i - \hat{y}_i = y_i - \hat{\beta}_0 - \hat{\beta}_1 x_i$ (beobachtete minus vorhergesagte Werte).
+    \item \textbf{Residualsumme der Quadrate (RSS):} $\text{RSS} = \sum_i e_i^2$, minimiert durch OLS.
+    \item \textbf{Gesamtsumme der Quadrate (TSS):} $\text{TSS} = \sum_i (y_i - \bar{y})^2$.
+    \item \textbf{Erklärte Summe der Quadrate (ESS):} $\text{ESS} = \sum_i (\hat{y}_i - \bar{y})^2 = \text{TSS} - \text{RSS}$.
+\end{itemize}
+
+Varianzzerlegung: $\text{TSS} = \text{ESS} + \text{RSS}$.}
+
+\definition{\textbf{Bestimmtheitsmaß ($R^2$, Coefficient of Determination):}
+\formel{R^2 = \frac{\text{ESS}}{\text{TSS}} = 1 - \frac{\text{RSS}}{\text{TSS}} \in [0, 1]}
+
+$R^2$ ist der Anteil der Variabilität in $y$, der durch das Modell erklärt wird.
+\begin{itemize}[leftmargin=1.5em]
+    \item $R^2 = 1$: Perfekte Anpassung (alle Residuen sind Null).
+    \item $R^2 = 0$: Das Modell erklärt keine Variabilität (die Regressionslinie ist horizontal).
+    \item Für die SLR: $R^2 = r_{xy}^2$, d.h.\ das Bestimmtheitsmaß ist das Quadrat des Korrelationskoeffizienten.
+\end{itemize}}
+
+\subsubsection{Multiple Lineare Regression (MLR)}
+
+\definition{\textbf{Modell der Multiplen Linearen Regression:} Erweiterung auf $p > 1$ Prädiktoren:
+
+\formel{y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_p x_{ip} + \varepsilon_i}
+
+\textbf{Matrixnotation:}
+\formel{\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}}
+
+mit:
+\begin{itemize}[leftmargin=1.5em]
+    \item $\mathbf{y} = (y_1, \ldots, y_n)^T$ (Response-Vektor).
+    \item $\mathbf{X} = \begin{pmatrix} 1 & x_{11} & \cdots & x_{1p} \\ \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n1} & \cdots & x_{np} \end{pmatrix}$ ($n \times (p+1)$ Design-Matrix mit Spalte der 1er für Intercept).
+    \item $\boldsymbol{\beta} = (\beta_0, \beta_1, \ldots, \beta_p)^T$ (Koeffizientenvektor).
+    \item $\boldsymbol{\varepsilon} = (\varepsilon_1, \ldots, \varepsilon_n)^T$ (Fehlervektor).
+\end{itemize}}
+
+\textbf{OLS-Schätzer:} Der OLS-Schätzer minimiert $\|\mathbf{y} - \mathbf{X}\boldsymbol{\beta}\|^2$. Die Lösung (falls $\mathbf{X}^T\mathbf{X}$ invertierbar):
+\formel{\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}}
+
+\textbf{Vorhersage:} $\hat{\mathbf{y}} = \mathbf{X} \hat{\boldsymbol{\beta}}$, mit Residuen $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$.
+
+\definition{\textbf{Anpassungsgüte in MLR:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Multiple $R^2$:} Wie bei SLR, aber mit mehreren Prädiktoren. Steigt immer, wenn Prädiktoren hinzugefügt werden (auch unwichtige!).
+    \item \textbf{Adjusted $R^2$ (R$^2_{\text{adj}}$):} Bestraft zusätzliche Prädiktoren:
+    \formel{R^2_{\text{adj}} = 1 - \frac{(1 - R^2)(n-1)}{n - p - 1}}
+    ist strenger und wird für Modellvergleich bevorzugt.
+    \item \textbf{Residualstandardfehler (RSE):} $\text{RSE} = \sqrt{\frac{\text{RSS}}{n - p - 1}}$, Schätzung von $\sigma$.
+\end{itemize}}
+
+\definition{\textbf{Statistische Tests in MLR:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{t-Test für einzelne Koeffizienten:} Test ob $\beta_j = 0$ (kein Effekt von $x_j$, gegeben andere Prädiktoren).
+    \item \textbf{F-Test für Gesamtmodell:} Test ob mindestens ein $\beta_j \neq 0$. Alternativ: Vergleich verschachtelter Modelle via F-Test.
+\end{itemize}}
+
+\subsubsection{Vergleich: Einfach (SLR) vs. Multipel (MLR) vs. Multivariat}
+
+\textbf{Multivariate Regression:} In der Statistik bedeutet ``multivariat'' typischerweise \textbf{mehrere Response-Variablen} $y_1, \ldots, y_k$ (nicht mehrere Prädiktoren!). Obwohl Regression meist mit \textit{einer} Response erfolgt, kann man auch $k$ separate (oder gemeinsame) Regressionen fittig:
+\formel{y_{ij} = \beta_{0j} + \beta_{1j} x_i + \cdots + \beta_{pj} x_{ip} + \varepsilon_{ij} \quad \text{für } j = 1, \ldots, k}
+
+In Matrixform: $\mathbf{Y} = \mathbf{X} \mathbf{B} + \mathbf{E}$, wobei $\mathbf{Y}$ ist $(n \times k)$, $\mathbf{B}$ ist $(p+1) \times k$.
+
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|c|c|c|}
+        \hline
+        \textbf{Modell} & \textbf{Prädiktoren} & \textbf{Response} & \textbf{Koeffizienten} \\
+        \hline
+        Einfach (SLR) & 1 $(x)$ & 1 $(y)$ & $\beta_0, \beta_1$ \\
+        \hline
+        Multipel (MLR) & $p > 1$ $(x_1, \ldots, x_p)$ & 1 $(y)$ & $\beta_0, \beta_1, \ldots, \beta_p$ \\
+        \hline
+        Multivariat & $p \geq 1$ & $k > 1$ $(y_1, \ldots, y_k)$ & Koeff.-Matrix $\mathbf{B}$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Logistische Regression}
+
+\definition{\textbf{Logistische Regression:} Regression für \textbf{binäre Response} $y \in \{0, 1\}$ (z.\,B.\ Klassifikation: Ja/Nein, Krankheit/Gesund).
+
+\textbf{Motivation:} Lineare Regression auf binäre Ziele ist problematisch (vorhergesagte Werte können außerhalb $[0, 1]$ liegen, die Fehlervarianz ist nicht konstant). Logistische Regression modelliert stattdessen die \textbf{Wahrscheinlichkeit}:
+\formel{p_i = P(y_i = 1 \mid \mathbf{x}_i)}
+
+Das Modell:
+\formel{p_i = \frac{e^{\beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip}}}{1 + e^{\beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip}}} = \frac{1}{1 + e^{-(\beta_0 + \boldsymbol{\beta}^T \mathbf{x}_i)}}}
+
+Das ist die \textbf{logistische Funktion} (Sigmoid), die Werte in $[0, 1]$ erzwingt.
+
+\textbf{Log-Odds (Logits):} Die logit-Transformation ist die Umkehrung:
+\formel{\text{logit}(p_i) = \log\left(\frac{p_i}{1 - p_i}\right) = \beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip}}
+
+Dies ist linear in den Prädiktoren — daher der Name ``logistische \textit{Regression}''.}
+
+\textbf{Interpretation der Koeffizienten:} Ein Anstieg um 1 Einheit in $x_j$ multipliziert die \textbf{Odds} mit Faktor $e^{\beta_j}$.
+
+\textbf{Schätzung:} OLS funktioniert nicht; stattdessen \textbf{Maximum Likelihood Estimation (MLE)}. Die Log-Likelihood wird iterativ maximiert (z.\,B.\ via Newton-Raphson).
+
+\textbf{Modellvergütung in Logistischer Regression:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Deviance:} Ähnlich wie RSS in linearer Regression.
+    \item \textbf{McFadden $R^2$} oder \textbf{Pseudo $R^2$}: Nicht direkt vergleichbar mit $R^2$ der linearen Regression.
+    \item \textbf{Confusion Matrix:} True Positives, False Positives, etc. zur Berechnung von Accuracy, Sensitivity, Specificity.
+    \item \textbf{ROC-Kurve und AUC:} Visualisiert Klassifikationsleistung über verschiedene Klassifikationsschwellen.
+\end{itemize}
+
 \newpage
 
 \subsection{Polynomregression, Splines und additive Modelle}
+
+\definition{\textbf{Polynomregression:} Erweiterung der linearen Regression auf \textbf{polynomiale} Funktionen des Prädiktors $x$:
+
+\formel{y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \cdots + \beta_d x_i^d + \varepsilon_i}
+
+wobei $d$ der Polynomgrad ist (z.\,B.\ $d = 2$ für quadratisch, $d = 3$ für kubisch).
+
+\textbf{Reformulierung als lineare Regression:} Definiere neue Prädiktoren $x_{i1} = x_i$, $x_{i2} = x_i^2$, \ldots, $x_{id} = x_i^d$. Dann ist das Modell wieder \textbf{linear in den Koeffizienten}:
+\formel{y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_d x_{id} + \varepsilon_i}
+
+Daher kann Polynomregression \textbf{als spezielle Multipel-Lineare Regression} behandelt werden und mit OLS geschätzt werden.}
+
+\textbf{Modellkomplexität und Overfitting:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Höhere Polynomgrade ($d$ groß) können zu \textbf{Overfitting} führen — das Modell passt sich zu stark an die Trainingsdaten an, generalisiert aber schlecht auf neue Daten.
+    \item \textbf{Bias-Variance Tradeoff}: Niedriges $d$ = hoher Bias (Underfitting), hohes $d$ = hohe Varianz (Overfitting).
+    \item Wahl von $d$ via \textbf{Cross-Validation}, AIC, BIC oder Visualisierung der Residuen.
+\end{itemize}
+
+\definition{\textbf{Splines (Glättungssplines):} Eine Verallgemeinerung von Polynomregression, die \textbf{lokal} polynomiale Funktionen kombiniert.
+
+\textbf{Idee:} Teile den Definitionsbereich von $x$ in $K$ Intervalle auf, in jedem Intervall sei die Funktion polynomial (üblicherweise kubisch), mit Stetigkeit und Glattheits-Bedingungen an den Grenzpunkten (\textbf{Knots}).
+
+\textbf{Cubic Spline:} Ein weit verbreitetes Modell:
+\begin{itemize}[leftmargin=1.5em]
+    \item In jedem Intervall: Kubisches Polynom (Grad 3).
+    \item An den Knots: Funktion, erste und zweite Ableitung sind stetig.
+\end{itemize}
+
+\textbf{Anzahl der Freiheitsgrade:} Hängt von der Anzahl der Knots $K$ ab. Mit $K$ Knots hat ein kubischer Spline etwa $K + 3$ Freiheitsgrade (näherungsweise).}
+
+\textbf{Mathematische Formulierung via Basis-Funktionen:} Splines können als Linearkombination von Basis-Funktionen dargestellt werden:
+\formel{f(x) = \sum_{j=1}^M \beta_j B_j(x)}
+
+wobei $B_j(x)$ sind Basis-Funktionen (z.\,B.\ B-Spline-Basis) und $M$ ist die Anzahl der Basis-Funktionen. Das Modell ist wieder linear in den Koeffizienten und kann mit OLS geschätzt werden!
+
+\textbf{Vergleich: Polynomregression vs.\ Splines:}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Aspekt} & \textbf{Polynomregression} & \textbf{Splines} \\
+        \hline
+        Flexibilität & Global (hängt von $d$ ab) & Lokal (variabel in Intervallen) \\
+        \hline
+        Overfitting-Risiko & Höher bei großem $d$ & Besser kontrollierbar \\
+        \hline
+        Glattheit & Automatisch Grad $d-1$ & Kontrollierbar (typisch C2) \\
+        \hline
+        Extrapolation & Polynomial explodiert & Oft linear außerhalb \\
+        \hline
+        Interpretation & Einfacher & Komplexer \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\definition{\textbf{Smoothing Splines:} Eine regularisierte Variante von Splines, die einen Kompromiss zwischen Anpassung und Glattheit findet.
+
+\textbf{Ziel-Funktion:} Minimiere:
+\formel{\sum_{i=1}^n (y_i - f(x_i))^2 + \lambda \int (f''(x))^2 dx}
+
+wobei:
+\begin{itemize}[leftmargin=1.5em]
+    \item Erster Term: Anpassung an Daten (wie OLS).
+    \item Zweiter Term: Glattheits-Strafterm (je rauer $f$, desto höher der Strafterm).
+    \item $\lambda \geq 0$: Regularisierungsparameter (Glättungskonstante).
+\end{itemize}
+
+Bei $\lambda = 0$: Perfekte Interpolation (sehr wiggly). Bei $\lambda \to \infty$: Lineare Regressionsgerade. Die optimale $\lambda$ wird oft via \textbf{Cross-Validation} gewählt.}
+
+\subsubsection{Additive Modelle (GAM)}
+
+\definition{\textbf{Generalized Additive Models (GAM):} Ein flexibles Regressions-Framework, das additive Struktur nutzt:
+
+\formel{y_i = \beta_0 + f_1(x_{i1}) + f_2(x_{i2}) + \cdots + f_p(x_{ip}) + \varepsilon_i}
+
+wobei $f_j$ sind \textbf{glatte Funktionen} (nicht unbedingt linear). Der große Vorteil: Man schätzt jede Funktion $f_j$ \textbf{separat}, eine Variable nach der anderen.}
+
+\textbf{Flexibilität vs.\ Interpretierbarkeit:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Lineares Modell:} $f_j(x_j) = \beta_j x_j$ (starr, aber interpretierbar).
+    \item \textbf{Additive Modelle:} $f_j$ sind glatte Funktionen (flexibel, aber weniger interpretierbar).
+    \item \textbf{Allgemeines nichtlineares Modell:} $y = f(\mathbf{x}) + \varepsilon$ (höchste Flexibilität, schwer zu verstehen).
+\end{itemize}
+
+\definition{\textbf{Schätzung in GAM via Backfitting:} Ein iterativer Algorithmus:
+
+\begin{enumerate}[leftmargin=2em]
+    \item Initialisiere $\hat{\beta}_0 = \bar{y}$.
+    \item Für jede Variable $j = 1, \ldots, p$:
+    \begin{itemize}
+        \item Berechne das Residuum, ``abzüglich'' aller anderen Funktionen: $\mathbf{r}_j = \mathbf{y} - \hat{\beta}_0 - \sum_{k \neq j} \hat{f}_k(\mathbf{x}_k)$.
+        \item Schätze $\hat{f}_j$ durch Glätten von $\mathbf{r}_j$ gegen $\mathbf{x}_j$ (z.\,B.\ via Smoothing Spline).
+    \end{itemize}
+    \item Wiederhole, bis Konvergenz.
+\end{enumerate}
+
+Dies ist ein \textbf{greedy} Algorithmus, der schnell ist, aber nicht garantiert ein globales Optimum findet.}
+
+\textbf{Basis-Funktionen in GAM:} Jede $f_j$ wird als Linearkombination von Basis-Funktionen dargestellt:
+\formel{f_j(x_j) = \sum_{k=1}^{K_j} \beta_{jk} B_{jk}(x_j)}
+
+Beliebte Wahlten: B-Splines, natural cubic splines, smooth functions. Mit dieser Darstellung wird das GAM-Optimization wieder zu einem \textbf{regularisierten Linearen Problem}.
+
+\definition{\textbf{Variablen-Auswahl in GAM:} 
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Partial Dependence Plot:} Plot von $\hat{f}_j(x_j)$ gegen $x_j$, zeigt die isolierte Effekt von $x_j$.
+    \item \textbf{Effectivity:} ANOVA-ähnliche Tests um zu prüfen ob $f_j$ signifikant ist (gegen $f_j = \text{const}$).
+    \item \textbf{Regularisierung:} Penalty auf Rauheit zwingt unwichtige Variablen zu $f_j(x_j) = \text{const}$ (automatische Selection).
+\end{itemize}}
+
+\textbf{GAM vs.\ Lineare Regression:}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Aspekt} & \textbf{Lineare Regression} & \textbf{GAM} \\
+        \hline
+        Modell & $y = \beta_0 + \sum \beta_j x_j + \varepsilon$ & $y = \beta_0 + \sum f_j(x_j) + \varepsilon$ \\
+        \hline
+        Flexibilität & Niedrig (linear) & Höher (nichtlinear) \\
+        \hline
+        Interpretierbarkeit & Hoch (Koeff. klar) & Moderat (Plots nötig) \\
+        \hline
+        Rechenkomplexität & Niedrig (geschlossen) & Höher (iterativ) \\
+        \hline
+        Overfitting & Geringer & Höher (erfordert Regularisierung) \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\definition{\textbf{Multivariate GAM:} Erweiterung auf \textbf{mehrere Response-Variablen}:
+
+\formel{y_{ij} = \beta_{0j} + f_{1j}(x_{i1}) + \cdots + f_{pj}(x_{ip}) + \varepsilon_{ij} \quad (j = 1, \ldots, k)}
+
+oder mit geteilten Basis-Funktionen für \textbf{simultane} Schätzung aller Responses. Dies ist besonders wertvoll wenn die Responses korreliert sind.}
+
+\textbf{Praktische Anwendungen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Polynomregression:} Wenn die Beziehung quadratisch oder kubisch vermutet wird; einfach zu interpretieren.
+    \item \textbf{Splines:} Für glatte, nichtlineare Beziehungen mit lokal variierender Komplexität.
+    \item \textbf{GAM:} Für viele Prädiktoren mit komplexen Abhängigkeiten, wenn Interpretierbarkeit wichtig ist (Compromise zwischen linearer Regression und Black-Box-Modellen).
+\end{itemize}
+
 \newpage
 
 \subsection{PCA, PCR und MDS}
+
+\subsubsection{Principal Component Analysis (PCA)}
+
+\definition{\textbf{Principal Component Analysis (PCA):} Ein unsupervisierter Algorithmus zur \textbf{Dimensionsreduktion} und Datenexploration, der eine neue Koordinatensystem findet, in welchem die höchste Varianz (= Information) in den ersten wenigen Achsen konzentriert ist.
+
+\textbf{Kernidee:} 
+\begin{itemize}[leftmargin=1.5em]
+    \item Gegeben: Datenmatrix $\mathbf{X}$ (Größe $n \times p$) mit $n$ Beobachtungen und $p$ (möglicherweise hochdimensionalen) Variablen.
+    \item Gesucht: Neue orthogonale Koordinaten (Principal Components, PCs), die eine maximale Varianz erklären.
+
+\newpage
+
+\subsubsection{Principal Component Regression (PCR)}
+
+\definition{\textbf{Problem, das PCR löst:}} In der multiplen linearen Regression $\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}$ kann es problematisch sein wenn:
+\begin{itemize}[leftmargin=1.5em]
+    \item Die Anzahl der Prädiktoren groß ist (high $p$), oder sogar $p > n$ (mehr Prädiktoren als Beobachtungen).
+    \item Die Prädiktoren \textbf{hochgradig korreliert} sind (\textbf{Multikollinearität}).
+\end{itemize}
+
+In diesen Fällen ist die OLS-Lösung $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$ \textbf{instabil} oder \textbf{nicht definiert}.}
+
+\definition{\textbf{PCR-Ansatz:} Statt mit den ursprünglichen Prädiktoren $\mathbf{X}$ zu arbeiten, verwende die \textbf{PCA-Scores} $\mathbf{T}$ als neue Prädiktoren:
+
+\formel{\mathbf{y} = \mathbf{T} \boldsymbol{\vartheta} + \boldsymbol{\varepsilon}}
+
+wobei $\boldsymbol{\vartheta} = (\vartheta_1, \ldots, \vartheta_a)^T$ sind die Regressionskoeffizienten bezüglich der Scores.}
+
+\textbf{Vorteile:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Die Scores $\mathbf{T}$ sind \textbf{orthogonal} (unkorreliert), daher keine Multikollinearität.
+    \item Die OLS-Schätzung wird stabil: $\hat{\boldsymbol{\vartheta}} = (\mathbf{T}^T \mathbf{T})^{-1} \mathbf{T}^T \mathbf{y}$ ist wohldefiniert (eine Diagonalmatrix).
+    \item Durch Verwendung von nur $a < p$ Komponenten wird Overfitting reduziert.
+\end{itemize}
+
+\definition{\textbf{PCR-Algorithmus:}}
+
+\begin{enumerate}[leftmargin=2em]
+    \item Führe PCA auf $\mathbf{X}$ durch, extrahiere die ersten $a$ Principal Components.
+    \item Berechne die Score-Matrix $\mathbf{T}$ der Größe $n \times a$.
+    \item Führe ordinäre lineare Regression durch: $\mathbf{y} = \mathbf{T} \boldsymbol{\vartheta} + \boldsymbol{\varepsilon}$.
+    \item Berechne $\hat{\boldsymbol{\vartheta}} = (\mathbf{T}^T \mathbf{T})^{-1} \mathbf{T}^T \mathbf{y}$.
+    \item Transformiere zurück zu den ursprünglichen Koeffizienten: $\hat{\boldsymbol{\beta}}_{\text{PCR}} = \mathbf{P} \hat{\boldsymbol{\vartheta}}$.
+    \item Die Wahl von $a$ wird üblicherweise via \textbf{Cross-Validation} bestimmt.
+\end{enumerate}}
+
+\textbf{Vergleich: MLR vs. PCR vs. Ridge/Lasso:}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{Aspekt} & \textbf{MLR} & \textbf{PCR} & \textbf{Ridge/Lasso} \\
+        \hline
+        Multikollinearität & Problem & Gelöst & Eingedämmt \\
+        \hline
+        $p > n$ & Nicht möglich & Möglich & Möglich \\
+        \hline
+        Interpretierbarkeit & Hoch (Originale) & Mittel (PCs) & Mittel (Shrinkage) \\
+        \hline
+        Rechenaufwand & Niedrig & Mittel (PCA + Reg) & Mittel \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{Multidimensionale Skalierung (MDS)}
+
+\definition{\textbf{Multidimensional Scaling (MDS):} Ein Unsupervisiertes Verfahren zur Dimensionsreduktion, das von einer \textbf{Distanz-/Unähnlichkeitsmatrix} ausgeht und versucht, eine Konfiguration von Objekten in niedrigdimensionalen Raum (typisch 2D oder 3D) zu finden, die diese Abstände möglichst gut erhält.
+
+\textbf{Startpunkt:} Keine Rohdaten $\mathbf{X}$, sondern nur eine $n \times n$ Distanzmatrix $\mathbf{D}$ mit Elementen $d_{ij}$ = Distanz zwischen Objekten $i$ und $j$.
+
+\textbf{Ziel:} Finde niedrigdimensionale Koordinaten $\mathbf{Z}$ (Größe $n \times a$ mit $a \ll p$) so, dass die Euklidischen Abstände in $\mathbf{Z}$ den ursprünglichen Abständen entsprechen.}
+
+\textbf{Motivation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Oft sind nur Distanzen bekannt:} Z.\,B.\ wenn Experten Paare von Objekten bewerten (ähnlich oder nicht), oder bei Umfrageabständen.
+    \item \textbf{Reverse-Engineering:} Kann man aus Abständen die zugrundeliegende Struktur rekonstruieren?
+    \item \textbf{Visualisierung:} Besonders wertvoll wenn die Rohdaten sehr hochdimensional sind oder komplexe Abstandsmetriken haben.
+\end{itemize}
+
+\definition{\textbf{Metric vs. Non-Metric MDS:}}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Metric (Classical) MDS:} Versucht, die \textbf{absoluten Distanzen} zu reproduzieren.
+    \begin{itemize}
+        \item Minimiere Stress-Funktion: $\text{Stress} = \sqrt{\frac{\sum_{i,j} (d_{ij} - \hat{d}_{ij})^2}{\sum_{i,j} d_{ij}^2}}$.
+        \item $d_{ij}$ = ursprüngliche Distanz, $\hat{d}_{ij}$ = Distanz in niedrigdimensionaler Rekonstruktion.
+    \end{itemize}
+    \item \textbf{Non-Metric MDS:} Versucht, nur die \textbf{Ordnung} der Distanzen zu erhält (kleinste Distanz bleibt klein, größte bleibt groß, aber exakte Werte sind unwichtig).
+    \begin{itemize}
+        \item Robuster gegen Messfehler oder nicht-euklidische Abstände.
+        \item Verwendet Rank-korrelation statt absoluter Fehler.
+    \end{itemize}
+\end{itemize}}
+
+\definition{\textbf{Classical MDS-Algorithmus:}}
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Double Centering:} Zentriere die Distanzmatrix $\mathbf{D}$ so, dass eine Gram-Matrix $\mathbf{G}$ entsteht (Innenprodukten der zentrierten Punkte).
+    \item \textbf{Eigenwertzerlegung:} Berechne Eigenwerte $\lambda_1 \geq \lambda_2 \geq \cdots$ und Eigenvektoren von $\mathbf{G}$.
+    \item \textbf{Koordinaten:} Die ersten $a$ Koordinaten eines Objekts sind $z_i = \sqrt{\lambda_k} \mathbf{v}_k$ (wobei $\mathbf{v}_k$ die Eigenvektoren).
+    \item \textbf{Rekonstruktion:} Überprüfe ob die rekonstruierten Distanzen den ursprünglichen nahe kommen.
+\end{enumerate}}
+
+\textbf{Unterschied zu PCA:}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Aspekt} & \textbf{PCA} & \textbf{MDS} \\
+        \hline
+        Input & Datenmatrix $\mathbf{X}$ & Distanzmatrix $\mathbf{D}$ \\
+        \hline
+        Methode & Maximiere Varianz & Reproduziere Distanzen \\
+        \hline
+        Dimensionen & Oft 2-3 & Typisch 2-3 \\
+        \hline
+        Interpretation & Varianz-Richtungen & Objekt-Ähnlichkeiten \\
+        \hline
+        Mathematik & Eigenwertzerlegung von Kovarianz & Eigenwertzerlegung von Gram-Matrix \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\textbf{Praktische Anwendungen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{PCA:} Bioinformatik (Gen-Expression), Bildkompression, Feature Engineering für maschinelles Lernen.
+    \item \textbf{PCR:} Hochdimensionale Prädiktoren mit Multikollinearität (z.\,B.\ Spektroskopie-Daten, Gene).
+    \item \textbf{MDS:} Psychometrie (Subjektive Ähnlichkeitsurteile), Genetische Distanzen, Chemische Ähnlichkeitsmaße.
+\end{itemize}
+
 \newpage
 
 \subsection{Lasso und Ridge-Regression}
+
+\definition{\textbf{Regularisierung und Shrinkage-Methoden:} Techniken, die die Größe der Regressionskoeffizienten beschränken (reduzieren), um Overfitting zu vermeiden und stabilere Schätzungen zu erhalten. Dies ist besonders wichtig bei hohdimensionalen Daten oder Multikollinearität.}
+
+\subsubsection{Ridge Regression}
+
+\definition{\textbf{Motivation für Ridge Regression:}}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item In der klassischen OLS-Regression $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$ ist die Invertierung der Matrix $\mathbf{X}^T \mathbf{X}$ numerisch instabil, wenn die Spalten von $\mathbf{X}$ (Prädiktoren) stark korreliert sind (\textbf{Multikollinearität}), oder wenn Eigenwerte von $\mathbf{X}^T \mathbf{X}$ nahe Null sind.
+    \item Dies führt zu großen und instabilen Schätzungen $\hat{\boldsymbol{\beta}}$.
+    \item \textbf{Ridge Regression:} Addiere eine kleine Konstante $\lambda > 0$ zu den Diagonalelementen von $\mathbf{X}^T \mathbf{X}$:
+    \formel{\hat{\boldsymbol{\beta}}_{\text{ridge}} = (\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I}_p)^{-1} \mathbf{X}^T \mathbf{y}}
+    
+    wobei $\mathbf{I}_p$ ist die $p \times p$ Identitätsmatrix und $\lambda \geq 0$ ist der \textbf{Regularisierungsparameter}.
+\end{itemize}}
+
+\definition{\textbf{Äquivalente Formulierungen der Ridge Regression:}}
+
+\textbf{1. Optimierungsperspektive:} Minimiere die Objective Function:
+\formel{L_{\text{ridge}}(\boldsymbol{\beta}, \lambda) = \sum_{i=1}^n (y_i - \mathbf{x}_i^T \boldsymbol{\beta})^2 + \lambda \sum_{j=1}^p \beta_j^2 = \|\mathbf{y} - \mathbf{X} \boldsymbol{\beta}\|^2_2 + \lambda \|\boldsymbol{\beta}\|^2_2}
+
+Der erste Term ist RSS (Anpassung an Daten), der zweite Term ist die \textbf{L2-Penalty} (Ridge-Penalty).
+
+\textbf{2. Konstrained Optimization:} Äquivalent dazu ist zu minimieren:
+\formel{\|\mathbf{y} - \mathbf{X} \boldsymbol{\beta}\|^2_2 \quad \text{unter Bedingung} \quad \sum_{j=1}^p \beta_j^2 \leq t}
+
+für eine Schwelle $t \geq 0$. Die Beziehung zwischen $\lambda$ und $t$ ist inversiv.}
+
+\definition{\textbf{Ridge als Shrinkage-Methode:}} Für orthonormale Prädiktoren (= unabhängig, Einheitsvarianz) gilt:
+\formel{\hat{\boldsymbol{\beta}}_{\text{ridge}} = \frac{1}{1 + \lambda} \hat{\boldsymbol{\beta}}_{\text{OLS}}}
+
+\textbf{Interpretation:} Jeder Koeffizient wird um den Faktor $\frac{1}{1+\lambda}$ \textbf{gegen Null geschrumpft}:
+\begin{itemize}[leftmargin=1.5em]
+    \item Wenn $\lambda = 0$: Keine Shrinkage, identisch zu OLS.
+    \item Wenn $\lambda \to \infty$: Maximale Shrinkage, $\hat{\boldsymbol{\beta}}_{\text{ridge}} \to \mathbf{0}$ (nur Intercept bleibt).
+    \item Für allgemeine (nicht orthonormale) Prädiktoren: Richtungen mit kleineren Eigenwerten werden stärker geschrumpft.
+\end{itemize}}
+
+\definition{\textbf{Wahl des Regularisierungsparameters $\lambda$:}} Der Parameter $\lambda$ kontrolliert den Bias-Variance Tradeoff:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Kleine $\lambda$:} Niedriger Bias, höhere Varianz (ähnlich wie OLS).
+    \item \textbf{Große $\lambda$:} Höherer Bias, niedrigere Varianz (stärkere Regularisierung).
+\end{itemize}
+
+Standard-Ansatz: \textbf{Cross-Validation} (z.\,B.\ 5-fold oder 10-fold CV) über ein Gitter von $\lambda$-Werten. Wähle das $\lambda$, das den kleinsten CV-Fehler liefert.}
+
+\subsubsection{Lasso Regression}
+
+\definition{\textbf{The Lasso (Least Absolute Shrinkage and Selection Operator):}} Alternative zu Ridge mit einer anderen Penalty.
+
+\textbf{Objective Function:}
+\formel{L_{\text{lasso}}(\boldsymbol{\beta}, \lambda) = \sum_{i=1}^n (y_i - \mathbf{x}_i^T \boldsymbol{\beta})^2 + \lambda \sum_{j=1}^p |\beta_j| = \|\mathbf{y} - \mathbf{X} \boldsymbol{\beta}\|^2_2 + \lambda \|\boldsymbol{\beta}\|_1}
+
+Der entscheidende Unterschied: \textbf{L1-Penalty} $\|\boldsymbol{\beta}\|_1 = \sum_j |\beta_j|$ statt L2-Penalty.
+
+\textbf{Equivalente Konstrained Form:}
+\formel{\min_{\boldsymbol{\beta}} \|\mathbf{y} - \mathbf{X} \boldsymbol{\beta}\|^2_2 \quad \text{unter} \quad \sum_{j=1}^p |\beta_j| \leq t}}
+
+\definition{\textbf{Kritischer Unterschied Ridge vs. Lasso:}} Die L1-Penalty hat eine wichtige Eigenschaft:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Ridge (L2):} Schrumpft alle Koeffizienten gegen Null, setzt sie aber (fast) nie exakt zu Null.
+    \item \textbf{Lasso (L1):} \textbf{Setzt einige Koeffizienten exakt zu Null!} Dies führt zu \textbf{Variablen-Auswahl} (feature selection).
+\end{itemize}
+
+\textbf{Geometrische Intuition:} 
+\begin{itemize}[leftmargin=1.5em]
+    \item Ridge-Constraint: Kreis $\sum \beta_j^2 \leq t$ (glatte, runde Form).
+    \item Lasso-Constraint: Diamant/Rhombus $\sum |\beta_j| \leq t$ (spitze Ecken).
+\end{itemize}
+
+Die Ecken des Diamanten liegen auf den Achsen, daher ist die Wahrscheinlichkeit hoch, dass die Optimallösung an einer Ecke liegt → Koeffizient $= 0$.}
+
+\definition{\textbf{Lasso – Lösung und Variablen-Auswahl:}} Im Gegensatz zu Ridge hat Lasso \textbf{keine geschlossene Lösung}. Die Lösung muss numerisch berechnet werden, z.\,B.\ via:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Coordinate Descent:} Schneller Algorithmus, speziell für Lasso optimiert.
+    \item \textbf{Proximal Gradient Descent:} Allgemeineres Verfahren.
+    \item \textbf{ADMM (Alternating Direction Method of Multipliers):} Robust und skalierbar.
+\end{itemize}
+
+\textbf{Variablen-Auswahl-Effekt:} Wenn Lasso Koeffizienten auf exakt Null setzt, diese Variablen aus dem Modell entfernt. Dies ist besonders wertvoll wenn:
+\begin{itemize}[leftmargin=1.5em]
+    \item Viele Prädiktoren irrelevant sind (sparse data).
+    \item Interpretierbarkeit wichtig ist (kleinere, sparsamere Modelle).
+\end{itemize}}
+
+\definition{\textbf{Wahl von $\lambda$ im Lasso:}} Wie bei Ridge via Cross-Validation. \textbf{Besonderheit:} Es gibt oft einen Bereich von $\lambda$-Werten, die dieselbe Teilmenge von Variablen auswählen (die gleichen Koeffiziente zu Null setzen).}
+
+\subsubsection{Ridge vs. Lasso vs. Elastic Net}
+
+\textbf{Vergleich Ridge und Lasso:}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Aspekt} & \textbf{Ridge} & \textbf{Lasso} \\
+        \hline
+        Penalty & $\lambda \sum \beta_j^2$ (L2) & $\lambda \sum |\beta_j|$ (L1) \\
+        \hline
+        Schätzung & Geschlossene Form & Numerisch (Coord. Descent) \\
+        \hline
+        Koeffiziente = 0? & Selten (fast nie) & Oft (Variablen-Auswahl) \\
+        \hline
+        Multikollinearität & Gut gehandhabt & Wählt eine Variable aus \\
+        \hline
+        Interpretierbarkeit & Alle Variablen im Modell & Sparse Modell \\
+        \hline
+        High $p$, low $n$ & Funktioniert & Funktioniert besser \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\definition{\textbf{Elastic Net:} Ein Kompromiss zwischen Ridge und Lasso, der beide Penalties kombiniert.
+
+\textbf{Objective Function:}
+\formel{L_{\text{elastic}}(\boldsymbol{\beta}, \lambda, \alpha) = \sum_{i=1}^n (y_i - \mathbf{x}_i^T \boldsymbol{\beta})^2 + \lambda \left[ \alpha \sum_{j=1}^p |\beta_j| + (1-\alpha) \sum_{j=1}^p \beta_j^2 \right]}
+
+wobei $\alpha \in [0, 1]$ ist der Mixing-Parameter:
+\begin{itemize}[leftmargin=1.5em]
+    \item $\alpha = 0$: Pure Ridge Regression.
+    \item $\alpha = 1$: Pure Lasso Regression.
+    \item $0 < \alpha < 1$: Hybrid Modell mit beiden Penalties.
+\end{itemize}}
+
+\textbf{Vorteile von Elastic Net:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Kombiniert Variable-Auswahl von Lasso mit Stabilität von Ridge.
+    \item Wenn Prädiktoren stark korreliert sind, Lasso wählt oft nur eine Variable aus; Elastic Net wählt mehrere aber mit reduzierten Koeffizienten.
+    \item Flexibler als beide Einzelmethoden.
+\end{itemize}}
+
+\subsubsection{Sparsity und Degrees of Freedom}
+
+\definition{\textbf{Sparsity:} Die Eigenschaft, dass viele Koeffizienten exakt Null sind (nur wenige nicht-Null Koeffizienten).
+
+\textbf{Effective Degrees of Freedom (df):} Eine Maßzahl für die Modellkomplexität:
+\begin{itemize}[leftmargin=1.5em]
+    \item In OLS: $\text{df} = p$ (Anzahl der Prädiktoren).
+    \item In Lasso: $\text{df}$ = Anzahl der nicht-Null Koeffizienten (variiert mit $\lambda$).
+    \item In Ridge: $\text{df} = \text{trace}(\mathbf{X}(\mathbf{X}^T \mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^T)$ (irgendwas zwischen 0 und $p$).
+\end{itemize}
+
+Dies ist relevant für Modellvergleiche und AIC/BIC.}
+
+\definition{\textbf{Pfad der Lösungen (Solution Path):}} Oft visualisiert man wie Koeffizienten sich ändern wenn $\lambda$ variiert:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Ridge-Pfad:} Alle Koeffizienten schrumpfen kontinuierlich gegen Null (keine Diskontinuitäten).
+    \item \textbf{Lasso-Pfad:} Koeffizienten springen auf Null, wenn $\lambda$ einen kritischen Punkt überschreitet (Diskontinuitäten, ``sparse zones'').
+    \item Ein solcher Plot (oder Tabelle) gibt Einsicht welche Variablen zuerst ausgewählt werden und bei welchem $\lambda$.
+\end{itemize}}
+
+\textbf{Praktische Empfehlungen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Ridge:} Wenn alle Prädiktoren potenziell wichtig sind, oder hochgradig korreliert (z.\,B.\ Spektroskopie, Gen-Expression).
+    \item \textbf{Lasso:} Wenn Variablen-Auswahl gewünscht ist oder $p \gg n$ (viel mehr Prädiktoren als Beobachtungen).
+    \item \textbf{Elastic Net:} Kompromiss, wenn Unsicherheit über die beste Methode besteht, oder Daten sowohl Korrelation als auch Sparsity haben.
+    \item \textbf{Cross-Validation:} Immer nutzen um $\lambda$ und $\alpha$ zu wählen!
+\end{itemize}
+
 \newpage
 
-\subsection{Decision Trees und Random Forests}
+\subsection{Entscheidungsbäume (Decision Trees) und Random Forests}
+
+\subsubsection{Decision Trees (Entscheidungsbäume)}
+
+\definition{\textbf{Decision Tree:} Ein superwachter Lernalgorithmus für \textbf{Klassifikation} und \textbf{Regression}, der Daten rekursiv in immer homogenere Teilmengen aufteilt, um eine baumähnliche Entscheidungsstruktur zu erzeugen.
+
+\textbf{Grundstruktur:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Knoten (Nodes):} Entscheidungspunkte, an denen eine Bedingung auf einer Variablen überprüft wird (z.\,B.\ $x_j \leq c$).
+    \item \textbf{Äste (Branches):} Kanten zwischen Knoten, die den zwei Ausgängen einer Bedingung entsprechen (ja/nein, true/false).
+    \item \textbf{Blattknoten (Leaf Nodes):} Endknoten ohne weitere Verzweigungen. In Klassifikation: Enthält eine Klasse; in Regression: Enthält einen Vorhersagewert.
+    \item \textbf{Wurzelbene (Root):} Der oberste Knoten, mit dem die Aufteilung beginnt.
+\end{itemize}
+
+\textbf{Vorhersage:} Ein neuer Datenpunkt fließt von der Wurzel durch den Baum, indem er bei jedem Knoten der entsprechenden Bedingung folgt, bis er ein Blatt erreicht.}
+
+\definition{\textbf{Baumaufbau: Recursive Partitioning}
+
+\textbf{Algorithmus (Top-Down):}
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Starte:} Mit allen Trainingsdaten an der Wurzel.
+    \item \textbf{Finde beste Aufteilung:} Wähle die Variable $x_j$ und den Schwellwert $c$, der nach der Aufteilung die \textbf{reinsten} (homogensten) Kindknoten erzeugt.
+    \item \textbf{Teile:} Unterteile Daten in zwei Gruppen: $x_j \leq c$ (linker Ast) und $x_j > c$ (rechter Ast).
+    \item \textbf{Rekursion:} Wiederhole Schritte 2--3 für jeden Kindknoten (solange Stoppkriterien nicht erreicht).
+    \item \textbf{Basisfall:} Knoten werden zu Blättern, wenn:
+    \begin{itemize}[leftmargin=1.5em]
+        \item Alle Daten derselbe Klasse (100\% rein).
+        \item Minimale Anzahl Beobachtungen pro Knoten erreicht.
+        \item Maximale Baumtiefe erreicht.
+        \item Keine weitere Verbesserung möglich.
+    \end{itemize}
+\end{enumerate}}
+
+\definition{\textbf{Reine-Kriterien (Impurity Measures):}}
+
+\textbf{In der Klassifikation:}
+
+\textbf{1. Gini-Index:} Wahrscheinlichkeit, dass ein zufällig gewählter Punkt falsch klassifiziert wird, wenn man die Klasse zufällig nach der Klassenverteilung wählt.
+\formel{\text{Gini} = 1 - \sum_{k=1}^K p_k^2}
+wobei $p_k$ ist der Anteil der Klasse $k$ im Knoten. Gini = 0 wenn rein (ein Klasse), Gini = $\frac{K-1}{K}$ wenn uniform verteilt.
+
+\textbf{2. Entropie (Information Gain):} Maß für Unordnung basierend auf Informationstheorie.
+\formel{\text{Entropy} = -\sum_{k=1}^K p_k \log_2(p_k)}
+Wird oft mit dem \textbf{Information Gain} kombiniert:
+\formel{\text{IG}(\text{Split}) = \text{Entropy}(\text{Parent}) - \sum_{i} \frac{n_i}{n} \text{Entropy}(\text{Child}_i)}
+Der Information Gain misst die Reduzierung der Entropie durch eine Aufteilung.
+
+\textbf{In der Regression:}
+
+\textbf{Fehlerreduktion (Least Squares):} Wähle die Aufteilung, die die \textbf{Residualsumme der Quadrate (RSS)} maximiert reduziert.
+\formel{\text{RSS} = \sum_i (y_i - \hat{y})^2}
+Nach einer Aufteilung werden die RSS in beiden Kindknoten berechnet, und die beste Aufteilung minimiert die kombinierte RSS.}
+
+\definition{\textbf{Overfitting und Pruning:}
+
+\textbf{Problem:} Entscheidungsbäume können sehr tief werden und perfekt die Trainingsdaten fitten, generalisieren aber schlecht auf neue Daten (Overfitting).
+
+\textbf{Lösungsansätze:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Early Stopping:} Begrenzen der Baumtiefe, minimale Anzahl Beobachtungen pro Knoten, minimales Reine-Kriterium.
+    \item \textbf{Post-Pruning (Nachträgliches Beschneiden):} Trainiere einen vollen Baum, dann entferne Knoten von unten nach oben, wenn dies die Validierungs-Performance verbessert (z.\,B.\ via \textbf{Reduced Error Pruning}).
+    \item \textbf{Cost Complexity Pruning:} Minimiere Kosten-Funktion, die Trainings-Fehler plus Komplexitäts-Strafe umfasst.
+\end{itemize}}
+
+\textbf{Vorteile von Decision Trees:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Interpretierbarkeit:} Die Entscheidungslogik ist transparent (einfach zu visualisieren und zu erklären).
+    \item \textbf{Keine Skalierung nötig:} Funktioniert mit rohen Daten, unempfindlich gegenüber Monoton-Transformationen.
+    \item \textbf{Gemischte Datentypen:} Kann numerische und kategoriale Prädiktoren direkt verarbeiten.
+    \item \textbf{Nichtlinearität:} Erfasst Interaktionen und komplexe Muster automatisch.
+\end{itemize}
+
+\textbf{Nachteile von Decision Trees:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Instabilität:} Kleine Änderungen in den Trainingsdaten können zu völlig anderen Bäumen führen.
+    \item \textbf{Overfitting:} Neigung zu großen Bäumen ohne Regularisierung.
+    \item \textbf{Bias bei unbalancierten Klassen:} Tendenziell zu Mehrheitsklasse vorgespannt.
+    \item \textbf{Greedy-Algorithmus:} Macht lokal optimale Entscheidungen (nicht global optimal).
+\end{itemize}}
+
+\subsubsection{Random Forests}
+
+\definition{\textbf{Random Forest:} Ein \textbf{Ensemble-Lernalgorithmus}, der viele Entscheidungsbäume trainiert und ihre Vorhersagen kombiniert, um die Genauigkeit und Stabilität zu verbessern.
+
+\textbf{Kernidee:} 
+\begin{itemize}[leftmargin=1.5em]
+    \item ``Weisheit der Massen'': Viele unabhängige (oder gering korrelierte) Bäume treffen bessere Entscheidungen als ein einzelner Baum.
+    \item \textbf{Bootstrap-Sampling:} Trainiere jeden Baum auf einer zufälligen Stichprobe (mit Zurücklegen) der Trainingsdaten.
+    \item \textbf{Random Feature Selection:} Bei jedem Knoten wähle aus einem zufälligen Untermengen von Prädiktoren die beste Aufteilung.
+\end{itemize}}
+
+\definition{\textbf{Random Forest Algorithmus:}
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Schleife von $t = 1$ bis $B$ (Anzahl Bäume):}
+    \begin{itemize}
+        \item Ziehe eine Bootstrap-Stichprobe der Größe $n$ (mit Zurücklegen) aus den Trainingsdaten.
+        \item Trainiere einen vollständigen (unkürzen) Decision Tree auf dieser Stichprobe.
+        \item Verwende bei jedem Knoten nur $m < p$ zufällig ausgewählte Prädiktoren bei der Suche nach der besten Aufteilung (üblicherweise $m \approx \sqrt{p}$ für Klassifikation, $m \approx p/3$ für Regression).
+    \end{itemize}
+    
+    \item \textbf{Vorhersage:}
+    \begin{itemize}
+        \item \textbf{Klassifikation:} Nimm die Mehrheits-Stimme aller $B$ Bäume: $\hat{y} = \text{Modus}(\hat{y}_1, \ldots, \hat{y}_B)$.
+        \item \textbf{Regression:} Nimm den Durchschnitt: $\hat{y} = \frac{1}{B} \sum_{t=1}^B \hat{y}_t$.
+    \end{itemize}
+\end{enumerate}}
+
+\definition{\textbf{Out-of-Bag (OOB) Error Estimation:}
+
+\textbf{Vorteil:} Da Bootstrap-Stichproben verwendet werden, sind ungefähr $e^{-1} \approx 37\%$ der Trainingsdaten nicht in jeder Stichprobe enthalten (``out-of-bag''). Diese können zur Validierung verwendet werden, ohne einen separaten Validierungssatz zu benötigen.
+
+\textbf{Verfahren:}
+\begin{enumerate}[leftmargin=1.5em]
+    \item Für jede Beobachtung: Identifiziere alle Bäume, in deren Bootstrap-Stichprobe sie \textbf{nicht} enthalten war.
+    \item Vorhersage: Gemittel (oder Mehrheits-Stimme) dieser Bäume für diese Beobachtung.
+    \item \textbf{OOB Error}: Der Fehler dieser ``Out-of-Bag''-Vorhersagen ist eine gute Schätzung der Testfehler.
+\end{enumerate}}
+
+\definition{\textbf{Feature Importance (Variablenbedeutung):}
+
+\textbf{Mean Decrease in Impurity (MDI):} Für jeden Prädiktor, summiere über alle Bäume und alle Knoten, um wie viel der Impurity (Gini oder RSS) bei Aufteilungen in diesem Prädiktor reduziert wurde.
+
+\formel{\text{Importance}(X_j) = \frac{1}{B} \sum_{t=1}^B \sum_{\text{nodes: split on } X_j} \text{(Impurity reduction)}}
+
+Höhere Werte zeigen, dass die Variable häufig und früh (near root) zu großen Reduktionen führt, und daher important ist.
+
+\textbf{Mean Decrease in Accuracy (MDA) / Permutation Importance:} Eine Alternative:
+\begin{enumerate}[leftmargin=1.5em]
+    \item Berechne OOB Error (oder Validierungs-Error) mit originalem Datensatz.
+    \item Permutiere die Werte einer Variable $X_j$ zufällig, berechne OOB Error neu.
+    \item Die Differenz zeigt, wie wichtig die Variable ist (größere Verschlechterung $\Rightarrow$ wichtigere Variable).
+\end{enumerate}}
+
+\textbf{Vorteile von Random Forests:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Robustheit:} Bootstrap + Ensemble reduzieren Varianz und Overfitting.
+    \item \textbf{Hohe Accuracy:} Oft eine der besten off-the-shelf Performance.
+    \item \textbf{Robustness gegen Outlier:} Einzelne extreme Werte beeinflussen weniger als bei anderen Methoden.
+    \item \textbf{Feature Importance:} Automatische Quantifizierung welche Variablen wichtig sind.
+    \item \textbf{Parallelsierbar:} Bäume können unabhängig trainiert werden.
+    \item \textbf{Keine Normalisierung nötig:} Wie Decision Trees, unempfindlich gegen Skalierung.
+\end{itemize}
+
+\textbf{Nachteile von Random Forests:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Interpretierbarkeit:} Schwer zu verstehen warum die Vorhersage gemacht wurde (``Black Box'').
+    \item \textbf{Speicher und Rechenzeit:} Viele Bäume benötigen viel RAM und CPU.
+    \item \textbf{Hyperparameter-Tuning:} Zu optimierende Parameter wie $B$ (Anzahl Bäume), $m$ (Features pro Split), Baumtiefe.
+\end{itemize}}
+
+\definition{\textbf{Vergleich: Decision Trees vs.\ Random Forests}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Aspekt} & \textbf{Decision Tree} & \textbf{Random Forest} \\
+        \hline
+        Modell & Ein Baum & Ensemble von Bäumen \\
+        \hline
+        Varianz & Hoch & Niedrig (durch Ensemble) \\
+        \hline
+        Bias & Moderat & Ähnlich wie Baum \\
+        \hline
+        Interpretierbarkeit & Hoch & Niedrig \\
+        \hline
+        Performance & Moderat & Höher (meist) \\
+        \hline
+        Rechenzeit & Niedrig & Höher \\
+        \hline
+        Robust gegen Outlier & Schwach & Stark \\
+        \hline
+        Feature Importance & Einfach & Möglich (MDI, Permutation) \\
+        \hline
+    \end{tabular}
+\end{table}}
+
+\definition{\textbf{Weitere Ensemble-Methoden:}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Bagging (Bootstrap Aggregating):} Verallgemeinerung von Random Forests auf beliebige Base-Learner (nicht nur Bäume). Trainiere viele Modelle auf Bootstrap-Stichproben und aggregiere.
+    
+    \item \textbf{Boosting (z.\,B.\ AdaBoost, Gradient Boosting):} Sequenzielle Methode: Trainiere Bäume nacheinander, wobei jeder neue Baum sich auf die Fehler des vorigen konzentriert. Wichtung von Trainingsdaten wird angepasst. Oft bessere Performance als Bagging, aber anfälliger für Overfitting.
+    
+    \item \textbf{Gradient Boosting Machines (GBM):} Verallgemeinertes Boosting, das Gradienten-Abstieg verwendet. Führt zu sehr guten praktischen Ergebnissen, aber mehr Hyperparameter-Tuning.
+    
+    \item \textbf{Extreme Gradient Boosting (XGBoost):} Optimierte Implementierung von GBM mit zusätzlichen Regularisierungen. Sehr populär in Machine Learning Wettbewerben.
+\end{itemize}}
+    \item Die neuen Achsen sind \textbf{orthogonal} (unkorreliert) und linear kombiniert die ursprünglichen Variablen.
+\end{itemize}}
+
+\textbf{Motivation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Visualisierung:} Bei $p = 20$ Variablen gibt es $\binom{20}{2} = 190$ paarweise Scatterplots. Mit PCA können wir auf 2 oder 3 Dimensionen reduzieren und ein einziges Scatterplot verwenden.
+    \item \textbf{Datenreduktion:} Oft ist nur ein Bruchteil der Variabilität in den ersten wenigen PCs konzentriert; der Rest ist Rauschen. Diese können ignoriert werden.
+    \item \textbf{Multikollinearität in MLR:} Wenn Prädiktoren stark korreliert sind, kann PCR (Regression auf PCs) verwendet werden, um das Problem zu beheben.
+    \item \textbf{Explorative Datenanalyse:} Identifikation von Clustern, Ausreißern, oder Struktur in Hochdimensionalen Daten.
+\end{itemize}
+
+\definition{\textbf{Mathematische Formulierung:}}
+
+Die PCA-Zerlegung ist:
+\formel{\mathbf{X} = \mathbf{T} \mathbf{P}^T + \mathbf{E}}
+
+wobei:
+\begin{itemize}[leftmargin=1.5em]
+    \item $\mathbf{T}$ ($n \times a$) = \textbf{Score-Matrix}: Die Koordinaten der Beobachtungen in der neuen Koordinatensystem.
+    \item $\mathbf{P}$ ($p \times a$) = \textbf{Loading-Matrix}: Die Spalten sind die Eigenvektoren der Kovarianzmatrix (die neuen Achsen-Richtungen).
+    \item $\mathbf{E}$ ($n \times p$) = Fehlermatrix (wird meist ignoriert).
+    \item $a = \min(n, p)$ wenn alle Komponenten extrahiert werden.
+\end{itemize}
+
+Die Spalten von $\mathbf{P}$ sind \textbf{orthonormal}: $\mathbf{P}^T \mathbf{P} = \mathbf{I}_a$. Die Scores in $\mathbf{T}$ sind \textbf{unkorreliert}: $\mathbf{T}^T \mathbf{T} = \text{diag}(\lambda_1, \ldots, \lambda_a)$ (diagonal).}
+
+\definition{\textbf{Algorithmus (Herangehensweise):}}
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Standardisierung:} Zentriere und skaliere $\mathbf{X}$ so, dass jede Spalte Mittelwert 0 und Standardabweichung 1 hat (wichtig für fair comparision, wenn Variablen unterschiedliche Einheiten haben).
+    \item \textbf{Kovarianzmatrix:} Berechne die Kovarianzmatrix $\mathbf{C} = \frac{1}{n-1} \mathbf{X}^T \mathbf{X}$ (oder Korrelationsmatrix).
+    \item \textbf{Eigenwertzerlegung:} Berechne Eigenwerte $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_p \geq 0$ und entsprechende Eigenvektoren $\mathbf{p}_1, \mathbf{p}_2, \ldots, \mathbf{p}_p$ von $\mathbf{C}$.
+    \item \textbf{Komponenten extrahieren:} Wähle die ersten $a$ Eigenvektoren als Spalten von $\mathbf{P}$. Diese entsprechen den $a$ größten Eigenwerten.
+    \item \textbf{Scores berechnen:} $\mathbf{T} = \mathbf{X} \mathbf{P}$.
+\end{enumerate}
+
+\definition{\textbf{Varianzzerlegung:}}
+
+Der Eigenwert $\lambda_j$ quantifiziert die Varianz, die durch die $j$-te Komponente erklärt wird:
+\formel{\text{Varianz von PC}_j = \lambda_j}
+
+Der Anteil der Varianz erklärt durch die erste $a$ Komponenten:
+\formel{\text{Cumulative Explained Variance} = \frac{\sum_{j=1}^a \lambda_j}{\sum_{j=1}^p \lambda_j} \in [0, 1]}
+
+Ein \textbf{Scree-Plot} zeigt die Eigenwerte gegen die PC-Nummer. Man sucht oft einen ``Ellbogen'' (elbow), um die optimale Anzahl $a$ zu wählen.}
+
+\definition{\textbf{Score-Plots und Loading-Plots:}}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Score-Plot:} Scatterplot der Scores $\mathbf{T}$, üblicherweise PC1 vs. PC2. Visualisiert die Beobachtungen im neuen Raum. Können Cluster, Ausreißer, oder Gruppierungen zeigen.
+    \item \textbf{Loading-Plot:} Scatterplot der Loadings $\mathbf{P}$. Zeigt welche \textbf{Originalvariablen} stark auf jede PC laden (beeinflussen). Variablen nah bei Ursprung haben niedrige Loadings; Variable weit weg have hohe Loadings auf mindestens eine PC.
+    \item \textbf{Biplot:} Kombiniert Score- und Loading-Plots in einem Diagramm. Erlaubt gleichzeitige Interpretation von Beobachtungen und Variablen.
+\end{itemize}}
+
+\subsection{Linear Discriminant Analysis (LDA) und Quadratic Discriminant Analysis (QDA)}
+
+\subsubsection{Klassifikation via Wahrscheinlichkeitsdichten}
+
+\definition{\textbf{Klassifikations-Setting:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Gegeben:} Datenmatrix $\mathbf{X}$ der Dimension $n \times p$ (n Beobachtungen, p Prädiktoren) und kategoriale Response $y \in \{1, \ldots, K\}$ mit K Klassen.
+    \item \textbf{Annahme:} Beobachtungen in Klasse $k$ entstehen aus einer Population $P_k$ mit Wahrscheinlichkeitsdichte $f_k(\mathbf{x})$.
+    \item \textbf{Alternativ:} $f_k(\mathbf{x}) = f(\mathbf{x} | C = k)$ — die bedingte Dichte von $\mathbf{x}$ gegeben Klasse $k$.
+    \item \textbf{Ziel:} Klassifikationsregel finden, die eine neue Beobachtung $\mathbf{x}_0$ einer der K Klassen zuordnet.
+\end{itemize}}
+
+\definition{\textbf{Maximum Likelihood (ML) Klassifikation:} Die einfachste Klassifikationsregel:
+\formel{\hat{k} = \arg\max_{k=1,\ldots,K} f_k(\mathbf{x})}
+
+Wir ordnen eine Beobachtung $\mathbf{x}$ derjenigen Klasse $k$ zu, für die die Wahrscheinlichkeitsdichte $f_k(\mathbf{x})$ maximal ist.
+
+\textbf{Entscheidungsgrenze:} Die Werte $\mathbf{x}$, für die $f_1(\mathbf{x}) = f_2(\mathbf{x})$ (im binären Fall), bilden die Entscheidungsgrenze zwischen den Klassen.}
+
+\definition{\textbf{Bayes Klassifikation mit Prior-Wahrscheinlichkeiten:} In der Praxis sollten wir auch die \textbf{Prior-Wahrscheinlichkeiten} $p_k = P(C = k)$ beachten (die Häufigkeit, mit der Klasse $k$ in der Population auftritt).
+
+Die \textbf{Bayes-Regel}:
+\formel{\hat{k} = \arg\max_{k=1,\ldots,K} f_k(\mathbf{x}) \cdot p_k}
+
+Wir ordnen die Beobachtung $\mathbf{x}$ derjenigen Klasse $k$ zu, für welche das Produkt aus Likelihood $f_k(\mathbf{x})$ und Prior $p_k$ maximal ist.
+
+\textbf{Intuition:} Auch wenn $f_2(\mathbf{x})$ größer als $f_1(\mathbf{x})$ ist, kann Klasse 1 die bessere Wahl sein, wenn Klasse 1 viel häufiger in der Population auftritt ($p_1 \gg p_2$).}
+
+\subsubsection{Linear Discriminant Analysis (LDA)}
+
+\definition{\textbf{LDA Annahmen:} 
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Normalverteilung:} Innerhalb jeder Klasse $k$ sind die Prädiktoren $\mathbf{x}$ multivariat normalverteilt: $\mathbf{x} | C = k \sim N_p(\boldsymbol{\mu}_k, \boldsymbol{\Sigma})$.
+    \item \textbf{Gleiche Kovarianzmatrizen:} Alle K Klassen teilen dieselbe Kovarianzmatrix $\boldsymbol{\Sigma}$ (identische Streuungsstruktur).
+    \item Dies führt zu einer \textbf{linearen} Entscheidungsgrenze.
+\end{itemize}}
+
+\definition{\textbf{LDA im univariaten Fall (p=1):}
+
+Mit nur einem Prädiktor $x$ und gemeinsamer Varianz $\sigma^2$ in allen Klassen ist die bedingte Dichte:
+\formel{f_k(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{1}{2\sigma^2}(x - \mu_k)^2\right)}
+
+Nach der Bayes-Regel klassifizieren wir $x$ zu Klasse $k$, für welche die \textbf{Diskriminanzfunktion}
+\formel{\delta_k(x) = x \cdot \frac{\mu_k}{\sigma^2} - \frac{\mu_k^2}{2\sigma^2} + \log(p_k)}
+maximal ist. Diese ist \textbf{linear in x}.
+
+\textbf{Einfacher Fall (gleiche Prior):} Wenn $p_k = 1/K$ für alle $k$, vereinfacht sich die Regel zu: wähle die Klasse mit dem Mittelwert $\mu_k$, der $x$ am nächsten liegt.}
+
+\definition{\textbf{LDA im multivariaten Fall (p > 1):}
+
+Mit p Prädiktoren und gemeinsamer Kovarianzmatrix $\boldsymbol{\Sigma}$ (Größe $p \times p$) ist die Diskriminanzfunktion für Klasse $k$:
+\formel{\delta_k(\mathbf{x}) = \mathbf{x}^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_k - \frac{1}{2} \boldsymbol{\mu}_k^T \boldsymbol{\Sigma}^{-1} \boldsymbol{\mu}_k + \log(p_k)}
+
+Dies ist eine \textbf{affine Funktion} (linear + Konstante) von $\mathbf{x}$.
+
+\textbf{Klassifikationsregel:} 
+\formel{\hat{k} = \arg\max_{k=1,\ldots,K} \delta_k(\mathbf{x})}
+
+Entscheidungsgrenzen zwischen Klassen $k$ und $k'$ entstehen, wo $\delta_k(\mathbf{x}) = \delta_{k'}(\mathbf{x})$, und sind \textbf{lineare Hyperebenen} (Geraden in 2D, Ebenen in 3D, etc.).}
+
+\definition{\textbf{Parametereschätzung in LDA:}
+
+Aus Trainingsdaten schätzen wir:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Klassenmittelwerte:} $\hat{\boldsymbol{\mu}}_k = \frac{1}{n_k} \sum_{i: y_i = k} \mathbf{x}_i$ (Mittelwert aller Beobachtungen in Klasse $k$).
+    \item \textbf{Prior-Wahrscheinlichkeiten:} $\hat{p}_k = \frac{n_k}{n}$ (Anteil der Klasse $k$).
+    \item \textbf{Gepoolte Kovarianzmatrix:} 
+    \formel{\hat{\boldsymbol{\Sigma}}_{\text{pooled}} = \frac{1}{n - K} \sum_{k=1}^K (n_k - 1) \hat{\boldsymbol{\Sigma}}_k}
+    wobei $\hat{\boldsymbol{\Sigma}}_k$ die Stichproben-Kovarianzmatrix innerhalb Klasse $k$ ist.
+\end{itemize}}
+
+\textbf{Vorteile von LDA:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Einfach:} Geschlossene Lösung, stabil zu berechnen.
+    \item \textbf{Interpretierbar:} Lineare Entscheidungsgrenzen sind leicht zu verstehen.
+    \item \textbf{Effizient:} Schnell selbst für hochdimensionale Daten.
+    \item \textbf{Gut bei kleinen Stichproben:} Benötigt relativ wenig Daten für gute Schätzung.
+\end{itemize}
+
+\textbf{Nachteile von LDA:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Normalverteilungsannahme:} Kann bei nicht-normalen Daten schlecht funktionieren.
+    \item \textbf{Gleiche Kovarianzmatrizen:} Annahme ist oft zu restriktiv; in Realität haben Klassen oft unterschiedliche Spreads.
+    \item \textbf{Lineare Grenzen:} Nicht flexibel genug für komplexe, nichtlineare Entscheidungsgrenzen.
+\end{itemize}}
+
+\subsubsection{Quadratic Discriminant Analysis (QDA)}
+
+\definition{\textbf{QDA Annahmen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Normalverteilung:} Wie in LDA, $\mathbf{x} | C = k \sim N_p(\boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)$.
+    \item \textbf{Unterschiedliche Kovarianzmatrizen:} Jede Klasse $k$ hat ihre eigene Kovarianzmatrix $\boldsymbol{\Sigma}_k$ (unterschiedliche Streuungsstrukturen pro Klasse).
+    \item Dies führt zu einer \textbf{quadratischen} Entscheidungsgrenze.
+\end{itemize}}
+
+\definition{\textbf{QDA Diskriminanzfunktion:}
+
+Die Diskriminanzfunktion für Klasse $k$ wird:
+\formel{\delta_k(\mathbf{x}) = -\frac{1}{2} \log|\boldsymbol{\Sigma}_k| - \frac{1}{2}(\mathbf{x} - \boldsymbol{\mu}_k)^T \boldsymbol{\Sigma}_k^{-1}(\mathbf{x} - \boldsymbol{\mu}_k) + \log(p_k)}
+
+\textbf{Wichtig:} Der zweite Term enthält jetzt $\mathbf{x}^T \boldsymbol{\Sigma}_k^{-1} \mathbf{x}$ (quadratisch in $\mathbf{x}$), nicht wie in LDA die globale gepoolte Form. Dies erzeugt \textbf{quadratische Entscheidungsgrenzen}.
+
+Klassifikationsregel:
+\formel{\hat{k} = \arg\max_{k=1,\ldots,K} \delta_k(\mathbf{x})}
+
+Entscheidungsgrenzen zwischen zwei Klassen sind \textbf{Quadriken} (Parabeln in 2D, Paraboloide in 3D, Hyperflächen zweiten Grades in höheren Dimensionen).}
+
+\definition{\textbf{Parametereschätzung in QDA:}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Klassenmittelwerte und Prior:} Wie in LDA, $\hat{\boldsymbol{\mu}}_k$ und $\hat{p}_k$.
+    \item \textbf{Klassenspezifische Kovarianzmatrizen:} 
+    \formel{\hat{\boldsymbol{\Sigma}}_k = \frac{1}{n_k - 1} \sum_{i: y_i = k} (\mathbf{x}_i - \hat{\boldsymbol{\mu}}_k)(\mathbf{x}_i - \hat{\boldsymbol{\mu}}_k)^T}
+    (Stichproben-Kovarianzmatrix innerhalb Klasse $k$, ohne Pooling).
+\end{itemize}}
+
+\definition{\textbf{Vergleich: LDA vs. QDA}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Aspekt} & \textbf{LDA} & \textbf{QDA} \\
+        \hline
+        Annahme Kovarianz & Gleich $\boldsymbol{\Sigma}$ & Unterschiedlich $\boldsymbol{\Sigma}_k$ \\
+        \hline
+        Entscheidungsgrenze & Linear (Hyperplane) & Quadratisch (Quadrik) \\
+        \hline
+        Flexibilität & Niedrig & Höher \\
+        \hline
+        Parameter zu schätzen & Wenige & Viele (pro Klasse) \\
+        \hline
+        Stichproben erforderlich & Weniger & Mehr \\
+        \hline
+        Bias/Varianz & Höher Bias, Niedrig Varianz & Niedrig Bias, Höher Varianz \\
+        \hline
+        Wann besser? & Ähnliche Klassen-Spreads & Unterschiedliche Spreads \\
+        \hline
+    \end{tabular}
+\end{table}}
+
+\textbf{Vor- und Nachteile von QDA:}
+
+\textbf{Vorteile:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Flexibler:} Erlaubt unterschiedliche Kovarianzen pro Klasse — realistischere Modellierung.
+    \item \textbf{Besser bei heterogenen Klassen:} Wenn Klassen unterschiedliche Streuungen/Formen haben.
+\end{itemize}
+
+\textbf{Nachteile:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Viele Parameter:} Bei $p$ Prädiktoren und $K$ Klassen sind insgesamt $K \cdot p(p+1)/2$ Kovarianzparameter zu schätzen — Overfitting-Risiko!
+    \item \textbf{Kleine Stichproben:} Für kleine $n$ relativ zu $p$ und $K$ schwierig, stabil zu schätzen (schlecht gestelltes Problem).
+    \item \textbf{Rechenkomplexität:} Höher als LDA (Invertieren mehrerer Matrizen).
+\end{itemize}}
+
+\subsubsection{Varianten und verwandte Methoden}
+
+\definition{\textbf{Fisher's Linear Discriminant:} Ein anderer Zugang (speziell für K=2, binäre Klassifikation) findet die \textbf{optimale Projektionsrichtung} $\mathbf{w}$, die die Klassen maximal trennt (maximale Separabilität).
+
+\textbf{Ziel:} Maximiere das Verhältnis (Between-Class zu Within-Class Variabilität):
+\formel{J(\mathbf{w}) = \frac{(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)^2}{\sigma_1^2 + \sigma_2^2}}
+
+Die Lösung ist proportional zu:
+\formel{\mathbf{w} \propto \boldsymbol{\Sigma}_{\text{pooled}}^{-1}(\bar{\mathbf{x}}_1 - \bar{\mathbf{x}}_2)}
+
+\textbf{Unterschied zu LDA:} Fisher braucht keine Normalverteilungsannahme und ist konzeptionell auf Dimensionsreduktion ausgerichtet (Projektion auf diese eine Richtung), nicht primär auf Klassifikation.}
+
+\definition{\textbf{Regularized Discriminant Analysis (RDA):} Ein Mittelweg zwischen LDA und QDA durch Regularisierung:
+\formel{\hat{\boldsymbol{\Sigma}}_k(\lambda) = \lambda \hat{\boldsymbol{\Sigma}}_{\text{pooled}} + (1-\lambda) \hat{\boldsymbol{\Sigma}}_k}
+
+Der Parameter $\lambda \in [0, 1]$ interpoliert:
+\begin{itemize}[leftmargin=1.5em]
+    \item $\lambda = 1$: Vollständiges LDA (gepoolte Kovarianz, wenige Parameter).
+    \item $\lambda = 0$: Vollständiges QDA (klassenspezifische Kovarianzen, viele Parameter).
+    \item $0 < \lambda < 1$: Regularisierter Kompromiss (reduziertes Overfitting-Risiko, erhöhte Flexibilität).
+\end{itemize}
+
+Der optimale $\lambda$ wird typischerweise via Cross-Validation bestimmt.}
+
+\definition{\textbf{Mixture Discriminant Analysis (MDA):} Erweitert LDA/QDA, indem jede Klasse selbst als \textbf{Mischung} (Mixture) mehrerer normalverteilter Komponenten modelliert wird:
+
+\formel{f_k(\mathbf{x}) = \sum_{m=1}^{M_k} \pi_{km} \cdot N_p(\boldsymbol{\mu}_{km}, \boldsymbol{\Sigma}_{km})}
+
+Dies ermöglicht komplexere, multimodale Klassenverteilungen statt nur eine Normalverteilung pro Klasse.}
+
+\textbf{Praktische Anwendungen — wann welche Methode:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Wähle \textbf{LDA}, wenn:
+    \begin{itemize}
+        \item Klassen ähnliche Kovarianzstrukturen haben.
+        \item Daten einigermaßen normalverteilt sind.
+        \item Kleine bis moderate Stichprobengröße.
+        \item Interpretierbarkeit wichtig ist.
+    \end{itemize}
+    
+    \item Wähle \textbf{QDA}, wenn:
+    \begin{itemize}
+        \item Klassen unterschiedliche Kovarianzen haben (erkennbar durch explorative Analyse).
+        \item Genug Trainingsdaten vorhanden ($n \gg p \cdot K$).
+        \item Flexibler ist besser als einfach.
+    \end{itemize}
+    
+    \item Wähle \textbf{RDA}, wenn:
+    \begin{itemize}
+        \item Unsicher zwischen LDA und QDA.
+        \item Overfitting befürchtet.
+        \item Cross-Validation durchgeführt werden kann.
+    \end{itemize}
+    
+    \item Ziehe \textbf{andere Klassifikatoren} in Betracht, wenn:
+    \begin{itemize}
+        \item Normalverteilungsannahmen stark verletzt sind.
+        \item Nichtlineare Entscheidungsgrenzen nötig sind (z.\,B.\ SVM, KNN, Tree-based).
+        \item Keine interpretierbare lineare/quadratische Regel nötig.
+    \end{itemize}
+\end{itemize}
+
 \newpage
 
-\subsection{LDA und QDA}
-\newpage
+\subsection{k-Nearest Neighbors (kNN) — Klassifikation und Regression}
 
-\subsection{kNN-Klassifikation und -Regression}
-\newpage
+\definition{\textbf{kNN Grundkonzept:} Eine der \textbf{einfachsten Klassifikationsmethoden}, basierend auf räumlicher Nähe zwischen Objekten:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Lazy Learner / Memory-based:} Es gibt keinen eigentlichen ``Lern-Prozess'' während des Trainings — die Trainingsdaten werden einfach gespeichert.
+    \item \textbf{Vorhersage-Phase:} Für eine neue Beobachtung $\mathbf{x}_0$ werden die $k$ \textbf{nächsten Nachbarn} in den Trainingsdaten gefunden (basierend auf einer Distanzmetrik).
+    \item \textbf{Klassifikation:} Ein Mehrheitsabstimmung (Majority Vote) der Labels der $k$ Nachbarn bestimmt die Klasse von $\mathbf{x}_0$.
+    \item \textbf{Regression:} Der Durchschnitt der Zielwerte der $k$ Nachbarn ist die Vorhersage.
+\end{itemize}}
+
+\textbf{Algorithmus (Klassifikation):}
+\begin{enumerate}[leftmargin=1.5em]
+    \item Speichere alle $n$ Trainingsdaten $(\mathbf{x}_i, y_i)$.
+    \item Für neue Beobachtung $\mathbf{x}_0$:
+    \begin{itemize}
+        \item Berechne die Distanz $d(\mathbf{x}_i, \mathbf{x}_0)$ zu allen Trainingsobjekten $i = 1, \ldots, n$.
+        \item Identifiziere die $k$ Objekte mit den kleinsten Distanzen (die $k$ Nearest Neighbors).
+        \item Klassifiziere $\mathbf{x}_0$ als diejenige Klasse, die unter diesen $k$ Nachbarn am häufigsten vorkommt (Mehrheitsabstimmung).
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Distanzmaße}
+
+\definition{\textbf{Distanzfunktion:} Eine Funktion $d: \mathbb{R}^p \times \mathbb{R}^p \to [0, \infty)$ muss vier Bedingungen erfüllen (Metrik):
+\begin{enumerate}[leftmargin=1.5em]
+    \item $d(\mathbf{x}, \mathbf{y}) \geq 0$ (Nicht-Negativität).
+    \item $d(\mathbf{x}, \mathbf{y}) = 0 \Leftrightarrow \mathbf{x} = \mathbf{y}$ (Identität).
+    \item $d(\mathbf{x}, \mathbf{y}) = d(\mathbf{y}, \mathbf{x})$ (Symmetrie).
+    \item $d(\mathbf{x}, \mathbf{z}) \leq d(\mathbf{x}, \mathbf{y}) + d(\mathbf{y}, \mathbf{z})$ (Dreiecksungleichung).
+\end{enumerate}}
+
+\definition{\textbf{Euklidische Distanz (am häufigsten):}
+\formel{d_{\text{Euklidisch}}(\mathbf{x}_A, \mathbf{x}_B) = \sqrt{\sum_{j=1}^p (x_{A,j} - x_{B,j})^2} = \|\mathbf{x}_A - \mathbf{x}_B\|_2}
+
+Dies ist die Standard-Luftliniendistanz im $\mathbb{R}^p$.}
+
+\definition{\textbf{Manhattan-Distanz (L1-Norm):}
+\formel{d_{\text{Manhattan}}(\mathbf{x}_A, \mathbf{x}_B) = \sum_{j=1}^p |x_{A,j} - x_{B,j}| = \|\mathbf{x}_A - \mathbf{x}_B\|_1}
+
+Summe der absoluten Differenzen — wie man sich in einem Stadtgitter bewegen würde (auch \textbf{Taxicab} oder \textbf{Chebyshev}-Distanz ähnlich).}
+
+\definition{\textbf{Minkowski-Distanz (Verallgemeinerung):}
+\formel{d_p(\mathbf{x}_A, \mathbf{x}_B) = \left(\sum_{j=1}^p |x_{A,j} - x_{B,j}|^p\right)^{1/p} = \|\mathbf{x}_A - \mathbf{x}_B\|_p}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item $p=1$: Manhattan-Distanz.
+    \item $p=2$: Euklidische Distanz.
+    \item $p=\infty$: Chebyshev-Distanz (Maximum der absoluten Differenzen).
+\end{itemize}}
+
+\definition{\textbf{Mahalanobis-Distanz (berücksichtigt Korrelation):}
+\formel{d_{\text{Mahal}}(\mathbf{x}_A, \mathbf{x}_B) = \sqrt{(\mathbf{x}_A - \mathbf{x}_B)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}_A - \mathbf{x}_B)}}
+
+wobei $\boldsymbol{\Sigma}$ die Kovarianzmatrix der Trainingsdaten ist. Dies berücksichtigt die Korrelation und Skalierung der Variablen — bessere Distanz als Euklidisch bei korrelierten Prädiktoren.}
+
+\definition{\textbf{Tanimoto-Distanz (für binäre Vektoren):}
+
+Für binäre Vektoren $\mathbf{x}_A, \mathbf{x}_B \in \{0,1\}^p$ (z.\,B.\ zur Charakterisierung chemischer Strukturen):
+
+\textbf{Tanimoto-Ähnlichkeit:}
+\formel{t_{AB} = \frac{\sum_{j=1}^p AND(x_{A,j}, x_{B,j})}{\sum_{j=1}^p OR(x_{A,j}, x_{B,j})} = \frac{\mathbf{x}_A^T \cdot \mathbf{x}_B}{\mathbf{x}_A^T \cdot \mathbf{1} + \mathbf{x}_B^T \cdot \mathbf{1} - \mathbf{x}_A^T \cdot \mathbf{x}_B}}
+
+\textbf{Tanimoto-Distanz:}
+\formel{d_{\text{Tanimoto}}(\mathbf{x}_A, \mathbf{x}_B) = 1 - t_{AB} = \frac{\sum_{j=1}^p XOR(x_{A,j}, x_{B,j})}{\sum_{j=1}^p OR(x_{A,j}, x_{B,j})}}
+
+Zählt die Anzahl der Positionen, wo sich die Vektoren unterscheiden, geteilt durch die Anzahl der Positionen mit mind. einer 1.}
+
+\textbf{Wichtig:} Die Wahl der Distanzmetrik kann großen Einfluss auf kNN-Ergebnisse haben. Standardmäßig wird Euklidisch verwendet, aber die Daten sollten ggfs. \textbf{normalisiert/standardisiert} werden (besonders wichtig!), da große Unterschiede in Skalierung die Distanz dominieren.
+
+\subsubsection{Wahl von k und Entscheidungsgrenzen}
+
+\definition{\textbf{Einfluss von k auf Entscheidungsgrenzen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{k = 1:} Sehr \textbf{flexibel}, komplexe Entscheidungsgrenzen, raue/zackige Grenzen. \textbf{Hohes Overfitting-Risiko}.
+    \item \textbf{Kleines k (z.\,B.\ k=3, 5):} Flexibel, folgt Trainingsdaten eng nach. Anfällig für Noise/Ausreißer.
+    \item \textbf{Mittleres k (z.\,B.\ k=10--30):} Kompromiss zwischen Bias und Varianz.
+    \item \textbf{Großes k (z.\,B.\ k=n):} Sehr \textbf{steif}, einfache, glatte Entscheidungsgrenzen. \textbf{Hohes Underfitting-Risiko}. Im Extremfall (k=n) wird alles der Mehrheitsklasse zugeordnet.
+\end{itemize}}
+
+\textbf{Bias-Varianz Tradeoff bei kNN:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Kleineres k: Höhere Varianz (Modell reagiert stark auf Trainingsdaten-Fluktuationen), niedrigerer Bias.
+    \item Größeres k: Niedrigere Varianz (stabiler), höherer Bias (glattere, einfachere Grenzen).
+\end{itemize}
+
+\textbf{Wahl von k:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Cross-Validation:} Teste verschiedene $k$-Werte und wähle denjenigen mit bestem CV-Error.
+    \item \textbf{Faustregel:} $k = \sqrt{n}$ oder $k = \sqrt{n}/2$, aber dies ist nur eine Orientierung.
+    \item \textbf{Ungerade k:} Bei binärer Klassifikation hilft ungerader k um Unentschieden zu vermeiden.
+\end{itemize}}
+
+\subsubsection{Vor- und Nachteile von kNN}
+
+\textbf{Vorteile:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Sehr einfach:} Konzeptuell trivial zu verstehen.
+    \item \textbf{Nonparametrisch:} Keine Verteilungsannahmen (anders als LDA/QDA).
+    \item \textbf{Flexibel:} Kann komplexe, nichtlineare Entscheidungsgrenzen modellieren.
+    \item \textbf{Für Klassifikation und Regression:} Funktioniert für beide Aufgaben.
+    \item \textbf{Keine Trainingsphase:} Sofort einsatzbereit (Lazy Learning).
+\end{itemize}
+
+\textbf{Nachteile:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Speicher- und Rechenintensiv:} Alle Trainingsdaten müssen gespeichert werden; für jede neue Vorhersage müssen Distanzen zu allen Trainingsobjekten berechnet werden ($O(n \cdot p)$ pro Vorhersage).
+    \item \textbf{Sensibel gegenüber Skalierung:} Variablen mit großerer Streuung dominieren die Distanzberechnung — \textbf{Normalisierung ist wesentlich}.
+    \item \textbf{Ausreißer-Problem:} Ein einzelner Ausreißer nah bei einem Test-Punkt kann Vorhersage verderben.
+    \item \textbf{High Curse of Dimensionality:} In hochdimensionalen Räumen (großes p) werden Distanzen bedeutungslos; fast alle Punkte sind gleich weit entfernt. kNN funktioniert schlecht bei $p \gg n$.
+    \item \textbf{Wahl von k unklar:} Keine offensichtliche Strategie, muss via CV tuned werden.
+    \item \textbf{Unbalancierte Klassen:} Wenn eine Klasse viel häufiger ist, wird sie bevorzugt. Gewichtung der Nachbarn kann helfen.
+\end{itemize}}
+
+\subsubsection{Varianten und Verbesserungen}
+
+\definition{\textbf{Gewichtete kNN (Weighted kNN):} Statt gleiche Gewichte für alle $k$ Nachbarn, gewichte sie nach Distanz:
+\formel{\hat{y} = \frac{\sum_{i \in \text{k-NN}} w_i y_i}{\sum_{i \in \text{k-NN}} w_i}}
+
+Häufig: $w_i = 1/d(\mathbf{x}_i, \mathbf{x}_0)$ oder $w_i = \exp(-d(\mathbf{x}_i, \mathbf{x}_0)^2)$.
+
+\textbf{Effekt:} Nähere Nachbarn haben mehr Einfluss — meist bessere Vorhersagen als einfaches kNN.}
+
+\definition{\textbf{Lokale Adaptive Metriken:} Verwende unterschiedliche Metriken in verschiedenen Regionen des Merkmalsraums. Z.\,B.\ Mahalanobis-Distanz mit lokaler Kovarianzschätzung.}
+
+\definition{\textbf{kNN mit Feature Selection:} Nicht alle Prädiktoren sind gleich wichtig. Mit Dimensionsreduktion (PCA, Filterung) oder \textbf{relevance weighting} können bessere Ergebnisse erzielt werden.}
+
+\definition{\textbf{Approximate/Fast kNN:} Für große Datensätze: Space-Partitioning-Strukturen (KD-Trees, Ball-Trees) oder Locality-Sensitive Hashing (LSH) um die $k$ Nachbarn schneller zu finden, statt alle Distanzen zu berechnen.}
+
+\textbf{Praktische Anwendungen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Klassifizierung von Iris-Blüten, Handschriften, Bildern:} Wenn die Daten nicht zu hochdimensional sind.
+    \item \textbf{Anomalieerkennung:} Objekte weit weg von allen anderen Objekten können Anomalien sein.
+    \item \textbf{Recommender Systems:} ``Finde ähnliche Kunden/Produkte und empfehle, was diesen gefällt''.
+    \item \textbf{Computer Vision:} Content-based Image Retrieval.
+\end{itemize}
+
+\textbf{Vergleich mit anderen Klassifikatoren:}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+        \textbf{Aspekt} & \textbf{kNN} & \textbf{LDA/QDA} & \textbf{Trees} & \textbf{SVM} \\
+        \hline
+        Einfachheit & Sehr einfach & Moderat & Einfach & Komplex \\
+        \hline
+        Komplexität & $O(n \cdot p)$ pro Test & Gering & Moderat & Hoch \\
+        \hline
+        Nonparametrisch & Ja & Nein & Ja & Nein \\
+        \hline
+        Interpretierbar & Nein & Ja & Ja & Nein \\
+        \hline
+        Curse of Dimensionality & Ja & Nein & Moderat & Moderat \\
+        \hline
+        Ideal für & Klein p, nonlinear & Normal-Daten & Mixed Types & Klassische ML \\
+        \hline
+    \end{tabular}
+\end{table}
 
 \subsection{Ähnlichkeitsmaße}
 \newpage
