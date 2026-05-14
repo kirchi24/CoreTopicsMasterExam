@@ -15,42 +15,42 @@
     \item Zusammenführung von Daten aus unterschiedlichen Quellen.
 \end{itemize}
 
-\definition{\textbf{Strukturierte Datenstruktur:}
+\definition{\textbf{Strukturierte Datenstruktur:}}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Merkmalsträger (Fälle, Observations, Erhebungseinheiten)} $i = 1, \ldots, n$: Objekte, an denen Größen beobachtet oder erfasst werden (Zeilen eines Datensatzes), z.\,B.\ eine Person.
     \item \textbf{Merkmale (Variablen, Features)} $j = 1, \ldots, p$: An den Objekten betrachtete Charakteristika (Spalten eines Datensatzes), z.\,B.\ Körpergröße, Geschlecht.
     \item \textbf{Merkmalsausprägungen:} Werte eines Merkmalsträgers bezüglich eines Merkmals, z.\,B.\ $175$ cm, männlich.
     \item \textbf{Datenmatrix:} $n \times p$-Matrix, wobei Zeilen Merkmalsträger und Spalten Merkmale sind (in R: Data Frame).
-\end{itemize}}
+\end{itemize}
 
 \textbf{Klassifikation und Charakterisierung von Merkmalen:} Wesentlich für Datenanalyse, visuelle Darstellung und Wahl des statistischen Modells.
 
-\definition{\textbf{Qualitative vs.\ Quantitative Variablen:}
+\definition{\textbf{Qualitative vs.\ Quantitative Variablen:}}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Qualitativ (kategorial):} Begrenzte Anzahl möglicher Kategorien, z.\,B.\ Augenfarbe.
     \item \textbf{Quantitativ (numerisch):} Werte werden durch Zahlen dargestellt, z.\,B.\ Alter.
-\end{itemize}}
+\end{itemize}
 
-\definition{\textbf{Diskrete vs.\ Stetige Variablen:}
+\definition{\textbf{Diskrete vs.\ Stetige Variablen:}}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Diskret:} Endlich oder abzählbar unendlich viele Ausprägungen, z.\,B.\ Anzahl von Personen.
     \item \textbf{Stetig:} Unendlich viele Messwerte eines Intervalls (reelle Zahlen), z.\,B.\ Körpergröße.
     \item \textbf{Quasi-stetig:} Diskrete Merkmale mit vielen Ausprägungen (z.\,B.\ Einkommen) oder diskretisierte stetige Variablen (Klassenbildung).
-\end{itemize}}
+\end{itemize}
 
-\definition{\textbf{Manifeste vs.\ Latente Variablen:}
+\definition{\textbf{Manifeste vs.\ Latente Variablen:}}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Manifest:} Direkt beobachtbar/messbar, z.\,B.\ Körpergröße.
     \item \textbf{Latent:} Nicht direkt beobachtbar; durch Indikatoren messbar gemacht (Konstrukte), z.\,B.\ Arbeitszufriedenheit, Kreativität.
-\end{itemize}}
+\end{itemize}
 
-\definition{\textbf{Unabhängige vs.\ Abhängige Variablen:}
+\definition{\textbf{Unabhängige vs.\ Abhängige Variablen:}}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Unabhängig:} Einflussgröße, Prädiktor.
     \item \textbf{Abhängig:} Zielgröße, Kriterium (z.\,B.\ in Regressionsanalysen).
-\end{itemize}}
+\end{itemize}
 
-\definition{\textbf{Skalenniveaus (Messniveaus):} Hierarchische Klassifikation, die definiert, welche mathematischen Operationen zulässig sind:
+\definition{\textbf{Skalenniveaus (Messniveaus):} Hierarchische Klassifikation, die definiert, welche mathematischen Operationen zulässig sind:}
 
 \begin{enumerate}[leftmargin=2em]
     \item \textbf{Nominalskala:} Reine Klassifikation ohne Rangordnung. Zulässige Operationen: $=$, $\neq$. Beispiele: Geschlecht, Farbe, Nationalität. Lagemaß: Modus.
@@ -62,7 +62,7 @@
     \item \textbf{Verhältnisskala:} Wie Intervallskala, aber mit wahrem Nullpunkt. Zulässige Operationen: $=$, $\neq$, $<$, $>$, $+$, $-$, $\cdot$, $\div$. Beispiele: Längenmaße, Preise, Temperatur (Kelvin). Lagemaße: Modus, Median, Mittelwert; Variationsmessungen vergleichbar.
     
     \item \textbf{Absolutskala:} Wahrer Nullpunkt mit natürlicher Maßeinheit (Stückzahl, Häufigkeiten). Alle mathematischen Operationen erlaubt. Beispiele: Anzahl von Personen, Stückzahl.
-\end{enumerate}}
+\end{enumerate}
 
 \newpage
 
@@ -73,40 +73,40 @@
 
 \textbf{Grafische Darstellung nach Skalenniveau und Analyseziel:}
 
-\definition{\textbf{Grafische Darstellung von Häufigkeiten:}
+\definition{\textbf{Grafische Darstellung von Häufigkeiten:}}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Balkendiagramm (Bar Chart):} Für kategoriale (nominal, ordinal) und metrische Daten. Zeigt absolute oder relative Häufigkeiten. Variante: Gruppiertes oder gestapeltes Balkendiagramm für Vergleich mehrerer Kategorien.
     \item \textbf{Kreis- oder Ringdiagramm (Pie Chart):} Für kategoriale Daten mit kleiner Anzahl von Kategorien. Zeigt Anteile als Kreissegmente. Einsatz begrenzt wegen visueller Schwierigkeiten bei Vergleich von Winkeln.
     \item \textbf{Histogramm:} Für kontinuierliche metrische Daten. Zeigt Häufigkeitsverteilung in Klassen. Höhe der Balken proportional zur Häufigkeit/Dichte.
-\end{itemize}}
+\end{itemize}
 
-\definition{\textbf{Grafische Darstellung von Lage, Streuung und Form einer Verteilung:}
+\definition{\textbf{Grafische Darstellung von Lage, Streuung und Form einer Verteilung:}}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Boxplot (Box-and-Whisker Plot):} Zeigt Median, Quartile, Range und Ausreißer. Effizient zur visuellen Darstellung von Streuung und Schiefe. Einsatz bei ordinalen und metrischen Daten.
     \item \textbf{Violin-Plot:} Erweiterte Variante des Boxplots mit Kernel-Density-Estimation. Zeigt vollständige Verteilungsform zusätzlich zu Lagemaßen.
     \item \textbf{Histogramm mit Dichtekurve:} Kombination von Histogramm und geschätzter Dichtefunktion zur Visualisierung der Verteilungsform.
-\end{itemize}}
+\end{itemize}
 
-\definition{\textbf{Grafische Darstellung von Zusammenhängen (bivariate Analyse):}
+\definition{\textbf{Grafische Darstellung von Zusammenhängen (bivariate Analyse):}}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Streudiagramm (Scatterplot):} Zwei metrische Variablen: Ein Punkt für jede Beobachtung $(x_i, y_i)$. Zeigt Korrelation und Trends. Erweiterung: Bubble Chart mit dritter Variable als Bubble-Größe.
     \item \textbf{Gruppiertes/Gestapeltes Balkendiagramm:} Zwei kategoriale Variablen oder eine kategoriale und eine metrische. Vergleicht Verteilungen zwischen Gruppen.
     \item \textbf{Boxplot nach Gruppen:} Metrische Variable versus kategoriale Gruppierungsvariable. Vergleicht Lagemaße und Streuung über Gruppen hinweg.
     \item \textbf{Liniendiagramm (Line Chart):} Für Zeitreihen oder ordinale Daten mit Trend. Zeigt Entwicklung über Zeit oder Kategorien.
     \item \textbf{Heatmap:} Zweidimensionale Darstellung von Intensitäten (z.\,B.\ Korrelationsmatrix). Farben kodieren Wertebereiche.
-\end{itemize}}
+\end{itemize}
 
 \textbf{Wahl des Diagrammtyps:} Hängt von Art der Variablen (kategorial/metrisch), Anzahl der Variablen und Analyseziel (Häufigkeiten, Verteilung, Zusammenhang) ab. Grundsatz: Maximale Informationsdichte mit minimaler visueller Komplexität.
 
-\definition{\textbf{Lageparameter (Lagemaße):} Beschreiben die zentrale Lage (zentrale Tendenz) der Daten.
+\definition{\textbf{Lageparameter (Lagemaße):} Beschreiben die zentrale Lage (zentrale Tendenz) der Daten.}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Modus:} Die häufigste Ausprägung. Einsatz bei: Nominal-, Ordinal-, Intervall-, Verhältnis- und Absolutskala.
     \item \textbf{Median:} Der mittlere Wert bei geordneten Daten. Einsatz bei: Ordinal-, Intervall-, Verhältnis- und Absolutskala.
     \item \textbf{Arithmetischer Mittelwert:} $\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$. Einsatz bei: Intervall-, Verhältnis- und Absolutskala.
     \item \textbf{Sonderfälle:} Geometrischer Mittelwert, Harmonischer Mittelwert (bei Verhältnisgrößen).
-\end{itemize}}
+\end{itemize}
 
-\definition{\textbf{Streuungsparameter (Streuungsmaße):} Beschreiben die Variabilität (Dispersion) der Daten.
+\definition{\textbf{Streuungsparameter (Streuungsmaße):} Beschreiben die Variabilität (Dispersion) der Daten.}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Range (Spannweite):} $R = \max(x) - \min(x)$. Einsatz bei: Ordinal-, Intervall-, Verhältnis- und Absolutskala.
     \item \textbf{Interquartilsabstand (IQR):} $\text{IQR} = Q_3 - Q_1$. Einsatz bei: Ordinal-, Intervall-, Verhältnis- und Absolutskala.
@@ -115,9 +115,9 @@
     \item \textbf{Standardabweichung:} $\sigma = \sqrt{\text{Varianz}}$. Einsatz bei: Intervall-, Verhältnis- und Absolutskala.
     \item \textbf{Variationskoeffizient:} $V = \frac{\sigma}{\bar{x}} \cdot 100\%$. Relatives Streuungsmaß für Verhältnis- und Absolutskala.
     \item \textbf{Schiefe und Wölbung (Kurtosis):} Beschreiben Form und Symmetrie der Verteilung.
-\end{itemize}}
+\end{itemize}
 
-\definition{\textbf{Assoziationsmaße (Zusammenhangsmaße):} Quantifizieren Stärke und Richtung des Zusammenhangs zwischen zwei Variablen:
+\definition{\textbf{Assoziationsmaße (Zusammenhangsmaße):} Quantifizieren Stärke und Richtung des Zusammenhangs zwischen zwei Variablen:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Bei Nominalskala:} Kontingenzkoeffizient nach Pearson, Cramér's V, Phi-Koeffizient, Odds Ratio, Yule's Q.
     \item \textbf{Bei Ordinalskala:} Rangkorrelationskoeffizient nach Spearman $(\rho)$, Kendall's Tau.
@@ -126,7 +126,7 @@
         \item \textbf{Empirische Kovarianz:} $\text{Cov}(X, Y) = \frac{1}{n}\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})$.
         \item \textbf{Korrelationskoeffizient (Bravais-Pearson):} $r = \frac{\text{Cov}(X, Y)}{\sigma_X \sigma_Y}$, $r \in [-1, 1]$.
     \end{itemize}
-\end{itemize}}
+\end{itemize}
 
 \textbf{Kennzahlen nach Skalenniveau (Übersicht):}
 \begin{table}[h]
@@ -170,16 +170,16 @@ $\Omega$ kann endlich, abzählbar unendlich oder überabzählbar unendlich sein.
 
 \definition{\textbf{Ereignis:} Eine Teilmenge $E \subseteq \Omega$. Ein Ereignis tritt ein, wenn der tatsächliche Ausgang des Zufallsexperiments ein Element von $E$ ist.}
 
-\definition{\textbf{Ereignisraum ($\sigma$-Algebra):} Die Menge $\mathcal{A}$ aller Ereignisse, denen wir Wahrscheinlichkeiten zuordnen möchten:
+\definition{\textbf{Ereignisraum ($\sigma$-Algebra):} Die Menge $\mathcal{A}$ aller Ereignisse, denen wir Wahrscheinlichkeiten zuordnen möchten:}
 \formel{\mathcal{A} = \{E \,|\, E \subseteq \Omega \text{ ist ein Ereignis}\}}
 Die $\sigma$-Algebra muss folgende Eigenschaften erfüllen:
 \begin{enumerate}[leftmargin=1.5em]
     \item Sie enthält das sichere Ereignis $\Omega$.
     \item Für jedes Ereignis $E \in \mathcal{A}$ enthält sie auch das komplementäre Ereignis $E^c = \Omega \setminus E$.
     \item Für jede abzählbare Folge von Ereignissen $E_1, E_2, \ldots \in \mathcal{A}$ enthält sie auch deren Vereinigung: $\bigcup_{i=1}^\infty E_i \in \mathcal{A}$.
-\end{enumerate}}
+\end{enumerate}
 
-\definition{\textbf{Wahrscheinlichkeitsfunktion (Wahrscheinlichkeitsmaß):} Eine Funktion $P: \mathcal{A} \to [0, 1]$, die jedem Ereignis $E \in \mathcal{A}$ eine Wahrscheinlichkeit $P(E)$ zuordnet. 
+\definition{\textbf{Wahrscheinlichkeitsfunktion (Wahrscheinlichkeitsmaß):} Eine Funktion $P: \mathcal{A} \to [0, 1]$, die jedem Ereignis $E \in \mathcal{A}$ eine Wahrscheinlichkeit $P(E)$ zuordnet.}
 
 \textbf{Kolmogorov-Axiome:}
 \begin{enumerate}[leftmargin=1.5em]
@@ -189,7 +189,7 @@ Die $\sigma$-Algebra muss folgende Eigenschaften erfüllen:
     \formel{P(E_1 \cup E_2) = P(E_1) + P(E_2)}
     Diese Eigenschaft gilt auch für abzählbar unendlich viele paarweise disjunkte Ereignisse ($E_i \cap E_j = \emptyset$ für $i \neq j$):
     \formel{P\left(\bigcup_{i=1}^\infty E_i\right) = \sum_{i=1}^\infty P(E_i)}
-\end{enumerate}}
+\end{enumerate}
 
 \definition{\textbf{Wahrscheinlichkeitsraum:} Das Tripel $(\Omega, \mathcal{A}, P)$ bestehend aus dem Stichprobenraum $\Omega$, einer $\sigma$-Algebra $\mathcal{A}$ und einer Wahrscheinlichkeitsfunktion $P$ wird als Wahrscheinlichkeitsraum bezeichnet.}
 
@@ -478,11 +478,11 @@ Formal: Ein $(1-\alpha)$-Konfidenzintervall für einen Parameter $\theta$ ist ei
 
 Die Grenzen werden mit den Quantilen für $\frac{\alpha}{2}$ und $1 - \frac{\alpha}{2}$ bestimmt.}
 
-\definition{\textbf{Einseitige Konfidenzintervalle:} 
+\definition{\textbf{Einseitige Konfidenzintervalle:}}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Untere einseitige KI:} $[\theta_l, +\infty)$ mit $P(\theta_l \leq \theta) = 1 - \alpha$. Obere Grenze ist unendlich. Quantil für $1-\alpha$ erforderlich.
     \item \textbf{Obere einseitige KI:} $(-\infty, \theta_u]$ mit $P(\theta \leq \theta_u) = 1 - \alpha$. Untere Grenze ist $-\infty$. Quantil für $1-\alpha$ erforderlich.
-\end{itemize}}
+\end{itemize}
 
 \definition{\textbf{Konfidenzintervall für den Erwartungswert $\mu$ (bekannte Varianz $\sigma_0^2$):}
 
@@ -730,7 +730,7 @@ Die bedingte Dichtefunktion erfüllt: $\int_{-\infty}^{\infty} f_{X \mid Y}(x \m
 
 \subsection{Kovarianz und Korrelation}
 
-\definition{\textbf{Kovarianz (Covariance):} Ein Maß für den linearen Zusammenhang zwischen zwei Zufallsvariablen $X$ und $Y$. Sie misst, wie zwei Variablen gemeinsam von ihren Mittelwerten abweichen.
+\definition{\textbf{Kovarianz (Covariance):} Ein Maß für den linearen Zusammenhang zwischen zwei Zufallsvariablen $X$ und $Y$. Sie misst, wie zwei Variablen gemeinsam von ihren Mittelwerten abweichen.}
 
 \textbf{Definition:}
 \formel{\text{Cov}(X, Y) = \sigma_{XY} = \mathbb{E}[(X - \mu_X)(Y - \mu_Y)] = \mathbb{E}[XY] - \mathbb{E}[X] \mathbb{E}[Y]}
@@ -745,9 +745,9 @@ Die bedingte Dichtefunktion erfüllt: $\int_{-\infty}^{\infty} f_{X \mid Y}(x \m
     \item $\text{Cov}(X, Y) = 0$: Keine lineare Assoziation (unkorreliert).
 \end{itemize}
 
-\textbf{Probleme:} Die Kovarianz hängt von der Skalierung der Variablen ab — zwei äquivalente Variablen mit unterschiedlichen Einheiten haben unterschiedliche Kovarianzen. Dies erschwert Vergleiche.}
+\textbf{Probleme:} Die Kovarianz hängt von der Skalierung der Variablen ab — zwei äquivalente Variablen mit unterschiedlichen Einheiten haben unterschiedliche Kovarianzen. Dies erschwert Vergleiche.
 
-\definition{\textbf{Korrelationskoeffizient (Pearson's Correlation Coefficient):} Das standardisierte Maß für den linearen Zusammenhang zwischen $X$ und $Y$:
+\definition{\textbf{Korrelationskoeffizient (Pearson's Correlation Coefficient):} Das standardisierte Maß für den linearen Zusammenhang zwischen $X$ und $Y$:}
 
 \formel{\rho_{X,Y} = \frac{\text{Cov}(X, Y)}{\sigma_X \cdot \sigma_Y} \in [-1, 1]}
 
@@ -762,15 +762,15 @@ Die bedingte Dichtefunktion erfüllt: $\int_{-\infty}^{\infty} f_{X \mid Y}(x \m
     \item $|\rho|$ nähe 0: Schwache lineare Beziehung; $|\rho|$ nahe 1: Starke lineare Beziehung.
 \end{itemize}
 
-\textbf{Faustregel für Stärke:} $|\rho| > 0{,}7$ = Stark; $0{,}4 < |\rho| \leq 0{,}7$ = Moderat; $|\rho| \leq 0{,}4$ = Schwach (variiert je nach Kontext).}
+\textbf{Faustregel für Stärke:} $|\rho| > 0{,}7$ = Stark; $0{,}4 < |\rho| \leq 0{,}7$ = Moderat; $|\rho| \leq 0{,}4$ = Schwach (variiert je nach Kontext).
 
-\definition{\textbf{Eigenschaften der Korrelation:}
+\definition{\textbf{Eigenschaften der Korrelation:}}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Dimensionslos:} Im Gegensatz zur Kovarianz ist die Korrelation unabhängig von der Skalierung.
     \item \textbf{Symmetrisch:} $\rho_{X,Y} = \rho_{Y,X}$.
     \item \textbf{Invariant unter linearen Transformationen:} Wenn $X' = aX + b$ und $Y' = cY + d$ mit $a, c > 0$, dann $\text{Corr}(X', Y') = \text{Corr}(X, Y)$.
     \item \textbf{Nur bei gemeinsamer Normalverteilung äquivalent zu Unabhängigkeit:} $\rho = 0$ $\Leftrightarrow$ Unabhängigkeit nur für $(X,Y) \sim N(\mu_X, \mu_Y, \sigma_X^2, \sigma_Y^2, \rho)$. In anderen Fällen: Unkorreliertheit $\not\Rightarrow$ Unabhängigkeit.
-\end{itemize}}
+\end{itemize}
 
 \textbf{Korrelationsmatrix:} Für mehrdimensionale Vektoren $(X_1, \ldots, X_p)$ die $p \times p$-Matrix:
 \formel{\mathbf{R} = \begin{pmatrix}
@@ -813,14 +813,14 @@ Die Diagonalelemente sind Varianzen, die Off-Diagonalelemente sind Kovarianzen. 
 
 \subsection{Regressionen}
 
-\definition{\textbf{Regressionsanalyse:} Ein statistisches Verfahren zur Modellierung des Zusammenhangs zwischen einer oder mehreren unabhängigen Variablen (\textbf{Prädiktoren, Features}) $x_1, \ldots, x_p$ und einer abhängigen Variable (\textbf{Response}) $y$. 
+\definition{\textbf{Regressionsanalyse:} Ein statistisches Verfahren zur Modellierung des Zusammenhangs zwischen einer oder mehreren unabhängigen Variablen (\textbf{Prädiktoren, Features}) $x_1, \ldots, x_p$ und einer abhängigen Variable (\textbf{Response}) $y$.}
 
 \textbf{Ziele:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Prognose (Prediction):} Vorhersage von $y$ für neue, unbekannte Prädiktoren.
     \item \textbf{Inferenz (Inference):} Verständnis und Quantifizierung des Einflusses einzelner Prädiktoren auf $y$.
     \item \textbf{Modellierung:} Formulierung des funktionalen Zusammenhangs $y = f(\mathbf{x}) + \varepsilon$.
-\end{itemize}}
+\end{itemize}
 
 \subsubsection{Einfache Lineare Regression (SLR)}
 
@@ -895,12 +895,12 @@ mit:
     \item $\mathbf{X} = \begin{pmatrix} 1 & x_{11} & \cdots & x_{1p} \\ \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n1} & \cdots & x_{np} \end{pmatrix}$ ($n \times (p+1)$ Design-Matrix mit Spalte der 1er für Intercept).
     \item $\boldsymbol{\beta} = (\beta_0, \beta_1, \ldots, \beta_p)^T$ (Koeffizientenvektor).
     \item $\boldsymbol{\varepsilon} = (\varepsilon_1, \ldots, \varepsilon_n)^T$ (Fehlervektor).
-\end{itemize}}
+\end{itemize}
 
 \textbf{OLS-Schätzer:} Der OLS-Schätzer minimiert $\|\mathbf{y} - \mathbf{X}\boldsymbol{\beta}\|^2$. Die Lösung (falls $\mathbf{X}^T\mathbf{X}$ invertierbar):
 \formel{\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}}
 
-\textbf{Vorhersage:} $\hat{\mathbf{y}} = \mathbf{X} \hat{\boldsymbol{\beta}}$, mit Residuen $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$.
+\textbf{Vorhersage:} $\hat{\mathbf{y}} = \mathbf{X} \hat{\boldsymbol{\beta}}$, mit Residuen $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$.}
 
 \definition{\textbf{Anpassungsgüte in MLR:}
 \begin{itemize}[leftmargin=1.5em]
@@ -919,7 +919,7 @@ mit:
 
 \subsubsection{Vergleich: Einfach (SLR) vs. Multipel (MLR) vs. Multivariat}
 
-\textbf{Multivariate Regression:} In der Statistik bedeutet ``multivariat'' typischerweise \textbf{mehrere Response-Variablen} $y_1, \ldots, y_k$ (nicht mehrere Prädiktoren!). Obwohl Regression meist mit \textit{einer} Response erfolgt, kann man auch $k$ separate (oder gemeinsame) Regressionen fittig:
+\textbf{Multivariate Regression:} In der Statistik bedeutet ``multivariat'' typischerweise \textbf{mehrere Response-Variablen} $y_1, \ldots, y_k$ (nicht mehrere Prädiktoren!). Obwohl Regression meist mit \textit{einer} Response erfolgt, kann man auch $k$ separate (oder gemeinsame) Regressionen fitten:
 \formel{y_{ij} = \beta_{0j} + \beta_{1j} x_i + \cdots + \beta_{pj} x_{ip} + \varepsilon_{ij} \quad \text{für } j = 1, \ldots, k}
 
 In Matrixform: $\mathbf{Y} = \mathbf{X} \mathbf{B} + \mathbf{E}$, wobei $\mathbf{Y}$ ist $(n \times k)$, $\mathbf{B}$ ist $(p+1) \times k$.
@@ -1075,7 +1075,7 @@ Dies ist ein \textbf{greedy} Algorithmus, der schnell ist, aber nicht garantiert
 \textbf{Basis-Funktionen in GAM:} Jede $f_j$ wird als Linearkombination von Basis-Funktionen dargestellt:
 \formel{f_j(x_j) = \sum_{k=1}^{K_j} \beta_{jk} B_{jk}(x_j)}
 
-Beliebte Wahlten: B-Splines, natural cubic splines, smooth functions. Mit dieser Darstellung wird das GAM-Optimization wieder zu einem \textbf{regularisierten Linearen Problem}.
+Beliebte Wahlen: B-Splines, natural cubic splines, smooth functions. Mit dieser Darstellung wird das GAM-Optimization wieder zu einem \textbf{regularisierten Linearen Problem}.
 
 \definition{\textbf{Variablen-Auswahl in GAM:} 
 
@@ -1131,12 +1131,65 @@ oder mit geteilten Basis-Funktionen für \textbf{simultane} Schätzung aller Res
 \begin{itemize}[leftmargin=1.5em]
     \item Gegeben: Datenmatrix $\mathbf{X}$ (Größe $n \times p$) mit $n$ Beobachtungen und $p$ (möglicherweise hochdimensionalen) Variablen.
     \item Gesucht: Neue orthogonale Koordinaten (Principal Components, PCs), die eine maximale Varianz erklären.
+    \item Die neuen Achsen sind \textbf{orthogonal} (unkorreliert) und linear kombiniert die ursprünglichen Variablen.
+\end{itemize}
+
+\textbf{Motivation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Visualisierung:} Bei $p = 20$ Variablen gibt es $\binom{20}{2} = 190$ paarweise Scatterplots. Mit PCA können wir auf 2 oder 3 Dimensionen reduzieren und ein einziges Scatterplot verwenden.
+    \item \textbf{Datenreduktion:} Oft ist nur ein Bruchteil der Variabilität in den ersten wenigen PCs konzentriert; der Rest ist Rauschen. Diese können ignoriert werden.
+    \item \textbf{Multikollinearität in MLR:} Wenn Prädiktoren stark korreliert sind, kann PCR (Regression auf PCs) verwendet werden, um das Problem zu beheben.
+    \item \textbf{Explorative Datenanalyse:} Identifikation von Clustern, Ausreißern, oder Struktur in Hochdimensionalen Daten.
+\end{itemize}}
+
+\definition{\textbf{Mathematische Formulierung:}
+
+Die PCA-Zerlegung ist:
+\formel{\mathbf{X} = \mathbf{T} \mathbf{P}^T + \mathbf{E}}
+
+wobei:
+\begin{itemize}[leftmargin=1.5em]
+    \item $\mathbf{T}$ ($n \times a$) = \textbf{Score-Matrix}: Die Koordinaten der Beobachtungen in der neuen Koordinatensystem.
+    \item $\mathbf{P}$ ($p \times a$) = \textbf{Loading-Matrix}: Die Spalten sind die Eigenvektoren der Kovarianzmatrix (die neuen Achsen-Richtungen).
+    \item $\mathbf{E}$ ($n \times p$) = Fehlermatrix (wird meist ignoriert).
+    \item $a = \min(n, p)$ wenn alle Komponenten extrahiert werden.
+\end{itemize}
+
+Die Spalten von $\mathbf{P}$ sind \textbf{orthonormal}: $\mathbf{P}^T \mathbf{P} = \mathbf{I}_a$. Die Scores in $\mathbf{T}$ sind \textbf{unkorreliert}: $\mathbf{T}^T \mathbf{T} = \text{diag}(\lambda_1, \ldots, \lambda_a)$ (diagonal).}
+
+\definition{\textbf{Algorithmus (Herangehensweise):}
+
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Standardisierung:} Zentriere und skaliere $\mathbf{X}$ so, dass jede Spalte Mittelwert 0 und Standardabweichung 1 hat (wichtig für fair comparision, wenn Variablen unterschiedliche Einheiten haben).
+    \item \textbf{Kovarianzmatrix:} Berechne die Kovarianzmatrix $\mathbf{C} = \frac{1}{n-1} \mathbf{X}^T \mathbf{X}$ (oder Korrelationsmatrix).
+    \item \textbf{Eigenwertzerlegung:} Berechne Eigenwerte $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_p \geq 0$ und entsprechende Eigenvektoren $\mathbf{p}_1, \mathbf{p}_2, \ldots, \mathbf{p}_p$ von $\mathbf{C}$.
+    \item \textbf{Komponenten extrahieren:} Wähle die ersten $a$ Eigenvektoren als Spalten von $\mathbf{P}$. Diese entsprechen den $a$ größten Eigenwerten.
+    \item \textbf{Scores berechnen:} $\mathbf{T} = \mathbf{X} \mathbf{P}$.
+\end{enumerate}}
+
+\definition{\textbf{Varianzzerlegung:}
+
+Der Eigenwert $\lambda_j$ quantifiziert die Varianz, die durch die $j$-te Komponente erklärt wird:
+\formel{\text{Varianz von PC}_j = \lambda_j}
+
+Der Anteil der Varianz erklärt durch die erste $a$ Komponenten:
+\formel{\text{Cumulative Explained Variance} = \frac{\sum_{j=1}^a \lambda_j}{\sum_{j=1}^p \lambda_j} \in [0, 1]}
+
+Ein \textbf{Scree-Plot} zeigt die Eigenwerte gegen die PC-Nummer. Man sucht oft einen ``Ellbogen'' (elbow), um die optimale Anzahl $a$ zu wählen.}
+
+\definition{\textbf{Score-Plots und Loading-Plots:}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Score-Plot:} Scatterplot der Scores $\mathbf{T}$, üblicherweise PC1 vs. PC2. Visualisiert die Beobachtungen im neuen Raum. Können Cluster, Ausreißer, oder Gruppierungen zeigen.
+    \item \textbf{Loading-Plot:} Scatterplot der Loadings $\mathbf{P}$. Zeigt welche \textbf{Originalvariablen} stark auf jede PC laden (beeinflussen). Variablen nah bei Ursprung haben niedrige Loadings; Variable weit weg have hohe Loadings auf mindestens eine PC.
+    \item \textbf{Biplot:} Kombiniert Score- und Loading-Plots in einem Diagramm. Erlaubt gleichzeitige Interpretation von Beobachtungen und Variablen.
+\end{itemize}}
 
 \newpage
 
 \subsubsection{Principal Component Regression (PCR)}
 
-\definition{\textbf{Problem, das PCR löst:}} In der multiplen linearen Regression $\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}$ kann es problematisch sein wenn:
+\definition{\textbf{Problem, das PCR löst:} In der multiplen linearen Regression $\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \boldsymbol{\varepsilon}$ kann es problematisch sein wenn:
 \begin{itemize}[leftmargin=1.5em]
     \item Die Anzahl der Prädiktoren groß ist (high $p$), oder sogar $p > n$ (mehr Prädiktoren als Beobachtungen).
     \item Die Prädiktoren \textbf{hochgradig korreliert} sind (\textbf{Multikollinearität}).
@@ -1157,7 +1210,7 @@ wobei $\boldsymbol{\vartheta} = (\vartheta_1, \ldots, \vartheta_a)^T$ sind die R
     \item Durch Verwendung von nur $a < p$ Komponenten wird Overfitting reduziert.
 \end{itemize}
 
-\definition{\textbf{PCR-Algorithmus:}}
+\definition{\textbf{PCR-Algorithmus:}
 
 \begin{enumerate}[leftmargin=2em]
     \item Führe PCA auf $\mathbf{X}$ durch, extrahiere die ersten $a$ Principal Components.
@@ -1202,7 +1255,7 @@ wobei $\boldsymbol{\vartheta} = (\vartheta_1, \ldots, \vartheta_a)^T$ sind die R
     \item \textbf{Visualisierung:} Besonders wertvoll wenn die Rohdaten sehr hochdimensional sind oder komplexe Abstandsmetriken haben.
 \end{itemize}
 
-\definition{\textbf{Metric vs. Non-Metric MDS:}}
+\definition{\textbf{Metric vs. Non-Metric MDS:}
 
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Metric (Classical) MDS:} Versucht, die \textbf{absoluten Distanzen} zu reproduzieren.
@@ -1210,14 +1263,14 @@ wobei $\boldsymbol{\vartheta} = (\vartheta_1, \ldots, \vartheta_a)^T$ sind die R
         \item Minimiere Stress-Funktion: $\text{Stress} = \sqrt{\frac{\sum_{i,j} (d_{ij} - \hat{d}_{ij})^2}{\sum_{i,j} d_{ij}^2}}$.
         \item $d_{ij}$ = ursprüngliche Distanz, $\hat{d}_{ij}$ = Distanz in niedrigdimensionaler Rekonstruktion.
     \end{itemize}
-    \item \textbf{Non-Metric MDS:} Versucht, nur die \textbf{Ordnung} der Distanzen zu erhält (kleinste Distanz bleibt klein, größte bleibt groß, aber exakte Werte sind unwichtig).
+    \item \textbf{Non-Metric MDS:} Versucht, nur die \textbf{Ordnung} der Distanzen zu erhalten (kleinste Distanz bleibt klein, größte bleibt groß, aber exakte Werte sind unwichtig).
     \begin{itemize}
         \item Robuster gegen Messfehler oder nicht-euklidische Abstände.
         \item Verwendet Rank-korrelation statt absoluter Fehler.
     \end{itemize}
 \end{itemize}}
 
-\definition{\textbf{Classical MDS-Algorithmus:}}
+\definition{\textbf{Classical MDS-Algorithmus:}
 
 \begin{enumerate}[leftmargin=2em]
     \item \textbf{Double Centering:} Zentriere die Distanzmatrix $\mathbf{D}$ so, dass eine Gram-Matrix $\mathbf{G}$ entsteht (Innenprodukten der zentrierten Punkte).
@@ -1258,11 +1311,11 @@ wobei $\boldsymbol{\vartheta} = (\vartheta_1, \ldots, \vartheta_a)^T$ sind die R
 
 \subsection{Lasso und Ridge-Regression}
 
-\definition{\textbf{Regularisierung und Shrinkage-Methoden:} Techniken, die die Größe der Regressionskoeffizienten beschränken (reduzieren), um Overfitting zu vermeiden und stabilere Schätzungen zu erhalten. Dies ist besonders wichtig bei hohdimensionalen Daten oder Multikollinearität.}
+\definition{\textbf{Regularisierung und Shrinkage-Methoden:} Techniken, die die Größe der Regressionskoeffizienten beschränken (reduzieren), um Overfitting zu vermeiden und stabilere Schätzungen zu erhalten. Dies ist besonders wichtig bei hochdimensionalen Daten oder Multikollinearität.}
 
 \subsubsection{Ridge Regression}
 
-\definition{\textbf{Motivation für Ridge Regression:}}
+\definition{\textbf{Motivation für Ridge Regression:}
 
 \begin{itemize}[leftmargin=1.5em]
     \item In der klassischen OLS-Regression $\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$ ist die Invertierung der Matrix $\mathbf{X}^T \mathbf{X}$ numerisch instabil, wenn die Spalten von $\mathbf{X}$ (Prädiktoren) stark korreliert sind (\textbf{Multikollinearität}), oder wenn Eigenwerte von $\mathbf{X}^T \mathbf{X}$ nahe Null sind.
@@ -1273,7 +1326,7 @@ wobei $\boldsymbol{\vartheta} = (\vartheta_1, \ldots, \vartheta_a)^T$ sind die R
     wobei $\mathbf{I}_p$ ist die $p \times p$ Identitätsmatrix und $\lambda \geq 0$ ist der \textbf{Regularisierungsparameter}.
 \end{itemize}}
 
-\definition{\textbf{Äquivalente Formulierungen der Ridge Regression:}}
+\definition{\textbf{Äquivalente Formulierungen der Ridge Regression:}
 
 \textbf{1. Optimierungsperspektive:} Minimiere die Objective Function:
 \formel{L_{\text{ridge}}(\boldsymbol{\beta}, \lambda) = \sum_{i=1}^n (y_i - \mathbf{x}_i^T \boldsymbol{\beta})^2 + \lambda \sum_{j=1}^p \beta_j^2 = \|\mathbf{y} - \mathbf{X} \boldsymbol{\beta}\|^2_2 + \lambda \|\boldsymbol{\beta}\|^2_2}
@@ -1285,7 +1338,7 @@ Der erste Term ist RSS (Anpassung an Daten), der zweite Term ist die \textbf{L2-
 
 für eine Schwelle $t \geq 0$. Die Beziehung zwischen $\lambda$ und $t$ ist inversiv.}
 
-\definition{\textbf{Ridge als Shrinkage-Methode:}} Für orthonormale Prädiktoren (= unabhängig, Einheitsvarianz) gilt:
+\definition{\textbf{Ridge als Shrinkage-Methode:} Für orthonormale Prädiktoren (= unabhängig, Einheitsvarianz) gilt:
 \formel{\hat{\boldsymbol{\beta}}_{\text{ridge}} = \frac{1}{1 + \lambda} \hat{\boldsymbol{\beta}}_{\text{OLS}}}
 
 \textbf{Interpretation:} Jeder Koeffizient wird um den Faktor $\frac{1}{1+\lambda}$ \textbf{gegen Null geschrumpft}:
@@ -1295,7 +1348,7 @@ für eine Schwelle $t \geq 0$. Die Beziehung zwischen $\lambda$ und $t$ ist inve
     \item Für allgemeine (nicht orthonormale) Prädiktoren: Richtungen mit kleineren Eigenwerten werden stärker geschrumpft.
 \end{itemize}}
 
-\definition{\textbf{Wahl des Regularisierungsparameters $\lambda$:}} Der Parameter $\lambda$ kontrolliert den Bias-Variance Tradeoff:
+\definition{\textbf{Wahl des Regularisierungsparameters $\lambda$:} Der Parameter $\lambda$ kontrolliert den Bias-Variance Tradeoff:
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Kleine $\lambda$:} Niedriger Bias, höhere Varianz (ähnlich wie OLS).
     \item \textbf{Große $\lambda$:} Höherer Bias, niedrigere Varianz (stärkere Regularisierung).
@@ -1305,7 +1358,7 @@ Standard-Ansatz: \textbf{Cross-Validation} (z.\,B.\ 5-fold oder 10-fold CV) übe
 
 \subsubsection{Lasso Regression}
 
-\definition{\textbf{The Lasso (Least Absolute Shrinkage and Selection Operator):}} Alternative zu Ridge mit einer anderen Penalty.
+\definition{\textbf{The Lasso (Least Absolute Shrinkage and Selection Operator):} Alternative zu Ridge mit einer anderen Penalty.
 
 \textbf{Objective Function:}
 \formel{L_{\text{lasso}}(\boldsymbol{\beta}, \lambda) = \sum_{i=1}^n (y_i - \mathbf{x}_i^T \boldsymbol{\beta})^2 + \lambda \sum_{j=1}^p |\beta_j| = \|\mathbf{y} - \mathbf{X} \boldsymbol{\beta}\|^2_2 + \lambda \|\boldsymbol{\beta}\|_1}
@@ -1315,7 +1368,7 @@ Der entscheidende Unterschied: \textbf{L1-Penalty} $\|\boldsymbol{\beta}\|_1 = \
 \textbf{Equivalente Konstrained Form:}
 \formel{\min_{\boldsymbol{\beta}} \|\mathbf{y} - \mathbf{X} \boldsymbol{\beta}\|^2_2 \quad \text{unter} \quad \sum_{j=1}^p |\beta_j| \leq t}}
 
-\definition{\textbf{Kritischer Unterschied Ridge vs. Lasso:}} Die L1-Penalty hat eine wichtige Eigenschaft:
+\definition{\textbf{Kritischer Unterschied Ridge vs. Lasso:} Die L1-Penalty hat eine wichtige Eigenschaft:
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Ridge (L2):} Schrumpft alle Koeffizienten gegen Null, setzt sie aber (fast) nie exakt zu Null.
     \item \textbf{Lasso (L1):} \textbf{Setzt einige Koeffizienten exakt zu Null!} Dies führt zu \textbf{Variablen-Auswahl} (feature selection).
@@ -1329,20 +1382,20 @@ Der entscheidende Unterschied: \textbf{L1-Penalty} $\|\boldsymbol{\beta}\|_1 = \
 
 Die Ecken des Diamanten liegen auf den Achsen, daher ist die Wahrscheinlichkeit hoch, dass die Optimallösung an einer Ecke liegt → Koeffizient $= 0$.}
 
-\definition{\textbf{Lasso – Lösung und Variablen-Auswahl:}} Im Gegensatz zu Ridge hat Lasso \textbf{keine geschlossene Lösung}. Die Lösung muss numerisch berechnet werden, z.\,B.\ via:
+\definition{\textbf{Lasso -- Lösung und Variablen-Auswahl:} Im Gegensatz zu Ridge hat Lasso \textbf{keine geschlossene Lösung}. Die Lösung muss numerisch berechnet werden, z.\,B.\ via:
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Coordinate Descent:} Schneller Algorithmus, speziell für Lasso optimiert.
     \item \textbf{Proximal Gradient Descent:} Allgemeineres Verfahren.
     \item \textbf{ADMM (Alternating Direction Method of Multipliers):} Robust und skalierbar.
 \end{itemize}
 
-\textbf{Variablen-Auswahl-Effekt:} Wenn Lasso Koeffizienten auf exakt Null setzt, diese Variablen aus dem Modell entfernt. Dies ist besonders wertvoll wenn:
+\textbf{Variablen-Auswahl-Effekt:} Wenn Lasso Koeffizienten auf exakt Null setzt, werden diese Variablen aus dem Modell entfernt. Dies ist besonders wertvoll wenn:
 \begin{itemize}[leftmargin=1.5em]
     \item Viele Prädiktoren irrelevant sind (sparse data).
     \item Interpretierbarkeit wichtig ist (kleinere, sparsamere Modelle).
 \end{itemize}}
 
-\definition{\textbf{Wahl von $\lambda$ im Lasso:}} Wie bei Ridge via Cross-Validation. \textbf{Besonderheit:} Es gibt oft einen Bereich von $\lambda$-Werten, die dieselbe Teilmenge von Variablen auswählen (die gleichen Koeffiziente zu Null setzen).}
+\definition{\textbf{Wahl von $\lambda$ im Lasso:} Wie bei Ridge via Cross-Validation. \textbf{Besonderheit:} Es gibt oft einen Bereich von $\lambda$-Werten, die dieselbe Teilmenge von Variablen auswählen (die gleichen Koeffiziente zu Null setzen).}
 
 \subsubsection{Ridge vs. Lasso vs. Elastic Net}
 
@@ -1379,7 +1432,7 @@ wobei $\alpha \in [0, 1]$ ist der Mixing-Parameter:
     \item $\alpha = 0$: Pure Ridge Regression.
     \item $\alpha = 1$: Pure Lasso Regression.
     \item $0 < \alpha < 1$: Hybrid Modell mit beiden Penalties.
-\end{itemize}}
+\end{itemize}
 
 \textbf{Vorteile von Elastic Net:}
 \begin{itemize}[leftmargin=1.5em]
@@ -1401,7 +1454,7 @@ wobei $\alpha \in [0, 1]$ ist der Mixing-Parameter:
 
 Dies ist relevant für Modellvergleiche und AIC/BIC.}
 
-\definition{\textbf{Pfad der Lösungen (Solution Path):}} Oft visualisiert man wie Koeffizienten sich ändern wenn $\lambda$ variiert:
+\definition{\textbf{Pfad der Lösungen (Solution Path):} Oft visualisiert man wie Koeffizienten sich ändern wenn $\lambda$ variiert:
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Ridge-Pfad:} Alle Koeffizienten schrumpfen kontinuierlich gegen Null (keine Diskontinuitäten).
     \item \textbf{Lasso-Pfad:} Koeffizienten springen auf Null, wenn $\lambda$ einen kritischen Punkt überschreitet (Diskontinuitäten, ``sparse zones'').
@@ -1451,7 +1504,7 @@ Dies ist relevant für Modellvergleiche und AIC/BIC.}
     \end{itemize}
 \end{enumerate}}
 
-\definition{\textbf{Reine-Kriterien (Impurity Measures):}}
+\definition{\textbf{Reine-Kriterien (Impurity Measures):}
 
 \textbf{In der Klassifikation:}
 
@@ -1496,7 +1549,7 @@ Nach einer Aufteilung werden die RSS in beiden Kindknoten berechnet, und die bes
     \item \textbf{Overfitting:} Neigung zu großen Bäumen ohne Regularisierung.
     \item \textbf{Bias bei unbalancierten Klassen:} Tendenziell zu Mehrheitsklasse vorgespannt.
     \item \textbf{Greedy-Algorithmus:} Macht lokal optimale Entscheidungen (nicht global optimal).
-\end{itemize}}
+\end{itemize}
 
 \subsubsection{Random Forests}
 
@@ -1515,7 +1568,7 @@ Nach einer Aufteilung werden die RSS in beiden Kindknoten berechnet, und die bes
     \item \textbf{Schleife von $t = 1$ bis $B$ (Anzahl Bäume):}
     \begin{itemize}
         \item Ziehe eine Bootstrap-Stichprobe der Größe $n$ (mit Zurücklegen) aus den Trainingsdaten.
-        \item Trainiere einen vollständigen (unkürzen) Decision Tree auf dieser Stichprobe.
+        \item Trainiere einen vollständigen (ungekürzten) Decision Tree auf dieser Stichprobe.
         \item Verwende bei jedem Knoten nur $m < p$ zufällig ausgewählte Prädiktoren bei der Suche nach der besten Aufteilung (üblicherweise $m \approx \sqrt{p}$ für Klassifikation, $m \approx p/3$ für Regression).
     \end{itemize}
     
@@ -1533,7 +1586,7 @@ Nach einer Aufteilung werden die RSS in beiden Kindknoten berechnet, und die bes
 \textbf{Verfahren:}
 \begin{enumerate}[leftmargin=1.5em]
     \item Für jede Beobachtung: Identifiziere alle Bäume, in deren Bootstrap-Stichprobe sie \textbf{nicht} enthalten war.
-    \item Vorhersage: Gemittel (oder Mehrheits-Stimme) dieser Bäume für diese Beobachtung.
+    \item Vorhersage: Gemittelt (oder Mehrheits-Stimme) dieser Bäume für diese Beobachtung.
     \item \textbf{OOB Error}: Der Fehler dieser ``Out-of-Bag''-Vorhersagen ist eine gute Schätzung der Testfehler.
 \end{enumerate}}
 
@@ -1567,9 +1620,9 @@ Höhere Werte zeigen, dass die Variable häufig und früh (near root) zu großen
     \item \textbf{Interpretierbarkeit:} Schwer zu verstehen warum die Vorhersage gemacht wurde (``Black Box'').
     \item \textbf{Speicher und Rechenzeit:} Viele Bäume benötigen viel RAM und CPU.
     \item \textbf{Hyperparameter-Tuning:} Zu optimierende Parameter wie $B$ (Anzahl Bäume), $m$ (Features pro Split), Baumtiefe.
-\end{itemize}}
+\end{itemize}
 
-\definition{\textbf{Vergleich: Decision Trees vs.\ Random Forests}
+\definition{\textbf{Vergleich: Decision Trees vs.\ Random Forests}}
 \begin{table}[h]
     \centering
     \small
@@ -1594,7 +1647,7 @@ Höhere Werte zeigen, dass die Variable häufig und früh (near root) zu großen
         Feature Importance & Einfach & Möglich (MDI, Permutation) \\
         \hline
     \end{tabular}
-\end{table}}
+\end{table}
 
 \definition{\textbf{Weitere Ensemble-Methoden:}
 
@@ -1606,59 +1659,6 @@ Höhere Werte zeigen, dass die Variable häufig und früh (near root) zu großen
     \item \textbf{Gradient Boosting Machines (GBM):} Verallgemeinertes Boosting, das Gradienten-Abstieg verwendet. Führt zu sehr guten praktischen Ergebnissen, aber mehr Hyperparameter-Tuning.
     
     \item \textbf{Extreme Gradient Boosting (XGBoost):} Optimierte Implementierung von GBM mit zusätzlichen Regularisierungen. Sehr populär in Machine Learning Wettbewerben.
-\end{itemize}}
-    \item Die neuen Achsen sind \textbf{orthogonal} (unkorreliert) und linear kombiniert die ursprünglichen Variablen.
-\end{itemize}}
-
-\textbf{Motivation:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Visualisierung:} Bei $p = 20$ Variablen gibt es $\binom{20}{2} = 190$ paarweise Scatterplots. Mit PCA können wir auf 2 oder 3 Dimensionen reduzieren und ein einziges Scatterplot verwenden.
-    \item \textbf{Datenreduktion:} Oft ist nur ein Bruchteil der Variabilität in den ersten wenigen PCs konzentriert; der Rest ist Rauschen. Diese können ignoriert werden.
-    \item \textbf{Multikollinearität in MLR:} Wenn Prädiktoren stark korreliert sind, kann PCR (Regression auf PCs) verwendet werden, um das Problem zu beheben.
-    \item \textbf{Explorative Datenanalyse:} Identifikation von Clustern, Ausreißern, oder Struktur in Hochdimensionalen Daten.
-\end{itemize}
-
-\definition{\textbf{Mathematische Formulierung:}}
-
-Die PCA-Zerlegung ist:
-\formel{\mathbf{X} = \mathbf{T} \mathbf{P}^T + \mathbf{E}}
-
-wobei:
-\begin{itemize}[leftmargin=1.5em]
-    \item $\mathbf{T}$ ($n \times a$) = \textbf{Score-Matrix}: Die Koordinaten der Beobachtungen in der neuen Koordinatensystem.
-    \item $\mathbf{P}$ ($p \times a$) = \textbf{Loading-Matrix}: Die Spalten sind die Eigenvektoren der Kovarianzmatrix (die neuen Achsen-Richtungen).
-    \item $\mathbf{E}$ ($n \times p$) = Fehlermatrix (wird meist ignoriert).
-    \item $a = \min(n, p)$ wenn alle Komponenten extrahiert werden.
-\end{itemize}
-
-Die Spalten von $\mathbf{P}$ sind \textbf{orthonormal}: $\mathbf{P}^T \mathbf{P} = \mathbf{I}_a$. Die Scores in $\mathbf{T}$ sind \textbf{unkorreliert}: $\mathbf{T}^T \mathbf{T} = \text{diag}(\lambda_1, \ldots, \lambda_a)$ (diagonal).}
-
-\definition{\textbf{Algorithmus (Herangehensweise):}}
-
-\begin{enumerate}[leftmargin=2em]
-    \item \textbf{Standardisierung:} Zentriere und skaliere $\mathbf{X}$ so, dass jede Spalte Mittelwert 0 und Standardabweichung 1 hat (wichtig für fair comparision, wenn Variablen unterschiedliche Einheiten haben).
-    \item \textbf{Kovarianzmatrix:} Berechne die Kovarianzmatrix $\mathbf{C} = \frac{1}{n-1} \mathbf{X}^T \mathbf{X}$ (oder Korrelationsmatrix).
-    \item \textbf{Eigenwertzerlegung:} Berechne Eigenwerte $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_p \geq 0$ und entsprechende Eigenvektoren $\mathbf{p}_1, \mathbf{p}_2, \ldots, \mathbf{p}_p$ von $\mathbf{C}$.
-    \item \textbf{Komponenten extrahieren:} Wähle die ersten $a$ Eigenvektoren als Spalten von $\mathbf{P}$. Diese entsprechen den $a$ größten Eigenwerten.
-    \item \textbf{Scores berechnen:} $\mathbf{T} = \mathbf{X} \mathbf{P}$.
-\end{enumerate}
-
-\definition{\textbf{Varianzzerlegung:}}
-
-Der Eigenwert $\lambda_j$ quantifiziert die Varianz, die durch die $j$-te Komponente erklärt wird:
-\formel{\text{Varianz von PC}_j = \lambda_j}
-
-Der Anteil der Varianz erklärt durch die erste $a$ Komponenten:
-\formel{\text{Cumulative Explained Variance} = \frac{\sum_{j=1}^a \lambda_j}{\sum_{j=1}^p \lambda_j} \in [0, 1]}
-
-Ein \textbf{Scree-Plot} zeigt die Eigenwerte gegen die PC-Nummer. Man sucht oft einen ``Ellbogen'' (elbow), um die optimale Anzahl $a$ zu wählen.}
-
-\definition{\textbf{Score-Plots und Loading-Plots:}}
-
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Score-Plot:} Scatterplot der Scores $\mathbf{T}$, üblicherweise PC1 vs. PC2. Visualisiert die Beobachtungen im neuen Raum. Können Cluster, Ausreißer, oder Gruppierungen zeigen.
-    \item \textbf{Loading-Plot:} Scatterplot der Loadings $\mathbf{P}$. Zeigt welche \textbf{Originalvariablen} stark auf jede PC laden (beeinflussen). Variablen nah bei Ursprung haben niedrige Loadings; Variable weit weg have hohe Loadings auf mindestens eine PC.
-    \item \textbf{Biplot:} Kombiniert Score- und Loading-Plots in einem Diagramm. Erlaubt gleichzeitige Interpretation von Beobachtungen und Variablen.
 \end{itemize}}
 
 \subsection{Linear Discriminant Analysis (LDA) und Quadratic Discriminant Analysis (QDA)}
@@ -1721,7 +1721,7 @@ Dies ist eine \textbf{affine Funktion} (linear + Konstante) von $\mathbf{x}$.
 
 Entscheidungsgrenzen zwischen Klassen $k$ und $k'$ entstehen, wo $\delta_k(\mathbf{x}) = \delta_{k'}(\mathbf{x})$, und sind \textbf{lineare Hyperebenen} (Geraden in 2D, Ebenen in 3D, etc.).}
 
-\definition{\textbf{Parametereschätzung in LDA:}
+\definition{\textbf{Parameterschätzung in LDA:}
 
 Aus Trainingsdaten schätzen wir:
 \begin{itemize}[leftmargin=1.5em]
@@ -1745,7 +1745,7 @@ Aus Trainingsdaten schätzen wir:
     \item \textbf{Normalverteilungsannahme:} Kann bei nicht-normalen Daten schlecht funktionieren.
     \item \textbf{Gleiche Kovarianzmatrizen:} Annahme ist oft zu restriktiv; in Realität haben Klassen oft unterschiedliche Spreads.
     \item \textbf{Lineare Grenzen:} Nicht flexibel genug für komplexe, nichtlineare Entscheidungsgrenzen.
-\end{itemize}}
+\end{itemize}
 
 \subsubsection{Quadratic Discriminant Analysis (QDA)}
 
@@ -1768,7 +1768,7 @@ Klassifikationsregel:
 
 Entscheidungsgrenzen zwischen zwei Klassen sind \textbf{Quadriken} (Parabeln in 2D, Paraboloide in 3D, Hyperflächen zweiten Grades in höheren Dimensionen).}
 
-\definition{\textbf{Parametereschätzung in QDA:}
+\definition{\textbf{Parameterschätzung in QDA:}
 
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Klassenmittelwerte und Prior:} Wie in LDA, $\hat{\boldsymbol{\mu}}_k$ und $\hat{p}_k$.
@@ -1777,7 +1777,8 @@ Entscheidungsgrenzen zwischen zwei Klassen sind \textbf{Quadriken} (Parabeln in 
     (Stichproben-Kovarianzmatrix innerhalb Klasse $k$, ohne Pooling).
 \end{itemize}}
 
-\definition{\textbf{Vergleich: LDA vs. QDA}
+\definition{\textbf{Vergleich: LDA vs. QDA}}
+
 \begin{table}[h]
     \centering
     \small
@@ -1800,7 +1801,7 @@ Entscheidungsgrenzen zwischen zwei Klassen sind \textbf{Quadriken} (Parabeln in 
         Wann besser? & Ähnliche Klassen-Spreads & Unterschiedliche Spreads \\
         \hline
     \end{tabular}
-\end{table}}
+\end{table}
 
 \textbf{Vor- und Nachteile von QDA:}
 
@@ -1815,7 +1816,7 @@ Entscheidungsgrenzen zwischen zwei Klassen sind \textbf{Quadriken} (Parabeln in 
     \item \textbf{Viele Parameter:} Bei $p$ Prädiktoren und $K$ Klassen sind insgesamt $K \cdot p(p+1)/2$ Kovarianzparameter zu schätzen — Overfitting-Risiko!
     \item \textbf{Kleine Stichproben:} Für kleine $n$ relativ zu $p$ und $K$ schwierig, stabil zu schätzen (schlecht gestelltes Problem).
     \item \textbf{Rechenkomplexität:} Höher als LDA (Invertieren mehrerer Matrizen).
-\end{itemize}}
+\end{itemize}
 
 \subsubsection{Varianten und verwandte Methoden}
 
@@ -1883,13 +1884,13 @@ Dies ermöglicht komplexere, multimodale Klassenverteilungen statt nur eine Norm
 
 \subsection{k-Nearest Neighbors (kNN) — Klassifikation und Regression}
 
-\definition{\textbf{kNN Grundkonzept:} Eine der \textbf{einfachsten Klassifikationsmethoden}, basierend auf räumlicher Nähe zwischen Objekten:
+\definition{\textbf{kNN Grundkonzept:} Eine der \textbf{einfachsten Klassifikationsmethoden}, basierend auf räumlicher Nähe zwischen Objekten:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Lazy Learner / Memory-based:} Es gibt keinen eigentlichen ``Lern-Prozess'' während des Trainings — die Trainingsdaten werden einfach gespeichert.
     \item \textbf{Vorhersage-Phase:} Für eine neue Beobachtung $\mathbf{x}_0$ werden die $k$ \textbf{nächsten Nachbarn} in den Trainingsdaten gefunden (basierend auf einer Distanzmetrik).
     \item \textbf{Klassifikation:} Ein Mehrheitsabstimmung (Majority Vote) der Labels der $k$ Nachbarn bestimmt die Klasse von $\mathbf{x}_0$.
     \item \textbf{Regression:} Der Durchschnitt der Zielwerte der $k$ Nachbarn ist die Vorhersage.
-\end{itemize}}
+\end{itemize}
 
 \textbf{Algorithmus (Klassifikation):}
 \begin{enumerate}[leftmargin=1.5em]
@@ -1904,13 +1905,13 @@ Dies ermöglicht komplexere, multimodale Klassenverteilungen statt nur eine Norm
 
 \subsubsection{Distanzmaße}
 
-\definition{\textbf{Distanzfunktion:} Eine Funktion $d: \mathbb{R}^p \times \mathbb{R}^p \to [0, \infty)$ muss vier Bedingungen erfüllen (Metrik):
+\definition{\textbf{Distanzfunktion:} Eine Funktion $d: \mathbb{R}^p \times \mathbb{R}^p \to [0, \infty)$ muss vier Bedingungen erfüllen (Metrik):}
 \begin{enumerate}[leftmargin=1.5em]
     \item $d(\mathbf{x}, \mathbf{y}) \geq 0$ (Nicht-Negativität).
     \item $d(\mathbf{x}, \mathbf{y}) = 0 \Leftrightarrow \mathbf{x} = \mathbf{y}$ (Identität).
     \item $d(\mathbf{x}, \mathbf{y}) = d(\mathbf{y}, \mathbf{x})$ (Symmetrie).
     \item $d(\mathbf{x}, \mathbf{z}) \leq d(\mathbf{x}, \mathbf{y}) + d(\mathbf{y}, \mathbf{z})$ (Dreiecksungleichung).
-\end{enumerate}}
+\end{enumerate}
 
 \definition{\textbf{Euklidische Distanz (am häufigsten):}
 \formel{d_{\text{Euklidisch}}(\mathbf{x}_A, \mathbf{x}_B) = \sqrt{\sum_{j=1}^p (x_{A,j} - x_{B,j})^2} = \|\mathbf{x}_A - \mathbf{x}_B\|_2}
@@ -1920,7 +1921,7 @@ Dies ist die Standard-Luftliniendistanz im $\mathbb{R}^p$.}
 \definition{\textbf{Manhattan-Distanz (L1-Norm):}
 \formel{d_{\text{Manhattan}}(\mathbf{x}_A, \mathbf{x}_B) = \sum_{j=1}^p |x_{A,j} - x_{B,j}| = \|\mathbf{x}_A - \mathbf{x}_B\|_1}
 
-Summe der absoluten Differenzen — wie man sich in einem Stadtgitter bewegen würde (auch \textbf{Taxicab} oder \textbf{Chebyshev}-Distanz ähnlich).}
+Summe der absoluten Differenzen — wie man sich in einem Stadtgitter bewegen würde.}
 
 \definition{\textbf{Minkowski-Distanz (Verallgemeinerung):}
 \formel{d_p(\mathbf{x}_A, \mathbf{x}_B) = \left(\sum_{j=1}^p |x_{A,j} - x_{B,j}|^p\right)^{1/p} = \|\mathbf{x}_A - \mathbf{x}_B\|_p}
@@ -1952,13 +1953,13 @@ Zählt die Anzahl der Positionen, wo sich die Vektoren unterscheiden, geteilt du
 
 \subsubsection{Wahl von k und Entscheidungsgrenzen}
 
-\definition{\textbf{Einfluss von k auf Entscheidungsgrenzen:}
+\definition{\textbf{Einfluss von k auf Entscheidungsgrenzen:}}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{k = 1:} Sehr \textbf{flexibel}, komplexe Entscheidungsgrenzen, raue/zackige Grenzen. \textbf{Hohes Overfitting-Risiko}.
     \item \textbf{Kleines k (z.\,B.\ k=3, 5):} Flexibel, folgt Trainingsdaten eng nach. Anfällig für Noise/Ausreißer.
     \item \textbf{Mittleres k (z.\,B.\ k=10--30):} Kompromiss zwischen Bias und Varianz.
     \item \textbf{Großes k (z.\,B.\ k=n):} Sehr \textbf{steif}, einfache, glatte Entscheidungsgrenzen. \textbf{Hohes Underfitting-Risiko}. Im Extremfall (k=n) wird alles der Mehrheitsklasse zugeordnet.
-\end{itemize}}
+\end{itemize}
 
 \textbf{Bias-Varianz Tradeoff bei kNN:}
 \begin{itemize}[leftmargin=1.5em]
@@ -1971,7 +1972,7 @@ Zählt die Anzahl der Positionen, wo sich die Vektoren unterscheiden, geteilt du
     \item \textbf{Cross-Validation:} Teste verschiedene $k$-Werte und wähle denjenigen mit bestem CV-Error.
     \item \textbf{Faustregel:} $k = \sqrt{n}$ oder $k = \sqrt{n}/2$, aber dies ist nur eine Orientierung.
     \item \textbf{Ungerade k:} Bei binärer Klassifikation hilft ungerader k um Unentschieden zu vermeiden.
-\end{itemize}}
+\end{itemize}
 
 \subsubsection{Vor- und Nachteile von kNN}
 
@@ -1987,12 +1988,12 @@ Zählt die Anzahl der Positionen, wo sich die Vektoren unterscheiden, geteilt du
 \textbf{Nachteile:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Speicher- und Rechenintensiv:} Alle Trainingsdaten müssen gespeichert werden; für jede neue Vorhersage müssen Distanzen zu allen Trainingsobjekten berechnet werden ($O(n \cdot p)$ pro Vorhersage).
-    \item \textbf{Sensibel gegenüber Skalierung:} Variablen mit großerer Streuung dominieren die Distanzberechnung — \textbf{Normalisierung ist wesentlich}.
+    \item \textbf{Sensibel gegenüber Skalierung:} Variablen mit größerer Streuung dominieren die Distanzberechnung — \textbf{Normalisierung ist wesentlich}.
     \item \textbf{Ausreißer-Problem:} Ein einzelner Ausreißer nah bei einem Test-Punkt kann Vorhersage verderben.
-    \item \textbf{High Curse of Dimensionality:} In hochdimensionalen Räumen (großes p) werden Distanzen bedeutungslos; fast alle Punkte sind gleich weit entfernt. kNN funktioniert schlecht bei $p \gg n$.
-    \item \textbf{Wahl von k unklar:} Keine offensichtliche Strategie, muss via CV tuned werden.
+    \item \textbf{Curse of Dimensionality:} In hochdimensionalen Räumen (großes p) werden Distanzen bedeutungslos; fast alle Punkte sind gleich weit entfernt. kNN funktioniert schlecht bei $p \gg n$.
+    \item \textbf{Wahl von k unklar:} Keine offensichtliche Strategie, muss via CV getuned werden.
     \item \textbf{Unbalancierte Klassen:} Wenn eine Klasse viel häufiger ist, wird sie bevorzugt. Gewichtung der Nachbarn kann helfen.
-\end{itemize}}
+\end{itemize}
 
 \subsubsection{Varianten und Verbesserungen}
 
