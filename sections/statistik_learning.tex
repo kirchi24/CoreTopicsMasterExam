@@ -98,6 +98,56 @@
 
 \textbf{Wahl des Diagrammtyps:} Hängt von Art der Variablen (kategorial/metrisch), Anzahl der Variablen und Analyseziel (Häufigkeiten, Verteilung, Zusammenhang) ab. Grundsatz: Maximale Informationsdichte mit minimaler visueller Komplexität.
 
+\newpage
+
+\subsection{Ähnlichkeitsmaße und Distanzmaße}
+
+\definition{\textbf{Grundkonzepte:}}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Distanz (Unähnlichkeit):} Maß für die Unähnlichkeit zweier Objekte. Hohe Distanz = niedrige Ähnlichkeit.
+    \item \textbf{Ähnlichkeit (Similarity):} Maß für die Ähnlichkeit zweier Objekte. Hohe Ähnlichkeit = niedrige Distanz.
+    \item Distanz und Ähnlichkeit sind inverse Größen: $s = 1 - d$ oder $d = 1 - s$ (normalisiert).
+\end{itemize}
+
+\definition{\textbf{Euklidische Distanz:}}
+Für zwei $p$-dimensionale Punkte $\mathbf{x}_A$ und $\mathbf{x}_B$:
+$$d_{\text{Euclid}} = \sqrt{\sum_{j=1}^{p} (x_{B,j} - x_{A,j})^2} = \|\mathbf{x}_B - \mathbf{x}_A\|_2$$
+Geometrische Interpretation: Luftlinienabstand im euklidischen Raum. Nachteil: Empfindlich gegenüber Ausreißern und unterschiedlichen Skalierungen.
+
+\definition{\textbf{Manhattan-Distanz (City Block):}}
+$$d_{\text{Manhattan}} = \sum_{j=1}^{p} |x_{B,j} - x_{A,j}|$$
+Interpretation: Summe der Koordinatendifferenzen. Verwendung: Wenn nur horizontale/vertikale Bewegungen möglich sind (z.\,B.\ im Gitter).
+
+\definition{\textbf{Minkowski-Distanz:}}
+Verallgemeinerung (Parameter $k$):
+$$d_k(\mathbf{x}_A, \mathbf{x}_B) = \left(\sum_{j=1}^{p} |x_{B,j} - x_{A,j}|^k\right)^{1/k}$$
+Mit $k=2$: Euklidisch; $k=1$: Manhattan; $k \to \infty$: Chebyshev-Distanz (Maximum-Norm).
+
+\definition{\textbf{Mahalanobis-Distanz:}}
+$$d_{\text{Mahal}} = \sqrt{(\mathbf{x}_B - \mathbf{x}_A)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}_B - \mathbf{x}_A)}$$
+Dabei ist $\boldsymbol{\Sigma}$ die Kovarianzmatrix. Vorteil: Berücksichtigt Korrelationen zwischen Variablen und unterschiedliche Skalierungen.
+
+\definition{\textbf{Kosinus-Ähnlichkeit:}}
+$$\cos(\theta) = \frac{\mathbf{x}_A \cdot \mathbf{x}_B}{\|\mathbf{x}_A\|_2 \|\mathbf{x}_B\|_2}$$
+Wertebereich: $[-1, 1]$; höhere Werte = höhere Ähnlichkeit. Verwendung: Text- und Bild-Vektoren (unabhängig von Vektorlänge).
+
+\definition{\textbf{Tanimoto-Koeffizient (Jaccard):}}
+Für Binärvektoren oder Mengen:
+$$S_{\text{Tanimoto}} = \frac{|A \cap B|}{|A \cup B|} = \frac{\sum_{j} \min(x_{A,j}, x_{B,j})}{\sum_{j} \max(x_{A,j}, x_{B,j})}$$
+Wertebereich: $[0, 1]$. Nützlich für kategoriale und Binärdaten (z.\,B.\ Markerpräsenz in Genetik).
+
+\definition{\textbf{Dice-Koeffizient:}}
+$$S_{\text{Dice}} = \frac{2|A \cap B|}{|A| + |B|}$$
+Ähnlich wie Tanimoto, aber mit anderer Gewichtung. Häufig in Ökologie und Biologie verwendet.
+
+\definition{\textbf{Korrelationsbasierte Distanzmaße:}}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Pearson-Korrelation:} $d = 1 - r$, wobei $r$ die Pearson-Korrelation ist. Misst lineare Abhängigkeit.
+    \item \textbf{Spearman-Rank-Korrelation:} Auf Basis von Rangtransformation; robust gegenüber Ausreißern.
+\end{itemize}
+
+\textbf{Wahl des Distanzmaßes:} Abhängig von Datentyp (numerisch/kategorial), Verteilung, Skalierung und Problemkontext. Faustregel: Euklidisch für normalisierte numerische Daten; Kosinus für hochdimensionale Text/Bild-Daten; Mahalanobis für korrelierte Variablen; Tanimoto/Dice für Binärdaten.
+
 \definition{\textbf{Lageparameter (Lagemaße):} Beschreiben die zentrale Lage (zentrale Tendenz) der Daten.}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Modus:} Die häufigste Ausprägung. Einsatz bei: Nominal-, Ordinal-, Intervall-, Verhältnis- und Absolutskala.
@@ -2045,40 +2095,1902 @@ Häufig: $w_i = 1/d(\mathbf{x}_i, \mathbf{x}_0)$ oder $w_i = \exp(-d(\mathbf{x}_
 \newpage
 
 \subsection{K-means, K-medoids und fuzzy-Clustering}
+
+\definition{\textbf{K-means Clustering -- Grundkonzept:}}
+K-means partitioniert einen Datensatz in $K$ disjunkte, nicht-leere Gruppen (Cluster), so dass Objekte innerhalb eines Clusters ähnlicher sind als Objekte zwischen Clustern. Jede Beobachtung gehört zu genau einem Cluster. Die Anzahl der Cluster $K$ muss im Voraus bekannt sein.
+
+\textbf{Partitionsformalisierung:} Beobachtungen mit Indizes $1, \ldots, n$; Cluster $C_1, \ldots, C_K$ als Indexmengen:
+\begin{itemize}[leftmargin=1.5em]
+    \item Jede Beobachtung gehört zu mindestens einem Cluster: $C_1 \cup C_2 \cup \cdots \cup C_K = \{1, \ldots, n\}$
+    \item Keine Beobachtung in mehreren Clustern: $C_i \cap C_j = \emptyset$ für $i \neq j$
+\end{itemize}
+
+\definition{\textbf{Optimierungskriterium:} Minimierung der Within-Cluster-Streuung (Within-Cluster-Sum-of-Squares, WCSS):}
+$$W = \sum_{k=1}^{K} \sum_{i \in C_k} \|\mathbf{x}_i - \mathbf{c}_k\|_2^2$$
+wobei $\mathbf{c}_k = \frac{1}{n_k} \sum_{i \in C_k} \mathbf{x}_i$ das Zentroid (die Mitte) des Clusters $k$ ist und $n_k = |C_k|$ die Größe des Clusters.
+
+\definition{\textbf{K-means Algorithmus:}}
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Initialisierung:} Wähle zufällig $K$ Cluster-Zentren $\mathbf{c}_1^{(0)}, \ldots, \mathbf{c}_K^{(0)}$ (oder $K$ zufällige Beobachtungen).
+    \item \textbf{Zuordnungsschritt (Assignment):} Ordne jede Beobachtung $\mathbf{x}_i$ dem nächsten Zentroid zu: $i \in C_k$, wenn $\|\mathbf{x}_i - \mathbf{c}_k\| = \min_j \|\mathbf{x}_i - \mathbf{c}_j\|$
+    \item \textbf{Update-Schritt:} Berechne für jeden Cluster $k$ das neue Zentroid: $\mathbf{c}_k^{\text{neu}} = \frac{1}{n_k} \sum_{i \in C_k} \mathbf{x}_i$
+    \item \textbf{Konvergenzprüfung:} Wiederhole Schritte 2--3 bis Konvergenz (keine Cluster-Änderungen mehr).
+\end{enumerate}
+
+\textbf{Wahl der Cluster-Anzahl:} Zwei Strategien:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Elbow-Methode:} Plotte WCSS gegen $K$. Die Kurve ist monoton fallend; wähle $k$, bei dem die Kurve ``abknickt''.
+    \item \textbf{Hopkins-Statistik (Cluster-Validität):} Testet, ob der Datensatz überhaupt eine Clusterstruktur hat:
+    $$H = \frac{\sum_{i=1}^{n^*} d_U(i)}{\sum_{i=1}^{n^*} d_U(i) + \sum_{i=1}^{n^*} d_W(i)}$$
+    wobei $d_U(i)$ die Distanz zur nächsten Beobachtung in zufälligen Punkten und $d_W(i)$ in echten Daten ist. $H \approx 0.5$: keine Clusterung; $H \to 1$: starke Clusterung.
+\end{itemize}
+
+\definition{\textbf{K-medoids Clustering:}}
+Ähnlich K-means, aber: Cluster-Zentren müssen echte Beobachtungen sein (nicht der Durchschnitt).
+
+\textbf{Algorithmus:} Identisch mit K-means, außer:
+\textbf{Update-Schritt:} Für jeden Cluster $k$ finde die Medoid (Beobachtung mit minimaler durchschnittlicher Dissimilarität):
+$$\mathbf{m}_k = \arg\min_{\mathbf{x}_i \in C_k} \sum_{\mathbf{x}_j \in C_k} \|\mathbf{x}_j - \mathbf{x}_i\|^2$$
+
+\textbf{Vorteile:} Robuster gegenüber Ausreißern; kann beliebige Distanzmaße verwenden (nicht nur Euklidisch); Zentren sind interpretierbar (echte Objekte).
+
+\definition{\textbf{Fuzzy Clustering (Soft Clustering):}}
+Im Gegensatz zu K-means (hard clustering) kann jede Beobachtung mit Wahrscheinlichkeiten zu mehreren Clustern gehören.
+
+\textbf{Membership-Koeffizient:} $u_{ij} \in [0, 1]$ gibt an, mit welcher Wahrscheinlichkeit Beobachtung $i$ zu Cluster $j$ gehört:
+$$\sum_{j=1}^{K} u_{ij} = 1 \quad \text{für alle } i$$
+
+\textbf{Fuzzy C-Means (FCM) Algorithmus:} Ähnlich K-means, aber mit gewichteten Zuordnungen. Die Zentroide werden als gewichtete Durchschnitte berechnet:
+$$\mathbf{c}_k = \frac{\sum_{i=1}^{n} u_{ij}^m \mathbf{x}_i}{\sum_{i=1}^{n} u_{ij}^m}$$
+wobei $m > 1$ der Fuzzifikationsparameter ist (typisch $m = 2$).
+
+\textbf{Vorteil:} Bildet Unsicherheit bei Zuordnungen ab; nützlich bei Grenzfällen zwischen Clustern.
+
 \newpage
 
 \subsection{Model-based Clustering}
+
+\definition{\textbf{Grundkonzept:}}
+Im Gegensatz zu K-means/K-medoids/Fuzzy Clustering (modellfreie Verfahren) wird bei model-based Clustering angenommen, dass die Daten aus einer Mischung von $K \geq 2$ Wahrscheinlichkeitsverteilungen stammen (üblicherweise multivariate Normalverteilungen).
+
+\textbf{Annahmen:} Jeder Cluster folgt einer eigenen Wahrscheinlichkeitsverteilung mit eigenem Mittelwertvektor und Kovarianzmatrix.
+
+\definition{\textbf{Mixture Model (Mischmodell):}}
+Die Dichtefunktion der Gesamtpopulation wird als gewichtete Summe von $K$ Komponentendichten modelliert:
+$$f(\mathbf{x}) = \sum_{k=1}^{K} \pi_k f_k(\mathbf{x} \mid \boldsymbol{\theta}_k)$$
+wobei:
+\begin{itemize}[leftmargin=1.5em]
+    \item $\pi_k$ das Gewicht (die Wahrscheinlichkeit) der $k$-ten Komponente mit $\sum_{k=1}^{K} \pi_k = 1$
+    \item $f_k(\mathbf{x} \mid \boldsymbol{\theta}_k)$ die Dichte der $k$-ten Komponente mit Parametern $\boldsymbol{\theta}_k$ (z.B. Mittelwert $\boldsymbol{\mu}_k$ und Kovarianzmatrix $\boldsymbol{\Sigma}_k$)
+\end{itemize}
+
+\definition{\textbf{Univariate Normalverteilung $N(\mu, \sigma^2)$:}}
+Dichtefunktion:
+$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$$
+parametrisiert durch Mittelwert $\mu$ und Varianz $\sigma^2$. Häufigste Annahme in statistischen Modellen.
+
+\definition{\textbf{Multivariate Normalverteilung $N(\boldsymbol{\mu}, \boldsymbol{\Sigma})$:}}
+Dichtefunktion:
+$$f(\mathbf{x}) = \frac{1}{(2\pi)^{p/2} |\boldsymbol{\Sigma}|^{1/2}} \exp\left(-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}-\boldsymbol{\mu})\right)$$
+parametrisiert durch Mittelwertvektor $\boldsymbol{\mu} \in \mathbb{R}^p$ und $p \times p$ Kovarianzmatrix $\boldsymbol{\Sigma}$.
+
+\definition{\textbf{Expectation-Maximization (EM) Algorithmus:}}
+Iteratives Verfahren zur Schätzung von Mischmodell-Parametern:
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Initialisierung:} Starte mit initialen Parametern (z.B. aus K-means).
+    \item \textbf{E-Schritt (Expectation):} Berechne für jede Beobachtung $\mathbf{x}_i$ die posteriore Wahrscheinlichkeit, dass sie zu Cluster $k$ gehört (ähnlich fuzzy membership):
+    $$\tau_{ik} = \frac{\pi_k f_k(\mathbf{x}_i \mid \boldsymbol{\theta}_k)}{\sum_{j=1}^{K} \pi_j f_j(\mathbf{x}_i \mid \boldsymbol{\theta}_j)}$$
+    \item \textbf{M-Schritt (Maximization):} Schätze Parameter neu basierend auf $\tau_{ik}$:
+    \begin{itemize}
+        \item Gewichte: $\pi_k = \frac{1}{n}\sum_{i=1}^{n} \tau_{ik}$
+        \item Mittelwert: $\boldsymbol{\mu}_k = \frac{\sum_{i=1}^{n} \tau_{ik} \mathbf{x}_i}{\sum_{i=1}^{n} \tau_{ik}}$
+        \item Kovarianzmatrix: $\boldsymbol{\Sigma}_k = \frac{\sum_{i=1}^{n} \tau_{ik} (\mathbf{x}_i - \boldsymbol{\mu}_k)(\mathbf{x}_i - \boldsymbol{\mu}_k)^T}{\sum_{i=1}^{n} \tau_{ik}}$
+    \end{itemize}
+    \item \textbf{Konvergenzprüfung:} Wiederholen bis Log-Likelihood konvergiert.
+\end{enumerate}
+
+\textbf{Vorteile:} Probabilistisches Framework; liefert Wahrscheinlichkeiten (nicht nur harte Zuordnungen); erlaubt statistische Inferenz; Modellwahl durch Likelihood-Kriterien (AIC, BIC) möglich.
+
+\textbf{Nachteile:} Computational aufwendiger als K-means; Annahme von Normalverteilung nicht immer realistisch; für hochdimensionale Daten kann Kovarianzmatrix instabil sein.
+
 \newpage
 
 \subsection{Hierarchisches Clustering}
+
+\definition{\textbf{Grundkonzept:}}
+Hierarchische Methoden erzeugen eine Hierarchie von Partitionen (Clustersolutionen), statt einer einzelnen festen Partition wie K-means. Zwei grundlegende Ansätze:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Agglomerativ:} Starten mit $n$ Clustern (jede Beobachtung einzeln), Zusammenfügen der nächsten Cluster iterativ bis ein einzelner Cluster übrig bleibt.
+    \item \textbf{Divisiv:} Starten mit einem Cluster (alle Beobachtungen), Aufteilung iterativ bis $n$ einzelne Cluster. (Seltener, rechenintensiver.)
+\end{itemize}
+
+\definition{\textbf{Abstände zwischen Clustern (Linkage-Methoden):}}
+Um zu entscheiden, welche Cluster zu fusionieren sind, muss der Abstand zwischen zwei Clustern definiert werden:
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Complete Linkage (Furthest Neighbor):} Abstand zwischen den zwei am weitesten entfernten Punkten:
+    $$d(C_i, C_j) = \max_{\mathbf{x}_a \in C_i, \mathbf{x}_b \in C_j} d(\mathbf{x}_a, \mathbf{x}_b)$$
+    Vorteil: Vermeidet Kettenerzeugnis, produziert globularere Cluster.
+    
+    \item \textbf{Single Linkage (Nearest Neighbor):} Abstand zwischen den zwei nächsten Punkten:
+    $$d(C_i, C_j) = \min_{\mathbf{x}_a \in C_i, \mathbf{x}_b \in C_j} d(\mathbf{x}_a, \mathbf{x}_b)$$
+    Vorteil: Einfach; Nachteil: Anfällig für Kettenerzeugnis (``chaining'').
+    
+    \item \textbf{Average Linkage (UPGMA):} Durchschnittlicher Abstand zwischen allen Punkt-Paaren:
+    $$d(C_i, C_j) = \frac{1}{n_i n_j} \sum_{\mathbf{x}_a \in C_i} \sum_{\mathbf{x}_b \in C_j} d(\mathbf{x}_a, \mathbf{x}_b)$$
+    Kompromiss zwischen Single und Complete Linkage.
+    
+    \item \textbf{Centroid Method:} Abstand zwischen Cluster-Zentroiden:
+    $$d(C_i, C_j) = \|\mathbf{c}_i - \mathbf{c}_j\|$$
+    wobei $\mathbf{c}_k = \frac{1}{n_k} \sum_{\mathbf{x} \in C_k} \mathbf{x}$
+    
+    \item \textbf{Ward's Method:} Minimiert die Within-Cluster-Varianz bei Fusion:
+    $$d(C_i, C_j) = \frac{n_i n_j}{n_i + n_j} \|\mathbf{c}_i - \mathbf{c}_j\|^2$$
+    Ähnlich zu K-means Optimierungskriterium; oft beste praktische Ergebnisse.
+\end{enumerate}
+
+\definition{\textbf{Dendrogramm (Dendrogram):}}
+Visualisierung der hierarchischen Struktur. Ein Baum-Diagramm mit:
+\begin{itemize}[leftmargin=1.5em]
+    \item Leaves (Blätter): Einzelne Beobachtungen
+    \item Branches (Äste): Zusammengefügte Cluster
+    \item Höhe der Verbindung: Distanz zwischen den Clustern bei Fusion
+\end{itemize}
+
+Durch horizontale Schnitte durch das Dendrogramm erhält man verschiedene Cluster-Lösungen für unterschiedliche Anzahlen $K$ von Clustern.
+
+\definition{\textbf{Agglomerationskoeffizient (ac):}}
+Maß für die Clusterungsfähigkeit eines Datensatzes. Für jede Beobachtung $i$ berechne:
+$$m(i) = \frac{d_{i,\text{first}}}{d_{i,\text{last}}}$$
+wobei $d_{i,\text{first}}$ die Distanz beim ersten Zusammenfügen von $i$ und $d_{i,\text{last}}$ beim letzten (Gesamt-)Zusammenfügen ist. Der Agglomerationskoeffizient ist das Mittel:
+$$ac = \frac{1}{n} \sum_{i=1}^{n} (1 - m(i))$$
+
+Werte nahe 1 deuten auf starke Clusterstruktur hin.
+
+\textbf{Vor- und Nachteile:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Vorteil:} Flexibel; liefert Dendrogramm zur visuellen Exploration; keine Vorfestlegung von $K$ notwendig; verschiedene Linkage-Methoden ermöglichen unterschiedliche Cluster-Formen.
+    \item \textbf{Nachteil:} Computationally teuer für große Datenmengen ($O(n^2)$ oder schlimmer); Fusionsentscheidungen sind final (keine Neuoptimierung); kann durch lokale Minima beeinflusst werden.
+\end{itemize}
+
 \newpage
 
 \subsection{Bedingte Wahrscheinlichkeit und Bayes-Theorem}
+
+\definition{\textbf{Bedingte Wahrscheinlichkeit (Konditionale Wahrscheinlichkeit):}}
+Die Wahrscheinlichkeit des Eintretens eines Ereignisses $A$ unter der Bedingung, dass ein anderes Ereignis $B$ bereits eingetreten ist:
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0$$
+
+\textbf{Interpretation:} Wenn $B$ eingetreten ist, reduzieren sich die möglichen Ausgänge auf die Ergebnisse in $B$. Die bedingte Wahrscheinlichkeit ist eine Neueinschätzung von $P(A)$ unter dieser Information.
+
+\definition{\textbf{Produktregel (Kettenregel):}}
+Aus der Definition folgt unmittelbar:
+$$P(A \cap B) = P(A \mid B) \cdot P(B) = P(B \mid A) \cdot P(A)$$
+
+Für mehr als zwei Ereignisse:
+$$P(A \cap B \cap C) = P(A) \cdot P(B \mid A) \cdot P(C \mid A \cap B)$$
+
+\textbf{Anwendung:} Multivariate Verteilungen können als Produkt von bedingten Wahrscheinlichkeiten zerlegt werden. Die Faktorisierung hängt von der gewählten Reihenfolge ab und ermöglicht es, Domänenwissen über kausale Abhängigkeiten einzubeziehen.
+
+\definition{\textbf{Satz der Totalen Wahrscheinlichkeit (Law of Total Probability):}}
+Wenn $B_1, B_2, \ldots, B_K$ eine Partition des Stichprobenraums $\Omega$ bilden (d.h. $B_i \cap B_j = \emptyset$ und $\bigcup_{k} B_k = \Omega$), dann:
+$$P(A) = \sum_{k=1}^{K} P(A \mid B_k) \cdot P(B_k)$$
+
+\textbf{Interpretation:} Die Gesamtwahrscheinlichkeit von $A$ wird als gewichtete Summe über alle möglichen Bedingungen $B_k$ dargestellt.
+
+\definition{\textbf{Satz von Bayes (Bayes' Theorem):}}
+$$P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}$$
+
+wobei:
+\begin{itemize}[leftmargin=1.5em]
+    \item $P(A \mid B)$ die \textbf{Posteriori-Wahrscheinlichkeit} (posterior probability) — die aktualisierte Wahrscheinlichkeit nach Beobachtung von $B$
+    \item $P(B \mid A)$ die \textbf{Likelihood} — die Wahrscheinlichkeit der Beobachtung $B$, wenn $A$ wahr ist
+    \item $P(A)$ die \textbf{Prior-Wahrscheinlichkeit} (a-priori) — das Vorwissen über $A$ vor Beobachtung
+    \item $P(B)$ die \textbf{Evidenz (Marginal Likelihood)} — die Gesamtwahrscheinlichkeit der Beobachtung
+\end{itemize}
+
+\textbf{Anwendungsform mit Normalisierungskonstante:}
+$$P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{\sum_{k} P(B \mid A_k) \cdot P(A_k)}$$
+
+\textbf{Interpretation:} Der Satz von Bayes ermöglicht es, Schlussfolgerungen "rückwärts" zu ziehen. Man geht von bekanntem $P(B \mid A)$ aus und berechnet die umgekehrte bedingte Wahrscheinlichkeit $P(A \mid B)$.
+
+\beispiel{\textbf{Medizinischer Test:} Eine Krankheit tritt in 1\% der Population auf. Ein Test ist 95\% sensitiv (d.h. $P(+\mid \text{Krankheit}) = 0.95$) und 90\% spezifisch (d.h. $P(-\mid \text{keine Krankheit}) = 0.90$).
+
+Frage: Wie groß ist $P(\text{Krankheit} \mid +)$?
+\begin{align*}
+P(\text{K} \mid +) &= \frac{P(+ \mid \text{K}) \cdot P(\text{K})}{P(+)} \\
+P(+) &= P(+ \mid \text{K}) \cdot P(\text{K}) + P(+ \mid \text{kK}) \cdot P(\text{kK}) \\
+&= 0.95 \cdot 0.01 + 0.10 \cdot 0.99 = 0.0095 + 0.099 = 0.1085 \\
+P(\text{K} \mid +) &= \frac{0.95 \cdot 0.01}{0.1085} \approx 0.0876 \approx 8.76\%
+\end{align*}
+
+Obwohl der Test gut erscheint, ist die Wahrscheinlichkeit einer tatsächlichen Krankheit bei positivem Test weniger als 9\%! Dies ist die Base-Rate Fallacy.}
+
 \newpage
 
 \subsection{Probabilistische Graphische Modelle}
+
+\definition{\textbf{Graphische Modelle (Graphical Models):}}
+Repräsentation von Wahrscheinlichkeitsverteilungen mittels gerichteter oder ungerichteter Graphen, wobei:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Knoten (Nodes):} Zufallsvariablen oder Parameter
+    \item \textbf{Kanten (Edges):} Abhängigkeitsbeziehungen zwischen Variablen
+\end{itemize}
+
+\definition{\textbf{Bayes-Netz (Bayesian Network):}}
+Ein gerichteter, azyklischer Graph (DAG: Directed Acyclic Graph), bei dem eine Kante $A \to B$ ausdrückt, dass $A$ ein direkter "Eltern"-Knoten von $B$ ist.
+
+\textbf{Faktorisierung:} Eine multivariate Verteilung faktorisiert über die Graphstruktur:
+$$P(X_1, \ldots, X_n) = \prod_{i=1}^{n} P(X_i \mid \text{Eltern}(X_i))$$
+
+Dabei ist $\text{Eltern}(X_i)$ die Menge der direkten Vorgänger von $X_i$ im Graphen.
+
+\beispiel{\textbf{Bedingte Unabhängigkeit:} In einem Bayes-Netz $X \to Y \to Z$:
+\begin{itemize}[leftmargin=1.5em]
+    \item $P(X, Y, Z) = P(X) \cdot P(Y \mid X) \cdot P(Z \mid Y)$
+    \item Bedingte Unabhängigkeit: $X \perp Z \mid Y$ (X und Z sind unabhängig, gegeben Y)
+    \item Dies reduziert die Parametrisierung erheblich!
+\end{itemize}
+}
+
+\definition{\textbf{Bedingte Unabhängigkeit und d-Separation:}}
+In einem Bayes-Netz sind zwei Variablen $X$ und $Z$ bedingt unabhängig gegeben $Y$ ($X \perp Z \mid Y$), wenn:
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Seriell:} $X \to Y \to Z$: Information fließt von $X$ zu $Z$ über $Y$. Wenn $Y$ beobachtet wird, wird der Fluss blockiert.
+    \item \textbf{Divergent:} $X \leftarrow Y \to Z$: Ein gemeinsamer Eltern-Knoten $Y$. Wenn $Y$ beobachtet wird, werden $X$ und $Z$ unabhängig.
+    \item \textbf{Konvergent:} $X \to Y \leftarrow Z$: Ein gemeinsamer Kind-Knoten $Y$. Wenn $Y$ nicht beobachtet wird, sind $X$ und $Z$ unabhängig. Wenn $Y$ oder einer seiner Nachfahren beobachtet wird, werden $X$ und $Z$ abhängig ("explaining away").
+\end{enumerate}
+
+\definition{\textbf{Naive-Bayes-Klassifikator:}}
+Ein einfaches probabilistisches Klassifikationsmodell, basierend auf bedingter Unabhängigkeit aller Features gegeben die Zielvariable.
+
+\textbf{Annahme:} $P(X_1, \ldots, X_p \mid C) = \prod_{j=1}^{p} P(X_j \mid C)$, wobei $C$ die Klasse und $X_1, \ldots, X_p$ die Features sind.
+
+\textbf{Klassifikationsregel (Maximierung der Posteriori):}
+$$\hat{C} = \arg\max_c P(C = c \mid X_1, \ldots, X_p) = \arg\max_c P(C = c) \prod_{j=1}^{p} P(X_j \mid C = c)$$
+
+\textbf{Praktische Implementierung:} Meist wird im Log-Raum gerechnet, um Underflow zu vermeiden:
+$$\hat{C} = \arg\max_c \left[ \log P(C = c) + \sum_{j=1}^{p} \log P(X_j \mid C = c) \right]$$
+
+\definition{\textbf{Laplace-Smoothing (Add-One Smoothing):}}
+Zur Vermeidung von Null-Wahrscheinlichkeiten (wenn eine Feature-Klasse-Kombination in den Trainingsdaten nicht vorkommt):
+$$P(X_j = x \mid C = c) = \frac{\text{count}(X_j = x, C = c) + \alpha}{\text{count}(C = c) + \alpha \cdot m}$$
+
+wobei $\alpha$ der Smoothing-Parameter (typisch $\alpha = 1$) und $m$ die Anzahl möglicher Werte von $X_j$ ist.
+
+\textbf{Effekt:} Pseudo-Zählungen werden hinzugefügt; dies sorgt dafür, dass selbst unsichtbare Kombinationen in Trainingsdaten positive Wahrscheinlichkeiten erhalten und verhindert das "Zero-Problem".
+
+\textbf{Vorteile des Naive-Bayes-Klassifikators:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Einfach und schnell zu trainieren und zu verwenden
+    \item Funktioniert überraschend gut auch bei moderaten Verletzungen der Unabhängigkeitsannahme
+    \item Benötigt relativ wenig Trainingsdaten
+    \item Natürlich probabilistisch; liefert Klassifikations-Sicherheiten
+\end{itemize}
+
+\textbf{Nachteile:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Naive Unabhängigkeitsannahme ist oft unrealistisch
+    \item Kann zu schlechten Kalibrierungen führen (Wahrscheinlichkeiten nicht vertrauenswürdig)
+    \item Feature-Engineering und Feature-Interaktionen werden ignoriert
+    \item Nicht für hochgradig korrelierte Features geeignet
+\end{itemize}
+
 \newpage
 
-\subsection{Bayes-Updates}
+\subsection{Bayes-Updates: Prior, Likelihood, Evidenz, Posterior}
+
+\definition{\textbf{Bayesianische Inferenz -- Grundkonzept:}}
+Im Gegensatz zur Frequentist'schen Statistik werden unbekannte Größen (Parameter, latente Variablen) als Zufallsvariablen behandelt und durch Wahrscheinlichkeitsverteilungen beschrieben. Der Satz von Bayes als Update-Regel bildet das Herzstück der Bayesianischen Statistik.
+
+\definition{\textbf{Prior-Verteilung $p(\theta)$:}}
+Die a-priori-Wahrscheinlichkeitsverteilung, die Vorkenntnisse über den Parameter $\theta$ vor Beobachtung von Daten ausdrückt. Quellen:
+\begin{itemize}[leftmargin=1.5em]
+    \item Domänenwissen und Expert-Meinung
+    \item Literaturwerte
+    \item Frühere ähnliche Studien
+    \item "Uninformative" Priors (z.B. gleichmäßig) bei fehlendem Vorwissen
+\end{itemize}
+
+\textbf{Kritik:} Die Wahl des Priors ist subjektiv, kann aber durch Sensitivitätsanalyse überprüft werden.
+
+\definition{\textbf{Likelihood-Funktion $p(\mathcal{D} \mid \theta)$ oder $L(\theta)$:}}
+Die Wahrscheinlichkeit der beobachteten Daten $\mathcal{D}$ gegeben einen spezifischen Wert des Parameters $\theta$. Für unabhängige Beobachtungen:
+$$L(\theta) = p(\mathcal{D} \mid \theta) = \prod_{i=1}^{n} p(\mathbf{x}_i \mid \theta)$$
+
+\textbf{Interpretation:} Die Likelihood misst, wie gut die beobachteten Daten durch den Parameter $\theta$ erklärt werden.
+
+\definition{\textbf{Evidence (Marginal Likelihood) $p(\mathcal{D})$:}}
+Die Gesamtwahrscheinlichkeit der Daten unter allen möglichen Parameterwerten, marginalisiert über den Parameter:
+$$p(\mathcal{D}) = \int p(\mathcal{D} \mid \theta) p(\theta) \, d\theta$$
+
+\textbf{Rolle:} Normalisierungskonstante; wichtig für Modellvergleich (Bayes Factor) und für die Berechnung der korrekten Posteriori-Wahrscheinlichkeiten.
+
+\definition{\textbf{Posterior-Verteilung $p(\theta \mid \mathcal{D})$:}}
+Die aktualisierte Wahrscheinlichkeitsverteilung des Parameters nach Beobachtung der Daten. Der Satz von Bayes liefert:
+$$p(\theta \mid \mathcal{D}) = \frac{p(\mathcal{D} \mid \theta) \cdot p(\theta)}{p(\mathcal{D})} = \frac{\text{Likelihood} \cdot \text{Prior}}{\text{Evidence}}$$
+
+\textbf{Merkregel:}
+$$\boxed{\text{Posterior} = \frac{\text{Likelihood} \times \text{Prior}}{\text{Evidence}}}$$
+
+\textbf{Interpretation:} Der Posterior kombiniert Vorwissen (Prior) mit neuer Evidenz (Likelihood), um eine Posteriori-Verteilung zu erhalten, die beide Informationen balanciert.
+
+\definition{\textbf{Sequential Bayesian Update:}}
+Ein großer Vorteil des Bayesianischen Ansatzes ist die Möglichkeit, mit neuen Daten zu aktualisieren:
+$$p(\theta \mid \mathcal{D}_1, \mathcal{D}_2) = \frac{p(\mathcal{D}_2 \mid \theta) \cdot p(\theta \mid \mathcal{D}_1)}{p(\mathcal{D}_2 \mid \mathcal{D}_1)}$$
+
+Der \textbf{alte Posterior wird zum neuen Prior}. Dies erlaubt kontinuierliche Lernprozesse und ist fundamental für Online-Learning und sequentielle Entscheidungsfindung.
+
+\beispiel{\textbf{Münzwurf-Beispiel:} Schätze die Erfolgswahrscheinlichkeit $p$ einer Münze.
+
+\textbf{Prior:} Uninformativ, z.B. $p \sim \text{Beta}(1, 1)$ (gleichmäßig auf $[0, 1]$)
+
+\textbf{Beobachtungen:} 5 Würfe, 3 Erfolge
+
+\textbf{Likelihood:} $L(p) = p^3 (1-p)^2$
+
+\textbf{Posterior (analytisch):} $p(p \mid \text{data}) \propto p^3 (1-p)^2 \cdot 1 \sim \text{Beta}(4, 3)$
+
+\textbf{Posterior-Erwartungswert:} $\mathbb{E}[p \mid \text{data}] = \frac{4}{4+3} = \frac{4}{7} \approx 0.571$
+
+Im Vergleich: Frequentist'sche MLE würde $\hat{p} = 3/5 = 0.6$ geben. Der Bayes-Schätzer ist durch den uninformativen Prior leicht zu diesem Wert gezogen.}
+
+\definition{\textbf{Posteriorpunktschätzung:}}
+Unterschiedliche Schätzverfahren je nach Zielkriterium:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Maximum A Posteriori (MAP):} $\hat{\theta}_{\text{MAP}} = \arg\max_\theta p(\theta \mid \mathcal{D})$ — der Modus des Posteriors
+    \item \textbf{Posterior Mean:} $\hat{\theta}_{\text{Mean}} = \mathbb{E}[\theta \mid \mathcal{D}] = \int \theta \cdot p(\theta \mid \mathcal{D}) \, d\theta$ — der Erwartungswert
+    \item \textbf{Posterior Median:} $\hat{\theta}_{\text{Median}}$ — der Median des Posteriors
+\end{itemize}
+
+\definition{\textbf{Posteriorwahrscheinlichkeitsintervalle (Credible Intervals):}}
+Im Gegensatz zu Frequentist'schen Konfidenzintervallen können Bayesianische Credible Intervals direkt probabilistisch interpretiert werden.
+
+\textbf{Gleichschwanz-Credible Interval (ETI):} Das zentrale $100(1-\alpha)\%$-Intervall mit gleichen Schwänzen.
+
+\textbf{Höchste Posteriordichte Intervall (HDI):} Der zusammenhängende Bereich der höchsten Posteriordichte, der $100(1-\alpha)\%$ der Wahrscheinlichkeit enthält.
+
+\textbf{Interpretation:} Mit $100(1-\alpha)\%$ Kredibilität liegt der wahre Parameterwert im Credible Interval — eine intuitivere Aussage als das Frequentist'sche Konfidenzintervall.
+
 \newpage
 
 \subsection{Konjugierte Priors}
+
+\definition{\textbf{Konjugierter Prior:}}
+Ein Prior $p(\theta)$ ist konjugiert zur Likelihood $p(\mathcal{D} \mid \theta)$, wenn der resultierende Posterior $p(\theta \mid \mathcal{D})$ die gleiche funktionale Form wie der Prior hat (aus der gleichen Verteilungsfamilie).
+
+\textbf{Vorteil:} Erlaubt analytische Lösungen; keine numerische Integration notwendig; Posterior hat oft geschlossene Form mit einfachen Update-Regeln.
+
+\definition{\textbf{Beta-Binomial Konjugation:}}
+Likelihood: Bernoulli oder Binomial mit Erfolgswahrscheinlichkeit $p$
+
+Prior: $\theta \sim \text{Beta}(\alpha, \beta)$ mit Dichtefunktion $p(\theta) \propto \theta^{\alpha-1} (1-\theta)^{\beta-1}$
+
+Posterior: Nach $k$ Erfolgen in $n$ Versuchen:
+$$p(\theta \mid \text{data}) \sim \text{Beta}(\alpha + k, \beta + n - k)$$
+
+\textbf{Update-Regel:} $\alpha \to \alpha + k$ (Erfolge dazuaddieren), $\beta \to \beta + (n-k)$ (Misserfolge dazuaddieren).
+
+\textbf{Spezialfall:} Uninformativ Prior $\text{Beta}(1, 1)$ (uniform); mit Laplace Smoothing: $\text{Beta}(\alpha_0, \beta_0)$ mit $\alpha_0, \beta_0 > 1$.
+
+\definition{\textbf{Normal-Normal Konjugation (mit bekannter Varianz):}}
+Likelihood: Normalverteilung $N(\theta, \sigma^2)$ mit bekannter Varianz $\sigma^2$
+
+Prior: $\theta \sim N(\mu_0, \tau_0^2)$
+
+Posterior: $\theta \mid \mathcal{D} \sim N(\mu_n, \tau_n^2)$
+
+\textbf{Update-Formeln:}
+\begin{align*}
+\tau_n^{-2} &= \tau_0^{-2} + n\sigma^{-2} \quad \text{(Genauigkeiten addieren sich)} \\
+\mu_n &= \tau_n^2 \left( \tau_0^{-2} \mu_0 + n\sigma^{-2} \bar{x} \right)
+\end{align*}
+
+\definition{\textbf{Dirichlet-Multinomial Konjugation:}}
+Likelihood: Multinomial (Verallgemeinerung der Binomial) mit Wahrscheinlichkeitsvektor $\boldsymbol{\theta} = (\theta_1, \ldots, \theta_k)$
+
+Prior: $\boldsymbol{\theta} \sim \text{Dir}(\alpha_1, \ldots, \alpha_k)$
+
+Posterior: Nach Beobachtung von $n_1, \ldots, n_k$ Counts:
+$$\boldsymbol{\theta} \mid \text{data} \sim \text{Dir}(\alpha_1 + n_1, \ldots, \alpha_k + n_k)$$
+
+\textbf{Anwendung:} Klassifikation mit mehreren Klassen; Wort-Häufigkeiten in Textanalyse (Naive Bayes).
+
+\textbf{Übersicht Konjugierter Priors:}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Likelihood} & \textbf{Konjugierter Prior} & \textbf{Posterior-Familie} \\
+        \hline
+        Bernoulli ($p$) & Beta & Beta \\
+        \hline
+        Binomial ($p$) & Beta & Beta \\
+        \hline
+        Multinomial ($\boldsymbol{p}$) & Dirichlet & Dirichlet \\
+        \hline
+        Normal ($\mu$, $\sigma^2$ bekannt) & Normal & Normal \\
+        \hline
+        Normal ($\sigma^2$, $\mu$ bekannt) & Inverse-Gamma & Inverse-Gamma \\
+        \hline
+        Poisson ($\lambda$) & Gamma & Gamma \\
+        \hline
+        Exponential ($\lambda$) & Gamma & Gamma \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\definition{\textbf{Detailliertes Beispiel: Normal-Normal Updates (Gauß-Gauß Modell)}}
+
+Betrachte eine eindimensionale Normalverteilung mit bekannter Varianz $\sigma^2 = 1$ und unbekanntem Lageparameter $\mu$:
+$$p(x \mid \mu) = \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}(x-\mu)^2}$$
+
+Annahme: Der Prior ist eine Normalverteilung mit Mittelwert $\mu_0 = 0$ und Varianz $\tilde{\sigma}_0^2 = 1$:
+$$p(\mu) = \frac{1}{\sqrt{2\pi}} e^{-\frac{1}{2}\mu^2}$$
+
+\textbf{Interpretation des Priors als Pseudo-Datenpunkt:} Der Prior $N(\mu_0, \tilde{\sigma}_0^2)$ wirkt wie ein einzelner fiktiver Datenpunkt $x_0 = \mu_0$ mit Varianz $\sigma^2 = 1$.
+
+\textbf{Erster Datenpunkt $x_1 = 1$:} Mit Bayes' Theorem:
+$$p(\mu \mid D_1) \propto p(x_1 \mid \mu) \cdot p(\mu) = e^{-\frac{1}{2}(1-\mu)^2} \cdot e^{-\frac{1}{2}\mu^2}$$
+
+Im Exponenten:
+$$-\frac{1}{2}(1-\mu)^2 - \frac{1}{2}\mu^2 = -\frac{1}{2}(1 - 2\mu + \mu^2 + \mu^2) = -(\mu^2 - \mu + \frac{1}{2})$$
+
+Quadratisches Ergänzen: $\mu^2 - \mu = (\mu - \frac{1}{2})^2 - \frac{1}{4}$
+
+$$\Rightarrow p(\mu \mid D_1) \propto e^{-(\mu - \frac{1}{2})^2 + \frac{1}{4}} = e^{-(\mu - \frac{1}{2})^2} \cdot \text{const}$$
+
+Also: $p(\mu \mid D_1) = N(\mu_1, \tilde{\sigma}_1^2)$ mit $\mu_1 = \frac{1}{2}$ und $\tilde{\sigma}_1^2 = \frac{1}{2}$
+
+\textbf{Interpretation:} Der neue Mittelwert liegt zwischen dem Prior-Mittelwert ($\mu_0 = 0$) und dem MLE ($\mu_{\text{MLE}} = 1$). Die Varianz hat sich reduziert: Zuversicht in der Schätzung nimmt zu.
+
+\textbf{Zweiter Datenpunkt $x_2 = -\frac{1}{2}$:} Der alte Posterior wird zum neuen Prior:
+$$p(\mu \mid D_{1,2}) \propto p(x_2 \mid \mu) \cdot p(\mu \mid D_1)$$
+
+Nach analoger Berechnung:
+$$p(\mu \mid D_{1,2}) = N(\mu_2, \tilde{\sigma}_2^2) \quad \text{mit} \quad \mu_2 = \frac{1}{6}, \quad \tilde{\sigma}_2^2 = \frac{1}{3}$$
+
+\textbf{Allgemeine Formel für $n$ Datenpunkte:}
+
+Mit $n$ Datenpunkten $D_{1,\ldots,n} = \{x_1, \ldots, x_n\}$ und Prior $N(\mu_0, \tilde{\sigma}_0^2)$:
+
+$$p(\mu \mid D_{1,\ldots,n}) = N(\mu_n, \tilde{\sigma}_n^2)$$
+
+mit:
+$$\tilde{\sigma}_n^2 = \frac{1}{\frac{1}{\tilde{\sigma}_0^2} + \frac{n}{\sigma^2}} \quad \text{und} \quad \mu_n = \tilde{\sigma}_n^2 \left( \frac{\mu_0}{\tilde{\sigma}_0^2} + \frac{1}{\sigma^2}\sum_{k=1}^{n} x_k \right)$$
+
+\textbf{Alternative Darstellung (Präzisions-Gewichte):} Mit Präzisionen $\tau = \sigma^{-2}$:
+
+$$\mu_n = \frac{\frac{1}{\tilde{\sigma}_0^2} \mu_0 + n \cdot \tau \cdot \bar{x}}{\frac{1}{\tilde{\sigma}_0^2} + n \cdot \tau}$$
+
+Der Posterior ist ein gewichteter Durchschnitt von Prior-Mittelwert und Stichprobenmittelwert $\bar{x}$, gewichtet nach ihren Präzisionen.
+
+\textbf{Varianz-Hyperparameter:} Der Einfluss des Priors kann durch Hyperparameter $\sigma_0^2 = \frac{1}{\alpha_0}$ eingestellt werden. Ein kleines $\sigma_0^2$ (großes $\alpha_0$) bedeutet starken Prior-Einfluss (vertrauensvoll), ein großes $\sigma_0^2$ (kleines $\alpha_0$) bedeutet schwachen Prior-Einfluss (uninformativ).
+
+\textbf{Sequentielle Updates:} Crucially: Die Reihenfolge der Datenpunkte ist unerheblich, und Updates können sequentiell (Punkt für Punkt) oder auf einmal durchgeführt werden — das Ergebnis ist identisch (Batch vs. Online Learning).
+
+\definition{\textbf{Normal-Inverse-Gamma (NIW) für Gauß-Verteilung mit unbekannten $\mu$ und $\sigma^2$:}}
+
+Wenn auch die Varianz $\sigma^2$ unbekannt ist, wird ein konjugierter Prior benötigt, der sowohl über $\mu$ als auch über $\sigma^2$ faktorisiert.
+
+Prior:
+$$p(\mu, \sigma^2) = \underbrace{N(\mu \mid \mu_0, \frac{\sigma^2}{\kappa_0})}_{\text{Normal in } \mu} \times \underbrace{\text{Inv-Gamma}(\sigma^2 \mid \alpha_0, \beta_0)}_{\text{Inverse-Gamma in } \sigma^2}$$
+
+wobei:
+\begin{itemize}[leftmargin=1.5em]
+    \item $\mu_0$: Prior-Mittelwert
+    \item $\kappa_0$: Pseudo-Stichproben-Größe (Präzisions-Gewicht des Priors auf $\mu$)
+    \item $\alpha_0, \beta_0$: Shape- und Rate-Parameter der Inverse-Gamma für $\sigma^2$
+\end{itemize}
+
+Posterior nach $n$ Beobachtungen:
+$$p(\mu, \sigma^2 \mid D) = N(\mu \mid \mu_n, \frac{\sigma^2}{\kappa_n}) \times \text{Inv-Gamma}(\sigma^2 \mid \alpha_n, \beta_n)$$
+
+mit Update-Regeln:
+\begin{align*}
+\kappa_n &= \kappa_0 + n \\
+\mu_n &= \frac{\kappa_0 \mu_0 + n \bar{x}}{\kappa_n} \\
+\alpha_n &= \alpha_0 + \frac{n}{2} \\
+\beta_n &= \beta_0 + \frac{1}{2}\sum_{i=1}^{n}(x_i - \bar{x})^2 + \frac{n\kappa_0}{2\kappa_n}(\bar{x} - \mu_0)^2
+\end{align*}
+
+\textbf{Anwendung:} In der Praxis sehr häufig, wenn man ein Normalverteilungsmodell an Daten anpassen möchte, ohne Annahmen über die Varianz zu treffen.
+
 \newpage
 
 \subsection{Survivorship Bias und kognitive Verzerrungen}
+
+\definition{\textbf{Survivorship Bias (Überlebendenverzerrung):}}
+Eine statistische oder kognitive Verzerrung, die auftritt, wenn eine Analyse nur auf den ``Überlebenden'' oder Erfolgreichen eines Prozesses basiert, während die ``Nicht-Überlebenden'' oder Misserfolge systematisch übersehen werden. Dies führt zu fehlerhaften Schlussfolgerungen über den Prozess selbst.
+
+\textbf{Mathematische Perspektive:} Wenn $D_{\text{obs}}$ die beobachteten (überlebenden) Datenpunkte sind und $D_{\text{missing}}$ die nicht-beobachteten (eliminieren) Datenpunkte, dann:
+$$\text{Bias} = \mathbb{E}[\text{Statistik} \mid D_{\text{obs}}] \neq \mathbb{E}[\text{Statistik} \mid D_{\text{obs}} \cup D_{\text{missing}}]$$
+
+\beispiel{\textbf{Flugzeug-Panzerfrage (2. Weltkrieg):}}
+
+\textbf{Problem:} US-Militärs analysieren die zurückgekehrten Flugzeuge aus Kampfeinsätzen und beobachten gehäufte Treffer in bestimmten Sektoren (z.B. Tragflächen, Rumpf). Sie wollen diese Bereiche zusätzlich panzern, um künftige Flugzeuge widerstandsfähiger zu machen.
+
+\textbf{Naïve Analyse:} ``Die meisten Treffer sind im Rumpf — panzere den Rumpf mehr!''
+
+\textbf{Survivorship Bias:} Die ausgegebenen Flugzeuge sind bereits die ``Überlebenden''. Flugzeuge, die in kritischen Bereichen wie dem Cockpit, Motor oder Hydraulik getroffen wurden, sind \textbf{nicht} zurückgekommen — sie fehlen in der Analyse!
+
+\textbf{Richtige Schlussfolgerung (Abraham Wald):} Die Bereiche \textbf{ohne} gehäufte Treffer (Cockpit, Motoren) sind wahrscheinlich die kritischen Punkte. Diese Flugzeuge sind nicht heimgekehrt, weil sie dort getroffen wurden. Daher sollten \textit{diese} Bereiche gepanzert werden.
+
+\textbf{Lesson:} Überlebendenverzerrung ist eine systematische Lücke in der Datengrundlage, nicht nur ein statistisches Problem.
+
+\beispiel{\textbf{Das Helm-Paradoxon (1. Weltkrieg):}}
+
+\textbf{Beobachtung:} Soldaten erhielten Stahlhelme statt Stoff/Leder-Kopfbedeckungen. Nach Einführung der Metallhelme stieg die registrierte Anzahl von Kopfverletzungen in Feldspitälern um etwa das Fünffache.
+
+\textbf{Naive Interpretation:} ``Stahlhelme sind schädlich! Sie verursachen mehr Kopfverletzungen!''
+
+\textbf{Richtige Erklärung:} 
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Vor Helmausgabe:} Direkter Splitterbeschuß aus Schützengräben $\to$ tödliche Kopfverletzungen, Soldaten sterben sofort \textbf{nicht im Feldspital erfasst}
+    \item \textbf{Nach Helmausgabe:} Gleiche Splitter treffen, aber Helm verhindert Tod; Soldaten kommen ins Feldspital mit Kopfverletzungen $\to$ \textbf{diese werden jetzt registriert}
+\end{itemize}
+
+Die Metallhelme waren nicht schädlich — sie erhöhten nur die Überlebensquote. Die scheinbare Zunahme von Kopfverletzungen war eine Messung der \textbf{Überlebenden}, nicht der Gesamtverletzten.
+
+\definition{\textbf{Availability Bias (Verfügbarkeitsheuristik):}}
+Eine verwandte Verzerrung, bei der das Gehirn/die Analyse leicht zugängliche oder auffällige Informationen übergewichtet, statt eine repräsentative Stichprobe zu verwenden.
+
+\textbf{Beispiele:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Schätze die Häufigkeit von Flugzeugunglücken vs. Autounfällen: Flugzeugunglücke sind präsenter in den Medien $\to$ Autounfälle sind tatsächlich häufiger
+    \item Nur Kundenbewertungen von Amazon betrachtende statt alle Kunden: Bewertungen sind systematisch von stark-zufriedenen oder stark-unzufriedenen Kunden
+    \item Social-Media-Analyse: Nur aktive Posts sehen, nicht stumme Mehrheit
+\end{itemize}
+
+\definition{\textbf{Confirmation Bias (Bestätigungsverzerrung):}}
+Eine psychologische und statistische Bias, bei der nur Daten erfasst oder bevorzugt werden, die existierende Überzeugungen oder Erwartungen bestätigen. Dies erzeugt positive Rückkopplung und selbsterfüllende Prophezeiungen.
+
+\beispiel{\textbf{Algorithmic Bias in der Polizeieinsatzplanung:}}
+
+\textbf{Ausgangslage:} Ein datengetriebenes Modell soll effektiven Polizeieinsatz zur Verhinderung schwerer Verbrechen planen.
+
+\textbf{Schritt 1 (Berechnung):} Verbrechensdichte wird basierend auf leichten und schweren Verbrechen berechnet. In historischen Daten ist Verbrechensdichte in bestimmten Stadtvierteln höher (z.B. wirtschaftlich benachteiligt).
+
+\textbf{Schritt 2 (Verstärkte Einsätze):} Das Modell weist verstärkte Polizeipräsenz in Bereichen höherer Verbrechensdichte an.
+
+\textbf{Schritt 3 (Zusätzliche Erfassung):} Durch mehr Polizeipräsenz vor Ort werden \textbf{zusätzlich} leichte Verbrechen entdeckt und registriert (z.B. Drogendelikte, Ordnungswidrigkeiten), nicht nur schwere Verbrechen.
+
+\textbf{Positive Rückkopplung:} Die verstärkte Erfassung leichter Verbrechen erhöht die berechnete Verbrechensdichte in diesen Vierteln weiter $\to$ noch mehr Polizeieinsatz $\to$ noch mehr erfasste Verbrechen $\to$ Konzentration auf wenige Viertel verstärkt sich.
+
+\textbf{Problem:} Das Modell wurde ursprünglich mit verzerrten Daten trainiert; nun verstärkt sich diese Verzerrung durch die Rückkopplung. Das System lernt, die historische Verzerrung zu replizieren und zu verstärken.
+
+\textbf{Implikation:} Confirmation Bias ist nicht nur eine kognitiv-psychologische Verzerrung, sondern ein \textbf{strukturelles Risiko} in datengetriebenen Systemen, die sich selbst füttern (Feedback loops).
+
+\definition{\textbf{Allgemeine Erkennungsmerkmale und Gegenmaßnahmen:}}
+
+\textbf{Identifikation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Überprüfung der Datengrundlage:} Welche Daten sind vorhanden, und warum? Welche Daten fehlen systematisch?
+    \item \textbf{Selection Mechanism:} Wer oder was entscheidet, welche Fälle beobachtet werden?
+    \item \textbf{Rückkopplungsschleifen:} Können Modellvorhersagen die Eingangsdaten beeinflussen?
+\end{itemize}
+
+\textbf{Gegenmaßnahmen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Missing Data Analysis:} Statistiken über fehlende Datenpunkte sammeln
+    \item \textbf{Sensitivity Analysis:} Wie robust sind Schlussfolgerungen unter verschiedenen Annahmen über fehlende Daten?
+    \item \textbf{Domain Expertise:} Außerstatistische Quellen nutzen (Fachliteratur, Experteninterview)
+    \item \textbf{Blind Randomization:} Bei möglichst vielen Schritten Zufälligkeit einführen
+    \item \textbf{Feedback Loop Monitoring:} Feedback-Schleifen in ML-Systemen aktiv überwachen und begrenzen
+    \item \textbf{Fairness Constraints:} Bei Einsatz von Modellen in gesellschaftskritischen Bereichen (Polizei, Kreditvergabe, Medizin) aktive Fairness-Constraints einführen
+\end{itemize}
+
 \newpage
 
 \subsection{Wahrheitsmatrix und abgeleitete Kenngrößen}
+
+\definition{\textbf{Confusion Matrix (Wahrheitsmatrix, Kontingenztabelle):}}
+Eine tabellarische Darstellung der Leistung eines Klassifikationsmodells. Für binäre Klassifikation hat sie folgende Struktur:
+
+\begin{center}
+\begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{} & \textbf{Actual: Negative (N)} & \textbf{Actual: Positive (P)} \\
+    \hline
+    \textbf{Predicted: Negative} & True Negative (TN) & False Negative (FN) \\
+    \hline
+    \textbf{Predicted: Positive} & False Positive (FP) & True Positive (TP) \\
+    \hline
+\end{tabular}
+\end{center}
+
+\textbf{Interpretationen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{TP (True Positive):} Modell sagt Positive voraus, Realität ist Positive (korrekt)
+    \item \textbf{TN (True Negative):} Modell sagt Negative voraus, Realität ist Negative (korrekt)
+    \item \textbf{FP (False Positive):} Modell sagt Positive voraus, Realität ist Negative (Fehler: ``Fehlalarm'')
+    \item \textbf{FN (False Negative):} Modell sagt Negative voraus, Realität ist Positive (Fehler: ``übersehen'')
+\end{itemize}
+
+\definition{\textbf{Accuracy (Genauigkeit, Success Rate):}}
+Der Anteil korrekter Vorhersagen an allen Vorhersagen:
+$$\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}}$$
+
+\textbf{Wertebereich:} $[0, 1]$ oder $[0\%, 100\%]$. Höher ist besser.
+
+\textbf{Limitation:} Bei unbalanciertem Datensatz (z.B. 95\% Negative, 5\% Positive) kann ein Modell, das alles als Negativ vorhersagt, eine hohe Accuracy haben, obwohl es unbrauchbar ist.
+
+\definition{\textbf{Error Rate (Fehlerquote, Misclassification Rate):}}
+Der Anteil falscher Vorhersagen:
+$$\text{Error Rate} = \frac{\text{FP} + \text{FN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} = 1 - \text{Accuracy}$$
+
+\definition{\textbf{Sensitivity (Empfindlichkeit, Recall, True Positive Rate -- TPR):}}
+Der Anteil der tatsächlich positiven Fälle, die korrekt identifiziert wurden. Misst die Fähigkeit, Positive zu erkennen:
+$$\text{Sensitivity} = \text{TPR} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{\text{TP}}{P}$$
+
+wobei $P = \text{TP} + \text{FN}$ die Gesamtzahl der tatsächlich positiven Fälle ist.
+
+\textbf{Interpretation:} Wenn ein Email-Filter Sensitivity = 0.95 hat, werden 95\% aller Spam-Emails korrekt erkannt. 5\% gelangen in den Posteingang (False Negatives).
+
+\textbf{Synonyme:} Recall, Hit Rate, Detection Rate, True Positive Rate (TPR).
+
+\definition{\textbf{Specificity (Spezifität, True Negative Rate -- TNR):}}
+Der Anteil der tatsächlich negativen Fälle, die korrekt identifiziert wurden. Misst die Fähigkeit, Negative zu erkennen:
+$$\text{Specificity} = \text{TNR} = \frac{\text{TN}}{\text{TN} + \text{FP}} = \frac{\text{TN}}{N}$$
+
+wobei $N = \text{TN} + \text{FP}$ die Gesamtzahl der tatsächlich negativen Fälle ist.
+
+\textbf{Interpretation:} Wenn ein Email-Filter Specificity = 0.99 hat, werden 99\% aller legitimen Emails korrekt als legitim erkannt. 1\% werden fälschlicherweise als Spam markiert (False Positives).
+
+\textbf{Synonyme:} Selectivity, True Negative Rate (TNR).
+
+\definition{\textbf{Trade-off zwischen Sensitivity und Specificity:}}
+Diese beiden Maße sind üblicherweise negativ korreliert. Durch Anheben des Klassifikations-Schwellenwerts (Threshold/Cutoff):
+\begin{itemize}[leftmargin=1.5em]
+    \item Höherer Threshold $\to$ weniger Positive vorhergesagt $\to$ weniger TP, aber auch weniger FP $\to$ höhere Specificity, niedrigere Sensitivity
+    \item Niedrigerer Threshold $\to$ mehr Positive vorhergesagt $\to$ mehr TP, aber auch mehr FP $\to$ höhere Sensitivity, niedrigere Specificity
+\end{itemize}
+
+Die optimale Wahl hängt vom Kontext ab: Bei Krebserkennung wird höhere Sensitivity bevorzugt (lieber ein False Positive als einen Fall übersehen); bei Spam-Filterung ist höhere Specificity wünschenswert (legitime Emails sollten nicht gelöscht werden).
+
+\definition{\textbf{Precision (Präzision, Positive Predictive Value -- PPV):}}
+Wenn das Modell eine Positive vorhersagt, wie wahrscheinlich ist diese Vorhersage korrekt:
+$$\text{Precision} = \text{PPV} = \frac{\text{TP}}{\text{TP} + \text{FP}}$$
+
+\textbf{Interpretation:} Ein Email-Filter mit Precision = 0.96 bedeutet: 96\% der Emails, die als Spam markiert wurden, sind tatsächlich Spam. 4\% sind legitime Emails (False Positives).
+
+\textbf{Unterschied zu Sensitivity:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Precision:} Von allen vorhergesagten Positives, wie viele sind korrekt? (Focus: Korrektheit der Positive-Vorhersagen)
+    \item \textbf{Sensitivity/Recall:} Von allen echten Positives, wie viele werden erkannt? (Focus: Vollständigkeit)
+\end{itemize}
+
+\definition{\textbf{Recall (Rückruf):}}
+Ein Synonym für Sensitivity. Misst, wie vollständig die positiven Fälle erfasst wurden:
+$$\text{Recall} = \text{Sensitivity} = \frac{\text{TP}}{\text{TP} + \text{FN}}$$
+
+\definition{\textbf{Trade-off zwischen Precision und Recall:}}
+Diese sind ebenfalls negativ korreliert. Durch Herabsetzen des Threshold:
+\begin{itemize}[leftmargin=1.5em]
+    \item Mehr positive Vorhersagen $\to$ höheres Recall (mehr echte Positive gefunden), aber niedrigere Precision (mehr False Positives)
+    \item Weniger positive Vorhersagen $\to$ höhere Precision (weniger False Positives), aber niedriges Recall (echte Positive übersehen)
+\end{itemize}
+
+\textbf{Anwendungsbeispiel:} In Informationsbeschaffung (Information Retrieval):
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{High Recall, Low Precision:} Suchmaschine gibt viele Ergebnisse zurück (findet viele relevante Seiten), aber auch viele irrelevante. Nützlich bei Durchsuchen großer Dokumentmengen.
+    \item \textbf{High Precision, Low Recall:} Suchmaschine gibt nur hochrelevante Ergebnisse zurück, könnte aber viele verpassen. Nützlich bei Suche nach seltenen/spezifischen Dokumenten.
+\end{itemize}
+
+\definition{\textbf{F1-Score (F-Measure, F-Measure):}}
+Die harmonische Mittelwert von Precision und Recall, gewichtet mit gleichen Anteilen:
+$$F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}} = \frac{2 \cdot \text{TP}}{2 \cdot \text{TP} + \text{FP} + \text{FN}}$$
+
+\textbf{Eigenschaften:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Wertebereich: $[0, 1]$; höher ist besser
+    \item $F_1 = 1$ nur wenn Precision und Recall beide 1 sind (perfekt)
+    \item $F_1 = 0$ wenn TP = 0
+    \item Besser als einfaches Mittel $(P + R)/2$ bei unbalancierten Klassen (harmonische Mittel bestraft extrem niedrige Werte stärker)
+\end{itemize}
+
+\textbf{Generalisierung:} Der gewichtete F-Score $F_\beta$ betont Recall stärker ($\beta > 1$) oder Precision stärker ($\beta < 1$):
+$$F_\beta = (1 + \beta^2) \cdot \frac{\text{Precision} \cdot \text{Recall}}{\beta^2 \cdot \text{Precision} + \text{Recall}}$$
+
+\definition{\textbf{False Positive Rate (FPR) und False Negative Rate (FNR):}}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{FPR (False Positive Rate):} Anteil falscher Positive an allen Negativen:
+    $$\text{FPR} = \frac{\text{FP}}{\text{TN} + \text{FP}} = \frac{\text{FP}}{N} = 1 - \text{Specificity}$$
+    
+    \item \textbf{FNR (False Negative Rate):} Anteil falscher Negative an allen Positiven:
+    $$\text{FNR} = \frac{\text{FN}}{\text{TP} + \text{FN}} = \frac{\text{FN}}{P} = 1 - \text{Sensitivity}$$
+\end{itemize}
+
+\definition{\textbf{ROC Curve (Receiver Operating Characteristic):}}
+Eine grafische Darstellung der Modellleistung bei unterschiedlichen Klassifikations-Schwellenwerten.
+
+\textbf{Achsen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{X-Achse:} False Positive Rate (FPR) = $1 - \text{Specificity}$
+    \item \textbf{Y-Achse:} True Positive Rate (TPR) = Sensitivity
+\end{itemize}
+
+\textbf{Punkte auf der Kurve:} Jeder Punkt repräsentiert eine andere Threshold-Einstellung:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Linke untere Ecke (0, 0):} Threshold sehr hoch, fast keine Positives vorhergesagt (viele FN, wenige FP)
+    \item \textbf{Rechte obere Ecke (1, 1):} Threshold sehr niedrig, fast alle Negatives vorhergesagt (wenige FN, viele FP)
+    \item \textbf{Diagonale (0, 0) zu (1, 1):} Zufälliger Klassifizierer (50/50 Vorhersagen)
+    \item \textbf{Linke obere Ecke (0, 1):} Idealer Klassifizierer (hoher TPR, niedriger FPR)
+\end{itemize}
+
+\textbf{Interpretation:} Je weiter die Kurve nach oben-links gewölbt ist, desto besser das Modell. Ein Modell unter der Diagonale ist schlechter als Zufall und kann durch Invertieren der Vorhersagen verbessert werden.
+
+\definition{\textbf{AUC (Area Under the Curve):}}
+Die Fläche unter der ROC-Kurve. Ein Aggregat-Maß der Modellleistung über alle Threshold-Werte.
+
+\textbf{Wertebereich:} $[0, 1]$
+
+\textbf{Interpretation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{AUC = 0.5:} Zufälliger Klassifizierer (Kurve folgt der Diagonale)
+    \item \textbf{AUC = 1.0:} Perfekter Klassifizierer
+    \item \textbf{AUC = 0.9--1.0:} Exzellent
+    \item \textbf{AUC = 0.8--0.9:} Gut
+    \item \textbf{AUC = 0.7--0.8:} Befriedigend
+    \item \textbf{AUC < 0.7:} Schwach/unzureichend
+\end{itemize}
+
+\textbf{Wahrscheinlichkeitsinterpretation:} AUC ist die Wahrscheinlichkeit, dass das Modell einen zufällig ausgewählten positiven Beispiel höher rangiert als einen zufällig ausgewählten negativen Beispiel.
+
+\definition{\textbf{Balanced Accuracy (Ausgeglichene Genauigkeit):}}
+Der Durchschnitt von Sensitivity und Specificity:
+$$\text{Balanced Accuracy} = \frac{\text{Sensitivity} + \text{Specificity}}{2} = \frac{\text{TPR} + \text{TNR}}{2}$$
+
+\textbf{Verwendung:} Bei stark unbalancierten Datensätzen ist Balanced Accuracy ein besseres Maß als einfache Accuracy, da sie beide Klassen gleich gewichtet.
+
+\textbf{Zusammenfassung der Performance-Metriken:}
+
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{Metrik} & \textbf{Formel} & \textbf{Fokus} & \textbf{Best For} \\
+        \hline
+        Accuracy & $\frac{\text{TP+TN}}{n}$ & Gesamt-Korrektheit & Balancierte Daten \\
+        \hline
+        Sensitivity/Recall & $\frac{\text{TP}}{\text{TP+FN}}$ & Positive finden & Medizin, Sicherheit \\
+        \hline
+        Specificity & $\frac{\text{TN}}{\text{TN+FP}}$ & Negative korrekt erkennen & Spam-Filter \\
+        \hline
+        Precision & $\frac{\text{TP}}{\text{TP+FP}}$ & Zuverlässigkeit Positive & Klassifizierung kritisch \\
+        \hline
+        F1-Score & $\frac{2 \cdot P \cdot R}{P+R}$ & Balance P \& R & Unbalancierte Daten \\
+        \hline
+        AUC & Area under ROC & Ranking-Qualität & Allgemeiner Vergleich \\
+        \hline
+        Balanced Accuracy & $\frac{\text{TPR+TNR}}{2}$ & Beide Klassen & Unbalancierte Daten \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \newpage
 
 \subsection{Support Vector Machines}
+
+\definition{\textbf{Support Vector Machines (SVM):}}
+Ein Klassifikationsalgorithmus, der eine optimale Trennungsebene (Hyperplane) zwischen zwei oder mehr Klassen findet. Ziel ist es, den Abstand zur nächsten Trainingsinstanz zu maximieren (Maximum Margin Principle).
+
+\definition{\textbf{Hyperplane:}}
+Eine Fläche im p-dimensionalen Raum, definiert durch die Gleichung:
+$$H: w^T x + b = 0$$
+
+wobei:
+\begin{itemize}[leftmargin=1.5em]
+    \item $w = (w_1, w_2, \ldots, w_p)$ der Normalvektor ist (bestimmt die Orientierung)
+    \item $b$ der Bias-Term ist (bestimmt die Position)
+    \item $x = (x_1, x_2, \ldots, x_p)$ ein Datenpunkt ist
+\end{itemize}
+
+\textbf{Interpretationen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item In $\mathbb{R}^2$ ist eine Hyperplane eine Linie
+    \item In $\mathbb{R}^3$ ist eine Hyperplane eine Ebene
+    \item Im höherdimensionalen Raum verallgemeinert sich das Konzept
+\end{itemize}
+
+\definition{\textbf{Maximum Margin Classifier:}}
+Ein Klassifikator, der die Hyperplane mit dem größten Abstand (Margin) zu den nächsten Trainingsbeobachtungen findet. Dies ist nur möglich, wenn die Klassen linear separierbar sind.
+
+\textbf{Optimierungsproblem:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Minimiere: $\frac{1}{2}||w||^2$ (oder äquivalent: maximiere $\frac{2}{||w||}$)
+    \item Unter den Bedingungen: $y_i (w^T x_i + b) \geq 1$ für alle Trainingsbeobachtungen $i$
+\end{itemize}
+
+wobei $y_i \in \{-1, +1\}$ die Klassenbezeichnungen sind.
+
+\definition{\textbf{Decision Rule (Klassifizierungsregel):}}
+Für eine neue Beobachtung $x_0$ wird die Klassifizierung vorgenommen über:
+$$\text{Prediction} = \text{sign}(w^T x_0 + b)$$
+
+\textbf{Interpretation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Falls $w^T x_0 + b > 0$: Vorhersage ist Klasse $+1$
+    \item Falls $w^T x_0 + b < 0$: Vorhersage ist Klasse $-1$
+    \item Die Entfernung von der Hyperplane ist proportional zu $|w^T x_0 + b|$
+\end{itemize}
+
+\definition{\textbf{Support Vectors:}}
+Trainingsbeobachtungen, die auf den Margins (den parallelen Hyperplanes $w^T x + b = 1$ oder $w^T x + b = -1$) liegen oder näher daran sind. Diese Punkte bestimmen die Position und Orientierung der optimalen Hyperplane.
+
+\textbf{Eigenschaft:} Beobachtungen, die weit von der Hyperplane entfernt liegen, beeinflussen die Lösung nicht.
+
+\definition{\textbf{Lagrange-Multipliers und Lagrange-Funktion:}}
+Zur Lösung des Optimierungsproblems wird die Lagrange-Funktion verwendet:
+$$L(w, b, \alpha) = \frac{1}{2}||w||^2 - \sum_{i=1}^{n} \alpha_i [y_i (w^T x_i + b) - 1]$$
+
+wobei $\alpha_i \geq 0$ die Lagrange-Multipliers sind.
+
+\textbf{Aus den Ableitungen ergeben sich zwei wichtige Erkenntnisse:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $w = \sum_{i=1}^{n} \alpha_i y_i x_i$: Der Gewichtsvektor ist eine Linearkombination der Trainingsbeobachtungen
+    \item $\sum_{i=1}^{n} \alpha_i y_i = 0$: Die Lagrange-Multipliers müssen diese Bedingung erfüllen
+\end{itemize}
+
+\definition{\textbf{Karush-Kuhn-Tucker (KKT) Bedingungen:}}
+Notwendige Bedingungen für die Optimalität der Lösung:
+$$\alpha_i \cdot [y_i (w^T x_i + b) - 1] = 0 \quad \text{für alle } i$$
+
+\textbf{Interpretation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Falls $\alpha_i > 0$: Die Beobachtung $i$ liegt genau auf einem der Margins ($y_i (w^T x_i + b) = 1$) → Support Vector
+    \item Falls $\alpha_i = 0$: Die Beobachtung $i$ liegt nicht auf dem Margin → hat keinen Einfluss auf die Lösung
+\end{itemize}
+
+\definition{\textbf{Support Vector Classifiers (SVC):}}
+Eine Verallgemeinerung der Maximum Margin Classifiers für den Fall, dass die Klassen \textbf{nicht} linear separierbar sind oder eine robustere Klassifizierung gewünscht ist.
+
+\textbf{Kernidee:} Wir erlauben, dass einige Trainingsbeobachtungen in die Margin eindringen oder sogar falsch klassifiziert werden.
+
+\definition{\textbf{Slack Variables (Schlupfvariablen):}}
+Variablen $\xi_i \geq 0$ für jede Trainingsbeobachtung $i$, die ausdrücken, wie sehr eine Beobachtung gegen die Margin-Bedingungen verstößt:
+$$\xi_i = 0: \quad \text{Beobachtung liegt auf der korrekten Seite des Margins}$$
+$$0 < \xi_i \leq 1: \quad \text{Beobachtung dringt in den Margin ein, wird aber korrekt klassifiziert}$$
+$$\xi_i > 1: \quad \text{Beobachtung wird falsch klassifiziert}$$
+
+\definition{\textbf{Support Vector Classifier Optimierungsproblem:}}
+\begin{itemize}[leftmargin=1.5em]
+    \item Minimiere: $\frac{1}{2}||w||^2 + C \sum_{i=1}^{n} \xi_i$
+    \item Unter den Bedingungen: 
+    \begin{itemize}[leftmargin=1.5em]
+        \item $y_i (w^T x_i + b) \geq 1 - \xi_i$ für alle $i$
+        \item $\xi_i \geq 0$ für alle $i$
+    \end{itemize}
+\end{itemize}
+
+\textbf{Komponenten:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $\frac{1}{2}||w||^2$: Margin-Term (versucht, die Margin breit zu halten)
+    \item $C \sum_{i=1}^{n} \xi_i$: Strafterm (bestraft Verletzungen der Constraints)
+    \item $C$: Regulalisierungsparameter (Tuning-Parameter)
+\end{itemize}
+
+\definition{\textbf{Regulalisierungsparameter C:}}
+Ein Hyperparameter, der den Trade-off zwischen Margin-Maximierung und Klassifizierungsfehler kontrolliert:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Großes C:} Hohe Intoleranz gegenüber Verletzungen → enges Margin → kann zu Overfitting führen (hohe Varianz)
+    \item \textbf{Kleines C:} Hohe Toleranz gegenüber Verletzungen → breites Margin → mehr Bias, weniger Varianz
+    \item \textbf{C = 0:} Entspricht dem Maximum Margin Classifier (nur für linear separierbare Daten)
+    \item \textbf{C $\to \infty$:} Alle Slack Variables müssen 0 sein (perfekte Klassifizierung erzwungen)
+\end{itemize}
+
+\textbf{Wahl von C:} Üblicherweise via Kreuzvalidation bestimmt.
+
+\definition{\textbf{Kernel Trick (Kernel-Methode):}}
+Eine Technik, um nichtlineare Klassifizierungsgrenzen zu erzeugen, ohne explizit in höherdimensionale Räume zu transformieren.
+
+\textbf{Grundidee:}
+\begin{enumerate}[leftmargin=1.5em]
+    \item Statt die Merkmale $x_1, \ldots, x_p$ direkt zu verwenden, transformieren wir sie in einen höherdimensionalen Raum: $\phi(x)$
+    \item In diesem erweiterten Raum ist die Trennung möglich linear
+    \item Die Lösung hängt nur von Skalarprodukte $\phi(x_i) \cdot \phi(x_j)$ ab, nicht von der expliziten Form von $\phi$
+    \item Die Kernel-Funktion $K(x_i, x_j)$ berechnet diese Skalarprodukte effizient: $K(x_i, x_j) = \phi(x_i) \cdot \phi(x_j)$
+\end{enumerate}
+
+\definition{\textbf{Gängige Kernel-Funktionen:}}
+
+\textbf{1. Linear Kernel:}
+$$K(x_i, x_j) = x_i^T x_j$$
+Erzeugt eine lineare Klassifizierungsgrenze (Hyperplane). Äquivalent zu SVM ohne Kernel-Transformation.
+
+\textbf{2. Polynomial Kernel:}
+$$K(x_i, x_j) = (1 + x_i^T x_j)^d$$
+wobei $d$ der Grad des Polynoms ist. Erzeugt polynomiale Klassifizierungsgrenzen.
+
+\textbf{Beispiel:} Für $d = 2$ und 2D-Punkte $x, z \in \mathbb{R}^2$:
+$$(1 + x^T z)^2 = 1 + 2x_1z_1 + 2x_2z_2 + x_1^2 z_1^2 + 2x_1z_1 x_2z_2 + x_2^2 z_2^2$$
+Dies entspricht einer Transformation in den 6-dimensionalen Raum: $\phi(x) = (1, \sqrt{2}x_1, \sqrt{2}x_2, x_1^2, \sqrt{2}x_1x_2, x_2^2)^T$
+
+\textbf{3. Radial Basis Function (RBF) Kernel:}
+$$K(x_i, x_j) = \exp\left(-\gamma ||x_i - x_j||^2\right)$$
+wobei $\gamma > 0$ ein Hyperparameter ist. Erzeugt komplexe, nichtlineare Klassifizierungsgrenzen und ist einer der beliebtesten Kernels.
+
+\textbf{Interpretation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Misst die Ähnlichkeit zwischen zwei Punkten basierend auf ihrer euklidischen Distanz
+    \item Kleine $\gamma$: Breitere Ähnlichkeitsfunktion (glatte Grenze)
+    \item Große $\gamma$: Engere Ähnlichkeitsfunktion (sehr flexible, lokale Grenze)
+\end{itemize}
+
+\textbf{4. Sigmoid Kernel (Tanh Kernel):}
+$$K(x_i, x_j) = \tanh(\kappa x_i^T x_j + \theta)$$
+wobei $\kappa$ und $\theta$ Parameter sind. Ähnelt einer neural network activation function.
+
+\definition{\textbf{SVM für Multi-class Klassifikation:}}
+Die ursprüngliche SVM ist für binäre Klassifikation entwickelt. Für mehr als 2 Klassen gibt es zwei Hauptansätze:
+
+\textbf{1. One-versus-One Approach (OvO, All-Pairs):}
+\begin{itemize}[leftmargin=1.5em]
+    \item Für $K$ Klassen werden $\binom{K}{2} = \frac{K(K-1)}{2}$ binäre SVMs trainiert (eine für jedes Paar von Klassen)
+    \item Beispiel: Für 3 Klassen werden 3 SVMs trainiert (1 vs. 2, 1 vs. 3, 2 vs. 3)
+    \item Bei Vorhersage: Jede SVM macht eine Vorhersage, und die Klasse mit den meisten Stimmen gewinnt (Voting)
+    \item Speichereffizient für große Datenmengen, aber kann bei vielen Klassen rechenaufwändig sein
+\end{itemize}
+
+\textbf{2. One-versus-All Approach (OvA, One-versus-Rest):}
+\begin{itemize}[leftmargin=1.5em]
+    \item Für $K$ Klassen werden $K$ binäre SVMs trainiert (Klasse $i$ vs. alle anderen Klassen)
+    \item Beispiel: Für 3 Klassen werden 3 SVMs trainiert: (1 vs. 2,3), (2 vs. 1,3), (3 vs. 1,2)
+    \item Bei Vorhersage: Alle $K$ SVMs bewerten den Testpunkt, und die Klasse mit dem höchsten Konfidenz-Score wird ausgewählt
+    \item Weniger Modelle zu trainieren, aber kann zu Unausgewogenheit bei der Klassifizierung führen
+\end{itemize}
+
+\definition{\textbf{Vorteile von SVM:}}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Hohe Dimensionalität:} Funktioniert gut, auch wenn die Anzahl der Features die Anzahl der Beobachtungen übersteigt
+    \item \textbf{Speichereffizient:} Nur die Support Vectors werden benötigt zur Speicherung und Vorhersage
+    \item \textbf{Flexible Klassifizierungsgrenzen:} Durch verschiedene Kernels können komplexe Grenzen modelliert werden
+    \item \textbf{Theoretisch fundiert:} Starke mathematische Grundlagen und Generalisierungsgüte (strukturelle Risikominimierung)
+    \item \textbf{Robust:} Weniger anfällig für Overfitting durch strukturelle Regularisierung
+\end{itemize}
+
+\definition{\textbf{Nachteile von SVM:}}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Rechenaufwand:} Training kann bei großen Datensätzen ($n > 50000$) sehr langsam sein (O($n^3$) Komplexität)
+    \item \textbf{Hyperparameter-Tuning:} Wahl von $C$ und Kernel-Parametern erfordert sorgfältige Kreuzvalidation
+    \item \textbf{Skalierung erforderlich:} Input-Features sollten üblicherweise normalisiert oder standardisiert werden
+    \item \textbf{Interpretation schwierig:} Die Entscheidungsgrenzen sind schwer zu interpretieren, besonders mit komplexen Kernels
+    \item \textbf{Klassenunausgeglichenheit:} SVM kann mit stark unausgeglichenen Klassen Schwierigkeiten haben (kann durch Gewichtung von $C$ adressiert werden)
+\end{itemize}
+
+\definition{\textbf{Vergleich: SVM vs. andere Klassifizierer}}
+
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{Aspekt} & \textbf{SVM} & \textbf{Logistische Regression} & \textbf{Random Forest} \\
+        \hline
+        Hochdimensionalität & Sehr gut & Gut & Mäßig \\
+        \hline
+        Kernels möglich & Ja & Nein & Nein \\
+        \hline
+        Rechenaufwand & Hoch & Niedrig & Mittel \\
+        \hline
+        Hyperparameter & Mittel & Niedrig & Hoch \\
+        \hline
+        Interpretierbarkeit & Niedrig & Hoch & Mittel \\
+        \hline
+        Feature Engineering & Wichtig & Wichtig & Weniger wichtig \\
+        \hline
+        Multi-class & Extra Aufwand & Native & Native \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \newpage
 
 \subsection{Validierung, Underfitting und Overfitting}
+
+\definition{\textbf{Generalisierung (Generalization):}}
+Die Fähigkeit eines Modells, auf neuen, ungesehenen Daten gute Vorhersagen zu treffen. Dies ist das Endziel des maschinellen Lernens.
+
+\textbf{Zentrale Problematik:} Wir trainieren ein Modell auf Trainingsdaten, möchten aber, dass es auf neuen Testdaten gut funktioniert.
+
+\definition{\textbf{Training Error vs. Test Error (Generalisierungsfehler):}}
+
+\textbf{Training Error (Trainingsfehler):}
+$$\text{Train Error} = \frac{1}{n_{\text{train}}} \sum_{i=1}^{n_{\text{train}}} L(y_i, \hat{y}_i)$$
+
+Der Fehler des Modells auf den Trainingsdaten, die zum Trainieren verwendet wurden.
+
+\textbf{Test Error (Testfehler, Generalisierungsfehler):}
+$$\text{Test Error} = \frac{1}{n_{\text{test}}} \sum_{i=1}^{n_{\text{test}}} L(y_i, \hat{y}_i)$$
+
+Der Fehler des Modells auf neuen, ungesehenen Testdaten.
+
+\textbf{Erkenntnis:} Training Error ist normalerweise niedriger als Test Error, da das Modell die Trainingsdaten "gesehen" hat.
+
+\definition{\textbf{Underfitting (Unteranpassung, High Bias):}}
+Das Modell ist zu simpel und kann die zugrunde liegende Struktur der Daten nicht erfassen.
+
+\textbf{Charakteristika:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Hoher Trainingsfehler
+    \item Hoher Testfehler
+    \item Das Modell macht systematische Fehler
+    \item Training Error $\approx$ Test Error (beide hoch)
+\end{itemize}
+
+\textbf{Beispiele:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Eine lineare Regression auf nicht-lineare Daten
+    \item Ein Entscheidungsbaum mit maximaler Tiefe 1 (nur ein Split)
+    \item Ein zu simple logistische Regression bei komplexen Klassifizierungsproblemen
+\end{itemize}
+
+\textbf{Ursachen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Modell hat zu wenig Kapazität (zu wenig Parameter)
+    \item Unzureichende Komplexität des Modells
+    \item Zu viel Regularisierung (z.B. großes $\lambda$ in Ridge Regression)
+\end{itemize}
+
+\textbf{Behebung (Lösungsstrategien):}
+\begin{itemize}[leftmargin=1.5em]
+    \item Komplexeres Modell wählen (z.B. von linear zu polynomial)
+    \item Mehr oder bessere Features hinzufügen
+    \item Regularisierungsstärke reduzieren (kleineres $\lambda$)
+    \item Training länger durchführen (mehr Iterationen)
+\end{itemize}
+
+\definition{\textbf{Overfitting (Überanpassung, High Variance):}}
+Das Modell ist zu komplex und passt sich an die Trainingsdaten ``zu gut'' an, einschließlich des Rauschens.
+
+\textbf{Charakteristika:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Sehr niedriger Trainingsfehler
+    \item Hoher Testfehler
+    \item Das Modell hat die Trainingsdaten memoriert, nicht generalisiert
+    \item Training Error $\ll$ Test Error (großer Unterschied)
+\end{itemize}
+
+\textbf{Beispiele:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Ein Entscheidungsbaum, der bis zur maximalen Tiefe wächst und jeden Trainingspoint auf seiner eigenen Blatt-Node hat (100\% Training Accuracy)
+    \item Ein Polynom-Modell 10. Grades für 12 Trainingspunkte
+    \item Ein neuronales Netzwerk mit zu vielen Hidden Units ohne Regularisierung
+\end{itemize}
+
+\textbf{Ursachen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Modell hat zu viel Kapazität (zu viele Parameter)
+    \item Zu wenig Trainingsdaten relativ zur Modellkomplexität
+    \item Zu lange Training (bei iterativen Verfahren)
+    \item Unzureichende oder fehlende Regularisierung
+\end{itemize}
+
+\textbf{Behebung (Lösungsstrategien):}
+\begin{itemize}[leftmargin=1.5em]
+    \item Einfacheres Modell wählen (z.B. Baum mit maximaler Tiefe begrenzen)
+    \item Mehr Trainingsdaten sammeln
+    \item Regularisierung hinzufügen oder erhöhen (größeres $\lambda$)
+    \item Early Stopping verwenden
+    \item Cross-Validation zur Modellauswahl nutzen
+\end{itemize}
+
+\definition{\textbf{Bias-Variance Trade-off:}}
+Ein fundamentales Konzept im Machine Learning, das die Balance zwischen Underfitting und Overfitting beschreibt.
+
+\textbf{Bias (Verzerrung):}
+$$\text{Bias} = E[\hat{f}(x)] - f(x)$$
+
+Der systematische Fehler eines Modells. Misst, wie sehr das Modell die wahre Funktion konsistent verfehlt.
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Hoher Bias:} Modell ist zu simpel → Underfitting
+    \item \textbf{Niedriger Bias:} Modell kann komplexe Muster erfassen
+\end{itemize}
+
+\textbf{Variance (Varianz):}
+$$\text{Variance} = E[(\hat{f}(x) - E[\hat{f}(x)])^2]$$
+
+Die Empfindlichkeit des Modells gegenüber Schwankungen in den Trainingsdaten. Misst, wie sehr sich das Modell ändert, wenn man die Trainingsdaten änderung.
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Hohe Varianz:} Modell ist sehr flexibel → Overfitting
+    \item \textbf{Niedrige Varianz:} Modell ist stabil
+\end{itemize}
+
+\textbf{Bias-Variance Decomposition:}
+$$\text{MSE} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}$$
+
+Der erwartete Test-Fehler zerfällt in drei Komponenten:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Bias$^2$:} Systematischer Fehler des Modells
+    \item \textbf{Variance:} Zufälliger Fehler aufgrund von Instabilität
+    \item \textbf{Irreducible Error:} Rauschen in den Daten, das nicht durch ein Modell reduziert werden kann
+\end{itemize}
+
+\textbf{Trade-off-Visualisierung:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Sehr einfaches Modell:} Hoher Bias, niedrige Varianz → Underfitting
+    \item \textbf{Mittleres Modell:} Optimaler Punkt (niedrigste Test Error)
+    \item \textbf{Sehr komplexes Modell:} Niedriger Bias, hohe Varianz → Overfitting
+\end{itemize}
+
+\textbf{Praktische Konsequenz:} Das beste Modell ist nicht das komplexeste! Man muss einen Kompromiss finden.
+
+\definition{\textbf{Validierung:}}
+Der Prozess, die Leistung eines Modells auf Daten zu bewerten, die es nicht beim Training gesehen hat.
+
+\textbf{Warum Validierung?}
+\begin{itemize}[leftmargin=1.5em]
+    \item Training Error gibt keine Aussage über Generalisierung
+    \item Wir brauchen unabhängige Daten, um das echte Generalisierungspotential zu schätzen
+    \item Validierung hilft, Underfitting vs. Overfitting zu diagnostizieren
+\end{itemize}
+
+\definition{\textbf{Hold-out Validation (Train-Test Split):}}
+Die Daten werden in zwei disjunkte Teile aufgeteilt:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Trainingsset:} Üblicherweise 60-80\% der Daten, zum Trainieren des Modells
+    \item \textbf{Testset:} Üblicherweise 20-40\% der Daten, zum Evaluieren der Generalisierung
+\end{itemize}
+
+\textbf{Vorteile:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Einfach zu implementieren
+    \item Schnell recheneffizient
+\end{itemize}
+
+\textbf{Nachteile:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Höhere Varianz der Schätzung (besonders bei kleinen Datensätzen)
+    \item Wir "verschwenden" Daten, die nicht zum Training verwendet werden
+\end{itemize}
+
+\definition{\textbf{Cross-Validation (Kreuzvalidation):}}
+Eine robustere Validierungsmethode, die die Daten mehrfach aufspaltet, um stabilere Leistungsschätzungen zu erhalten.
+
+\textbf{K-Fold Cross-Validation:}
+\begin{enumerate}[leftmargin=1.5em]
+    \item Teile die Daten in $k$ Folds (Partitionen) auf (üblicherweise $k = 5$ oder $10$)
+    \item Für jede Fold $i = 1, \ldots, k$:
+    \begin{enumerate}[leftmargin=1.5em]
+        \item Trainiere das Modell auf den $k-1$ anderen Folds
+        \item Evaluiere auf Fold $i$
+    \end{enumerate}
+    \item Berechne den Durchschnittsfehler über alle $k$ Evaluierungen
+\end{enumerate}
+
+$$\text{CV Error} = \frac{1}{k} \sum_{i=1}^{k} \text{Error}_i$$
+
+\textbf{Vorteile:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Stabiler und aussagekräftiger als Hold-out Validation
+    \item Nutzt alle Daten zum Training (nur in verschiedenen Kombinationen)
+    \item Liefert Konfidenzintervalle/Standardabweichung
+\end{itemize}
+
+\textbf{Spezialfälle:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Leave-One-Out CV (LOOCV):} $k = n$ (Extremfall, sehr rechenintensiv)
+    \item \textbf{Stratified K-Fold:} Für imbalancierte Klassifikation, behält Klassenverteilung in jedem Fold
+    \item \textbf{Time Series CV:} Für Zeitreihen, respektiert zeitliche Ordnung
+\end{itemize}
+
+\definition{\textbf{Regularisierung (Regularization):}}
+Techniken zur Reduzierung von Overfitting durch Vereinfachung oder Bestrafung des Modells.
+
+\textbf{L1 Regularisierung (Lasso):}
+$$\text{Cost} = \text{MSE} + \lambda \sum_{j=1}^{p} |w_j|$$
+
+Bestraft die Summe der absoluten Koeffizienten. Kann manche Koeffizienten exakt auf 0 setzen (Feature Selection).
+
+\textbf{L2 Regularisierung (Ridge):}
+$$\text{Cost} = \text{MSE} + \lambda \sum_{j=1}^{p} w_j^2$$
+
+Bestraft die Summe der quadrierten Koeffizienten. Verkleinert große Koeffizienten, aber setzt sie nicht auf 0.
+
+\textbf{Elastic Net:}
+$$\text{Cost} = \text{MSE} + \lambda_1 \sum_{j=1}^{p} |w_j| + \lambda_2 \sum_{j=1}^{p} w_j^2$$
+
+Kombination von L1 und L2, vereinigt die Eigenschaften beider.
+
+\textbf{Hyperparameter $\lambda$ (Regularisierungsstärke):}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{$\lambda = 0$:} Keine Regularisierung → höhere Varianz, Overfitting möglich
+    \item \textbf{Großes $\lambda$:} Starke Regularisierung → höherer Bias, Underfitting möglich
+    \item \textbf{Optimales $\lambda$:} Durch Cross-Validation bestimmt
+\end{itemize}
+
+\definition{\textbf{Early Stopping:}}
+Ein Regularisierungstechnik für iterative Trainingsalgorithmen (z.B. Gradient Descent, Neuronale Netze).
+
+\textbf{Idee:}
+\begin{enumerate}[leftmargin=1.5em]
+    \item Während des Trainings wird nach jeder Epoche/Iteration der Validierungsfehler berechnet
+    \item Solange Validierungsfehler sinkt, weiter trainieren
+    \item Sobald Validierungsfehler zu steigen beginnt (Overfitting-Zeichen), Training stoppen
+\end{enumerate}
+
+\textbf{Praktische Implementierung:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Führe separate Validierungsset (z.B. 10-20\% der Trainingsdaten)
+    \item Monitore Validierungsfehler
+    \item Speichere das beste Modell (minimaler Validierungsfehler)
+    \item Nach N Epochen ohne Verbesserung (Patience), stop
+\end{itemize}
+
+\textbf{Vorteile:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Verhindert Overfitting bei iterativen Verfahren
+    \item Automatische, datengetriebene Modellauswahl
+    \item Keine zusätzliche Hyperparameter-Tuning erforderlich
+\end{itemize}
+
+\definition{\textbf{Diagnostische Plots: Learning Curves:}}
+Plots von Training Error und Test Error über die Modellkomplexität (oder Trainingszeit), um Underfitting vs. Overfitting zu diagnostizieren.
+
+\textbf{Szenarien:}
+
+\textbf{1. Underfitting (beide Kurven hoch, nahe beieinander):}
+\begin{itemize}[leftmargin=1.5em]
+    \item Training Error hoch, Test Error hoch
+    \item Kurven konvergieren zu hohem Fehler
+    \item Lösung: Komplexeres Modell oder bessere Features
+\end{itemize}
+
+\textbf{2. Overfitting (großer Gap zwischen Kurven):}
+\begin{itemize}[leftmargin=1.5em]
+    \item Training Error niedrig, Test Error hoch
+    \item Kurven trennen sich
+    \item Lösung: Regularisierung, mehr Daten, einfacheres Modell
+\end{itemize}
+
+\textbf{3. Optimales Modell (Kurven nah beieinander und beide niedrig):}
+\begin{itemize}[leftmargin=1.5em]
+    \item Training Error und Test Error beide niedrig
+    \item Kleine Lücke zwischen den Kurven
+    \item Das Modell generalisiert gut
+\end{itemize}
+
+\definition{\textbf{Auswirkung von Datenmenge auf Overfitting:}}
+Ein größerer Trainningsdatensatz kann Overfitting reduzieren:
+\begin{itemize}[leftmargin=1.5em]
+    \item Mit wenigen Daten: Kleines Modell ist besser (Overfitting leicht)
+    \item Mit vielen Daten: Komplexere Modelle werden möglich (mehr Daten können die Komplexität rechtfertigen)
+\end{itemize}
+
+\textbf{Praktische Empfehlung:} ``Collect more data'' ist oft die beste Lösung für Overfitting, wenn möglich.
+
+\definition{\textbf{Model Complexity vs. Generalisierung:}}
+
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{Situation} & \textbf{Bias} & \textbf{Variance} & \textbf{Action} \\
+        \hline
+        Underfitting & Hoch & Niedrig & Modell komplexer machen \\
+        \hline
+        Optimal & Mittel & Mittel & Fertig! \\
+        \hline
+        Overfitting & Niedrig & Hoch & Regularisierung/Daten \\
+        \hline
+        High Bias + High Var & Hoch & Hoch & Datenqualität prüfen \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\definition{\textbf{Zusammenfassung: Checkliste für gute Generalisierung:}}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item  Trainings- und Testsets verwenden (nicht nur Trainingsdaten evaluieren)
+    \item  Cross-Validation zur stabilen Leistungsschätzung durchführen
+    \item  Learning Curves plotten zur Diagnose
+    \item  Modellkomplexität anpassen
+    \item  Regularisierung verwenden (L1, L2, oder Early Stopping)
+    \item  Hyperpameter via Cross-Validation tunen
+    \item  Mehr Trainingsdaten sammeln, wenn möglich
+    \item  Feature Engineering / Feature Selection durchführen
+\end{itemize}
+
 \newpage
 
 \subsection{Zeitreihenanalyse}
+
+\definition{\textbf{Zeitreihe (Time Series):}}
+Eine Sequenz von Beobachtungen $y_1, y_2, \ldots, y_T$ eines Merkmals, gemessen zu verschiedenen Zeitpunkten $t = 1, 2, \ldots, T$ in fester zeitlicher Ordnung.
+
+\textbf{Charakteristiken:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Feste zeitliche Ordnung:} Die Reihenfolge ist essentiell und nicht vertauschbar
+    \item \textbf{Abhängigkeit:} Beobachtungen sind nicht unabhängig, sondern zeitlich abhängig
+    \item \textbf{Univariat:} Eine Variable pro Zeitpunkt (im Gegensatz zu multivariat)
+    \item \textbf{Äquidistant:} Zeitpunkte sind üblicherweise diskret und in regelmäßigen Abständen (z.B. täglich, monatlich, jährlich)
+\end{itemize}
+
+\textbf{Typische Beispiele:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Temperaturmessungen (stündlich, täglich)
+    \item Aktienkurse
+    \item Flugpassagierzahlen (monatlich)
+    \item Verkehrsunfallzahlen
+\end{itemize}
+
+\definition{\textbf{Stochastischer Prozess:}}
+Eine Folge $(Y_t)_{t \in T}$ von Zufallsvariablen $Y_t$, wobei $t$ aus einer geordneten Indexmenge $T$ (Zeit) stammt.
+
+\textbf{Typen nach Zeitstruktur:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Zeitdiskret:} $T = \mathbb{N}$ oder $\mathbb{Z}$ (Standardfall in angewandter Zeitreihenanalyse)
+    \item \textbf{Zeitstetig:} $T = [0, \infty)$ oder $\mathbb{R}$ (seltener in praktischen Anwendungen)
+\end{itemize}
+
+\textbf{Beziehung:} Eine Zeitreihe $(y_1, \ldots, y_T)$ ist eine Realisierung eines stochastischen Prozesses $(Y_t)$.
+
+\definition{\textbf{Stationarität (Stationarity):}}
+Eine Zeitreihe ist stationär, wenn sich ihre statistische Struktur über die Zeit nicht systematisch verändert.
+
+\textbf{Mathematisch (strikte Stationarität):}
+Die gemeinsame Verteilung von $(Y_t, Y_{t+1}, \ldots, Y_{t+k})$ ist identisch mit der Verteilung von $(Y_{t+h}, Y_{t+1+h}, \ldots, Y_{t+k+h})$ für alle $t, k, h$.
+
+\textbf{Praktisch (schwache/zweite-Ordnung Stationarität):}
+\begin{itemize}[leftmargin=1.5em]
+    \item Konstanter Mittelwert: $E(Y_t) = \mu$ für alle $t$
+    \item Konstante Varianz: $\text{Var}(Y_t) = \sigma^2$ für alle $t$
+    \item Autokovarianzen hängen nur vom Lag ab: $\text{Cov}(Y_t, Y_{t+h})$ ist unabhängig von $t$
+\end{itemize}
+
+\textbf{Wichtigkeit:} Viele Zeitreihenmodelle (z.B. ARMA) setzen Stationarität voraus!
+
+\definition{\textbf{Autokorrelationsfunktion (ACF):}}
+Misst die Korrelation der Zeitreihe mit ihren verzögerten Versionen (Lags).
+
+\textbf{Empirische Autokorrelation zum Lag $\omega$:}
+$$r_\omega = \frac{\sum_{t=\omega+1}^{T} (y_t - \bar{y})(y_{t-\omega} - \bar{y})}{\sum_{t=1}^{T} (y_t - \bar{y})^2}, \quad -1 \leq r_\omega \leq 1$$
+
+\textbf{Eigenschaften:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $r_0 = 1$ (Korrelation mit sich selbst)
+    \item $r_\omega = r_{-\omega}$ (symmetrisch)
+    \item $|r_\omega|$ misst die Stärke der zeitlichen Abhängigkeit
+    \item Vorzeichen gibt die Richtung an (positiv/negativ)
+\end{itemize}
+
+\textbf{Grafische Darstellung:} Das \textbf{Autokorrelogramm} ist ein Plot von $r_\omega$ gegen den Lag $\omega$, mit Vertrauensbändern (üblicherweise $\pm 1.96 / \sqrt{T}$).
+
+\textbf{Interpretation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Schnell abfallende ACF: Kurzzeitabhängigkeit, stationäre Reihe
+    \item Langsam abfallende ACF: Langzeitabhängigkeit, nicht-stationäre Reihe
+    \item Saisonale Muster: Spitzen bei Lags entsprechend der Saisonperiode
+\end{itemize}
+
+\definition{\textbf{Partielle Autokorrelationsfunktion (PACF):}}
+Die Korrelation zwischen $Y_t$ und $Y_{t-\omega}$, nachdem der Einfluss der dazwischenliegenden Lags entfernt wurde.
+
+\textbf{Bedeutung:} PACF hilft bei der Identifikation der Ordnung eines autoregressiven Prozesses (wie viele Verzögerungen relevant sind).
+
+\definition{\textbf{Komponenten einer Zeitreihe:}}
+Eine Zeitreihe wird üblicherweise in folgende Hauptkomponenten zerlegt:
+
+\textbf{1. Trend ($\mu_t$):}
+Langfristige systematische Veränderung des mittleren Niveaus. Die Zeitreihe steigt oder fällt über längere Zeit.
+
+\textbf{2. Saisonalität ($s_t$):}
+Regelmäßige Schwankungen mit einer festen Periode $p$ (z.B. $p = 12$ für monatliche Daten, $p = 4$ für Quartalsdaten). Beispiele: höhere Eisverkäufe im Sommer, höhere Heizkosten im Winter.
+
+\textbf{3. Restkomponente ($\varepsilon_t$):}
+Nicht erklärbare irregulöre Schwankungen oder Rauschen. Annahme: $E(\varepsilon_t) = 0$, $\text{Var}(\varepsilon_t) = \sigma_\varepsilon^2$.
+
+\definition{\textbf{Klassisches Komponentenmodell:}}
+
+\textbf{Additives Modell:}
+$$y_t = \mu_t + s_t + \varepsilon_t$$
+
+Komponenten überlagern sich additiv. Verwendet wenn die Saisonalschwankungen konstant sind (absolut).
+
+\textbf{Multiplikatives Modell:}
+$$y_t = \mu_t \cdot s_t \cdot \varepsilon_t$$
+
+Komponenten multiplizieren sich. Verwendet wenn die Saisonalschwankungen proportional zum Trend sind (relativ).
+
+\textbf{Transformation:} Das multiplikative Modell kann durch Logarithmieren in ein additives transformiert werden:
+$$\log(y_t) = \log(\mu_t) + \log(s_t) + \log(\varepsilon_t)$$
+
+\definition{\textbf{Glättung (Smoothing): Simple Moving Average (SMA):}}
+Ein Filter zur Elimination von irregulären Schwankungen und Schätzung des lokalen Trends.
+
+\textbf{Formula für Fenster der Breite $2q+1$:}
+$$\hat{\mu}_t = \frac{1}{2q+1} \sum_{i=-q}^{q} y_{t+i}, \quad t = q+1, \ldots, T-q$$
+
+\textbf{Beispiel:} Mit $q = 2$ (Fenster der Breite 5):
+$$\hat{\mu}_t = \frac{1}{5}(y_{t-2} + y_{t-1} + y_t + y_{t+1} + y_{t+2})$$
+
+\textbf{Eigenschaften:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Linearer Filter (lineare Transformation der Zeitreihe)
+    \item Symmetrisches Zeitfenster
+    \item Größeres $q$ $\Rightarrow$ stärkere Glättung, aber weniger Datenpunkte
+    \item Grenzen: $q$ Beobachtungen am Anfang und Ende gehen verloren (NA)
+\end{itemize}
+
+\definition{\textbf{Trendbereinigung und Saisonbereinigung:}}
+
+\textbf{Trendbereinigung:}
+$$y_t^{\text{detrend}} = y_t - \hat{\mu}_t$$
+Entfernt die Trendkomponente.
+
+\textbf{Saisonbereinigung:}
+$$y_t^{\text{deseason}} = y_t - (\hat{\mu}_t + \hat{s}_t)$$
+Entfernt Trend und Saison, bleibt nur Restkomponente.
+
+\textbf{Praktische Schritte zur Schätzung von Saisonkomponenten:}
+\begin{enumerate}[leftmargin=1.5em]
+    \item Schätze Trend $\hat{\mu}_t$ via SMA (mit Fensterbreite $p = $ Saisonperiode)
+    \item Berechne trendbereinigt: $y_t - \hat{\mu}_t$
+    \item Schätze Saisonkomponenten $\hat{s}_k$ als Durchschnitt über alle Jahre für Saison $k$
+    \item Zentriere die Saisonkomponenten: $\hat{s}_k - \overline{\hat{s}}$
+\end{enumerate}
+
+\definition{\textbf{White Noise Prozess:}}
+Ein stochastischer Prozess mit statistisch unabhängigen und identisch verteilten Zufallsvariablen:
+$$Y_t \sim \text{IID}(\mu, \sigma^2)$$
+
+\textbf{Eigenschaften:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $E(Y_t) = \mu$ (konstant)
+    \item $\text{Var}(Y_t) = \sigma^2$ (konstant)
+    \item ACF: $r(\omega) = \begin{cases} 1 & \text{wenn } \omega = 0 \\ 0 & \text{wenn } \omega \neq 0 \end{cases}$
+    \item Kein zeitlicher Zusammenhang
+\end{itemize}
+
+\textbf{Interpretation:} Reines Rauschen, keine vorhersagbare Struktur.
+
+\definition{\textbf{Autoregressive Prozesse (AR):}}
+Ein autoregressiver Prozess der Ordnung $p$ ist definiert als:
+$$Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + \cdots + \phi_p Y_{t-p} + \varepsilon_t, \quad \text{AR}(p)$$
+
+wobei $\varepsilon_t$ White Noise ist.
+
+\textbf{Interpretation:} Der aktuelle Wert hängt von den $p$ vorherigen Werten und einem Rauschterm ab (wie eine Regression auf Verzögerungen).
+
+\textbf{PACF-Eigenschaft:} Die PACF eines AR($p$)-Prozesses bricht nach Lag $p$ ab (wird 0).
+
+\definition{\textbf{Moving Average Prozesse (MA):}}
+Ein Moving Average Prozess der Ordnung $q$ ist definiert als:
+$$Y_t = \varepsilon_t + \theta_1 \varepsilon_{t-1} + \theta_2 \varepsilon_{t-2} + \cdots + \theta_q \varepsilon_{t-q}, \quad \text{MA}(q)$$
+
+wobei $\varepsilon_t$ White Noise ist.
+
+\textbf{Interpretation:} Der aktuelle Wert ist eine gewichtete Summe aus aktuellen und vergangenen Rauschschocks.
+
+\textbf{ACF-Eigenschaft:} Die ACF eines MA($q$)-Prozesses bricht nach Lag $q$ ab.
+
+\definition{\textbf{ARMA Prozesse (Autoregressive Moving Average):}}
+Eine Kombination von AR und MA:
+$$Y_t = \phi_1 Y_{t-1} + \cdots + \phi_p Y_{t-p} + \varepsilon_t + \theta_1 \varepsilon_{t-1} + \cdots + \theta_q \varepsilon_{t-q}, \quad \text{ARMA}(p, q)$$
+
+\textbf{Modellspezifikation:} Wird durch zwei Parameter definiert:
+\begin{itemize}[leftmargin=1.5em]
+    \item $p$: AR-Ordnung (bestimmt via PACF)
+    \item $q$: MA-Ordnung (bestimmt via ACF)
+\end{itemize}
+
+\textbf{Voraussetzung:} Die Zeitreihe muss stationär sein.
+
+\definition{\textbf{ARIMA Prozesse (Autoregressive Integrated Moving Average):}}
+Für nicht-stationäre Zeitreihen mit Trend:
+$$\text{ARIMA}(p, d, q): \quad \Delta^d Y_t = \phi_1 \Delta^d Y_{t-1} + \cdots + \phi_p \Delta^d Y_{t-p} + \varepsilon_t + \theta_1 \varepsilon_{t-1} + \cdots + \theta_q \varepsilon_{t-q}$$
+
+wobei $\Delta^d Y_t$ die $d$-fach differenzierte Zeitreihe ist.
+
+\textbf{Parameter:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $p$: AR-Ordnung
+    \item $d$: Differenzierungsordnung (üblicherweise 0, 1, oder 2)
+    \item $q$: MA-Ordnung
+\end{itemize}
+
+\textbf{Interpretation:} Differenzieren macht nicht-stationäre Reihen stationär, danach wird ARMA angewendet.
+
+\definition{\textbf{SARIMA Prozesse (Seasonal ARIMA):}}
+Erweiterung für Zeitreihen mit saisonalen Mustern:
+$$\text{SARIMA}(p, d, q) \times (P, D, Q)_s$$
+
+wobei:
+\begin{itemize}[leftmargin=1.5em]
+    \item $(p, d, q)$: Nicht-saisonale Komponenten
+    \item $(P, D, Q)$: Saisonale Komponenten
+    \item $s$: Saisonperiode (z.B. 12 für monatliche Daten)
+\end{itemize}
+
+\textbf{Anwendung:} Für Daten mit regelmäßigen saisonalen Schwankungen (z.B. Eisverkäufe, Heizkosten).
+
+\definition{\textbf{Modellidentifikation (Ordnungswahl):}}
+Faustregel zur Bestimmung von $(p, q)$ aus Daten:
+
+\textbf{ACF/PACF-Faustregel:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{PACF schneidet bei Lag $p$ ab} $\Rightarrow$ AR($p$)-Prozess oder als $(p, d, q)$ in ARIMA
+    \item \textbf{ACF schneidet bei Lag $q$ ab} $\Rightarrow$ MA($q$)-Prozess oder als $(p, d, q)$ in ARIMA
+\end{itemize}
+
+\textbf{Praxis:}
+\begin{enumerate}[leftmargin=1.5em]
+    \item Visualisiere die Zeitreihe → teste auf Trend und Saisonalität
+    \item Differenziere wenn nötig ($d = 1$ oder $2$)
+    \item Berechne ACF und PACF der differenzierten Reihe
+    \item Nutze Faustregel zur Schätzung von $p$ und $q$
+    \item Vergleiche Modelle via AIC/BIC-Kriterien
+    \item Überprüfe Residuen auf White Noise
+\end{enumerate}
+
+\definition{\textbf{Residuenanalyse (Diagnostic Checking):}}
+Nach der Modellanpassung müssen die Residuen überprüft werden:
+
+\textbf{Anforderungen für gute Residuen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item White Noise (keine zeitliche Abhängigkeit)
+    \item Konstante Varianz (Homoskedastizität)
+    \item Normalverteilung (besonders für Vorhersageintervalle)
+    \item Keine systematischen Muster
+\end{itemize}
+
+\textbf{Diagnostische Tests:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{ACF/PACF der Residuen:} Sollte White Noise ähneln (Werte nahe 0)
+    \item \textbf{Ljung-Box-Test:} Testet auf serielle Korrelation (Nullhypothese: White Noise)
+    \item \textbf{Shapiro-Wilk-Test:} Testet auf Normalverteilung
+    \item \textbf{Time Plot:} Visualisierung auf Muster
+\end{itemize}
+
+\definition{\textbf{Zusammenfassung: Workflow der Zeitreihenanalyse:}}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Exploration:} Visualisiere Zeitreihe, identifiziere Trend, Saison, Ausreißer
+    \item \textbf{Transformation:} Trend- und Saisonbereinigung falls nötig (SMA, Differenzieren)
+    \item \textbf{Stationaritätsprüfung:} ACF/PACF, Unit Root Tests (ADF-Test)
+    \item \textbf{Modellwahl:} ACF/PACF Analyse, Bestimmung $(p, d, q)$
+    \item \textbf{Modellanpassung:} Schätzung der Parameter (Maximum Likelihood, etc.)
+    \item \textbf{Diagnostik:} Residuenanalyse, Tests auf White Noise
+    \item \textbf{Vorhersage:} Prognosen für zukünftige Werte mit Konfidenzintervallen
+\end{enumerate}
+
+\textbf{Software:} In R: `arima(x, order = c(p, d, q), seasonal = list(order = c(P, D, Q), period = s))`
+
 \newpage
 
 \subsection{Importance Sampling und MCMC}
+
+\definition{\textbf{Monte Carlo Integration:}}
+Numerische Methode zur Schätzung von Integralen (und Erwartungswerten) durch Stichprobenziehen.
+
+\textbf{Grundidee:} Um einen Erwartungswert $E_p[f(x)] = \int f(x) p(x) dx$ zu schätzen:
+\begin{enumerate}[leftmargin=1.5em]
+    \item Ziehe Stichproben $x_1, x_2, \ldots, x_n$ aus der Verteilung $p(x)$
+    \item Berechne $\hat{E}_p[f(x)] = \frac{1}{n} \sum_{i=1}^{n} f(x_i)$
+\end{enumerate}
+
+\textbf{Eigenschaft:} Nach dem Gesetz der großen Zahlen: $\hat{E}_p[f(x)] \to E_p[f(x)]$ wenn $n \to \infty$.
+
+\textbf{Vorteil:} Funktioniert auch für hochdimensionale und komplexe Verteilungen.
+
+\definition{\textbf{Sampling-Problem:}}
+In vielen praktischen Anwendungen (z.B. Bayesianische Inferenz) ist es schwierig, direkt aus der Zielverteilung $p(x)$ zu samplen:
+
+\textbf{Beispiel:} Posterior-Verteilung in Bayesianischen Modellen:
+$$p(\theta | \text{data}) = \frac{p(\text{data} | \theta) p(\theta)}{p(\text{data})}$$
+
+Die Normalisierungskonstante $p(\text{data})$ ist oft intractable.
+
+\definition{\textbf{Importance Sampling:}}
+Eine Methode zur Monte Carlo Schätzung von Erwartungswerten, wenn direkte Stichprobenziehung aus $p(x)$ nicht möglich ist.
+
+\textbf{Grundidee:}
+\begin{enumerate}[leftmargin=1.5em]
+    \item Definiere eine leicht zu sample-nde \textbf{Proposal-Verteilung} $q(x)$ (auch ``Importance Density'' genannt)
+    \item Ziehe Stichproben $x_1, \ldots, x_n$ aus $q(x)$ (nicht aus $p(x)$!)
+    \item Gewichte die Stichproben um die Unterschiede zwischen $p$ und $q$ zu korrigieren
+\end{enumerate}
+
+\textbf{Mathematik:}
+$$E_p[f(x)] = \int f(x) p(x) dx = \int f(x) \frac{p(x)}{q(x)} q(x) dx = E_q\left[f(x) \frac{p(x)}{q(x)}\right]$$
+
+\textbf{Importance Weights (Importance Gewichte):}
+$$w(x) = \frac{p(x)}{q(x)}$$
+
+Messen, um wie viel wichtiger eine Stichprobe aus $q$ im Kontext von $p$ ist.
+
+\definition{\textbf{Importance Sampling Algorithmus:}}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item Wähle Proposal-Verteilung $q(x)$
+    \item Für $i = 1, \ldots, n$:
+    \begin{enumerate}[leftmargin=1.5em]
+        \item Ziehe $x_i \sim q(x)$
+        \item Berechne Gewicht $w_i = \frac{p(x_i)}{q(x_i)}$
+    \end{enumerate}
+    \item Normalisiere Gewichte: $\tilde{w}_i = \frac{w_i}{\sum_{j=1}^{n} w_j}$
+    \item Schätze Erwartungswert: $\hat{E}_p[f(x)] = \sum_{i=1}^{n} \tilde{w}_i f(x_i)$
+\end{enumerate}
+
+\textbf{Schätzung der Normalisierungskonstante:}
+$$\hat{Z} = \frac{1}{n} \sum_{i=1}^{n} w_i = \frac{1}{n} \sum_{i=1}^{n} \frac{p(x_i)}{q(x_i)}$$
+
+Dies ist nützlich für Modellvergleiche (Bayes Factors).
+
+\definition{\textbf{Anforderungen an die Proposal-Verteilung $q(x)$:}}
+
+\textbf{Effektive Proposal:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $q(x) > 0$ überall wo $p(x) > 0$ (Support Bedingung: wichtig!)
+    \item $q(x)$ sollte $p(x)$ gut approximieren (minimale Gewichtsvarianz)
+    \item Leicht zu samplen und Wahrscheinlichkeiten zu berechnen
+\end{itemize}
+
+\textbf{Problem bei schlechter Wahl:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Viele Stichproben haben sehr kleine oder sehr große Gewichte
+    \item ``Degeneracy Problem'': Wenige Stichproben dominieren die Schätzung
+    \item Hohe Varianz der Schätzung
+\end{itemize}
+
+\definition{\textbf{Effektive Stichprobengröße (Effective Sample Size -- ESS):}}
+Ein Maß für die Anzahl der ``effektiven'' unabhängigen Stichproben:
+$$\text{ESS} = \frac{\left(\sum_{i=1}^{n} w_i\right)^2}{\sum_{i=1}^{n} w_i^2}$$
+
+\textbf{Interpretation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $\text{ESS} = n$: Perfekte Gewichte (uniforme Verteilung)
+    \item $\text{ESS} \ll n$: Schlechte Proposal-Verteilung (Degeneracy)
+    \item Ratio $\text{ESS}/n$ ist ein Effizienzmaß
+\end{itemize}
+
+\definition{\textbf{Limitation von Importance Sampling:}}
+In hochdimensionalen Problemen funktioniert einfaches Importance Sampling oft schlecht:
+\begin{itemize}[leftmargin=1.5em]
+    \item Gewichte werden extrem variabel
+    \item ESS kann dramatisch sinken
+    \item Viele Stichproben haben verschwindend kleine Gewichte
+\end{itemize}
+
+\textbf{Lösung:} Markov Chain Monte Carlo (MCMC) Methoden.
+
+\definition{\textbf{Markov Chains:}}
+Eine Folge von Zufallsvariablen $(X_t)_{t=0,1,2,\ldots}$ mit der \textbf{Markov-Eigenschaft}: Die zukünftige Verteilung hängt nur vom aktuellen Zustand ab, nicht von der Geschichte:
+$$P(X_{t+1} | X_t, X_{t-1}, \ldots, X_0) = P(X_{t+1} | X_t)$$
+
+\textbf{Übergangswahrscheinlichkeit:}
+$$T(x' | x) = P(X_{t+1} = x' | X_t = x)$$
+
+Beschreibt die Wahrscheinlichkeit vom Zustand $x$ in den Zustand $x'$ zu gehen.
+
+\definition{\textbf{Ergodische Markov Chains:}}
+Eine Markov Chain ist ergodisch, wenn sie:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Irreduzibel:} Jeden Zustand kann man von jedem anderen Zustand erreichen
+    \item \textbf{Aperiodisch:} Keine periodischen Oszillationen
+\end{itemize}
+
+\textbf{Wichtigste Eigenschaft:} Eine ergodische Markov Chain konvergiert zu ihrer stationären Verteilung (unabhängig vom Startwert).
+
+\definition{\textbf{Stationäre Verteilung:}}
+Eine Verteilung $\pi(x)$ ist stationär für eine Markov Chain mit Übergängen $T(x' | x)$, wenn:
+$$\pi(x') = \int \pi(x) T(x' | x) dx$$
+
+\textbf{Interpretation:} Wenn die Chain lang genug läuft, ist die Randverteilung $\pi(x)$.
+
+\definition{\textbf{MCMC (Markov Chain Monte Carlo):}}
+Ein Algorithmus zur Stichprobenziehung aus einer komplexen Verteilung $p(x)$, indem man eine Markov Chain konstruiert, deren stationäre Verteilung $p(x)$ ist.
+
+\textbf{Strategie:}
+\begin{enumerate}[leftmargin=1.5em]
+    \item Konstruiere Übergangswahrscheinlichkeiten $T(x' | x)$ so dass die stationäre Verteilung $p(x)$ ist
+    \item Starte die Chain an einem beliebigen Punkt
+    \item Lasse die Chain viele Iterationen laufen (bis Konvergenz)
+    \item Die späteren Stichproben sind (ungefähr) aus $p(x)$
+\end{enumerate}
+
+\definition{\textbf{Detailed Balance Bedingung:}}
+Eine hinreichende Bedingung für stationäre Verteilung $\pi(x)$:
+$$\pi(x) T(x' | x) = \pi(x') T(x | x')$$
+
+\textbf{Interpretation:} Die Wahrscheinlichkeit, von $x$ nach $x'$ zu gehen, multipliziert mit $\pi(x)$, gleicht die umgekehrte Richtung aus.
+
+\textbf{Wichtig:} Viele populäre MCMC-Methoden nutzen diese Bedingung zur Konstruktion.
+
+\definition{\textbf{Metropolis-Hastings Algorithmus:}}
+Ein Algorithmus zur Konstruktion von MCMC-Übergängen mit Detail Balance.
+
+\textbf{Algorithmus (pro Iteration $t$):}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item Starte mit Zustand $x_t$
+    \item \textbf{Proposal:} Ziehe Kandidat $x' \sim q(x' | x_t)$ aus Proposal-Verteilung
+    \item \textbf{Acceptance Ratio:} Berechne
+    $$\alpha(x', x_t) = \min\left(1, \frac{p(x') q(x_t | x')}{p(x_t) q(x' | x_t)}\right)$$
+    \item \textbf{Accept/Reject:} 
+    \begin{itemize}[leftmargin=1.5em]
+        \item Mit Wahrscheinlichkeit $\alpha$: Akzeptiere $x_{t+1} = x'$
+        \item Mit Wahrscheinlichkeit $1 - \alpha$: Verwerfe $x_{t+1} = x_t$ (bleibe)
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Wichtige Spezialfälle:}
+
+\textbf{1. Random Walk Metropolis:}
+$$q(x' | x_t) = q(x' - x_t) \quad \text{(symmetrisch)}$$
+
+Dann vereinfacht sich $\alpha = \min(1, \frac{p(x')}{p(x_t)})$.
+
+\textbf{2. Independent Metropolis:}
+$$q(x' | x_t) = q(x') \quad \text{(unabhängig von aktueller Position)}$$
+
+\definition{\textbf{Gibbs Sampling:}}
+Ein spezieller MCMC-Algorithmus für multivariate Verteilungen mit leicht zu sampling-nden Conditional Distributions.
+
+\textbf{Idee:} Für $X = (X_1, \ldots, X_p)$ sample iterativ aus den Conditional Distributions $p(x_j | x_{-j})$ wobei $x_{-j}$ alle anderen Komponenten sind.
+
+\textbf{Algorithmus (pro Iteration $t$):}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item Starte mit $(x_1^{(t)}, \ldots, x_p^{(t)})$
+    \item Für $j = 1, \ldots, p$:
+    \begin{enumerate}[leftmargin=1.5em]
+        \item Sample $x_j^{(t+1)} \sim p(x_j | x_1^{(t+1)}, \ldots, x_{j-1}^{(t+1)}, x_{j+1}^{(t)}, \ldots, x_p^{(t)})$
+    \end{enumerate}
+\end{enumerate}
+
+\textbf{Vorteil:} Höhere Akzeptanzrate als Random Walk Metropolis (keine Rejections).
+
+\textbf{Gibbs ist ein Spezialfall von Metropolis-Hastings:} Mit $\alpha = 1$ immer.
+
+\definition{\textbf{Burn-in Phase:}}
+Die anfänglichen Iterationen der MCMC Chain, die verworfen werden.
+
+\textbf{Grund:} Die Chain muss aus dem Startzustand zur Zielverteilung konvergieren. Anfängliche Stichproben sind nicht von $p(x)$ und verzerren die Schätzung.
+
+\textbf{Praktische Richtlinie:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Typischerweise: Burn-in = $\frac{1}{3}$ bis $\frac{1}{2}$ der Gesamtiterationen
+    \item Größeres Burn-in für schlecht mixing chains
+    \item Kann durch Trace Plots diagnostiziert werden
+\end{itemize}
+
+\definition{\textbf{Thinning (Ausdünnung):}}
+Nur jede $k$-te Stichprobe aus der MCMC Chain behalten.
+
+\textbf{Gründe:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Speichereffizienz:} Weniger Stichproben speichern
+    \item \textbf{Autokorrelation reduzieren:} Aufeinanderfolgende Stichproben sind stark korreliert
+\end{itemize}
+
+\textbf{Nachteil:} Verliert Information, führt zu höherer Varianz.
+
+\textbf{Moderne Ansicht:} Thinning ist oft nicht notwendig; besser, alle Stichproben zu behalten und Autokorrelation in der Varianzschätzung zu berücksichtigen.
+
+\definition{\textbf{Konvergenzdiagnose:}}
+Tests zur Überprüfung, ob die MCMC Chain zur stationären Verteilung konvergiert hat.
+
+\textbf{1. Visual Inspection (Trace Plots):}
+\begin{itemize}[leftmargin=1.5em]
+    \item Plot der Kettensamples über Iterationen
+    \item Gut konvergent: Schnelle Oszillationen um konstantes Niveau (stationär)
+    \item Schlecht: Trends, Drifts, oder periodische Muster
+\end{itemize}
+
+\textbf{2. Autocorrelation Function (ACF):}
+$$\rho_h = \frac{\text{Cov}(X_t, X_{t+h})}{\text{Var}(X_t)}$$
+
+\textbf{Interpretation:} Schnell abfallende ACF deutet auf gutes Mixing hin (unabhängigere Stichproben).
+
+\textbf{3. Gelman-Rubin Diagnostic ($\hat{R}$, Potential Scale Reduction Factor):}
+
+Läuft mehrere unabhängige Chains mit verschiedenen Startwerten. Vergleicht Within-Chain und Between-Chain Varianz:
+$$\hat{R} = \sqrt{\frac{(\hat{n}-1) W/\hat{n} + \hat{B}/\hat{n}}{W}}$$
+
+wobei $W$ = Within-Chain Varianz, $\hat{B}$ = Between-Chain Varianz.
+
+\textbf{Regel:} $\hat{R} < 1.1$ deutet auf Konvergenz hin. $\hat{R}$ nahe 1.0 ist ideal.
+
+\textbf{4. Effective Sample Size (ESS):}
+$$\text{ESS} = \frac{N}{1 + 2 \sum_{h=1}^{\infty} \rho_h}$$
+
+Berücksichtigt Autokorrelation. Höhere ESS ist besser.
+
+\definition{\textbf{Varianzschätzung in MCMC:}}
+Da Stichproben autokorreliert sind, ist die naive Varianzschätzung zu optimistisch:
+$$\widehat{\text{Var}}_{\text{naive}} = \frac{1}{N} \sum_{i=1}^{N} (x_i - \bar{x})^2$$
+
+\textbf{Korrigierte Varianzschätzung (mit Autokorrelation):}
+$$\widehat{\text{Var}}_{\text{korrigiert}} = \widehat{\text{Var}}_{\text{naive}} \cdot \left(1 + 2 \sum_{h=1}^{M} \rho_h \right)$$
+
+wobei $M$ ein Cutoff-Lag ist (z.B. bis ACF signifikant abfällt).
+
+\definition{\textbf{Ising-Modell (Anwendungsbeispiel):}}
+Ein klassisches Modell aus der statistischen Physik zur Beschreibung von Magnetismus.
+
+\textbf{Modell:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Gitter von ``Spins'' $s_i \in \{-1, +1\}$
+    \item Energie: $E(s) = -J \sum_{\langle i,j \rangle} s_i s_j - h \sum_i s_i$
+    \begin{itemize}[leftmargin=1.5em]
+        \item $J$: Kopplung zwischen benachbarten Spins
+        \item $h$: Äußeres magnetisches Feld
+    \end{itemize}
+    \item Boltzmann-Verteilung: $p(s | \beta) = \frac{1}{Z(\beta)} \exp(-\beta E(s))$
+    \begin{itemize}[leftmargin=1.5em]
+        \item $\beta = 1/(k_B T)$: Inverse Temperatur
+        \item $Z(\beta)$: Partition function (Normalisierungskonstante)
+    \end{itemize}
+\end{itemize}
+
+\textbf{Anwendung von Gibbs Sampling:}
+\begin{enumerate}[leftmargin=1.5em]
+    \item Conditional Distribution für Spin $i$ ist analytisch verfügbar:
+    $$p(s_i | s_{-i}) = \frac{1}{1 + \exp(-2\beta s_i (J \sum_{\langle j \rangle} s_j + h))}$$
+    \item Iterativ für jeden Spin samplen
+    \item Gleichgewichtsstichproben approx. aus $p(s | \beta)$
+\end{enumerate}
+
+\textbf{Interessante Physik:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Phasenübergang:} Bei kritischer Temperatur $T_c$ (in 2D: $\beta_c = \frac{1}{2}\ln(1+\sqrt{2})$) gibt es einen Phasenübergang
+    \item Unter $T_c$: System ``magnetisiert'' sich (Spins richten sich aus)
+    \item Über $T_c$: System ist ungeordnet (Spins zufällig)
+\end{itemize}
+
+\definition{\textbf{Vergleich: Importance Sampling vs. MCMC}}
+
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Aspekt} & \textbf{Importance Sampling} & \textbf{MCMC} \\
+        \hline
+        Direkter Sampling & Ja, aus $q$ & Nein, Markov Chain \\
+        \hline
+        Unabhängige Samples & Ja & Nein (autokorreliert) \\
+        \hline
+        Proposal-Wahl & Kritisch & Flexibler \\
+        \hline
+        Hochdimensional & Schwierig & Besser \\
+        \hline
+        Gewichte & Nötig & Nicht nötig \\
+        \hline
+        Konvergenz-Diagnose & Einfach (ESS) & Komplex (Gelman-Rubin, etc.) \\
+        \hline
+        Rechenzeit & Schnell & Langsamer (Burn-in etc.) \\
+        \hline
+        Batch-Processing & Gut geeignet & Sequentiell \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\definition{\textbf{Praktische Empfehlungen:}}
+
+\textbf{Wann Importance Sampling verwenden:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Niedrige bis mittlere Dimensionen ($p < 20$)
+    \item Wenn gute Proposal-Verteilung verfügbar
+    \item Schnelle Schätzung der Normalisierungskonstante nötig
+\end{itemize}
+
+\textbf{Wann MCMC verwenden:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Hohe Dimensionen ($p > 20$)
+    \item Komplexe Posterior-Verteilungen in Bayesianischen Modellen
+    \item Wenn Conditional Distributions leicht zu samplen sind (Gibbs)
+\end{itemize}
+
+\textbf{Hybrid-Ansätze:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Adaptive Importance Sampling:} Proposal-Verteilung wird iterativ angepasst
+    \item \textbf{SMC (Sequential Monte Carlo):} Sequentielle Importance Sampling mit Resampling
+    \item \textbf{Variational Inference:} Schnellere Alternative zu MCMC (aber Approximation)
+\end{itemize}
+
 \newpage
