@@ -165,7 +165,7 @@ Eindimensionale Automaten sind mathematisch einfacher zu analysieren als 2D-Mode
 
 Beidemethoden -- Genetische Algorithmen (GA) und Simulated Annealing (SA) -- sind klassische \textbf{Metaheuristiken} der evolutionären Optimierung. Beiden gemein ist, dass sie keine Ableitungsinformation benötigen und auch in hochdimensionalen, nicht-konvexen Suchräumen mit vielen lokalen Optima eingesetzt werden können.
 
-\definition{\textbf{Genetische Algorithmen}} basieren auf drei biologischen Prinzipien:}
+\definition{\textbf{Genetische Algorithmen} basieren auf drei biologischen Prinzipien:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Darwin'sche Selektion:} Individuen, die besser an ihre Umgebung angepasst sind (``fitter''), überleben mit höherer Wahrscheinlichkeit und geben ihre Eigenschaften weiter.
     \item \textbf{Mendelsche Vererbung:} Gene werden nicht vermischt, sondern diskret weitergegeben; dominante Gene setzen sich gegenüber rezessiven durch.
@@ -217,7 +217,7 @@ Beidemethoden -- Genetische Algorithmen (GA) und Simulated Annealing (SA) -- sin
 
 \subsubsection*{Simulated Annealing (SA)}
 
-\definition{\textbf{Simulated Annealing}} ist eine \textbf{Einzellösungs-Metaheuristik}, inspiriert durch das physikalische Abkühlen von Metallen. Beim Erhitzen lösen sich Gitterstrukturen auf (hohe Entropie, Exploration); beim langsamen Abkühlen findet das Material einen stabilen Niedrigenergie-Zustand (Exploitation).}
+\definition{\textbf{Simulated Annealing} ist eine \textbf{Einzellösungs-Metaheuristik}, inspiriert durch das physikalische Abkühlen von Metallen. Beim Erhitzen lösen sich Gitterstrukturen auf (hohe Entropie, Exploration); beim langsamen Abkühlen findet das Material einen stabilen Niedrigenergie-Zustand (Exploitation).}
 
 \textbf{Das Metropolis-Kriterium:} Die Übergangswahrscheinlichkeit von Zustand $m$ zu Zustand $n$ lautet:
 $$P(n \mid m) = \begin{cases}
@@ -248,7 +248,7 @@ Da im schlechteren Fall $\Delta E = E(n) - E(m) > 0$ ist, liegt $P(n|m) \in (0,1
 
 \subsubsection*{Schwarmintelligenz als Grundlage}
 
-\definition{\textbf{Ant Colony Optimization}} (ACO) und \textbf{Particle Swarm Optimization} (PSO) gehören zur Klasse der \textbf{schwarmbasierten Algorithmen}: Kollektives, dezentrales Verhalten einfacher Agenten erzeugt emergentes, komplexes Optimierungsverhalten -- ohne dass ein einzelner Agent das Gesamtproblem kennt.}
+\definition{\textbf{Ant Colony Optimization} (ACO) und \textbf{Particle Swarm Optimization} (PSO) gehören zur Klasse der \textbf{schwarmbasierten Algorithmen}: Kollektives, dezentrales Verhalten einfacher Agenten erzeugt emergentes, komplexes Optimierungsverhalten -- ohne dass ein einzelner Agent das Gesamtproblem kennt.}
 
 Beide Algorithmen basieren nicht auf biologischer Vererbung, sondern auf der direkten Interaktion von Individuen mit ihrer Umgebung bzw. untereinander.
 
@@ -282,7 +282,7 @@ ACO ist besonders geeignet für diskrete und kombinatorische Optimierungsproblem
 
 \subsubsection*{Particle Swarm Optimization (PSO)}
 
-\definition{\textbf{PSO}} modelliert das Bewegungsverhalten von Schwarmtieren (Vögel, Fische). Jedes Individuum (\textit{Partikel}) $x_i \in \mathbb{R}^d$ besitzt eine Geschwindigkeit $v_i \in \mathbb{R}^d$ und ein Gedächtnis für den bisher besten eigenen Zustand $b_i$.}
+\definition{\textbf{PSO} modelliert das Bewegungsverhalten von Schwarmtieren (Vögel, Fische). Jedes Individuum (\textit{Partikel}) $x_i \in \mathbb{R}^d$ besitzt eine Geschwindigkeit $v_i \in \mathbb{R}^d$ und ein Gedächtnis für den bisher besten eigenen Zustand $b_i$.}
 
 \textbf{Geschwindigkeitsupdate:} Die Geschwindigkeit wird durch drei soziale Prinzipien bestimmt:
 $$v_i \;\leftarrow\; w\,v_i \;+\; \phi_1 \cdot (b_i - x_i) \;+\; \phi_2 \cdot (h_i - x_i) \;+\; \phi_3 \cdot (g - x_i)$$
@@ -320,7 +320,7 @@ $$x_i \leftarrow x_i + v_i$$
 
 \subsubsection*{No-Free-Lunch-Theorem und Algorithmenauswahl}
 
-\definition{Das \textbf{No-Free-Lunch-Theorem}} besagt, dass kein Algorithmus auf allen Optimierungsproblemen überlegen ist: Verbesserungen auf einer Problemklasse werden durch Verschlechterungen auf einer anderen erkauft.}
+\definition{Das \textbf{No-Free-Lunch-Theorem} besagt, dass kein Algorithmus auf allen Optimierungsproblemen überlegen ist: Verbesserungen auf einer Problemklasse werden durch Verschlechterungen auf einer anderen erkauft.}
 
 \textbf{Empirische Auswahl:}\vspace{2pt}
 \begin{itemize}[leftmargin=1.5em]
@@ -468,7 +468,7 @@ Der Agent führt die gleiche Aufgabe in mehreren \textbf{Episoden} wiederholt au
 
 \subsubsection*{Q-Learning: Off-Policy Algorithmus}
 
-\definition{\textbf{Q-Learning} ist ein TD-Lernalgorithmus, der die Action-Value-Function über die \textbf{Bellman-Gleichung}} aktualisiert:}
+\definition{\textbf{Q-Learning} ist ein TD-Lernalgorithmus, der die Action-Value-Function über die \textbf{Bellman-Gleichung} aktualisiert:}
 
 $$q(s, a)^{t+1}_{\text{neu}} = q(s, a)^t_{\text{alt}} + \alpha \left[ r + \gamma \max_{a'} q(s', a')^t - q(s, a)^t \right]$$
 
@@ -488,7 +488,7 @@ Q-Learning aktualisiert die Q-Werte basierend auf der \textbf{optimalen} (noch n
 
 \subsubsection*{Policy-Updates mit $\varepsilon$-Greedy-Strategie}
 
-Die Policy wird typischerweise mit einer \textbf{$\varepsilon$-Greedy-Strategie}} aktualisiert:
+Die Policy wird typischerweise mit einer \textbf{$\varepsilon$-Greedy-Strategie} aktualisiert:
 $$\pi(a|s)^t = \begin{cases}
     1 - \varepsilon_{\text{Episode}} + \frac{\varepsilon_{\text{Episode}}}{|A|} & \text{wenn } a \in \arg\max_a q(s, a) \\
     \frac{\varepsilon_{\text{Episode}}}{|A|} & \text{wenn } a \notin \arg\max_a q(s, a)
@@ -510,7 +510,7 @@ $$v^*(s)^t = \sum_a \pi(a|s)^t \cdot q(s, a)^t$$
 
 \subsubsection*{SARSA: On-Policy Alternative}
 
-\definition{\textbf{SARSA} (\textit{State-Action-Reward-State-Action}) ist ein TD-Lernalgorithmus, der im Gegensatz zu Q-Learning \textbf{On-Policy}} ist.}
+\definition{\textbf{SARSA} (\textit{State-Action-Reward-State-Action}) ist ein TD-Lernalgorithmus, der im Gegensatz zu Q-Learning \textbf{On-Policy} ist.}
 
 Update der Action-Value-Function bei SARSA:
 $$q(s, a)^{t+1} = (1 - \alpha) \cdot q(s, a)^t + \alpha \cdot \left[ r + \gamma \cdot q(s', a')^t \right]$$
@@ -556,7 +556,7 @@ Bei großen oder kontinuierlichen Zustandsräumen wächst die Größe des Q-Tabl
 
 \subsubsection*{Biologische Inspiration und Grundstruktur}
 
-\definition{\textbf{Neuronale Netze}} sind vom biologischen Gehirn inspirierte Rechenmodelle, bestehend aus miteinander verbundenen künstlichen Neuronen, die Informationen durch gewichtete Verbindungen verarbeiten.}
+\definition{\textbf{Neuronale Netze} sind vom biologischen Gehirn inspirierte Rechenmodelle, bestehend aus miteinander verbundenen künstlichen Neuronen, die Informationen durch gewichtete Verbindungen verarbeiten.}
 
 \textbf{Künstliches Neuron (Perceptron):} Ein künstliches Neuron mit Eingaben $x_1, \ldots, x_n$, Gewichten $w_1, \ldots, w_n$ und Bias $b$ berechnet:
 $$z = \sum_{i=1}^{n} w_i \cdot x_i + b$$
@@ -575,7 +575,7 @@ $$y = \sigma(z)$$
 
 \subsubsection*{Feedforward-Architektur}
 
-Bei \textbf{Feedforward-Netzen}} fließt Information unidirektional von Eingabe zu Ausgabe (keine Zyklen). Die Berechnung erfolgt schichtweise:
+Bei \textbf{Feedforward-Netzen} fließt Information unidirektional von Eingabe zu Ausgabe (keine Zyklen). Die Berechnung erfolgt schichtweise:
 $$h^{(l)} = \sigma(W^{(l)} \cdot h^{(l-1)} + b^{(l)})$$
 
 wobei $h^{(l)}$ die Aktivierungen in Schicht $l$ sind, $W^{(l)}$ die Gewichte und $b^{(l)}$ die Bias-Vektoren sind.
@@ -593,7 +593,7 @@ wobei $h^{(l)}$ die Aktivierungen in Schicht $l$ sind, $W^{(l)}$ die Gewichte un
 
 \subsubsection*{Optimierungsproblem und Kostenfunktion}
 
-\definition{\textbf{Training}} von neuronalen Netzen ist ein Optimierungsproblem: Gegeben ein Datensatz von Paaren $(x_i, y_i)$ finde Gewichte $W$ und Bias $b$, die eine Kostenfunktion minimieren.}
+\definition{\textbf{Training} von neuronalen Netzen ist ein Optimierungsproblem: Gegeben ein Datensatz von Paaren $(x_i, y_i)$ finde Gewichte $W$ und Bias $b$, die eine Kostenfunktion minimieren.}
 
 Typische Kostenfunktionen:
 \begin{itemize}[leftmargin=1.5em]
@@ -604,10 +604,10 @@ Typische Kostenfunktionen:
 
 \subsubsection*{Gradientenabstieg}
 
-\definition{\textbf{Gradientenabstieg}} ist ein iteratives Optimierungsverfahren, das Gewichte in Richtung des negativen Gradienten aktualisiert:}
+\definition{\textbf{Gradientenabstieg} ist ein iteratives Optimierungsverfahren, das Gewichte in Richtung des negativen Gradienten aktualisiert:}
 $$W \leftarrow W - \alpha \frac{\partial \mathcal{L}}{\partial W}$$
 
-wobei $\alpha$ die \textbf{Lernrate}} ist. Der Gradient $\frac{\partial \mathcal{L}}{\partial W}$ gibt an, wie schnell die Kostenfunktion in jede Parameter-Richtung ansteigt.
+wobei $\alpha$ die \textbf{Lernrate} ist. Der Gradient $\frac{\partial \mathcal{L}}{\partial W}$ gibt an, wie schnell die Kostenfunktion in jede Parameter-Richtung ansteigt.
 
 \textbf{Varianten:}\vspace{2pt}
 \begin{itemize}[leftmargin=1.5em]
@@ -618,7 +618,7 @@ wobei $\alpha$ die \textbf{Lernrate}} ist. Der Gradient $\frac{\partial \mathcal
 
 \subsubsection*{Backpropagation}
 
-\definition{\textbf{Backpropagation}} ist der Standard-Algorithmus zur Berechnung von Gradienten in neuronalen Netzen mittels \textbf{Kettenregel}} (Chain Rule).}
+\definition{\textbf{Backpropagation} ist der Standard-Algorithmus zur Berechnung von Gradienten in neuronalen Netzen mittels \textbf{Kettenregel} (Chain Rule).}
 
 \textbf{Forward Pass:} Berechne Aktivierungen schichtweise:
 $$h^{(l)} = \sigma(z^{(l)})\quad\text{mit}\quad z^{(l)} = W^{(l)} \cdot h^{(l-1)} + b^{(l)}$$
@@ -657,7 +657,7 @@ $$\frac{\partial \mathcal{L}}{\partial W^{(l)}} = \delta^{(l)} (h^{(l-1)})^T, \q
 
 \subsubsection*{Rolle und Anforderungen}
 
-\definition{\textbf{Aktivierungsfunktionen}} $\sigma(z)$ führen \textbf{Nichtlinearität}} in neuronale Netze ein. Ohne sie wären auch tiefe Netze äquivalent zu einem einzigen linearen Modell.}
+\definition{\textbf{Aktivierungsfunktionen} $\sigma(z)$ führen \textbf{Nichtlinearität} in neuronale Netze ein. Ohne sie wären auch tiefe Netze äquivalent zu einem einzigen linearen Modell.}
 
 \textbf{Anforderungen:}\vspace{2pt}
 \begin{itemize}[leftmargin=1.5em]
@@ -710,7 +710,7 @@ $$\frac{\partial \mathcal{L}}{\partial W^{(1)}} = \frac{\partial \mathcal{L}}{\p
 
 \subsubsection*{Grundkonzept und Architektur}
 
-\definition{\textbf{Autoencoder}} sind unüberwachte neuronale Netze, die darauf trainiert sind, ihre Eingaben zu rekonstruieren. Die Architektur besteht aus einem \textbf{Encoder}} und einem \textbf{Decoder}}.}
+\definition{\textbf{Autoencoder} sind unüberwachte neuronale Netze, die darauf trainiert sind, ihre Eingaben zu rekonstruieren. Die Architektur besteht aus einem \textbf{Encoder} und einem \textbf{Decoder}.}
 
 \textbf{Encoder:} Komprimiert Eingabe $x \in \mathbb{R}^d$ in eine latente Darstellung $z \in \mathbb{R}^k$ mit $k \ll d$:
 $$z = f_\text{enc}(x)$$
@@ -739,7 +739,7 @@ $$\mathcal{L} = \mathbb{E}[\|x - \hat{x}\|^2]\quad\text{oder}\quad\mathcal{L} = 
 
 \subsubsection*{Motivation und lokale Konnektivität}
 
-\definition{\textbf{Convolutional Neural Networks}} (CNNs) nutzen lokale Konnektivität und Gewichtsfreigabe (Parameter Sharing), um Bilder und räumliche Daten effizient zu verarbeiten.}
+\definition{\textbf{Convolutional Neural Networks} (CNNs) nutzen lokale Konnektivität und Gewichtsfreigabe (Parameter Sharing), um Bilder und räumliche Daten effizient zu verarbeiten.}
 
 \textbf{Warum CNNs?}\vspace{2pt}
 \begin{itemize}[leftmargin=1.5em]
@@ -750,7 +750,7 @@ $$\mathcal{L} = \mathbb{E}[\|x - \hat{x}\|^2]\quad\text{oder}\quad\mathcal{L} = 
 
 \subsubsection*{Convolutional Layer}
 
-\definition{Ein \textbf{Convolutional Layer}} wendet einen Filter (Kernel) $K$ auf die Eingabe durch Faltung an.}
+\definition{Ein \textbf{Convolutional Layer} wendet einen Filter (Kernel) $K$ auf die Eingabe durch Faltung an.}
 
 \textbf{2D-Faltung:} Für Eingabe $I$ und Filter $K$ mit Schrittweite $s$:
 $$\text{Output}[i,j] = \sum_{k_x}\sum_{k_y} K[k_x, k_y] \cdot I[i \cdot s + k_x, j \cdot s + k_y]$$
@@ -789,7 +789,7 @@ Vorteile: Schnelleres Training, höhere Lernraten, weniger Abhängigkeit von Ini
 
 \subsubsection*{Sequenzielle Abhängigkeiten und Zustandsgeflecht}
 
-\definition{\textbf{Recurrent Neural Networks}} (RNNs) sind Netze mit Zyklen, die Sequenzen verarbeiten können, indem sie einen \textbf{Hidden State}} $h_t$ über Zeit hinweg propagieren.}
+\definition{\textbf{Recurrent Neural Networks} (RNNs) sind Netze mit Zyklen, die Sequenzen verarbeiten können, indem sie einen \textbf{Hidden State} $h_t$ über Zeit hinweg propagieren.}
 
 \textbf{Grundgleichung (Vanilla RNN):}
 $$h_t = \sigma(W_{hh} h_{t-1} + W_{xh} x_t + b_h)$$
@@ -801,7 +801,7 @@ wobei $x_t$ die Eingabe zum Zeitpunkt $t$, $h_t$ der Hidden State und $y_t$ die 
 
 \subsubsection*{Long Short-Term Memory (LSTM)}
 
-\definition{\textbf{LSTMs}} sind eine populäre RNN-Variante mit Gating-Mechanismen, die Informationen über lange Zeiträume halten können.}
+\definition{\textbf{LSTMs} sind eine populäre RNN-Variante mit Gating-Mechanismen, die Informationen über lange Zeiträume halten können.}
 
 \textbf{LSTM-Komponenten:}\vspace{2pt}
 \begin{itemize}[leftmargin=1.5em]
@@ -818,7 +818,7 @@ Der elementweise Multiplikation ($\odot$) ermöglicht, dass relevante Informatio
 
 \subsubsection*{Gated Recurrent Unit (GRU)}
 
-\definition{\textbf{GRUs}} sind eine vereinfachte LSTM-Variante mit nur zwei Gates (Reset und Update).}
+\definition{\textbf{GRUs} sind eine vereinfachte LSTM-Variante mit nur zwei Gates (Reset und Update).}
 
 Vorteile: Weniger Parameter als LSTM, schneller zu trainieren, oft ähnliche Performance.
 
@@ -841,7 +841,7 @@ Vorteile: Weniger Parameter als LSTM, schneller zu trainieren, oft ähnliche Per
 
 \subsubsection*{Grundkonzept und Adversariales Spiel}
 
-\definition{\textbf{Generative Adversarial Networks}} (GANs) bestehen aus zwei konkurrierenden Netzen: einem \textbf{Generator}} $G$ und einem \textbf{Diskriminator}} $D$.}
+\definition{\textbf{Generative Adversarial Networks} (GANs) bestehen aus zwei konkurrierenden Netzen: einem \textbf{Generator} $G$ und einem \textbf{Diskriminator} $D$.}
 
 \textbf{Generator:} Erzeugt synthetische Daten aus zufälligem Rauschen $z \sim p(z)$:
 $$x_\text{fake} = G(z)$$
@@ -946,7 +946,7 @@ Einfache Analysen ignorieren häufig die Satzstruktur und betrachten Dokumente a
 
 \subsubsection*{Bag of Words (BoW) und Preprocessing}
 
-\definition{\textbf{Bag of Words}} ist eine Dokumentrepräsentation, die zählt, wie oft jedes Token in einem Dokument vorkommt. Die Wortfolge wird ignoriert ("Sack, in den die Worte geworfen werden").}
+\definition{\textbf{Bag of Words} ist eine Dokumentrepräsentation, die zählt, wie oft jedes Token in einem Dokument vorkommt. Die Wortfolge wird ignoriert ("Sack, in den die Worte geworfen werden").}
 
 \textbf{Vorverarbeitung zur Verbesserung:}
 \begin{itemize}[leftmargin=1.5em]
@@ -959,7 +959,7 @@ BoW ist sinnvoll für einfache Text-Mining-Aufgaben, aber nicht für feinere NLP
 
 \subsubsection*{TF-IDF-Gewichtung}
 
-\definition{\textbf{TF-IDF}} (Term Frequency -- Inverse Document Frequency) gewichtet die Häufigkeit von Worten und berücksichtigt dabei sowohl die Dokumentenlänge als auch die Seltenheit von Worten im gesamten Corpus.}
+\definition{\textbf{TF-IDF} (Term Frequency -- Inverse Document Frequency) gewichtet die Häufigkeit von Worten und berücksichtigt dabei sowohl die Dokumentenlänge als auch die Seltenheit von Worten im gesamten Corpus.}
 
 $$\text{TF-IDF}(t, d) = \text{TF}(t, d) \cdot \text{IDF}(t)$$
 
@@ -1003,7 +1003,7 @@ Often zusammen vorkommende Wörter gehören vermutlich zu einem Thema und sollte
 
 \subsubsection*{Latent Semantic Analysis (LSA)}
 
-\definition{\textbf{Latent Semantic Analysis}} (LSA) zerlegt die Document-Term-Matrix näherungsweise mittels $k$ Themen (Topics) durch eine trunkierte Singulärwertzerlegung (SVD).}
+\definition{\textbf{Latent Semantic Analysis} (LSA) zerlegt die Document-Term-Matrix näherungsweise mittels $k$ Themen (Topics) durch eine trunkierte Singulärwertzerlegung (SVD).}
 
 \textbf{Prinzip:}
 \begin{itemize}[leftmargin=1.5em]
@@ -1022,7 +1022,7 @@ LSA ist mathematisch einfach und effizient, aber die Interpretierbarkeit der Top
 
 \subsubsection*{Latent Dirichlet Allocation (LDA)}
 
-\definition{\textbf{Latent Dirichlet Allocation}} (LDA) ist eine Bayes'sche Methode basierend auf dem Dirichlet-Multinomialmodell für die Zugehörigkeit von Worten zu Themen und Themen zu Dokumenten.}
+\definition{\textbf{Latent Dirichlet Allocation} (LDA) ist eine Bayes'sche Methode basierend auf dem Dirichlet-Multinomialmodell für die Zugehörigkeit von Worten zu Themen und Themen zu Dokumenten.}
 
 \textbf{Charakteristiken:}
 \begin{itemize}[leftmargin=1.5em]
@@ -1041,7 +1041,7 @@ LDA bietet oft bessere und interpretierbarere Ergebnisse als LSA, besonders für
 
 \subsubsection*{Worteinbettungen (Word Embeddings)}
 
-\definition{\textbf{Worteinbettungen}} (Word Embeddings) sind eine \textit{"Revolution"} im NLP (ab 2012/13 mit Word2Vec). Das Ziel ist die Einbettung von Worten in einen niedrigdimensionalen Vektorraum (typischerweise wenige hundert Dimensionen statt zehntausend für One-Hot-Encoding).}
+\definition{\textbf{Worteinbettungen} (Word Embeddings) sind eine \textit{"Revolution"} im NLP (ab 2012/13 mit Word2Vec). Das Ziel ist die Einbettung von Worten in einen niedrigdimensionalen Vektorraum (typischerweise wenige hundert Dimensionen statt zehntausend für One-Hot-Encoding).}
 
 \textbf{Charakteristiken:}
 \begin{itemize}[leftmargin=1.5em]
@@ -1062,7 +1062,7 @@ Alternative zu Word2Vec mit ähnlichen oder teilweise besseren Ergebnissen durch
 
 \subsubsection*{Kontextuelle Einbettung}
 
-\definition{\textbf{Kontextuelle Einbettung}} behandelt das Problem der Mehrdeutigkeit: Ein Wort erhält nicht einen einzigen Vektor, sondern wird je nach Kontext unterschiedlich repräsentiert.}
+\definition{\textbf{Kontextuelle Einbettung} behandelt das Problem der Mehrdeutigkeit: Ein Wort erhält nicht einen einzigen Vektor, sondern wird je nach Kontext unterschiedlich repräsentiert.}
 
 \textbf{Problem mit Word2Vec:} Für jeden Corpus erhält jedes Wort nur einen Vektor, der bei mehrdeutigen Worten eine "Mischbedeutung" darstellt.
 
@@ -1085,7 +1085,7 @@ Alternative zu Word2Vec mit ähnlichen oder teilweise besseren Ergebnissen durch
 
 \subsubsection*{Adversariale Angreifer: Definition und Motivation}
 
-\definition{\textbf{Adversariale Angreifer}} sind speziell konstruierte Eingaben, die darauf abzielen, maschinelle Lernmodelle (insbesondere neuronale Netze) zu täuschen und falsche Vorhersagen zu verursachen, während sie für Menschen oft unauffällig oder korrekt erscheinen.}
+\definition{\textbf{Adversariale Angreifer} sind speziell konstruierte Eingaben, die darauf abzielen, maschinelle Lernmodelle (insbesondere neuronale Netze) zu täuschen und falsche Vorhersagen zu verursachen, während sie für Menschen oft unauffällig oder korrekt erscheinen.}
 
 \textbf{Motivation:}
 \begin{itemize}[leftmargin=1.5em]
@@ -1114,7 +1114,7 @@ Alternative zu Word2Vec mit ähnlichen oder teilweise besseren Ergebnissen durch
 
 \subsubsection*{Deep Fakes: Synthetische Medien}
 
-\definition{\textbf{Deep Fakes}} sind synthetisch generierte oder manipulierte Audio-, Video- oder Bildinhalte, die oft täuschend echt wirken, tatsächlich aber mittels Deep Learning (typischerweise \textbf{Generative Adversarial Networks, GANs}) erzeugt oder verfälscht wurden.}
+\definition{\textbf{Deep Fakes} sind synthetisch generierte oder manipulierte Audio-, Video- oder Bildinhalte, die oft täuschend echt wirken, tatsächlich aber mittels Deep Learning (typischerweise \textbf{Generative Adversarial Networks, GANs}) erzeugt oder verfälscht wurden.}
 
 \textbf{Technische Grundlagen:}
 \begin{itemize}[leftmargin=1.5em]
