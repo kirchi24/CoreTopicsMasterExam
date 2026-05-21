@@ -24,11 +24,11 @@
 
 \definition{Die \textbf{Modellierung} ist der Prozess der Erstellung eines Modells: (1) Nichtformale Beschreibung, (2) Semiformale Beschreibung ("Modellkonzept"), (3) Streng formale mathematische Formulierung.}
 
-\definition{Ein \textbf{Experiment}} ist eine empirische Forschungsmethode, bei der eine oder mehrere unabhängige Variablen variiert werden.
+\definition{Ein \textbf{Experiment} ist eine empirische Forschungsmethode, bei der eine oder mehrere unabhängige Variablen variiert werden.}
 
-\definition{Eine \textbf{Simulation}} ist im weiteren Sinne der Gesamtkomplex aus Modellieren, Simulieren und Auswerten. Im engeren Sinne: virtuelles Experiment auf Basis eines Simulationsmodells (fast ausschließlich Computersimulation).}
+\definition{Eine \textbf{Simulation} ist im weiteren Sinne der Gesamtkomplex aus Modellieren, Simulieren und Auswerten. Im engeren Sinne: virtuelles Experiment auf Basis eines Simulationsmodells (fast ausschließlich Computersimulation).}
 
-\definition{Ein \textbf{Szenario}} ist eine bestimmte Zusammenstellung von Modellannahmen bzw.\ Konfiguration der unabhängigen Variablen für eine Simulation (vgl.\ "Treatments" bei Experimenten).
+\definition{Ein \textbf{Szenario} ist eine bestimmte Zusammenstellung von Modellannahmen bzw.\ Konfiguration der unabhängigen Variablen für eine Simulation (vgl.\ "Treatments" bei Experimenten).}
 
 \textbf{Typen von Computersimulationen:}
 \begin{itemize}[leftmargin=1.5em]
@@ -43,9 +43,9 @@
 
 \definition{Ein \textbf{System}} ist ein abgegrenzter Teil der Realität, bestehend aus Elementen und deren Wechselwirkungen. \textbf{Dynamische Systeme} sind Systeme, deren Zustandsgrößen sich im Zeitablauf ändern.
 
-\definition{Eine \textbf{Wirkungsbeziehung}} ist ein gerichteter Einfluss einer Systemgröße auf eine andere ($\textit{ceteris paribus}$). \textbf{Positive Wirkung} ($+$): Zunahme der Ursache bewirkt Zunahme der Wirkung. \textbf{Negative Wirkung} ($-$): Zunahme der Ursache bewirkt Abnahme der Wirkung.
+\definition{Eine \textbf{Wirkungsbeziehung} ist ein gerichteter Einfluss einer Systemgröße auf eine andere ($\textit{ceteris paribus}$). \textbf{Positive Wirkung} ($+$): Zunahme der Ursache bewirkt Zunahme der Wirkung. \textbf{Negative Wirkung} ($-$): Zunahme der Ursache bewirkt Abnahme der Wirkung.}
 
-\definition{Ein \textbf{Wirkungsgraph}} ist ein gewichteter, gerichteter Graph (Digraph), in dem Systemgrößen die \emph{Knoten} und Wirkungen die \emph{Kanten} (mit Vorzeichen) bilden.
+\definition{Ein \textbf{Wirkungsgraph} ist ein gewichteter, gerichteter Graph (Digraph), in dem Systemgrößen die \emph{Knoten} und Wirkungen die \emph{Kanten} (mit Vorzeichen) bilden.}
 
 \textbf{Grundregeln nach Bossel (ausgewählt):}
 \begin{itemize}[leftmargin=1.5em]
@@ -60,7 +60,7 @@
     \item \textbf{Negativer Kreislauf}: Produkt aller Vorzeichen ist negativ $\Rightarrow$ \emph{selbstregulierend/stabilisierend}
 \end{itemize}
 
-\definition{Die \textbf{Wirkungsmatrix}} $W$ stellt den Wirkungsgraphen kompakt dar: $w_{i,j}$ gibt Wirkungsintensität von Knoten $j$ auf $i$ an.
+\definition{Die \textbf{Wirkungsmatrix} $W$ stellt den Wirkungsgraphen kompakt dar: $w_{i,j}$ gibt Wirkungsintensität von Knoten $j$ auf $i$ an.}
 
 \textbf{Graphentheoretische Eigenschaften:}
 \begin{itemize}[leftmargin=1.5em]
@@ -121,7 +121,7 @@ P(|x - \mu| \geq k\sigma) \leq \frac{1}{k^2}
 
 \subsection{Pulsmodelle und deren Dynamik}
 
-\definition{Ein \textbf{Pulsmodell}} ermöglicht die diskrete, lineare sowie dynamische Betrachtung der Ausbreitung von Systemstörungen. Ein \textbf{Puls}} ist eine Systemstörung an einem bestimmten Knoten zu einem bestimmten Zeitpunkt. \emph{Hinweis:} Ein Pulsmodell ist \emph{kein} vollständiges Simulationsmodell -- es betrachtet nur die Fortpflanzung von Störungen.
+\definition{Ein \textbf{Pulsmodell} ermöglicht die diskrete, lineare sowie dynamische Betrachtung der Ausbreitung von Systemstörungen. Ein \textbf{Puls} ist eine Systemstörung an einem bestimmten Knoten zu einem bestimmten Zeitpunkt. \emph{Hinweis:} Ein Pulsmodell ist \emph{kein} vollständiges Simulationsmodell -- es betrachtet nur die Fortpflanzung von Störungen.}
 
 \textbf{Mathematische Formulierung:}
 \[
@@ -129,7 +129,7 @@ P(|x - \mu| \geq k\sigma) \leq \frac{1}{k^2}
 \]
 wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nicht} aus dem Kern entstammen, insbesondere $\vec{p}_0 \neq \vec{0}$). Kern: $\ker(A) = \{\vec{p} \in \mathbb{R}^n : A\vec{p} = \vec{0}\}$.
 
-\definition{Ein Pulsmodell ist \textbf{pulsstabil}}, wenn alle Eigenwerte im Betrag $\leq 1$ sind: $\forall i: |\lambda_i(A)| \leq 1$. Der \textbf{Spektralradius}} $\rho(A) = \max_i |\lambda_i(A)|$ ist der Radius des kleinsten Kreises, der alle Eigenwerte enthält (Gaußscher Zahlenebene).
+\definition{Ein Pulsmodell ist \textbf{pulsstabil}, wenn alle Eigenwerte im Betrag $\leq 1$ sind: $\forall i: |\lambda_i(A)| \leq 1$. Der \textbf{Spektralradius} $\rho(A) = \max_i |\lambda_i(A)|$ ist der Radius des kleinsten Kreises, der alle Eigenwerte enthält (Gaußscher Zahlenebene).}
 
 \textbf{Eigenkomponenten nach Eigenwertbetrag:}
 \begin{itemize}[leftmargin=1.5em]
@@ -146,7 +146,7 @@ wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nic
 \]
 \textit{Achtung:} $\rho(A) \neq \|A\|_S$ im Allgemeinen!
 
-\definition{\textbf{Dualität:}} $\mathrm{spec}(A) = \mathrm{spec}(A^T)$ $\Rightarrow$ Pulsmodell und duales Modell (umgekehrte Wirkungsrichtungen) haben gleiche Pulsdynamik.
+\definition{\textbf{Dualität:} $\mathrm{spec}(A) = \mathrm{spec}(A^T)$ $\Rightarrow$ Pulsmodell und duales Modell (umgekehrte Wirkungsrichtungen) haben gleiche Pulsdynamik.}
 
 \textbf{Zusammenhang Spur, Determinante und Eigenwerte:}
 \[
@@ -157,9 +157,9 @@ wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nic
 
 \subsection{Diskrete Markow-Ketten}
 
-\definition{Eine \textbf{diskrete Markow-Kette 1.\ Ordnung}} ist ein stochastischer Prozess, bei dem der \emph{zukünftige Zustand nur vom aktuellen Zustand}} abhängt (Markow-Eigenschaft / Gedächtnislosigkeit). Kanten-Gewichte geben \emph{Übergangswahrscheinlichkeiten} an.
+\definition{Eine \textbf{diskrete Markow-Kette 1.\ Ordnung} ist ein stochastischer Prozess, bei dem der \emph{zukünftige Zustand nur vom aktuellen Zustand} abhängt (Markow-Eigenschaft / Gedächtnislosigkeit). Kanten-Gewichte geben \emph{Ubergangswahrscheinlichkeiten} an.}
 
-\definition{Die \textbf{Übergangsmatrix}} (stochastische Matrix) $P$ erfüllt: $\forall i,j: p_{i,j} \geq 0$ und $\forall j: \sum_i p_{i,j} = 1$. Jede \emph{Spalte}} summiert sich zu 1.
+\definition{Die \textbf{Ubergangsmatrix} (stochastische Matrix) $P$ erfüllt: $\forall i,j: p_{i,j} \geq 0$ und $\forall j: \sum_i p_{i,j} = 1$. Jede \emph{Spalte} summiert sich zu 1.}
 
 \textbf{Zeitliche Entwicklung:}
 \[
@@ -167,7 +167,7 @@ wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nic
 \]
 wobei $\vec{g}^{(0)}$ die Startverteilung ist ($\sum_i g_i = 1$).
 
-\definition{Die \textbf{stationäre Verteilung}} ist der normierte Eigenvektor zum Eigenwert $\lambda = 1$:
+\definition{Die \textbf{stationäre Verteilung} ist der normierte Eigenvektor zum Eigenwert $\lambda = 1$:}
 \[
 P \cdot \vec{\zeta} = \vec{\zeta} \quad \Rightarrow \quad \lim_{k \to \infty} P^k \cdot \vec{g}^{(0)} = \vec{\zeta}
 \]
@@ -180,13 +180,13 @@ P \cdot \vec{\zeta} = \vec{\zeta} \quad \Rightarrow \quad \lim_{k \to \infty} P^
 
 \textbf{Berechnung der stationären Verteilung:} (1) Eigenwerte von $P$, (2) Eigenvektor zu $\lambda = 1$, (3) Normalisierung: $\vec{\zeta}_{\mathrm{norm}} = \frac{\vec{\zeta}}{\sum_i \zeta_i}$.
 
-\textbf{Unterschied zu Pulsmodellen:} Bei stochastischen Matrizen sind die \emph{Spaltensummen}} gleich 1 (normiert), bei Pulsmodellen nicht. Iterationsvorschrift ist formal identisch.
+\textbf{Unterschied zu Pulsmodellen:} Bei stochastischen Matrizen sind die \emph{Spaltensummen} gleich 1 (normiert), bei Pulsmodellen nicht. Iterationsvorschrift ist formal identisch.
 
 \newpage
 
 \subsection{System Dynamics}
 
-\definition{\textbf{System Dynamics (SD)}} ist eine Methode zur Modellierung und Simulation \emph{dynamischer, rückgekoppelter Systeme}} mittels Differentialgleichungen. Im Zentrum stehen \emph{Zustandsgrößen}} (Bestandsgrößen), die durch Flussgrößen verändert werden. SD modelliert typischerweise aggregierte, zeitkontinuierliche Systeme.
+\definition{\textbf{System Dynamics (SD)} ist eine Methode zur Modellierung und Simulation \emph{dynamischer, rückg ekoppelter Systeme} mittels Differentialgleichungen. Im Zentrum stehen \emph{Zustandsgrößen} (Bestandsgrößen), die durch Flussrößen verändert werden. SD modelliert typischerweise aggregierte, zeitkontinuierliche Systeme.}
 
 \textbf{Arten von Systemgrößen in SD:}
 \begin{itemize}[leftmargin=1.5em]
@@ -203,7 +203,7 @@ P \cdot \vec{\zeta} = \vec{\zeta} \quad \Rightarrow \quad \lim_{k \to \infty} P^
 
 \beispiel{Bevölkerungsmodell: $\frac{d(\mathrm{Bev})}{dt} = \mathrm{Geburtenrate} \cdot \mathrm{Bev} - \mathrm{Sterberate} \cdot \mathrm{Bev}$}
 
-\definition{Die \textbf{Euler-Cauchy-Integration}} ist die numerische Integrationsmethode bei SD-Simulation:
+\definition{Die \textbf{Euler-Cauchy-Integration} ist die numerische Integrationsmethode bei SD-Simulation:}
 \[
 z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
 \]
@@ -214,13 +214,13 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
 
 \subsection{Zustandsräume, Zustandsvektoren, Trajektorien und Attraktoren}
 
-\definition{Die \textbf{Dimensionalität}} eines Systems ist die Anzahl der Zustandsgrößen. Die Wahl der Zustandsgrößen ist nicht eindeutig, die Dimensionalität hingegen schon.
+\definition{Die \textbf{Dimensionalität} eines Systems ist die Anzahl der Zustandsgrößen. Die Wahl der Zustandsgrößen ist nicht eindeutig, die Dimensionalität hingegen schon.}
 
-\definition{Der \textbf{Zustandsraum}} (Phasenraum) wird durch die Zustandsgrößen aufgespannt. \emph{Keine Zeitachse!} Die Zeit fließt implizit durch die Veränderung des Zustandsvektors ein.
+\definition{Der \textbf{Zustandsraum} (Phasenraum) wird durch die Zustandsgrößen aufgespannt. \emph{Keine Zeitachse!} Die Zeit fließt implizit durch die Veränderung des Zustandsvektors ein.}
 
-\definition{Der \textbf{Zustandsvektor}} $\vec{z}(\tau)$ beschreibt einen Systemzustand im Zustandsraum. Eine \textbf{Trajektorie}} ist die Kurve im Zustandsraum, die den Weg des Zustandsvektors beschreibt ("Geschichte des Systems").
+\definition{Der \textbf{Zustandsvektor} $\vec{z}(\tau)$ beschreibt einen Systemzustand im Zustandsraum. Eine \textbf{Trajektorie} ist die Kurve im Zustandsraum, die den Weg des Zustandsvektors beschreibt ("Geschichte des Systems").}
 
-\definition{Die \textbf{Zustandsebene}} wird von zwei Zustandsgrößen aufgespannt. Ein \textbf{Zustandsbild}} ist die Projektion der Zustandsbahn in einen niederdimensionaleren Raum.
+\definition{Die \textbf{Zustandsebene} wird von zwei Zustandsgrößen aufgespannt. Ein \textbf{Zustandsbild} ist die Projektion der Zustandsbahn in einen niederdimensionaleren Raum.}
 
 \textbf{Grundtypen von Attraktoren:}
 \begin{itemize}[leftmargin=1.5em]
@@ -230,9 +230,9 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
     \item \textbf{Seltsamer Attraktor}: Chaotisch und/oder fraktal (starke Sensitivität)
 \end{itemize}
 
-\definition{Ein \textbf{Repellor}} ist ein instabiler Gleichgewichtspunkt -- Trajektorien entfernen sich von ihm.
+\definition{Ein \textbf{Repellor} ist ein instabiler Gleichgewichtspunkt -- Trajektorien entfernen sich von ihm.}
 
-\definition{\textbf{Separatrizen}} trennen Regionen unterschiedlichen Verhaltens und verlaufen durch Repelloren (stabile und instabile Mannigfaltigkeit). \textbf{Bifurkationen}} treten auf, wenn Parameteränderung qualitativ anderes Verhalten ergibt.
+\definition{\textbf{Separatrizen} trennen Regionen unterschiedlichen Verhaltens und verlaufen durch Repelloren (stabile und instabile Mannigfaltigkeit). \textbf{Bifurkationen} treten auf, wenn Parameteränderung qualitativ anderes Verhalten ergibt.}
 
 \textit{Hinweis (autonome Systeme):} Trajektorien können sich niemals schneiden, da der Systemzustand die zukünftige Dynamik eindeutig bestimmt.
 
@@ -240,7 +240,7 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
 
 \subsection{Dynamische lineare Systeme}
 
-\definition{Ein \textbf{dynamisches System}} wird formal beschrieben durch die \textbf{Zustandsgleichung}} und \textbf{Verhaltensgleichung}:
+\definition{Ein \textbf{dynamisches System} wird formal beschrieben durch die \textbf{Zustandsgleichung} und \textbf{Verhaltensgleichung}:}
 \[
 \dot{z}(t) = f(z(t), u(t), t), \quad v(t) = g(z(t), u(t), t)
 \]
@@ -252,12 +252,12 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
     \item \textit{Diskret}: $z_{k+1} = f(z_k, u_k, k)$ oder $z_{k+1} = f(z_k)$
 \end{itemize}
 
-\definition{Die \textbf{Linearisierung}} nichtlinearer Systeme erfolgt mittels Jacobi-Matrizen am Arbeitspunkt $(z_0, u_0)$:
+\definition{Die \textbf{Linearisierung} nichtlinearer Systeme erfolgt mittels Jacobi-Matrizen am Arbeitspunkt $(z_0, u_0)$:}
 \[
 \Delta\dot{z}(t) = A \cdot \Delta z(t) + B \cdot \Delta u(t)
 \]
 
-\definition{\textbf{LTI-Systeme}} (Linear Time-Invariant) haben konstante $A$ und $B$. Lösung:
+\definition{\textbf{LTI-Systeme} (Linear Time-Invariant) haben konstante $A$ und $B$. Lösung:}
 \[
 z(t) = e^{At} \cdot z_0 + \int_0^t e^{A(t-\tau)} B\, u(\tau)\, d\tau
 \]
