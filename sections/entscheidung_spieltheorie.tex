@@ -1,22 +1,192 @@
 \section{Entscheidungs- und Spieltheorie}
 
 \subsection{Präferenzrelationen und Präferenzordnungen}
+
+\definition{Die \textbf{schwache Präferenzrelation} $\succsim$ besagt: Akteur beurteilt Güterbündel $\vec{x}$ \emph{keinesfalls schlechter} als $\vec{y}$ ("mindestens so gut wie"). Es gilt $\vec{x}, \vec{y} \in X$, wobei $X$ die Menge aller Güterbündel ist.}
+
+\textbf{Abgeleitete Relationen:}
+\[
+\vec{x} \succ \vec{y} \;\Leftrightarrow\; \vec{x} \succsim \vec{y} \;\wedge\; \neg(\vec{y} \succsim \vec{x}) \quad \text{(strikte Präferenz)}
+\]
+\[
+\vec{x} \sim \vec{y} \;\Leftrightarrow\; \vec{x} \succsim \vec{y} \;\wedge\; \vec{y} \succsim \vec{x} \quad \text{(Indifferenz)}
+\]
+
+\definition{Eine Präferenzordnung ist \textbf{rational}, wenn sie \textbf{vollständig} und \textbf{transitiv} ist:}
+\[
+\forall \vec{x},\vec{y}\in X: \vec{x}\succsim\vec{y} \vee \vec{y}\succsim\vec{x} \quad \text{(Vollständigkeit)}
+\]
+\[
+\forall \vec{x},\vec{y},\vec{z}\in X: \vec{x}\succsim\vec{y} \wedge \vec{y}\succsim\vec{z} \Rightarrow \vec{x}\succsim\vec{z} \quad \text{(Transitivität)}
+\]
+
+\textit{Hinweis:} Zum Prüfen der \emph{Nicht}-Transitivität genügt \emph{ein} Gegenbeispiel. Für Nicht-Vollständigkeit: Paar finden, für das weder $\vec{x}\succsim\vec{y}$ noch $\vec{y}\succsim\vec{x}$ gilt.
+
+\textbf{Weitere Eigenschaften:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Konvexität}: $\vec{x}\succsim\vec{z} \wedge \vec{y}\succsim\vec{z} \Rightarrow \lambda\vec{x}+(1-\lambda)\vec{y}\succsim\vec{z}$ (für alle $\lambda\in[0,1]$)
+    \item \textit{Sonderfall}: Vollständige Indifferenz (alle gleich lieb, immer transitiv) oder eindeutige Präferenz (keine Indifferenz)
+\end{itemize}
+
+\textbf{Alternative Darstellungen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Notation: $\succsim_A$, $\succ_A$, $\sim_A$ oder Mengen $R_A$, $P_A$, $I_A$ mit $R_A = P_A \cup I_A$
+    \item Präferenzordnungen als \emph{gerichtete Graphen} oder \emph{Adjazenzmatrizen} darstellbar
+\end{itemize}
+
 \newpage
 
 \subsection{Bernoulli-Nutzenfunktion, VNM-Nutzenfunktion und Prospect Theory}
+
+\definition{Die \textbf{Bernoulli-Nutzenfunktion} $v(x)$ weist jeder Alternative einen numerischen, subjektiven Nutzen zu. Sie bildet die rationale Präferenzordnung ab:}
+\[
+x \succ y \Leftrightarrow v(x) > v(y), \quad x \sim y \Leftrightarrow v(x) = v(y)
+\]
+\textit{Limitation:} Für risikobehaftete Situationen (Lotterien) \emph{nicht geeignet}, da $v[\mathrm{EW}]$ das Risiko nicht adäquat berücksichtigt.
+
+\definition{Die \textbf{Von-Neumann-Morgenstern-Risikonutzenfunktion} für eine Lotterie mit $W_1$ (Wahrsch. $\lambda$) und $W_2$ (Wahrsch. $1-\lambda$):}
+\[
+\mathrm{EW} = \lambda \cdot W_1 + (1-\lambda)\cdot W_2, \quad \mathrm{EU}[\mathrm{EW}] = \lambda \cdot v[W_1] + (1-\lambda)\cdot v[W_2]
+\]
+
+\textbf{Risikoneigung und Krümmung:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Risikoaversion}: $\mathrm{EU}[\mathrm{EW}] < v[\mathrm{EW}]$ $\Rightarrow$ $v$ streng konkav, $v'' < 0$
+    \item \textbf{Risikoneutralität}: $\mathrm{EU}[\mathrm{EW}] = v[\mathrm{EW}]$ $\Rightarrow$ $v$ linear, $v'' = 0$
+    \item \textbf{Risikofreude}: $\mathrm{EU}[\mathrm{EW}] > v[\mathrm{EW}]$ $\Rightarrow$ $v$ streng konvex, $v'' > 0$
+\end{itemize}
+
+\definition{\textbf{Sicherheitssäquivalent} $S = v^{-1}(\mathrm{EU}[\mathrm{EW}])$: jener sichere Betrag, gegenüber dem Akteur indifferent zur Lotterie. \textbf{Sicherheitspämie} $\mathrm{SP} = \mathrm{EW} - S$: Betrag zur Vermeidung des Risikos (risikoavers).}
+
+\definition{\textbf{Prospect Theory}} (Kahneman \& Tversky, 1979): Deskriptive Theorie, empirisch fundiert. Referenzpunkt: $x = 0$.
+\[
+v(x) = \begin{cases} x^{0.88} & \text{wenn } x \geq 0 \\ -2{,}25\cdot(-x)^{0.88} & \text{wenn } x < 0 \end{cases}
+\]
+Konkav für Gewinne, konvex für Verluste; Verlustkurve steiler (Faktor 2,25). Gewichtungsfunktion korrigiert Wahrscheinlichkeitsverzerrung (Unterschätzung hoher, Überschätzung niedriger Risiken).
+
 \newpage
 
 \subsection{Lösungskonzepte bei Risiko}
+
+\textit{Rahmenbedingung:} Eintrittswahrscheinlichkeiten der Umweltzustände sind \emph{bekannt}. Alle Konzepte erfordern \emph{intervall-skalierte} Ergebnismatrizen.
+
+\definition{Die \textbf{$\mu$-Regel} (Erwartungswert-Regel / Bayes-Prinzip):}
+\[
+L_{\mu}(A_i) = \sum_j e(A_i; U_j)\cdot w_j \quad \Rightarrow \quad A^* = \operatorname{arg\,max}_i L_{\mu}(A_i)
+\]
+\textit{Kritik:} Geht von risikoneutralem Akteur aus; Risikoneigung wird ignoriert (Verstoß gegen ökonomische Standardunterstellung).
+
+\definition{Die \textbf{$\mu$-$\sigma$-Regel}:}
+\[
+L_{\mu\sigma}(A_i) = \sum_j e(A_i;U_j)\cdot w_j + q\cdot\sigma(A_i)
+\]
+Parameter $q \in \mathbb{R}$: $q=0$ (neutral), $q<0$ (risikoavers), $q>0$ (risikofreudig). \textit{Kritik:} Kann gegen das Dominanzprinzip verstoßen.
+
+\definition{Das \textbf{Bernoulli-Prinzip} (Erwartungsnutzen-Prinzip):}
+\[
+L_{\mathrm{EU}}(A_i) = \sum_j v\!\left(e(A_i;U_j)\right)\cdot w_j \quad \Rightarrow \quad A^* = \operatorname{arg\,max}_i L_{\mathrm{EU}}(A_i)
+\]
+Standardverfahren der Mikroökonomie. Typischerweise: $v(x) = \sqrt{x}$ (risikoavers). \textit{Hinweis:} Für negative/undefinierte Ergebnisse ist \emph{positiv-affine Transformation} $\tilde{e} = a\cdot e + b$ ($a>0$) notwendig.
+
+\textbf{Dominierte Alternativen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Stark dominiert}: andere Alternative bringt in \emph{jedem} Umweltzustand \emph{strikt} besseres Ergebnis
+    \item \textbf{Schwach dominiert}: zumindest gleiches, in mind. einem besser
+    \item Können für \emph{jeden} Akteur eliminiert werden
+\end{itemize}
+
 \newpage
 
 \subsection{Lösungskonzepte bei Unsicherheit}
+
+\textit{Rahmenbedingung:} Eintrittswahrscheinlichkeiten sind \emph{nicht bekannt} (nur: $P(U_j) > 0$ für alle angeführten Zustände).
+
+\definition{Die \textbf{Laplace-Regel}: Vereinfacht gleiche Wahrscheinlichkeiten für alle $J$ Umweltzustände:}
+\[
+L_L(A_i) = \frac{1}{J}\sum_j e(A_i; U_j) \quad \Rightarrow \quad A^* = \operatorname{arg\,max}_i L_L(A_i)
+\]
+\textit{Kritik:} Auswahl und Anzahl der Umweltzustände beeinflussen Lösung stark.
+
+\definition{Die \textbf{Maximin-Regel} (Wald-Regel): Maximierung des schlechtestmöglichen Ergebnisses (pessimistisch):}
+\[
+L_{\min}(A_i) = \min_j\, e(A_i; U_j) \quad \Rightarrow \quad A^* = \operatorname{arg\,max}_i L_{\min}(A_i)
+\]
+
+\definition{Die \textbf{Maximax-Regel}: Maximierung des bestmöglichen Ergebnisses (optimistisch):}
+\[
+L_{\max}(A_i) = \max_j\, e(A_i; U_j) \quad \Rightarrow \quad A^* = \operatorname{arg\,max}_i L_{\max}(A_i)
+\]
+
+\definition{Die \textbf{Hurwicz-Regel} (Optimismus-Pessimismus-Regel):}
+\[
+L_{\mathrm{OP}}(A_i) = \lambda\cdot\max_j e(A_i;U_j) + (1-\lambda)\cdot\min_j e(A_i;U_j)
+\]
+Parameter $\lambda\in[0,1]$: $\lambda=0$ (Maximin), $\lambda=1$ (Maximax). \textit{Kritik:} Nur beste und schlechteste Ergebnisse berücksichtigt.
+
+\definition{Die \textbf{Savage-Niehans-Regel}: Minimierung des maximalen Bedauerns (Differenz Maximalergebnis - eigenes Ergebnis):}
+\[
+L_{\mathrm{SN}}(A_i) = \max_j\!\left(\max_k e(A_k;U_j) - e(A_i;U_j)\right) \quad \Rightarrow \quad A^* = \operatorname{arg\,min}_i L_{\mathrm{SN}}(A_i)
+\]
+\textit{Kritik:} \textbf{Nicht unabhängig von irrelevanten Alternativen} -- Hinzufügen einer nicht gewählten Alternative kann Spaltenmaximum verschieben und Ergebnis ändern.
+
 \newpage
 
 \subsection{Statische Spiele bei vollständiger Information}
+
+\definition{\textbf{Spiel in Normalform} $G = \{N, S, U\}$: $(N)$ Spielerraum mit $n = |N|$ Spielern, $(S)$ Strategiemengen (kartesisches Produkt), $(U)$ Auszahlungsraum mit $u_i: S \to \mathbb{R}$. \textbf{Statisches Spiel}: Spieler wählen Strategien \emph{gleichzeitig}}
+
+\definition{\textbf{GK 1 -- Nash-Gleichgewicht in dominanten Strategien} (ordinal-skaliert): Strategie $s_i'$ \textbf{stark dominiert} $s_i''$, wenn $u_i(s_i',s_{-i}) > u_i(s_i'',s_{-i})$ für alle $s_{-i}$. Wenn jeder Spieler eine dominante Strategie hat: Nash-Gleichgewicht (eindeutig, Spezialfall reines NGG).}
+
+\definition{\textbf{GK 2 -- Nash-Gleichgewicht in reinen Strategien} (ordinal-skaliert): Kein Spieler kann durch einseitiges Abweichen einen Vorteil erzielen. Bestimmungsmethoden: (1) \textbf{IESDS} (Iterierte Elimination dominierter Strategien), (2) \textbf{Beste Antworten} (alle Kreuzungsfelder markieren). \textit{Hinweis:} NGG müssen \emph{nicht eindeutig} sein.}
+
+\definition{\textbf{GK 3 -- Nash-Gleichgewicht in gemischten Strategien} (intervall-skaliert): Spieler wählen Strategien mit Wahrscheinlichkeitsverteilung. Voraussetzung: Spieler ist \emph{indifferent} zwischen nicht eliminierten reinen Strategien. \textbf{Indifferenzgleichung}: Erwartungsnutzen aller eigenen Strategien muss gegeben gemischter Strategie $p$ des anderen gleich sein. \textbf{Existenz}: Jedes endliche Spiel besitzt mindestens ein NGG in gemischten Strategien (Nash 1950).}
+
+\textbf{Venn-Diagramm (Spezialfälle):}
+\[
+NGG \text{ dominante Strategien} \subset NGG \text{ rein} \subset NGG \text{ gemischt}
+\]
+
 \newpage
 
 \subsection{Dynamische Spiele bei vollständiger Information}
+
+\definition{\textbf{Dynamisches Spiel}: Spieler wählen Aktionen \emph{sequenziell} in bestimmter Reihenfolge, wobei zumindest einem nachfolgenden Spieler eine vorangegangene Aktion bekannt ist. Darstellung in \emph{extensiver Form} (Spielbaum).}
+
+\definition{\textbf{Spiel in extensiver Form} $G = \{N, I, U\}$: $I$ = Informationsstruktur, die beschreibt: (1) wann Spieler am Zug ist, (2) welche Aktionen möglich sind, (3) was über bisherigen Spielverlauf bekannt ist (Informationsmengen). \textit{Achtung}: Spiele mit identischer Normalform können in extensiver Form zu \emph{unterschiedlichen Gleichgewichten} führen!}
+
+\definition{\textbf{GK 4 -- Teilspielperfektes Nash-Gleichgewicht} (TSP-NGG): Lösungskonzept für dynamische Spiele via \textbf{Rückwärtsinduktion}: (1) Beginne beim letzten Teilspiel, (2) bestimme dort NGG und trage Auszahlungen rückwärts ein, (3) fahre rekursiv bis Wurzel fort. Ein NGG in Normalform ist \emph{nicht automatisch} teilspielperfekt -- es können \textbf{unglaubwürdige Drohungen} auftreten (Strategien, die auf Gleichgewichtspfad nicht gespielt werden).}
+
+\textbf{Unterschied statisch / dynamisch:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \emph{Reihenfolge} und \emph{Informationsstruktur} bestimmen, wer Führungs-position hat
+    \item Erster Spieler: voller Aktionsraum, muss mit optimaler Reaktion rechnen
+    \item Zweiter Spieler: weniger Freiheit, aber mehr Information
+\end{itemize}
+
 \newpage
 
 \subsection{Wiederholte Spiele bei vollständiger Information}
+
+\definition{\textbf{Wiederholtes Spiel} $G(T)$ oder $G(\infty,\delta)$: Ein statisches Spiel $G=\{N,S,U\}$ wird $T$-mal (endlich) oder unendlich oft wiederholt. Lösungskonzept: \emph{teilspielperfektes NGG} via \textbf{Rückwärtsinduktion}.}
+
+\textbf{Fall 1: Endliche Wiederholungen $G(T)$}
+
+\textbf{1. Feststellung:} Hat $G$ \emph{eindeutiges} NGG, wird dieses in \emph{jeder} Runde gespielt. TSP-NGG = $T$-fache Wiederholung mit Auszahlung $T \cdot u^*$.
+
+\textbf{2. Feststellung:} Hat $G$ \emph{mehrere} NGG, kann es TSP-NGG in $G(T)$ geben, bei denen zu $t < T$ \emph{kein} NGG von $G$ gespielt wird (kooperativere Strategien). Voraussetzung: angestrebte Strategiekombination stellt beide besser als erzwungenes NGG bei $t=T$.
+
+\definition{\textbf{Nachverhandlungssicherheit}: TSP-NGG \emph{nicht} nachverhandlungssicher, wenn Spieler nach Abweichung Gegner von Bestrafung abhälten kann (letzte Periode ermöglicht Einigung auf gemeinsam besseres NGG). Lösung: individualisierte Bestrafungs-NGG (je einer pro Spieler).}
+
+\textbf{Fall 2: Unendliche Wiederholungen $G(\infty, \delta)$}
+
+\definition{\textbf{Diskontierungsfaktor} $\delta \in (0,1]$: (1) Zeitpräferenz oder (2) Fortsetzungswahrscheinlichkeit. \textbf{Gegenwärtiger Wert} konstanter Auszahlung $u_i$ pro Runde:}
+\[
+\sum_{t=1}^{\infty} \delta^{t-1}\cdot u_i = \frac{u_i}{1-\delta}
+\]
+
+\definition{\textbf{Friedman-Theorem / Folk Theorem} (1971): Kooperative Strategiekombination (kein NGG in $G$) implementierbar als TSP-NGG, wenn: (1) beide Spieler besser gestellt im Vergleich zu NGG von $G$, (2) $\delta$ hinreichend groß. \textbf{Beispiel}: "Kooperiere immer, bestraf bei Abweichung für immer":}
+\[
+\delta \geq \frac{u^*_{\mathrm{Abw}} - u^*_{\mathrm{Koop}}}{u^*_{\mathrm{Abw}} - u^*_{\mathrm{NGG}}}
+\]
+
 \newpage
