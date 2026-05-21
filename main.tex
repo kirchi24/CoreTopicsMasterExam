@@ -19,7 +19,7 @@
 
 % Grafiken
 \usepackage{graphicx}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{float}
 \usepackage{subcaption}
 
@@ -27,6 +27,13 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{tcolorbox}
+
+% Spalten-Definitionen für tabularx
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
 
 % Code
 \usepackage{listings}
@@ -62,6 +69,23 @@
 \[
 #1
 \]
+}
+
+% Definiere Farben für Tabellen
+\definecolor{tablehead}{HTML}{2E4057}
+\definecolor{tablerowA}{HTML}{F0F0F0}
+\definecolor{tablerowB}{HTML}{FFFFFF}
+
+% Merksatz-Umgebung
+\newtcolorbox{merksatz}[1][Merksatz]{%
+  colback=blue!5!white,
+  colframe=blue!75!black,
+  title=#1,
+  boxrule=1pt,
+  left=5pt,
+  right=5pt,
+  top=5pt,
+  bottom=5pt
 }
 
 \title{DAT24 Masterprüfung\\Core Topics Zusammenfassung}
