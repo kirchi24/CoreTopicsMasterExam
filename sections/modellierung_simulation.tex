@@ -157,9 +157,9 @@ wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nic
 
 \subsection{Diskrete Markow-Ketten}
 
-\definition{Eine \textbf{diskrete Markow-Kette 1.\ Ordnung} ist ein stochastischer Prozess, bei dem der \emph{zukünftige Zustand nur vom aktuellen Zustand} abhängt (Markow-Eigenschaft / Gedächtnislosigkeit). Kanten-Gewichte geben \emph{Ubergangswahrscheinlichkeiten} an.}
+\definition{Eine \textbf{diskrete Markow-Kette 1.\ Ordnung} ist ein stochastischer Prozess, bei dem der \emph{zukünftige Zustand nur vom aktuellen Zustand} abhängt (Markow-Eigenschaft / Gedächtnislosigkeit). Kanten-Gewichte geben \emp {Übergangswahrscheinlichkeiten} an.}
 
-\definition{Die \textbf{Ubergangsmatrix} (stochastische Matrix) $P$ erfüllt: $\forall i,j: p_{i,j} \geq 0$ und $\forall j: \sum_i p_{i,j} = 1$. Jede \emph{Spalte} summiert sich zu 1.}
+\definition{Die \textbf{Übergangsmatrix} (stochastische Matrix) $P$ erfüllt: $\forall i,j: p_{i,j} \geq 0$ und $\forall j: \sum_i p_{i,j} = 1$. Jede \emph{Spalte} summiert sich zu 1.}
 
 \textbf{Zeitliche Entwicklung:}
 \[
@@ -186,7 +186,7 @@ P \cdot \vec{\zeta} = \vec{\zeta} \quad \Rightarrow \quad \lim_{k \to \infty} P^
 
 \subsection{System Dynamics}
 
-\definition{\textbf{System Dynamics (SD)} ist eine Methode zur Modellierung und Simulation \emph{dynamischer, rückg ekoppelter Systeme} mittels Differentialgleichungen. Im Zentrum stehen \emph{Zustandsgrößen} (Bestandsgrößen), die durch Flussrößen verändert werden. SD modelliert typischerweise aggregierte, zeitkontinuierliche Systeme.}
+\definition{\textbf{System Dynamics (SD)} ist eine Methode zur Modellierung und Simulation \emph{dynamischer, rückgekoppelter Systeme} mittels Differentialgleichungen. Im Zentrum stehen \emph{Zustandsgrößen} (Bestandsgrößen), die durch Flussrößen verändert werden. SD modelliert typischerweise aggregierte, zeitkontinuierliche Systeme.}
 
 \textbf{Arten von Systemgrößen in SD:}
 \begin{itemize}[leftmargin=1.5em]
@@ -218,7 +218,7 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
 
 \definition{Der \textbf{Zustandsraum} (Phasenraum) wird durch die Zustandsgrößen aufgespannt. \emph{Keine Zeitachse!} Die Zeit fließt implizit durch die Veränderung des Zustandsvektors ein.}
 
-\definition{Der \textbf{Zustandsvektor} $\vec{z}(\tau)$ beschreibt einen Systemzustand im Zustandsraum. Eine \textbf{Trajektorie} ist die Kurve im Zustandsraum, die den Weg des Zustandsvektors beschreibt ("Geschichte des Systems").}
+\definition{Der \textbf{Zustandsvektor} $\vec{z}(\tau)$ beschreibt einen Systemzustand im Zustandsraum. Eine \textbf{Trajektorie} ist die Kurve im Zustandsraum, die den Weg des Zustandsvektors beschreibt (,,Geschichte des Systems'').}
 
 \definition{Die \textbf{Zustandsebene} wird von zwei Zustandsgrößen aufgespannt. Ein \textbf{Zustandsbild} ist die Projektion der Zustandsbahn in einen niederdimensionaleren Raum.}
 
@@ -227,20 +227,29 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
     \item \textbf{Punktattraktor}: Zustandsbahnen konvergieren auf stabilen Gleichgewichtspunkt
     \item \textbf{Grenzzyklus}: Zustandsbahnen laufen auf geschlossene Kurven zu
     \item \textbf{Torus}: Zyklus höherer Ordnung (bei $\geq 3$ Zustandsgrößen)
-    \item \textbf{Seltsamer Attraktor}: Chaotisch und/oder fraktal (starke Sensitivität)
+    \item \textbf{Seltsamer Attraktor}: Chaotisch und/oder fraktal (starke Sensitivität gegenüber Anfangsbedingungen)
 \end{itemize}
 
 \definition{Ein \textbf{Repellor} ist ein instabiler Gleichgewichtspunkt -- Trajektorien entfernen sich von ihm.}
 
-\definition{\textbf{Separatrizen} trennen Regionen unterschiedlichen Verhaltens und verlaufen durch Repelloren (stabile und instabile Mannigfaltigkeit). \textbf{Bifurkationen} treten auf, wenn Parameteränderung qualitativ anderes Verhalten ergibt.}
+\definition{\textbf{Separatrizen} trennen Regionen unterschiedlichen Verhaltens und verlaufen durch Repelloren (stabile und instabile Mannigfaltigkeit). \textbf{Bifurkationen} treten auf, wenn eine Parameteränderung qualitativ anderes Verhalten ergibt -- z.\,B.\ Übergang von Punktattraktor zu Grenzzyklus.}
 
-\textit{Hinweis (autonome Systeme):} Trajektorien können sich niemals schneiden, da der Systemzustand die zukünftige Dynamik eindeutig bestimmt.
+\definition{\textbf{Ljapunov-Stabilität:} Ein Gleichgewichtspunkt $\vec{z}^*$ heißt textbf{stabil im Sinne von Ljapunov}, wenn Trajektorien, die nahe bei $\vec{z}^*$ starten, in dessen Nähe bleiben:
 
-\newpage
+\[
+\forall\,\varepsilon > 0\;\exists\,\delta > 0:\;
+\|\vec{z}(0) - \vec{z}^*\| < \delta
+\;\Rightarrow\;
+\|\vec{z}(t) - \vec{z}^*\| < \varepsilon \quad \forall\, t \geq 0
+\]
 
-\subsection{Dynamische lineare Systeme}
+Er heißt \textbf{asymptotisch stabil}, wenn er zusätzlich anzieht: $\lim_{t\to\infty}\vec{z}(t) = \vec{z}^*$. Er heißt \textbf{instabil}, wenn er nicht einmal Ljapunov-stabil ist.}
 
-\definition{Ein \textbf{dynamisches System} wird formal beschrieben durch die \textbf{Zustandsgleichung} und \textbf{Verhaltensgleichung}:}
+\textbf{Zusammenhang Attraktoren und Stabilität:} Punktattraktoren entsprechen asymptotisch stabilen Gleichgewichtspunkten. Grenzzyklen sind stabil im Sinne von Ljapunov, aber kein Gleichgewichtspunkt. Repelloren entsprechen instabilen Gleichgewichtspunkten. asymptotisch stabilen Gleichgewichtspunkten. Grenzzyklen sind stabil im Sinne von Ljapunov, aber kein Gleichgewichtspunkt. Repelloren entsprechen instabilen Systemzustand die zukünftige Dynamik eindeutig bestimmt.
+
+\subsection{Dynamische lineare Systeme} 
+\definition{Ein \textbf{dynamisches System} wird formal beschrieben durch die
+\textbf{Zustandsgleichung} und \textbf{Verhaltensgleichung}:}
 \[
 \dot{z}(t) = f(z(t), u(t), t), \quad v(t) = g(z(t), u(t), t)
 \]
@@ -252,23 +261,51 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
     \item \textit{Diskret}: $z_{k+1} = f(z_k, u_k, k)$ oder $z_{k+1} = f(z_k)$
 \end{itemize}
 
-\definition{Die \textbf{Linearisierung} nichtlinearer Systeme erfolgt mittels Jacobi-Matrizen am Arbeitspunkt $(z_0, u_0)$:}
+\definition{Die \textbf{Linearisierung} nichtlinearer Systeme erfolgt mittels
+Jacobi-Matrizen am Arbeitspunkt $(z_0, u_0)$:}
 \[
 \Delta\dot{z}(t) = A \cdot \Delta z(t) + B \cdot \Delta u(t)
 \]
 
-\definition{\textbf{LTI-Systeme} (Linear Time-Invariant) haben konstante $A$ und $B$. Lösung:}
+\definition{\textbf{LTI-Systeme} (Linear Time-Invariant) haben konstante Systemmatrix $A$
+und Eingangsmatrix $B$. Die allgemeine Lösung lautet:}
 \[
-z(t) = e^{At} \cdot z_0 + \int_0^t e^{A(t-\tau)} B\, u(\tau)\, d\tau
+z(t) = e^{At} \cdot z_0 + \int_0^t e^{A(t-\tau)} B\, u(\tau)\, \mathrm{d}\tau
 \]
 
-\textbf{Stabilität basierend auf Eigenwerten von} $A$:
+\textbf{Stabilität basierend auf Eigenwerten von $A$:}
 \begin{itemize}[leftmargin=1.5em]
-    \item $\mathrm{Re}(\lambda_i) < 0$ für alle $i$: \textbf{asymptotisch stabil} (Trajektorien $\to 0$)
-    \item $\mathrm{Re}(\lambda_i) > 0$ für mind.\  ein $i$: \textbf{instabil}
-    \item $\mathrm{Re}(\lambda_i) = 0$: \textbf{grenzstabil} (Schwingungen)
+    \item $\mathrm{Re}(\lambda_i) < 0$ für alle $i$: \textbf{asymptotisch stabil}
+    (Trajektorien $\to \vec{0}$)
+    \item $\mathrm{Re}(\lambda_i) > 0$ für mind.\ ein $i$: \textbf{instabil}
+    \item $\mathrm{Re}(\lambda_i) = 0$: \textbf{grenzstabil} (Dauerschwingungen)
+\end{itemize}
+
+\definition{\textbf{Steuerbarkeit (Kalman):} Ein LTI-System $(\dot{z} = Az + Bu)$ ist
+\textbf{vollständig steuerbar}, wenn die \textbf{Steuerbarkeitsmatrix}
+
+\[
+\mathcal{S} = \begin{bmatrix} B & AB & A^2B & \cdots & A^{n-1}B \end{bmatrix}
+\in \mathbb{R}^{n \times nm}
+\]
+
+vollen Zeilenrang hat: $\mathrm{rank}(\mathcal{S}) = n$. Interpretation: Jeder Zustand $z^*$ ist von jedem Startzustand $z_0$ aus in endlicher Zeit durch geeignete Eingabe $u(t)$ erreichbar.}
+
+\definition{\textbf{Beobachtbarkeit (Kalman):} Ein LTI-System $(\dot{z} = Az,\; v = Cz)$
+ist \textbf{vollständig beobachtbar}, wenn die \textbf{Beobachtbarkeitsmatrix}
+
+\[
+\mathcal{O} = \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \\ CA^{n-1} \end{bmatrix}
+\in \mathbb{R}^{nm \times n}
+\]
+
+vollen Spaltenrang hat: $\mathrm{rank}(\mathcal{O}) = n$. Interpretation: Der interne Zustand $z(t)$ kann eindeutig aus den Ausgaben $v(t)$ rekonstruiert werden, ohne direkten Zugriff auf $z$.}
+
+\textbf{Praktische Bedeutung:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Nicht steuerbar}: Es gibt Zustände, die durch keine Eingabe erreichbar sind -- Reglerentwurf eingeschränkt.
+    \item \textbf{Nicht beobachtbar}: Es gibt Zustandsanteile, die in der Ausgabe unsichtbar bleiben -- Zustandsschätzung (z.\,B.\ Kalman-Filter) nicht möglich.
+    \item Beide Eigenschaften sind \emph{strukturelle} Systemeigenschaften, unabhängig von konkreten Eingaben oder Anfangsbedingungen.
 \end{itemize}
 
 \textit{Hinweis:} LTI-Theorie ist grundlegend für Regelungstechnik und lineare Pulsmodelle. SD modelliert keine explizite Systemumgebung.
-
-\newpage

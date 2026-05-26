@@ -189,4 +189,48 @@ NGG \text{ dominante Strategien} \subset NGG \text{ rein} \subset NGG \text{ gem
 \delta \geq \frac{u^*_{\mathrm{Abw}} - u^*_{\mathrm{Koop}}}{u^*_{\mathrm{Abw}} - u^*_{\mathrm{NGG}}}
 \]
 
+\textbf{Beispiel: Gefangenendilemma mit konkretem $\delta_{\min}$}
+
+Betrachte das klassische Gefangenendilemma mit folgender Auszahlungsmatrix (Zeile: Spieler~1, Spalte: Spieler~2):
+
+\[
+\begin{array}{c|cc}
+ & \text{Kooperieren (K)} & \text{Defektieren (D)} \\\hline
+\text{Kooperieren (K)} & (3,\;3) & (0,\;5) \\
+\text{Defektieren (D)} & (5,\;0) & (1,\;1)
+\end{array}
+\]
+
+Das eindeutige NGG in $G$ ist $(D,D)$ mit Auszahlung $u^*_{\text{NGG}} = 1$. Kooperatives Ergebnis $(K,K)$: $u^*_{\text{Koop}} = 3$. Abweichungsauszahlung (einmalig defektieren, wenn Gegner kooperiert): $u^*_{\text{Abw}} = 5$.
+
+\textbf{Bedingung für Implementierbarkeit via Grim Trigger (Folk Theorem):}
+
+Kooperation ist als TSP-NGG in $G(\infty, \delta)$ implementierbar, wenn kein Spieler durch einmalige Abweichung profitiert. Vergleich der Barwerte:
+
+\[
+\underbrace{\frac{u^*_{\text{Koop}}}{1-\delta}}_{\text{Kooperation für immer}}
+\;\geq\;
+\underbrace{u^*_{\text{Abw}} + \frac{\delta \cdot u^*_{\text{NGG}}}{1-\delta}}_{\text{Abweichen, dann Strafe für immer}}
+\]
+
+\[
+\frac{3}{1-\delta} \;\geq\; 5 + \frac{\delta \cdot 1}{1-\delta}
+\]
+
+\[
+3 \;\geq\; 5(1-\delta) + \delta \;=\; 5 - 5\delta + \delta \;=\; 5 - 4\delta
+\]
+
+\[
+4\delta \;\geq\; 2 \quad\Rightarrow\quad \boxed{\delta \;\geq\; \tfrac{1}{2}}
+\]
+
+\textit{Interpretation:} Wenn Spieler die Zukunft hinreichend gewichten ($\delta \geq \tfrac{1}{2}$), ist dauerhaftes Kooperieren im unendlich wiederholten Spiel ein TSP-NGG -- obwohl $(K,K)$ kein NGG des Einmalspiel $G$ ist. Für $\delta < \tfrac{1}{2}$ überwiegt der kurzfristige Abweichungsanreiz.
+
+\textbf{Allgemeine Formel (aus dem Skript):}
+\[
+\delta \;\geq\; \frac{u^*_{\text{Abw}} - u^*_{\text{Koop}}}{u^*_{\text{Abw}} -
+u^*_{\text{NGG}}} \;=\; \frac{5-3}{5-1} \;=\; \frac{2}{4} \;=\; \frac{1}{2} \checkmark
+\]
+
 \newpage

@@ -48,12 +48,12 @@ Die Kybiak-Struktur (Wersig 1974, basierend auf Stachowiak) stellt ein einfaches
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Perzeptor:} Einheit zur Wahrnehmung der Außenwelt (Perzeption).
     \item \textbf{Operator:} Vermittelt zwischen Perzeption und Effektion -- Zentrale Komponente bestehend aus:
-    \begin{itemize}[leftmargin=2em]
-        \item Internem Außenweltmodell (interne Repräsentation der Welt)
-        \item Internem Situationsmodell (Modell der gegenwärtigen Situation)
-        \item Steuereinheit (Sitz des Bewusstseins/Entscheidung)
-        \item Programmspeicher (Handlungsprogramme)
-    \end{itemize}
+          \begin{itemize}[leftmargin=2em]
+              \item Internem Außenweltmodell (interne Repräsentation der Welt)
+              \item Internem Situationsmodell (Modell der gegenwärtigen Situation)
+              \item Steuereinheit (Sitz des Bewusstseins/Entscheidung)
+              \item Programmspeicher (Handlungsprogramme)
+          \end{itemize}
     \item \textbf{Effektor:} Einheit zur Einwirkung auf die Außenwelt (Effektion).
     \item \textbf{Motivator:} Gibt Richtwerte für das Verhalten der anderen drei Einheiten vor.
 \end{itemize}
@@ -221,9 +221,9 @@ Beidemethoden -- Genetische Algorithmen (GA) und Simulated Annealing (SA) -- sin
 
 \textbf{Das Metropolis-Kriterium:} Die Übergangswahrscheinlichkeit von Zustand $m$ zu Zustand $n$ lautet:
 $$P(n \mid m) = \begin{cases}
-  1 & \text{falls } E(n) < E(m) \quad\text{(besserer Zustand)}\\
-  \exp\!\left(-\frac{E(n)-E(m)}{k_B\,T}\right) & \text{falls } E(n) \geq E(m) \quad\text{(schlechterer Zustand)}
-\end{cases}$$
+        1                                            & \text{falls } E(n) < E(m) \quad\text{(besserer Zustand)}        \\
+        \exp\!\left(-\frac{E(n)-E(m)}{k_B\,T}\right) & \text{falls } E(n) \geq E(m) \quad\text{(schlechterer Zustand)}
+    \end{cases}$$
 
 Da im schlechteren Fall $\Delta E = E(n) - E(m) > 0$ ist, liegt $P(n|m) \in (0,1)$: schlechtere Zustände werden mit nicht-null Wahrscheinlichkeit akzeptiert -- dies ermöglicht das Entkommen aus lokalen Optima.
 
@@ -490,9 +490,9 @@ Q-Learning aktualisiert die Q-Werte basierend auf der \textbf{optimalen} (noch n
 
 Die Policy wird typischerweise mit einer \textbf{$\varepsilon$-Greedy-Strategie} aktualisiert:
 $$\pi(a|s)^t = \begin{cases}
-    1 - \varepsilon_{\text{Episode}} + \frac{\varepsilon_{\text{Episode}}}{|A|} & \text{wenn } a \in \arg\max_a q(s, a) \\
-    \frac{\varepsilon_{\text{Episode}}}{|A|} & \text{wenn } a \notin \arg\max_a q(s, a)
-\end{cases}$$
+        1 - \varepsilon_{\text{Episode}} + \frac{\varepsilon_{\text{Episode}}}{|A|} & \text{wenn } a \in \arg\max_a q(s, a)    \\
+        \frac{\varepsilon_{\text{Episode}}}{|A|}                                    & \text{wenn } a \notin \arg\max_a q(s, a)
+    \end{cases}$$
 
 \textbf{Mechanik:}
 \begin{itemize}[leftmargin=1.5em]
@@ -554,40 +554,66 @@ Bei großen oder kontinuierlichen Zustandsräumen wächst die Größe des Q-Tabl
 
 \subsection{Natürliche Neuronale Netze}
 
-\subsubsection*{Biologische Inspiration und Grundstruktur}
+\subsubsection*{Biologischer Aufbau von Nervenzellen}
 
-\definition{\textbf{Neuronale Netze} sind vom biologischen Gehirn inspirierte Rechenmodelle, bestehend aus miteinander verbundenen künstlichen Neuronen, die Informationen durch gewichtete Verbindungen verarbeiten.}
+\definition{\textbf{Neuronen} (Nervenzellen) sind die funktionellen Grundbausteine des Nervensystems. Eine Nervenzelle besteht stets aus drei Hauptkomponenten: dem \textbf{Zellkörper} (Soma/Perikaryon), einem \textbf{Axon} (Neurit) und meist mehreren \textbf{Dendriten}.}
 
-\textbf{Künstliches Neuron (Perceptron):} Ein künstliches Neuron mit Eingaben $x_1, \ldots, x_n$, Gewichten $w_1, \ldots, w_n$ und Bias $b$ berechnet:
-$$z = \sum_{i=1}^{n} w_i \cdot x_i + b$$
-
-Dann wird eine \textbf{Aktivierungsfunktion} $\sigma$ angewendet:
-$$y = \sigma(z)$$
-
-\textbf{Architektur:} Ein neuronales Netz besteht typischerweise aus:
+\textbf{Funktionsweise der Komponenten:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Eingabeschicht:} Empfängt externe Eingaben (nicht trainierbar)
-    \item \textbf{Verborgene Schichten:} Verarbeiten Informationen (trainierbar)
-    \item \textbf{Ausgabeschicht:} Produziert finale Vorhersage (trainierbar)
+    \item \textbf{Dendriten:} Baumartige Fortsätze des Somas; empfangen Signale von Sinneszellen oder anderen Neuronen (\textit{afferente Erregungsleitung} zum Zellkern).
+    \item \textbf{Soma:} Integriert alle eingehenden Signale; summiert erregende und hemmende Einflüsse auf.
+    \item \textbf{Axon:} Einziger, bis zu einem Meter langer Fortsatz; leitet das Aktionspotential von der Zelle weg zu anderen Neuronen oder Muskelzellen (\textit{efferente Erregungsleitung}).
 \end{itemize}
 
-\textbf{Universelle Approximationseigenschaft:} Ein vollständig verbundenes neuronales Netz mit einer verborgenen Schicht und ausreichend vielen Neuronen kann jede stetige Funktion auf kompakten Mengen beliebig genau approximieren.
+\subsubsection*{Synapsen, Neurotransmitter und Signalübertragung}
 
-\subsubsection*{Feedforward-Architektur}
+\definition{Die Verbindungsstelle zwischen dem axonalen Endköpfchen eines Neurons und dem Dendrit (bzw.\ Soma oder Axon) eines anderen Neurons heißt \textbf{Synapse}. Bei Säugetieren dominieren \textbf{chemische Synapsen}: Die Übertragung erfolgt durch \textbf{Neurotransmitter} (z.\,B.\ Glutamat, Acetylcholin, Dopamin), die in synaptischen Bläschen bereitstehen und bei Bedarf in den synaptischen Spalt (10--50\,nm) ausgeschüttet werden.}
 
-Bei \textbf{Feedforward-Netzen} fließt Information unidirektional von Eingabe zu Ausgabe (keine Zyklen). Die Berechnung erfolgt schichtweise:
-$$h^{(l)} = \sigma(W^{(l)} \cdot h^{(l-1)} + b^{(l)})$$
-
-wobei $h^{(l)}$ die Aktivierungen in Schicht $l$ sind, $W^{(l)}$ die Gewichte und $b^{(l)}$ die Bias-Vektoren sind.
-
-\textbf{Tiefe vs. Breite:}\vspace{2pt}
+\textbf{Doppelte Signalumwandlung an der chemischen Synapse:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Tiefe:} Anzahl der Schichten (vertikale Dimension); ermöglicht Abstraktion auf mehreren Ebenen
-    \item \textbf{Breite:} Anzahl der Neuronen pro Schicht (horizontale Dimension); erhöht Kapazität pro Ebene
-    \item \textbf{Deep Learning:} Netze mit vielen (typisch > 3) verborgenen Schichten
+    \item \textbf{Präsynaptisch:} Elektrisches Signal $\to$ chemisches Signal (Neurotransmitter-Ausschüttung).
+    \item \textbf{Postsynaptisch:} Chemisches Signal $\to$ elektrisches Signal (Potentialänderung an der Membran).
 \end{itemize}
 
-\newpage
+\textbf{Erregende und hemmende Synapsen:} Die Membran eines Neurons weist im Ruhezustand
+ein Potential von ca.\ $-70\,\text{mV}$ auf (Ruhepotential). Je nach ausgeschüttetem
+Neurotransmitter wird dieses Potential verändert:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Exzitatorisch (erregend):} Potentialdifferenz wird gesenkt $\to$ Depolarisation begünstigt; erhöhte Na\textsuperscript{+}-Durchlässigkeit der Membran.
+    \item \textbf{Inhibitorisch (hemmend):} Potentialdifferenz wird erhöht $\to$ Depolarisation erschwert.
+\end{itemize}
+
+\subsubsection*{Aktionspotential und Schwellenwertprinzip}
+
+Soma und Dendriten eines Neurons weisen im Mittel \textbf{1.000 synaptische Verbindungen} auf. Das Neuron wirkt dabei wie eine \textit{Additionsmaschine}: Erregende Impulse werden summiert, hemmende subtrahiert. Übersteigt der exzitatorische Nettoinput einen \textbf{Schwellenwert}, kommt es zur \textbf{Depolarisation} am Axonhügel:
+
+\[
+    V_{\text{mem}} \;\xrightarrow{\text{Schwellenwert überschritten}}\; +40\,\text{mV}
+    \quad \Rightarrow \quad \text{Aktionspotential (Spike)}
+\]
+
+Das Aktionspotential pflanzt sich entlang des Axons fort und bewirkt an den Endköpfchen die
+Ausschüttung von Neurotransmittern -- der Kreis schließt sich. Das Axon kann bis zu \textbf{100-mal pro Sekunde} feuern; höhere Impulsfrequenz $\Rightarrow$ stärkere Wirkung auf postsynaptische Neuronen. Nach dem Spannungsgipfel stellt ein K\textsuperscript{+}-Ausstrom das Ruhepotential wieder her (\textit{Repolarisation}).
+
+\subsubsection*{Grundprinzipien neuronaler Verschaltungen}
+
+Aus einfachen exzitatorischen und inhibitorischen Synapsen entstehen drei idealtypische Schaltprinzipien:
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Rekurrente Hemmung:} Ein erregendes Neuron aktiviert ein hemmendes Neuron, das auf das ursprünglich erregende Neuron \emph{zurückwirkt} $\Rightarrow$ negativer Rückkopplungskreis; stabilisierend.
+    \item \textbf{Vorwärtshemmung:} Ein erregendes Neuron aktiviert ein hemmendes Neuron, das auf ein \emph{nachfolgendes} erregendes Neuron wirkt $\Rightarrow$ kein Rückkopplungskreis; vorauseilende Dämpfung.
+    \item \textbf{Disinhibition:} Ein hemmendes Neuron hemmt ein weiteres hemmendes Neuron, das auf ein erregendes Neuron wirkt $\Rightarrow$ doppelte Negation; das erregende Neuron wird \emph{enthemmt}.
+\end{itemize}
+
+\subsubsection*{Brücke zum künstlichen neuronalen Netz}
+
+\definition{Das \textbf{künstliche Neuron (Perceptron)} abstrahiert die biologische Nervenzelle direkt: Eingaben $x_i$ entsprechen synaptischen Impulsen; Gewichte $w_i$ modellieren die Synapsenst\"{a}rke (exzitatorisch: $w_i > 0$, inhibitorisch: $w_i < 0$); der Bias $b$ entspricht dem Schwellenwert; die Aktivierungsfunktion $\sigma$ modelliert das Alles-oder-Nichts-Prinzip des Aktionspotentials:}
+
+\[
+    z = \sum_{i=1}^{n} w_i \cdot x_i + b, \qquad y = \sigma(z)
+\]
+
+Das menschliche Gehirn besteht aus mindestens \textbf{10 Milliarden Neuronen}, jedes durchschnittlich mit 1.000 anderen verbunden -- eine Komplexität, die in künstlichen Netzen durch tiefe Architekturen mit Millionen von Parametern approximiert wird, aber biologisch noch bei weitem nicht erreicht ist.
 
 \subsection{Training neuronaler Netze und Backpropagation}
 

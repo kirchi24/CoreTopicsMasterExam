@@ -110,96 +110,58 @@
 \end{itemize}
 
 \definition{\textbf{Euklidische Distanz:}}
-Für zwei $p$-dimensionale Punkte $\mathbf{x}_A$ und $\mathbf{x}_B$:
-$$d_{\text{Euclid}} = \sqrt{\sum_{j=1}^{p} (x_{B,j} - x_{A,j})^2} = \|\mathbf{x}_B - \mathbf{x}_A\|_2$$
-Geometrische Interpretation: Luftlinienabstand im euklidischen Raum. Nachteil: Empfindlich gegenüber Ausreißern und unterschiedlichen Skalierungen.
+Für zwei $p$-dimensionale Punkte $\mathbf{x}_A$ und $\mathbf{x}_B$: $$d_{\text{Euclid}} = \sqrt{\sum_{j=1}^{p} (x_{B,j} - x_{A,j})^2} = \|\mathbf{x}_B - \mathbf{x}_A\|_2$$ Geometrische Interpretation: Luftlinienabstand im euklidischen Raum. \textbf{Nachteil:} Empfindlich gegenüber Ausreißern und unterschiedlichen Skalierungen -- Standardisierung der Variablen empfohlen.
 
 \definition{\textbf{Manhattan-Distanz (City Block):}}
 $$d_{\text{Manhattan}} = \sum_{j=1}^{p} |x_{B,j} - x_{A,j}|$$
-Interpretation: Summe der Koordinatendifferenzen. Verwendung: Wenn nur horizontale/vertikale Bewegungen möglich sind (z.\,B.\ im Gitter).
+Interpretation: Summe der Koordinatendifferenzen (wie Fortbewegung im Straßengitter). Robuster gegenüber Ausreißern als die euklidische Distanz.
 
 \definition{\textbf{Minkowski-Distanz:}}
-Verallgemeinerung (Parameter $k$):
-$$d_k(\mathbf{x}_A, \mathbf{x}_B) = \left(\sum_{j=1}^{p} |x_{B,j} - x_{A,j}|^k\right)^{1/k}$$
-Mit $k=2$: Euklidisch; $k=1$: Manhattan; $k \to \infty$: Chebyshev-Distanz (Maximum-Norm).
+Verallgemeinerung mit Parameter $k$:
+$$d_k(\mathbf{x}_A, \mathbf{x}_B) = \left(\sum_{j=1}^{p} |x_{B,j} - x_{A,j}|^k\right)^{1/k}$$ Spezialfälle: $k=1$ Manhattan; $k=2$ Euklidisch; $k \to \infty$ Chebyshev-Distanz ($\max_j |x_{A,j} - x_{B,j}|$).
 
 \definition{\textbf{Mahalanobis-Distanz:}}
-$$d_{\text{Mahal}} = \sqrt{(\mathbf{x}_B - \mathbf{x}_A)^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}_B - \mathbf{x}_A)}$$
-Dabei ist $\boldsymbol{\Sigma}$ die Kovarianzmatrix. Vorteil: Berücksichtigt Korrelationen zwischen Variablen und unterschiedliche Skalierungen.
+$$d_{\text{Mahal}} = \sqrt{(\mathbf{x}_B - \mathbf{x}_A)^T \hat{\boldsymbol{\Sigma}}^{-1} (\mathbf{x}_B - \mathbf{x}_A)}$$
+wobei $\hat{\boldsymbol{\Sigma}}$ die aus den Daten \emph{geschätzte} Kovarianzmatrix ist. \textbf{Vorteil:} Berücksichtigt Korrelationen zwischen Variablen und unterschiedliche Skalierungen -- keine separate Standardisierung nötig. \textbf{Nachteil:} Erfordert invertierbare Kovarianzmatrix; instabil bei $p > n$.
 
 \definition{\textbf{Kosinus-Ähnlichkeit:}}
-$$\cos(\theta) = \frac{\mathbf{x}_A \cdot \mathbf{x}_B}{\|\mathbf{x}_A\|_2 \|\mathbf{x}_B\|_2}$$
-Wertebereich: $[-1, 1]$; höhere Werte = höhere Ähnlichkeit. Verwendung: Text- und Bild-Vektoren (unabhängig von Vektorlänge).
+$$\cos(\theta) = \frac{\mathbf{x}_A \cdot \mathbf{x}_B}{\|\mathbf{x}_A\|_2 \|\mathbf{x}_B\|_2}$$ Wertebereich: $[-1, 1]$; höhere Werte = höhere Ähnlichkeit. Misst den Winkel zwischen zwei Vektoren, \textbf{unabhängig von ihrer Länge}. Verwendung: Text- und Bildvektoren (z.\,B.\ TF-IDF-Vektoren, Word Embeddings).
 
-\definition{\textbf{Tanimoto-Koeffizient (Jaccard):}}
-Für Binärvektoren oder Mengen:
-$$S_{\text{Tanimoto}} = \frac{|A \cap B|}{|A \cup B|} = \frac{\sum_{j} \min(x_{A,j}, x_{B,j})}{\sum_{j} \max(x_{A,j}, x_{B,j})}$$
-Wertebereich: $[0, 1]$. Nützlich für kategoriale und Binärdaten (z.\,B.\ Markerpräsenz in Genetik).
+\definition{\textbf{Tanimoto-Koeffizient (Jaccard-Ähnlichkeit):}}
+Für \textbf{binäre} Vektoren oder Mengen $A, B \subseteq \{1,\ldots,p\}$: $$S_{\text{Tanimoto}} = \frac{|A \cap B|}{|A \cup B|} = \frac{\sum_{j} \mathbf{1}[x_{A,j}=1 \wedge x_{B,j}=1]}{\sum_{j} \mathbf{1}[x_{A,j}=1 \vee x_{B,j}=1]}$$ Wertebereich: $[0, 1]$. \textit{Hinweis:} Diese Formel gilt exakt für Binärvektoren. Für kontinuierliche Vektoren existiert eine verallgemeinerte Tanimoto-Formel ($\frac{\mathbf{x}_A \cdot \mathbf{x}_B}{\|\mathbf{x}_A\|^2 + \|\mathbf{x}_B\|^2 - \mathbf{x}_A \cdot \mathbf{x}_B}$), die jedoch seltener verwendet wird. Anwendung: Genetik (Markerpräsenz), Chemoinformatik (Molekülstruktur-Vergleich).
 
 \definition{\textbf{Dice-Koeffizient:}}
-$$S_{\text{Dice}} = \frac{2|A \cap B|}{|A| + |B|}$$
-Ähnlich wie Tanimoto, aber mit anderer Gewichtung. Häufig in Ökologie und Biologie verwendet.
+$$S_{\text{Dice}} = \frac{2|A \cap B|}{|A| + |B|}$$ Ähnlich wie Tanimoto, gewichtet die Überschneidung stärker.
+Zusammenhang: $S_{\text{Dice}} = \frac{2 S_{\text{Tanimoto}}}{1 + S_{\text{Tanimoto}}}$. Häufig in Ökologie, Biologie und NLP (Token-Überlappung).
 
 \definition{\textbf{Korrelationsbasierte Distanzmaße:}}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Pearson-Korrelation:} $d = 1 - r$, wobei $r$ die Pearson-Korrelation ist. Misst lineare Abhängigkeit.
-    \item \textbf{Spearman-Rank-Korrelation:} Auf Basis von Rangtransformation; robust gegenüber Ausreißern.
+    \item \textbf{Pearson-Distanz:} $d = 1 - r$, wobei $r$ die Pearson-Korrelation ist. Misst \emph{lineare} Abhängigkeit; invariant gegenüber linearen Transformationen.
+    \item \textbf{Spearman-Distanz:} $d = 1 - r_S$, wobei $r_S$ die Spearman-Rangkorrelation ist. Robuster gegenüber Ausreißern und nicht-linearen monotonen Zusammenhängen.
 \end{itemize}
 
-\textbf{Wahl des Distanzmaßes:} Abhängig von Datentyp (numerisch/kategorial), Verteilung, Skalierung und Problemkontext. Faustregel: Euklidisch für normalisierte numerische Daten; Kosinus für hochdimensionale Text/Bild-Daten; Mahalanobis für korrelierte Variablen; Tanimoto/Dice für Binärdaten.
-
-\definition{\textbf{Lageparameter (Lagemaße):} Beschreiben die zentrale Lage (zentrale Tendenz) der Daten.}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Modus:} Die häufigste Ausprägung. Einsatz bei: Nominal-, Ordinal-, Intervall-, Verhältnis- und Absolutskala.
-    \item \textbf{Median:} Der mittlere Wert bei geordneten Daten. Einsatz bei: Ordinal-, Intervall-, Verhältnis- und Absolutskala.
-    \item \textbf{Arithmetischer Mittelwert:} $\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$. Einsatz bei: Intervall-, Verhältnis- und Absolutskala.
-    \item \textbf{Sonderfälle:} Geometrischer Mittelwert, Harmonischer Mittelwert (bei Verhältnisgrößen).
-\end{itemize}
-
-\definition{\textbf{Streuungsparameter (Streuungsmaße):} Beschreiben die Variabilität (Dispersion) der Daten.}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Range (Spannweite):} $R = \max(x) - \min(x)$. Einsatz bei: Ordinal-, Intervall-, Verhältnis- und Absolutskala.
-    \item \textbf{Interquartilsabstand (IQR):} $\text{IQR} = Q_3 - Q_1$. Einsatz bei: Ordinal-, Intervall-, Verhältnis- und Absolutskala.
-    \item \textbf{Mittlere Absolute Abweichung (MAD):} $\text{MAD} = \frac{1}{n}\sum_{i=1}^{n} |x_i - \text{Median}|$. Einsatz bei: Ordinal-, Intervall-, Verhältnis- und Absolutskala.
-    \item \textbf{Varianz:} $\sigma^2 = \frac{1}{n}\sum_{i=1}^{n} (x_i - \bar{x})^2$. Einsatz bei: Intervall-, Verhältnis- und Absolutskala.
-    \item \textbf{Standardabweichung:} $\sigma = \sqrt{\text{Varianz}}$. Einsatz bei: Intervall-, Verhältnis- und Absolutskala.
-    \item \textbf{Variationskoeffizient:} $V = \frac{\sigma}{\bar{x}} \cdot 100\%$. Relatives Streuungsmaß für Verhältnis- und Absolutskala.
-    \item \textbf{Schiefe und Wölbung (Kurtosis):} Beschreiben Form und Symmetrie der Verteilung.
-\end{itemize}
-
-\definition{\textbf{Assoziationsmaße (Zusammenhangsmaße):} Quantifizieren Stärke und Richtung des Zusammenhangs zwischen zwei Variablen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Bei Nominalskala:} Kontingenzkoeffizient nach Pearson, Cramér's V, Phi-Koeffizient, Odds Ratio, Yule's Q.
-    \item \textbf{Bei Ordinalskala:} Rangkorrelationskoeffizient nach Spearman $(\rho)$, Kendall's Tau.
-    \item \textbf{Bei Intervall-/Verhältnisskala:} 
-    \begin{itemize}[leftmargin=1.5em]
-        \item \textbf{Empirische Kovarianz:} $\text{Cov}(X, Y) = \frac{1}{n}\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})$.
-        \item \textbf{Korrelationskoeffizient (Bravais-Pearson):} $r = \frac{\text{Cov}(X, Y)}{\sigma_X \sigma_Y}$, $r \in [-1, 1]$.
-    \end{itemize}
-\end{itemize}
-
-\textbf{Kennzahlen nach Skalenniveau (Übersicht):}
+\textbf{Wahl des Distanzmaßes:}
 \begin{table}[h]
     \centering
     \small
-    \begin{tabular}{|l|l|l|l|l|}
+    \begin{tabular}{|l|l|}
         \hline
-        \textbf{Skala} & \textbf{Lagemaße} & \textbf{Streuungsmaße} & \textbf{Assoziationsmaße} \\
+        \textbf{Situation} & \textbf{Empfohlenes Maß} \\
         \hline
-        Nominal & Modus & Simpson-Index & Kontingenzkoeff., Cramér's V, Phi \\
+        Normalisierte numerische Daten & Euklidisch \\
         \hline
-        Ordinal & Modus, Median & Range, IQR, MAD & Spearman $\rho$, Kendall's $\tau$ \\
+        Korrelierte Variablen & Mahalanobis \\
         \hline
-        Intervall & Mittelwert & Varianz, Std.abw., Schiefe & Pearson $r$, Kovarianz \\
+        Hochdimensionale Text-/Bildvektoren & Kosinus \\
         \hline
-        Verhältnis & Mittelwert & Varianz, Std.abw., Variationskoeff. & Pearson $r$, Kovarianz \\
+        Binäre Merkmalsvektoren & Tanimoto/Dice \\
         \hline
-        Absolut & Mittelwert & Varianz, Std.abw., Variationskoeff. & Pearson $r$, Kovarianz \\
+        Rangbasierte oder robuste Analyse & Spearman-Distanz \\
+        \hline
+        Ausreißer vorhanden & Manhattan oder Mahalanobis \\
         \hline
     \end{tabular}
 \end{table}
-
-\newpage
 
 \subsection{Diagrammtypen und Einsatzgebiete}
 \newpage
@@ -264,138 +226,49 @@ Für ein beliebiges Ereignis $E$ mit $g$ Elementen:
 
 \subsection{Kombinatorik}
 
-\textbf{Kombinatorik:} Die Lehre vom Abzählen endlicher Mengen und ihren Teilmengen. Sie ist fundamental für Wahrscheinlichkeitsberechnungen in Laplace-Räumen.
+\definition{\textbf{Kombinatorik:} Die Lehre vom Abzählen endlicher Mengen und ihren Teilmengen. Sie ist fundamental für Wahrscheinlichkeitsberechnungen in \textbf{Laplace-Räumen}: Da $P(E) = \frac{\text{günstige Fälle}}{\text{mögliche Fälle}}$, muss man oft zählen, wie viele Anordnungen oder Auswahlen möglich sind -- genau das leistet die Kombinatorik.}
 
+\definition{\textbf{Permutation ohne Wiederholung:} Die Anzahl der Möglichkeiten, $n$ \emph{unterschiedliche} Objekte in eine Reihenfolge zu bringen: $$P(n) = n! = n \cdot (n-1) \cdot \ldots \cdot 2 \cdot 1$$ \textbf{Beispiel:} 3 Personen können auf $3! = 6$ Arten angeordnet werden.}
 
-\definition{\textbf{Zufallsvariable (Zufällige Größe):} Eine Funktion $X$, die jedem Ausgang $\omega$ eines Zufallsexperiments eine reelle Zahl zuordnet:
-\formel{X: \Omega \to \mathbb{R}, \quad \omega \mapsto X(\omega)}
-Die reelle Zahl $x = X(\omega)$ heißt Realisierung von $X$. Die Menge aller möglichen Werte von $X$ heißt Wertemenge oder Merkmalsraum von $X$, bezeichnet als $\Omega_X$ oder $\mathcal{W}(X)$.}
+\definition{\textbf{Permutation mit Wiederholung:} Wenn unter $n$ Objekten $k$ Gruppen mit $n_1, n_2, \ldots, n_k$ identischen Objekten existieren ($n_1 + \ldots + n_k = n$): $$P(n;\, n_1, n_2, \ldots, n_k) = \frac{n!}{n_1!\cdot n_2!\cdot\ldots\cdot n_k!}$$ \textbf{Beispiel:} Die Buchstaben in ``AABBCC'' können auf $\frac{6!}{2!\cdot 2!\cdot 2!} = 90$ Arten angeordnet werden.}
 
-\textbf{Bemerkung:} Zufallsvariablen werden üblicherweise mit Großbuchstaben ($X, Y, Z$) bezeichnet, ihre Realisierungen mit Kleinbuchstaben ($x, y, z$).
+\definition{\textbf{Variation ohne Wiederholung:} Die Anzahl der Möglichkeiten, aus $n$ unterschiedlichen Objekten genau $k$ auszuwählen \emph{und} in eine Reihenfolge zu bringen ($k \leq n$): $$V(n, k) = \frac{n!}{(n-k)!} = n \cdot (n-1) \cdot \ldots \cdot (n-k+1)$$ \textit{Abgrenzung zur Permutation:} Eine Permutation ist der Spezialfall $k = n$; eine Variation wählt nur $k < n$ Elemente aus und ordnet diese an.\\ $n$ unterschiedlichen Objekten genau $k$ auszuwählen \emph{und} in eine Reihenfolge zu bringen ($k \leq n$): $$V(n, k) = \frac{n!}{(n-k)!} = n \cdot (n-1) \cdot \ldots \cdot (n-k+1)$$ \textit{Abgrenzung zur Permutation:} Eine Permutation ist der Spezialfall $k = n$; eine Variation wählt nur $k < n$ Elemente aus und ordnet diese an.\\ \textbf{Beispiel:} Aus 10 Pferden die ersten 3 Plätze bei einem Rennen: $$V_w(n, k) = n^k$$ \textbf{Beispiel:} 3-stellige Zahlencodes aus Ziffern 0--9:
+$V_w(10,3) = 10^3 = 1000$ Möglichkeiten.}
 
-\beispiel{\textbf{Umfrage:} Bei einer Wahl-Umfrage unter $n = 500$ zufällig ausgewählten Personen mit Parteienauswahl A oder B könnte der komplette Stichprobenraum $2^{500}$ Elemente haben. Stattdessen interessieren wir uns für:
-\begin{itemize}[leftmargin=1.5em]
-    \item $X$ = Anzahl der A-Wähler, $\Omega_X = \{0, 1, 2, \ldots, 500\}$
-    \item $Y$ = Anteil der A-Wähler, $\Omega_Y = \{0, \frac{1}{500}, \frac{2}{500}, \ldots, 1\}$
-\end{itemize}
-Beide Zufallsvariablen reduzieren die Komplexität auf relevant Information.}
+\definition{\textbf{Kombination ohne Wiederholung (Binomialkoeffizient):} Die Anza Positionen aus einem Repertoire von $n$ verschiedenen Elementen zu füllen, wobei Wiederholungen erlaubt sind: $$V_w(n, k) = n^k$$ \textbf{Beispiel:} 3-stellige Zahlencodes aus Ziffern 0--9: 
 
-\definition{\textbf{Diskrete Zufallsvariable:} Eine Zufallsvariable $X$ heißt diskret, wenn ihre Wertemenge endlich oder abzählbar unendlich ist. 
-
-Die \textbf{Wahrscheinlichkeitsverteilung} einer diskreten Zufallsvariablen wird durch die Wahrscheinlichkeitsfunktion (probability mass function, PMF) beschrieben:
-\formel{P(X = x_i) = p_i, \quad i = 1, 2, \ldots}
-mit der Normierungsbedingung $\sum_i p_i = 1$.
-
-Die Wahrscheinlichkeit, dass $X$ einen Wert aus einer Menge $A$ annimmt:
-\formel{P(X \in A) = \sum_{i: x_i \in A} P(X = x_i)}
-}
-
-\textbf{Beispiele diskreter Zufallsvariablen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item Augensumme beim Würfeln: $X \in \{2, 3, \ldots, 12\}$
-    \item Anzahl von Erfolgen in $n$ Bernoulli-Versuchen (Binomialverteilung)
-    \item Anzahl von Ereignissen pro Zeiteinheit (Poisson-Verteilung)
-\end{itemize}
-
-\definition{\textbf{Stetige (kontinuierliche) Zufallsvariable:} Eine Zufallsvariable $X$ heißt stetig, wenn ihre Wertemenge überabzählbar ist (z.\,B.\ ein Intervall in $\mathbb{R}$).
-
-Für stetige Zufallsvariablen gilt: $P(X = x) = 0$ für alle einzelnen Werte $x$. Stattdessen arbeitet man mit der \textbf{Wahrscheinlichkeitsdichtefunktion} (probability density function, PDF):
-\formel{f(x) \geq 0 \quad \text{mit} \quad \int_{-\infty}^{\infty} f(x)\, \mathrm{d}x = 1}
-
-Die Wahrscheinlichkeit, dass $X$ in ein Intervall $[a, b]$ fällt:
-\formel{P(a \leq X \leq b) = \int_a^b f(x)\, \mathrm{d}x}
-
-Die \textbf{Verteilungsfunktion} (cumulative distribution function, CDF) für stetige und diskrete Zufallsvariablen:
-\formel{F(x) = P(X \leq x)}
-}
-
-\textbf{Beispiele stetiger Zufallsvariablen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item Körpergröße einer zufällig ausgewählten Person
-    \item Wartezeit bis zur nächsten Ankunft (Exponentialverteilung)
-    \item Messungsfehler (Normalverteilung)
-\end{itemize}
-
-\definition{\textbf{Kenngrößen von Zufallsvariablen:}
-
-\textbf{1. Erwartungswert (Mittelwert):} Maß für die zentrale Lage der Verteilung.
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Diskret:} $\mathbb{E}[X] = \mu = \sum_i x_i P(X = x_i)$
-    \item \textbf{Stetig:} $\mathbb{E}[X] = \mu = \int_{-\infty}^{\infty} x \cdot f(x)\, \mathrm{d}x$
-\end{itemize}
-Eigenschaften: $\mathbb{E}[aX + b] = a\mathbb{E}[X] + b$; $\mathbb{E}[X + Y] = \mathbb{E}[X] + \mathbb{E}[Y]$ (Linearität)
-
-\textbf{2. Varianz:} Maß für die Streuung um den Erwartungswert.
-\formel{\mathrm{Var}(X) = \sigma^2 = \mathbb{E}[(X - \mu)^2] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2}
-Für diskrete: $\mathrm{Var}(X) = \sum_i (x_i - \mu)^2 P(X = x_i)$
-
-Eigenschaften: $\mathrm{Var}(aX + b) = a^2 \mathrm{Var}(X)$; $\mathrm{Var}(X + Y) = \mathrm{Var}(X) + \mathrm{Var}(Y)$ (wenn $X, Y$ unabhängig)
-
-\textbf{3. Standardabweichung:} $\sigma = \sqrt{\mathrm{Var}(X)}$ (in gleicher Einheit wie $X$)
-
-\textbf{4. Quantile:} Der $p$-te Quantil $q_p$ ist der Wert, unterhalb dessen eine Anteil $p$ der Wahrscheinlichkeit liegt.
-\formel{F(q_p) = P(X \leq q_p) = p}
-Besondere Quantile: Median ($q_{0.5}$), Quartile ($q_{0.25}, q_{0.75}$)
-
-\textbf{5. Momentenerzeugende Funktion:} $M_X(t) = \mathbb{E}[e^{tX}]$ (wenn sie existiert). Aus ihr lassen sich alle Momente ableiten: $\mathbb{E}[X^k] = M_X^{(k)}(0)$
-
-\textbf{6. Charakteristische Funktion:} $\phi_X(t) = \mathbb{E}[e^{itX}]$ (immer definiert). Eindeutig zur Verteilung, daher nützlich zur Charakterisierung von Verteilungen.
-}
-
-\definition{\textbf{Permutation ohne Wiederholung:} Die Anzahl der Möglichkeiten, $n$ unterschiedliche Objekte anzuordnen.
-\formel{P(n) = n! = n \cdot (n-1) \cdot (n-2) \cdot \ldots \cdot 2 \cdot 1}
-\textbf{Beispiel:} 3 Personen können auf $3! = 6$ Arten angeordnet werden.}
-
-\definition{\textbf{Permutation mit Wiederholung:} Wenn unter $n$ Objekten $k$ verschiedene Gruppen existieren mit $n_1, n_2, \ldots, n_k$ identischen Objekten (wobei $n_1 + n_2 + \ldots + n_k = n$):
-\formel{P(n; n_1, n_2, \ldots, n_k) = \frac{n!}{n_1! \cdot n_2! \cdot \ldots \cdot n_k!}}
-\textbf{Beispiel:} Die Buchstaben in ``AABBCC'' können auf $\frac{6!}{2! \cdot 2! \cdot 2!} = 90$ Arten angeordnet werden.}
-
-\definition{\textbf{Variation ohne Wiederholung (Permutation von $k$ Elementen aus $n$):} Die Anzahl der Möglichkeiten, $k$ unterschiedliche Elemente aus $n$ Objekten auszuwählen und in einer Reihenfolge anzuordnen.
-\formel{V(n, k) = P(n, k) = \frac{n!}{(n-k)!} = n \cdot (n-1) \cdot \ldots \cdot (n-k+1)}
-\textbf{Beispiel:} Aus 10 Pferden die ersten 3 Plätze bei einem Rennen: $V(10, 3) = \frac{10!}{7!} = 720$ Möglichkeiten.}
-
-\definition{\textbf{Variation mit Wiederholung:} Die Anzahl der Möglichkeiten, $k$ Positionen aus einem Repertoire von $n$ verschiedenen Elementen zu füllen, wobei Wiederholungen erlaubt sind.
-\formel{V_w(n, k) = n^k}
-\textbf{Beispiel:} 3-stellige Zahlencodes aus Ziffern 0--9: $V_w(10, 3) = 10^3 = 1000$ Möglichkeiten.}
-
-\definition{\textbf{Kombination ohne Wiederholung (Binomialkoeffizient):} Die Anzahl der Möglichkeiten, $k$ unterschiedliche Elemente aus $n$ Objekten auszuwählen, ohne Berücksichtigung der Reihenfolge.
-\formel{C(n, k) = \binom{n}{k} = \frac{n!}{k! \cdot (n-k)!}}
-\textbf{Eigenschaften:}
 \begin{itemize}[leftmargin=1.5em]
     \item $\binom{n}{k} = \binom{n}{n-k}$ (Symmetrie)
     \item $\binom{n}{0} = \binom{n}{n} = 1$
-    \item $\binom{n}{k} + \binom{n}{k+1} = \binom{n+1}{k+1}$ (Pascal's Identität)
+    \item $\binom{n}{k} + \binom{n}{k+1} = \binom{n+1}{k+1}$ (Pascal'sche Identität)
 \end{itemize}
-\textbf{Beispiel:} Aus einem Deck mit 52 Kartenmischungen gibt es $\binom{52}{5} = 2{,}598{,}960$ verschiedene 5-Karten-Hände.}
-
-\definition{\textbf{Kombination mit Wiederholung:} Die Anzahl der Möglichkeiten, $k$ Elemente aus $n$ verschiedenen Typen auszuwählen, wobei jeder Typ beliebig oft verwendet werden kann.
-\formel{C_w(n, k) = \binom{n + k - 1}{k} = \frac{(n+k-1)!}{k! \cdot (n-1)!}}
-\textbf{Beispiel:} Auswahl von 3 Früchten aus 5 Sorten (Apfel, Banane, Kirsche, Dattel, Erdbeere) mit Wiederholung: $\binom{5+3-1}{3} = \binom{7}{3} = 35$ Möglichkeiten.}
-
-\textbf{Zusammenfassende Übersicht:}
-\begin{table}[h]
-    \centering
-    \small
-    \begin{tabular}{|l|c|c|}
+\textbf{Beispiel:} 5-Karten-Hände aus einem 52-Karten-Deck: $\binom{52}{5} = 2\,598\,960$ Möglichkeiten.} der Möglichkeiten, $k$ unterschiedliche Elemente aus $n$ Objekten auszuwählen, \emph{ohne} Berücksichtigung der Reihenfolge: $$C(n, k) = \binom{n}{k} = \frac{n!}{k!\cdot(n-k)!}$$ \textbf{Eigenschaften:} \begin{itemize}[leftmargin=1.5em]
+    \item $\binom{n}{k} = \binom{n}{n-k}$ (Symmetrie)
+    \item $\binom{n}{0} = \binom{n}{n} = 1$
+    \item $\binom{n}{k} + \binom{n}{k+1} = \binom{n+1}{k+1}$ (Pascal'sche Identität)
+\end{itemize}
+\textbf{Beispiel:} 5-Karten-Hände aus einem 52-Karten-Deck:     \small
+    \begin{tabular}{|l|c|c|} Elemente aus $n$ verschiedenen Typen auszuwählen, wobei jeder Typ beliebig oft verwendet werden kann und die Reihenfolge nicht zählt: $$C_w(n, k) = \binom{n+k-1}{k} = \frac{(n+k-1)!}{k!\cdot(n-1)!}$$ \textbf{Beispiel:} Auswahl von 3 Früchten aus 5 Sorten mit Wiederholung:         $n!$ & $\dfrac{n!}{n_1!\cdots n_k!}$ \\[6pt]
         \hline
-        \textbf{Art} & \textbf{Ohne Wiederholung} & \textbf{Mit Wiederholung} \\
+        \textbf{Variation} ($k$ aus $n$, Reihenfolge zählt) &
+        $\dfrac{n!}{(n-k)!}$ & $n^k$ \\[6pt]
         \hline
-        \textbf{Permutationen (alle $n$ Elemente)} & $n!$ & $\frac{n!}{n_1! \cdots n_k!}$ \\
-        \hline
-        \textbf{Variationen ($k$ aus $n$, mit Reihenfolge)} & $\frac{n!}{(n-k)!}$ & $n^k$ \\
-        \hline
-        \textbf{Kombinationen ($k$ aus $n$, ohne Reihenfolge)} & $\binom{n}{k}$ & $\binom{n+k-1}{k}$ \\
+        \textbf{Kombination} ($k$ aus $n$, Reihenfolge zählt nicht) &
+        $\dbinom{n}{k}$ & $\dbinom{n+k-1}{k}$ \\[6pt]
         \hline
     \end{tabular}
 \end{table}
 
-\textbf{Merkhilfe:} Die Unterscheidung zwischen Variation und Kombination ist die \textbf{Reihenfolge}: 
+\textbf{Entscheidungsbaum zur Formelwahl:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textit{Reihenfolge} zählt $\rightarrow$ \textbf{Variation}
-    \item Reihenfolge zählt \textit{nicht} $\rightarrow$ \textbf{Kombination}
+    \item Werden \emph{alle} $n$ Objekte angeordnet? $\to$ \textbf{Permutation}
+    \item Werden nur $k < n$ Objekte ausgewählt?
+    \begin{itemize}[leftmargin=1.5em]
+        \item Zählt die Reihenfolge? $\to$ \textbf{Variation}
+        \item Zählt die Reihenfolge \emph{nicht}? $\to$ \textbf{Kombination}
+    \end{itemize}
+    \item Sind Wiederholungen erlaubt? $\to$ jeweilige ``mit Wiederholung''-Formel
 \end{itemize}
-
-\newpage
 
 \subsection{Diskrete und stetige Zufallsvariablen}
 \newpage
@@ -493,33 +366,13 @@ Der p-Wert ist eine ``überschreitungswahrscheinlichkeit''.
 
 \subsection{Population, Stichproben und Konfidenzintervalle}
 
-\definition{\textbf{Grundgesamtheit (Population):} Die Menge aller statistischen Einheiten (Objekte), über die man Aussagen gewinnen möchte. Sie folgt einer zugrundeliegenden, aber unbekannten Verteilung (z.\,B.\ alle Wähler eines Landes, alle produzierten Komponenten).
-
-\textbf{Stichprobe:} Die tatsächlich untersuchte Teilmenge der Grundgesamtheit, gewöhnlich als Zufallsstichprobe gezogen. Daten aus der Stichprobe ermöglichen es, auf Charakteristika der Grundgesamtheit zu schließen.}
+\definition{\textbf{Grundgesamtheit (Population):} Die Menge aller statistischen Einheiten (Objekte), über die man Aussagen gewinnen möchte. Sie folgt einer zugrundeliegenden, aber unbekannten Verteilung (z.\,B.\ alle Wähler eines Landes, alle produzierten Komponenten). \textbf{Stichprobe:} Die tatsächlich untersuchte Teilmenge der Grundgesamtheit, gewöhnlich als Zufallsstichprobe gezogen. Daten aus der Stichprobe ermöglichen es, auf Charakteristika der Grundgesamtheit zu schließen.}
 
 \textbf{Inferenzprinzip:} Von der empirischen Verteilung der Stichprobe auf die wahre, unbekannte Verteilung der Grundgesamtheit schließen.
 
-\definition{\textbf{Punktschätzer:} Eine Statistik, die einen Parameter der Grundgesamtheit mit einem einzelnen Zahlenwert schätzt. 
+\definition{\textbf{Punktschätzer:} Eine Statistik, die einen Parameter der Grundgesamtheit mit einem einzelnen Zahlenwert schätzt. Beispiele: Stichprobenmittelwert $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$ schätzt den Populationsmittelwert $\mu$; Stichprobenvarianz $S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$ schätzt die Populationsvarianz $\sigma^2$; Stichprobenanteil $\hat{p} = \frac{\text{Anzahl Erfolge}}{n}$ schätzt den Populationsanteil $p$. \textbf{Problem:} Da die Stichprobe zufällig ist, ist die Wahrscheinlichkeit, den wahren Parameterwert exakt zu treffen, im kontinuierlichen Fall gleich Null.}
 
-Beispiele:
-\begin{itemize}[leftmargin=1.5em]
-    \item Stichprobenmittelwert $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$ schätzt den Populationsmittelwert $\mu$.
-    \item Stichprobenvarianz $S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$ schätzt die Populationsvarianz $\sigma^2$.
-    \item Stichprobenanteil $\hat{p} = \frac{\text{Anzahl Erfolge}}{n}$ schätzt den Populationsanteil $p$.
-\end{itemize}
-
-\textbf{Problem:} Da die Stichprobe zufällig ist, ist die Wahrscheinlichkeit, den wahren Parameterwert exakt zu treffen, im kontinuierlichen Fall gleich Null.}
-
-\definition{\textbf{Konfidenzintervall (Vertrauensintervall):} Ein Bereich (typischerweise ein Intervall), in dem der unbekannte Parameter der Grundgesamtheit mit hoher Sicherheit liegt.
-
-Formal: Ein $(1-\alpha)$-Konfidenzintervall für einen Parameter $\theta$ ist ein zufälliges Intervall $[\theta_l, \theta_u]$ mit:
-\formel{P(\theta_l \leq \theta \leq \theta_u) = 1 - \alpha}
-
-\textbf{Interpretation:} Wenn wir das Experiment (Ziehen einer Stichprobe und Konstruktion eines KI) sehr häufig wiederholen würden, würde der wahre Parameter in $(1-\alpha) \cdot 100\%$ aller Konfidenzintervalle liegen.
-
-\textbf{Wichtig:} Das Konfidenzintervall ist zufällig (hängt von der Stichprobe ab), der Parameter $\theta$ ist fest (wenn auch unbekannt). Der Parameter liegt entweder im Intervall oder nicht — die Wahrscheinlichkeit $1-\alpha$ bezieht sich auf wiederholte Stichproben.
-
-\textbf{Konfidenzniveau:} Üblicherweise wird ein Konfidenzniveau von $1-\alpha = 95\%$ (oder $90\%$, $99\%$) gewählt, entsprechend $\alpha = 0{,}05$ (oder $0{,}10$, $0{,}01$).}
+\definition{\textbf{Konfidenzintervall (Vertrauensintervall):} Ein Bereich (typischerweise ein Intervall), in dem der unbekannte Parameter der Grundgesamtheit mit hoher Sicherheit liegt. Formal: Ein $(1-\alpha)$-Konfidenzintervall für einen Parameter $\theta$ ist ein zufälliges Intervall $[\theta_l, \theta_u]$ mit: $P(\theta_l \leq \theta \leq \theta_u) = 1 - \alpha$. \textbf{Interpretation:} Wenn wir das Experiment (Ziehen einer Stichprobe und Konstruktion eines KI) sehr häufig wiederholen würden, würde der wahre Parameter in $(1-\alpha) \cdot 100\%$ aller Konfidenzintervalle liegen. \textbf{Wichtig:} Das Konfidenzintervall ist zufällig (hängt von der Stichprobe ab), der Parameter $\theta$ ist fest (wenn auch unbekannt). Der Parameter liegt entweder im Intervall oder nicht — die Wahrscheinlichkeit $1-\alpha$ bezieht sich auf wiederholte Stichproben. \textbf{Konfidenzniveau:} Üblicherweise wird ein Konfidenzniveau von $1-\alpha = 95\%$ (oder $90\%$, $99\%$) gewählt, entsprechend $\alpha = 0{,}05$ (oder $0{,}10$, $0{,}01$).}
 
 \textbf{Arten von Konfidenzintervallen:}
 
@@ -534,32 +387,9 @@ Die Grenzen werden mit den Quantilen für $\frac{\alpha}{2}$ und $1 - \frac{\alp
     \item \textbf{Obere einseitige KI:} $(-\infty, \theta_u]$ mit $P(\theta \leq \theta_u) = 1 - \alpha$. Untere Grenze ist $-\infty$. Quantil für $1-\alpha$ erforderlich.
 \end{itemize}
 
-\definition{\textbf{Konfidenzintervall für den Erwartungswert $\mu$ (bekannte Varianz $\sigma_0^2$):}
+\definition{\textbf{Konfidenzintervall für den Erwartungswert $\mu$ (bekannte Varianz $\sigma_0^2$):} \textbf{Voraussetzungen:} Entweder: Population ist normalverteilt, oder $n$ ist groß genug ($n \geq 30$), dass der Zentrale Grenzwertsatz angewendet werden kann. Nach dem Zentralen Grenzwertsatz ist: $\bar{X} \sim N\left(\mu, \frac{\sigma_0^2}{n}\right) \quad \Rightarrow \quad Z = \frac{\bar{X} - \mu}{\sigma_0/\sqrt{n}} \sim N(0,1)$. Das $(1-\alpha)$-Konfidenzintervall für $\mu$: $\left[\bar{X} - z_{1-\alpha/2} \cdot \frac{\sigma_0}{\sqrt{n}}, \quad \bar{X} + z_{1-\alpha/2} \cdot \frac{\sigma_0}{\sqrt{n}}\right]$ wobei $z_{1-\alpha/2}$ das $(1-\alpha/2)$-Quantil der Standardnormalverteilung ist (für $\alpha=0{,}05$: $z_{0{,}975} \approx 1{,}96$).}
 
-\textbf{Voraussetzungen:} 
-\begin{itemize}[leftmargin=1.5em]
-    \item Entweder: Population ist normalverteilt, oder $n$ ist groß genug ($n \geq 30$), dass der Zentrale Grenzwertsatz angewendet werden kann.
-\end{itemize}
-
-Nach dem Zentralen Grenzwertsatz ist:
-\formel{\bar{X} \sim N\left(\mu, \frac{\sigma_0^2}{n}\right) \quad \Rightarrow \quad Z = \frac{\bar{X} - \mu}{\sigma_0/\sqrt{n}} \sim N(0,1)}
-
-Das $(1-\alpha)$-Konfidenzintervall für $\mu$:
-\formel{\left[\bar{X} - z_{1-\alpha/2} \cdot \frac{\sigma_0}{\sqrt{n}}, \quad \bar{X} + z_{1-\alpha/2} \cdot \frac{\sigma_0}{\sqrt{n}}\right]}
-
-wobei $z_{1-\alpha/2}$ das $(1-\alpha/2)$-Quantil der Standardnormalverteilung ist (für $\alpha=0{,}05$: $z_{0{,}975} \approx 1{,}96$).}
-
-\definition{\textbf{Konfidenzintervall für den Erwartungswert $\mu$ (unbekannte Varianz):}
-
-Wenn $\sigma^2$ unbekannt ist, verwenden wir die Stichprobenvarianz $S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$ und die $t$-Verteilung mit $n-1$ Freiheitsgraden:
-\formel{T = \frac{\bar{X} - \mu}{S/\sqrt{n}} \sim t_{n-1}}
-
-Das $(1-\alpha)$-Konfidenzintervall für $\mu$:
-\formel{\left[\bar{X} - t_{n-1, 1-\alpha/2} \cdot \frac{S}{\sqrt{n}}, \quad \bar{X} + t_{n-1, 1-\alpha/2} \cdot \frac{S}{\sqrt{n}}\right]}
-
-wobei $t_{n-1, 1-\alpha/2}$ das $(1-\alpha/2)$-Quantil der $t$-Verteilung mit $n-1$ Freiheitsgraden ist.
-
-\textbf{Beachte:} Die $t$-Verteilung hat schwerere Schwänze als die Normalverteilung, besonders für kleine $n$, was zu breiteren Konfidenzintervallen führt.}
+\definition{\textbf{Konfidenzintervall für den Erwartungswert $\mu$ (unbekannte Varianz):} Wenn $\sigma^2$ unbekannt ist, verwenden wir die Stichprobenvarianz $S^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$ und die $t$-Verteilung mit $n-1$ Freiheitsgraden: $T = \frac{\bar{X} - \mu}{S/\sqrt{n}} \sim t_{n-1}$. Das $(1-\alpha)$-Konfidenzintervall für $\mu$: $\left[\bar{X} - t_{n-1, 1-\alpha/2} \cdot \frac{S}{\sqrt{n}}, \quad \bar{X} + t_{n-1, 1-\alpha/2} \cdot \frac{S}{\sqrt{n}}\right]$ wobei $t_{n-1, 1-\alpha/2}$ das $(1-\alpha/2)$-Quantil der $t$-Verteilung mit $n-1$ Freiheitsgraden ist. \textbf{Beachte:} Die $t$-Verteilung hat schwerere Schwänze als die Normalverteilung, besonders für kleine $n$, was zu breiteren Konfidenzintervallen führt.}
 
 \definition{\textbf{Konfidenzintervall für die Varianz $\sigma^2$ (normalverteilte Population):}
 
@@ -571,90 +401,22 @@ ist $\chi^2$-verteilt mit $n-1$ Freiheitsgraden.
 Das $(1-\alpha)$-Konfidenzintervall für $\sigma^2$:
 \formel{\left[\frac{(n-1)S^2}{\chi^2_{n-1, 1-\alpha/2}}, \quad \frac{(n-1)S^2}{\chi^2_{n-1, \alpha/2}}\right]}
 
-wobei $\chi^2_{n-1, p}$ das $p$-Quantil der $\chi^2$-Verteilung mit $n-1$ Freiheitsgraden ist.}
-
-\textbf{Eigenschaften von Konfidenzintervallen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Breite des Intervalls:} Verringert sich mit höherer Stichprobengröße $n$ (um die Breite zu halbieren, braucht man etwa die 4-fache Stichprobengröße).
-    \item \textbf{Effekt des Konfidenzniveaus:} Ein höheres Konfidenzniveau (z.\,B.\ 99\% statt 95\%) führt zu breiterem Intervall.
-    \item \textbf{Erwünschte Eigenschaften:} Kleine Breite (Präzision) und hohes Konfidenzniveau (Zuverlässigkeit) sind beide wünschenswert.
-\end{itemize}
-
-\newpage
-
+wobei $\chi^2_{n-1, p}$ das $p$-Quantil der $\chi^2$-Verteilung mit $n-1$ Freiheitsgraden ist.} Die Teststatistik: $Q = \frac{(n-1)S^2}{\sigma^2} \sim \chi^2_{n-1}$ ist $\chi^2$-verteilt mit $n-1$ Freiheitsgraden. Das $(1-\alpha)$-Konfidenzintervall für $\sigma^2$: $\left[\frac{(n-1)S^2}{\chi^2_{n-1, 1-\alpha/2}}, \quad \frac{(n-1)S^2}{\chi^2_{n-1, \alpha/2}}\right]$ 
 \subsection{Zentraler Grenzwertsatz und Gesetz der großen Zahlen}
 
 \textbf{Zwei fundamentale Theoreme der Wahrscheinlichkeitstheorie:}
 
-\definition{\textbf{Unabhängig und identisch verteilt (u.i.v., iid):} 
-
-Wenn ein Zufallsexperiment — dargestellt durch eine Zufallsvariable $X$ mit Erwartungswert $\mu$, Varianz $\sigma^2$ und Verteilungsfunktion $F(x)$ — unabhängig $n$-mal wiederholt wird, so bezeichnen wir das Ergebnis beim $i$-ten Versuch mit $X_i$ für $i = 1, \ldots, n$.
-
-Die Zufallsvariablen $X_1, \ldots, X_n$ sind:
-\begin{itemize}[leftmargin=1.5em]
-    \item Unabhängig voneinander.
-    \item Identisch verteilt (haben dieselbe Verteilung wie $X$).
-    \item Haben alle denselben Erwartungswert $\mu$ und dieselbe Varianz $\sigma^2$.
-\end{itemize}
-
-Man kann $X_1, \ldots, X_n$ als unabhängige ``Kopien'' von $X$ auffassen. Die konkreten Zahlenwerte $x_1, \ldots, x_n$ heißen Realisierungen.}
+\definition{\textbf{Unabhängig und identisch verteilt (u.i.v., iid):} Wenn ein Zufallsexperiment — dargestellt durch eine Zufallsvariable $X$ mit Erwartungswert $\mu$, Varianz $\sigma^2$ und Verteilungsfunktion $F(x)$ — unabhängig $n$-mal wiederholt wird, so bezeichnen wir das Ergebnis beim $i$-ten Versuch mit $X_i$ für $i = 1, \ldots, n$. Die Zufallsvariablen $X_1, \ldots, X_n$ sind: unabhängig voneinander; identisch verteilt (haben dieselbe Verteilung wie $X$); haben alle denselben Erwartungswert $\mu$ und dieselbe Varianz $\sigma^2$. Man kann $X_1, \ldots, X_n$ als unabhängige ``Kopien'' von $X$ auffassen. Die konkreten Zahlenwerte $x_1, \ldots, x_n$ heißen Realisierungen.}
 
 \textbf{\textbf{---} Ungleichungen mit praktischer Bedeutung \textbf{---}}
 
-\definition{\textbf{Markov-Ungleichung:} Für eine nicht-negative Zufallsvariable $X$ (diskret oder stetig) und alle $a > 0$ gilt:
-\formel{P(X \geq a) \leq \frac{\mathbb{E}[X]}{a}}
+\definition{\textbf{Markov-Ungleichung:} Für eine nicht-negative Zufallsvariable $X$ (diskret oder stetig) und alle $a > 0$ gilt: $P(X \geq a) \leq \frac{\mathbb{E}[X]}{a}$. \textbf{Interpretation:} Die Wahrscheinlichkeit, dass eine nicht-negative Zufallsvariable einen Wert $\geq a$ annimmt, ist höchstens das Verhältnis ihres Erwartungswerts zu $a$. Dies gibt eine modellunabhängige obere Schranke. \textbf{Beispiel:} Wenn eine Zufallsvariable $X$ (z.\,B.\ Einkommen) einen Erwartungswert von 30.000 EUR hat, ist die Wahrscheinlichkeit, dass $X \geq 90.000$ EUR, höchstens $\frac{30.000}{90.000} = \frac{1}{3}$.}
 
-\textbf{Interpretation:} Die Wahrscheinlichkeit, dass eine nicht-negative Zufallsvariable einen Wert $\geq a$ annimmt, ist höchstens das Verhältnis ihres Erwartungswerts zu $a$. Dies gibt eine modellunabhängige obere Schranke.
-
-\textbf{Beispiel:} Wenn eine Zufallsvariable $X$ (z.\,B.\ Einkommen) einen Erwartungswert von 30.000 EUR hat, ist die Wahrscheinlichkeit, dass $X \geq 90.000$ EUR, höchstens $\frac{30.000}{90.000} = \frac{1}{3}$.}
-
-\definition{\textbf{Tschebyscheff-Ungleichung (Chebyshev's Inequality):} Für eine Zufallsvariable $X$ mit Erwartungswert $\mu = \mathbb{E}[X]$ und Varianz $\sigma^2 = \text{Var}(X)$ gilt für alle $c > 0$:
-
-\textbf{Variante 1:}
-\formel{P(|X - \mu| \geq c) \leq \frac{\sigma^2}{c^2}}
-
-\textbf{Variante 2:}
-\formel{P(|X - \mu| < c) \geq 1 - \frac{\sigma^2}{c^2}}
-
-\textbf{Interpretation:} Die Wahrscheinlichkeit, dass eine Zufallsvariable mehr als $c$ Einheiten von ihrem Mittelwert abweicht, ist durch das Verhältnis ihrer Varianz zu $c^2$ beschränkt — \textbf{unabhängig von der konkreten Verteilung} von $X$.
-
-\textbf{Vereinfachte Form (mit Standard-Abweichungen):} Wenn $c = k \cdot \sigma$ (Abweichung in Einheiten der Standardabweichung):
-\formel{P(|X - \mu| \geq k \cdot \sigma) \leq \frac{1}{k^2} \quad \text{oder} \quad P(|X - \mu| < k \cdot \sigma) \geq 1 - \frac{1}{k^2}}
-
-\textbf{Beispiele:}
-\begin{itemize}[leftmargin=1.5em]
-    \item $k=2$: Mindestens $75\%$ der Daten liegen im Intervall $[\mu - 2\sigma, \mu + 2\sigma]$.
-    \item $k=3$: Mindestens $88{,}9\%$ der Daten liegen im Intervall $[\mu - 3\sigma, \mu + 3\sigma]$.
-\end{itemize}
-
-\textbf{Beweis-Skizze:} Definiere eine Hilfsvariable $Y = 1$ wenn $|X - \mu| \geq c$ und $Y = 0$ sonst. Dann $\mathbb{E}[Y] = P(|X - \mu| \geq c)$ und $Y \leq \frac{(X-\mu)^2}{c^2}$, daher $\mathbb{E}[Y] \leq \mathbb{E}\left[\frac{(X-\mu)^2}{c^2}\right] = \frac{\sigma^2}{c^2}$.}
+\definition{\textbf{Tschebyscheff-Ungleichung (Chebyshev's Inequality):} Für eine Zufallsvariable $X$ mit Erwartungswert $\mu = \mathbb{E}[X]$ und Varianz $\sigma^2 = \text{Var}(X)$ gilt für alle $c > 0$: Variante 1: $P(|X - \mu| \geq c) \leq \frac{\sigma^2}{c^2}$. Variante 2: $P(|X - \mu| < c) \geq 1 - \frac{\sigma^2}{c^2}$. \textbf{Interpretation:} Die Wahrscheinlichkeit, dass eine Zufallsvariable mehr als $c$ Einheiten von ihrem Mittelwert abweicht, ist durch das Verhältnis ihrer Varianz zu $c^2$ beschränkt — \textbf{unabhängig von der konkreten Verteilung} von $X$. \textbf{Vereinfachte Form (mit Standard-Abweichungen):} Wenn $c = k \cdot \sigma$ (Abweichung in Einheiten der Standardabweichung): $P(|X - \mu| \geq k \cdot \sigma) \leq \frac{1}{k^2}$ oder $P(|X - \mu| < k \cdot \sigma) \geq 1 - \frac{1}{k^2}$. \textbf{Beispiele:} $k=2$: Mindestens $75\%$ der Daten liegen im Intervall $[\mu - 2\sigma, \mu + 2\sigma]$. $k=3$: Mindestens $88{,}9\%$ der Daten liegen im Intervall $[\mu - 3\sigma, \mu + 3\sigma]$. \textbf{Beweis-Skizze:} Definiere eine Hilfsvariable $Y = 1$ wenn $|X - \mu| \geq c$ und $Y = 0$ sonst. Dann $\mathbb{E}[Y] = P(|X - \mu| \geq c)$ und $Y \leq \frac{(X-\mu)^2}{c^2}$, daher $\mathbb{E}[Y] \leq \mathbb{E}\left[\frac{(X-\mu)^2}{c^2}\right] = \frac{\sigma^2}{c^2}$.}
 
 \textbf{\textbf{---} Die zwei großen Grenzwertsätze \textbf{---}}
 
-\definition{\textbf{Gesetz der großen Zahlen (Law of Large Numbers, LLN):}
-
-\textbf{Theorem:} Für u.i.v.\ Zufallsvariablen $X_1, X_2, \ldots, X_n$ mit endlichem Erwartungswert $\mu$ und endlicher Varianz $\sigma^2$ gilt:
-
-\formel{P\left(\left|\bar{X}_n - \mu\right| < c\right) \to 1 \quad \text{für } n \to \infty}
-
-für jedes beliebige $c > 0$.
-
-Equivalente Formulierung: Der Stichprobenmittelwert
-\formel{\bar{X}_n = \frac{1}{n}(X_1 + X_2 + \cdots + X_n)}
-\textbf{konvergiert in Wahrscheinlichkeit} gegen den Populationsmittelwert $\mu$: $\bar{X}_n \xrightarrow{P} \mu$.
-
-\textbf{Beweis (via Tschebyscheff):} 
-\begin{itemize}[leftmargin=1.5em]
-    \item $\mathbb{E}[\bar{X}_n] = \mu$ (unverzerrter Schätzer)
-    \item $\text{Var}(\bar{X}_n) = \frac{\sigma^2}{n}$ (Varianz nimmt mit $n$ ab)
-    \item Nach Tschebyscheff: $P\left(\left|\bar{X}_n - \mu\right| \geq c\right) \leq \frac{\sigma^2}{nc^2} \to 0$ für $n \to \infty$
-\end{itemize}
-
-\textbf{Anschauliche Interpretation:} Mit genügend großem Stichprobenumfang ist die Wahrscheinlichkeit beliebig groß, dass der Stichprobenmittelwert nahe beim wahren Populationsmittelwert liegt. Das ist die mathematische Rechtfertigung für den klassischen Ansatz: ``Große Stichproben liefern verlässliche Schätzungen''.
-
-\textbf{Bernoulli's Theorem (Spezialfall):} Wenn wir ein Ereignis $A$ (mit Wahrscheinlichkeit $p$) $n$-mal unabhängig durchführen und $H_n$ die Anzahl der Erfolge ist, dann:
-\formel{P\left(\left|\frac{H_n}{n} - p\right| < c\right) \to 1 \quad \text{für } n \to \infty}
-Die relative Häufigkeit konvergiert gegen die theoretische Wahrscheinlichkeit.}
+\definition{\textbf{Gesetz der großen Zahlen (Law of Large Numbers, LLN):} \textbf{Theorem:} Für u.i.v.\ Zufallsvariablen $X_1, X_2, \ldots, X_n$ mit endlichem Erwartungswert $\mu$ und endlicher Varianz $\sigma^2$ gilt: $P\left(\left|\bar{X}_n - \mu\right| < c\right) \to 1 \quad \text{für } n \to \infty$ für jedes beliebige $c > 0$. Equivalente Formulierung: Der Stichprobenmittelwert $\bar{X}_n = \frac{1}{n}(X_1 + X_2 + \cdots + X_n)$ \textbf{konvergiert in Wahrscheinlichkeit} gegen den Populationsmittelwert $\mu$: $\bar{X}_n \xrightarrow{P} \mu$. \textbf{Beweis (via Tschebyscheff):} $\mathbb{E}[\bar{X}_n] = \mu$ (unverzerrter Schätzer); $\text{Var}(\bar{X}_n) = \frac{\sigma^2}{n}$ (Varianz nimmt mit $n$ ab); Nach Tschebyscheff: $P\left(\left|\bar{X}_n - \mu\right| \geq c\right) \leq \frac{\sigma^2}{nc^2} \to 0$ für $n \to \infty$. \textbf{Anschauliche Interpretation:} Mit genügend großem Stichprobenumfang ist die Wahrscheinlichkeit beliebig groß, dass der Stichprobenmittelwert nahe beim wahren Populationsmittelwert liegt. Das ist die mathematische Rechtfertigung für den klassischen Ansatz: ``Große Stichproben liefern verlässliche Schätzungen''. \textbf{Bernoulli's Theorem (Spezialfall):} Wenn wir ein Ereignis $A$ (mit Wahrscheinlichkeit $p$) $n$-mal unabhängig durchführen und $H_n$ die Anzahl der Erfolge ist, dann: $P\left(\left|\frac{H_n}{n} - p\right| < c\right) \to 1 \quad \text{für } n \to \infty$. Die relative Häufigkeit konvergiert gegen die theoretische Wahrscheinlichkeit.}
 
 \definition{\textbf{Zentraler Grenzwertsatz (Central Limit Theorem, CLT):}
 
@@ -2105,48 +1867,80 @@ K-means partitioniert einen Datensatz in $K$ disjunkte, nicht-leere Gruppen (Clu
     \item Keine Beobachtung in mehreren Clustern: $C_i \cap C_j = \emptyset$ für $i \neq j$
 \end{itemize}
 
-\definition{\textbf{Optimierungskriterium:} Minimierung der Within-Cluster-Streuung (Within-Cluster-Sum-of-Squares, WCSS):}
-$$W = \sum_{k=1}^{K} \sum_{i \in C_k} \|\mathbf{x}_i - \mathbf{c}_k\|_2^2$$
-wobei $\mathbf{c}_k = \frac{1}{n_k} \sum_{i \in C_k} \mathbf{x}_i$ das Zentroid (die Mitte) des Clusters $k$ ist und $n_k = |C_k|$ die Größe des Clusters.
+\definition{\textbf{Optimierungskriterium:} Minimierung der Within-Cluster-Streuung (Within-Cluster-Sum-of-Squares, WCSS):} $$W = \sum_{k=1}^{K} \sum_{i \in C_k} \|\mathbf{x}_i - \mathbf{c}_k\|_2^2$$ wobei $\mathbf{c}_k = \frac{1}{n_k} \sum_{i \in C_k} \mathbf{x}_i$ das Zentroid der Clusters $k$ ist und $n_k = |C_k|$ die Clustergröße.
 
 \definition{\textbf{K-means Algorithmus:}}
 \begin{enumerate}[leftmargin=1.5em]
-    \item \textbf{Initialisierung:} Wähle zufällig $K$ Cluster-Zentren $\mathbf{c}_1^{(0)}, \ldots, \mathbf{c}_K^{(0)}$ (oder $K$ zufällige Beobachtungen).
-    \item \textbf{Zuordnungsschritt (Assignment):} Ordne jede Beobachtung $\mathbf{x}_i$ dem nächsten Zentroid zu: $i \in C_k$, wenn $\|\mathbf{x}_i - \mathbf{c}_k\| = \min_j \|\mathbf{x}_i - \mathbf{c}_j\|$
-    \item \textbf{Update-Schritt:} Berechne für jeden Cluster $k$ das neue Zentroid: $\mathbf{c}_k^{\text{neu}} = \frac{1}{n_k} \sum_{i \in C_k} \mathbf{x}_i$
-    \item \textbf{Konvergenzprüfung:} Wiederhole Schritte 2--3 bis Konvergenz (keine Cluster-Änderungen mehr).
+    \item \textbf{Initialisierung:} Wähle zufällig $K$ Cluster-Zentren (oder $K$ zufällige Beobachtungen).
+    \item \textbf{Zuordnungsschritt:} Ordne jede Beobachtung $\mathbf{x}_i$ dem nächsten Zentroid zu: $i \in C_k$ wenn $\|\mathbf{x}_i - \mathbf{c}_k\| = \min_j \|\mathbf{x}_i - \mathbf{c}_j\|$.
+    \item \textbf{Update-Schritt:} Berechne für jeden Cluster $k$ das neue Zentroid: $\mathbf{c}_k^{\text{neu}} = \frac{1}{n_k} \sum_{i \in C_k} \mathbf{x}_i$.
+    \item \textbf{Konvergenzprüfung:} Wiederhole Schritte 2--3 bis keine Cluster-Änderungen mehr auftreten.
 \end{enumerate}
 
-\textbf{Wahl der Cluster-Anzahl:} Zwei Strategien:
+\textbf{Wahl der Cluster-Anzahl $K$:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Elbow-Methode:} Plotte WCSS gegen $K$. Die Kurve ist monoton fallend; wähle $k$, bei dem die Kurve ``abknickt''.
-    \item \textbf{Hopkins-Statistik (Cluster-Validität):} Testet, ob der Datensatz überhaupt eine Clusterstruktur hat:
-    $$H = \frac{\sum_{i=1}^{n^*} d_U(i)}{\sum_{i=1}^{n^*} d_U(i) + \sum_{i=1}^{n^*} d_W(i)}$$
-    wobei $d_U(i)$ die Distanz zur nächsten Beobachtung in zufälligen Punkten und $d_W(i)$ in echten Daten ist. $H \approx 0.5$: keine Clusterung; $H \to 1$: starke Clusterung.
+    \item \textbf{Elbow-Methode:} Plotte WCSS gegen $K$. Die Kurve ist monoton fallend; wähle $K$, bei dem die Kurve abknickt (``Ellbogen'').
+    \item \textbf{Hopkins-Statistik:} Testet, ob der Datensatz überhaupt eine Clusterstruktur aufweist: $$H = \frac{\sum_{i=1}^{n^*} d_U(i)}{\sum_{i=1}^{n^*} d_U(i) + \sum_{i=1}^{n^*} d_W(i)}$$ wobei $d_U(i)$ die Distanz zufällig erzeugter Punkte zum nächsten echten Datenpunkt und $d_W(i)$ die Distanz echter Datenpunkte zum nächsten echten Nachbarn ist.
+    \begin{itemize}[leftmargin=1.5em]     \item $H \approx 0{,}5$: Daten sind zufällig verteilt -- \textbf{keine
+        Clusterstruktur vorhanden}; Clustering nicht sinnvoll.
+        \item $H \to 1$: Starke Clusterstruktur -- Clustering sinnvoll.
+        \item $H < 0{,}25$: Regelmäßige Gitterstruktur -- ebenfalls keine natürliche
+        Clusterung.
+    \end{itemize}
 \end{itemize}
 
 \definition{\textbf{K-medoids Clustering:}}
-Ähnlich K-means, aber: Cluster-Zentren müssen echte Beobachtungen sein (nicht der Durchschnitt).
-
-\textbf{Algorithmus:} Identisch mit K-means, außer:
-\textbf{Update-Schritt:} Für jeden Cluster $k$ finde die Medoid (Beobachtung mit minimaler durchschnittlicher Dissimilarität):
-$$\mathbf{m}_k = \arg\min_{\mathbf{x}_i \in C_k} \sum_{\mathbf{x}_j \in C_k} \|\mathbf{x}_j - \mathbf{x}_i\|^2$$
-
-\textbf{Vorteile:} Robuster gegenüber Ausreißern; kann beliebige Distanzmaße verwenden (nicht nur Euklidisch); Zentren sind interpretierbar (echte Objekte).
+Ähnlich K-means, aber Cluster-Zentren müssen \emph{echte Beobachtungen} sein (nicht
+der Durchschnitt). Im Update-Schritt wird für jeden Cluster $k$ die Medoid-Beobachtung
+gesucht:
+$$\mathbf{m}_k = \arg\min_{\mathbf{x}_i \in C_k} \sum_{\mathbf{x}_j \in C_k}
+\|\mathbf{x}_j - \mathbf{x}_i\|^2$$ 
+\textbf{Vorteile:} Robuster gegenüber Ausreißern; kann beliebige Distanzmaße verwenden
+(nicht nur Euklidisch); Zentren sind interpretierbar (echte Objekte).
 
 \definition{\textbf{Fuzzy Clustering (Soft Clustering):}}
-Im Gegensatz zu K-means (hard clustering) kann jede Beobachtung mit Wahrscheinlichkeiten zu mehreren Clustern gehören.
+Im Gegensatz zu K-means (hard clustering) kann jede Beobachtung mit Zugehörigkeits\-graden
+zu mehreren Clustern gehören.
 
-\textbf{Membership-Koeffizient:} $u_{ij} \in [0, 1]$ gibt an, mit welcher Wahrscheinlichkeit Beobachtung $i$ zu Cluster $j$ gehört:
+\textbf{Membership-Koeffizient:} $u_{ij} \in [0, 1]$ gibt an, mit welchem Grad
+Beobachtung $i$ zu Cluster $j$ gehört, mit Normierungsbedingung:
 $$\sum_{j=1}^{K} u_{ij} = 1 \quad \text{für alle } i$$
 
-\textbf{Fuzzy C-Means (FCM) Algorithmus:} Ähnlich K-means, aber mit gewichteten Zuordnungen. Die Zentroide werden als gewichtete Durchschnitte berechnet:
-$$\mathbf{c}_k = \frac{\sum_{i=1}^{n} u_{ij}^m \mathbf{x}_i}{\sum_{i=1}^{n} u_{ij}^m}$$
-wobei $m > 1$ der Fuzzifikationsparameter ist (typisch $m = 2$).
+\definition{\textbf{Fuzzy C-Means (FCM) Algorithmus:}} Minimiert die gewichtete Within-Cluster-Streuung: $$J_m = \sum_{i=1}^{n} \sum_{j=1}^{K} u_{ij}^m \|\mathbf{x}_i - \mathbf{c}_j\|^2$$ wobei $m > 1$ der \textbf{Fuzzifikationsparameter} ist (typisch $m = 2$). Größeres $m$ führt zu weicheren (unschärferen) Zugehörigkeiten.
 
-\textbf{Vorteil:} Bildet Unsicherheit bei Zuordnungen ab; nützlich bei Grenzfällen zwischen Clustern.
+\textbf{Update-Formeln (alternierend bis Konvergenz):}
 
-\newpage
+\textbf{Membership-Update:} $$u_{ij} = \frac{1}{\displaystyle\sum_{l=1}^{K} \left(\frac{\|\mathbf{x}_i - \mathbf{c}_j\|} {\|\mathbf{x}_i - \mathbf{c}_l\|}\right)^{\!\frac{2}{m-1}}}$$
+
+\textit{Interpretation:} Je näher Beobachtung $i$ am Zentroid $j$ liegt relativ zu allen anderen Zentroiden, desto höher ist $u_{ij}$.
+
+\textbf{Zentroid-Update:} $$\mathbf{c}_j = \frac{\sum_{i=1}^{n} u_{ij}^m\, \mathbf{x}_i} {\sum_{i=1}^{n} u_{ij}^m}$$ \textit{Interpretation:} Jedes Zentroid ist ein gewichtetes Mittel aller Beobachtungen, wobei die Gewichte durch die Zugehörigkeitsgrade (hoch potenziert) bestimmt werden. \textbf{Finale Klassenzuweisung (optional):} Nach Konvergenz kann aus den Membership-Koeffizienten eine harte Partition abgeleitet werden: $i \in C_k$ wenn $u_{ik} = \max_j u_{ij}$.
+
+\textbf{Vorteile gegenüber K-means:} Bildet Unsicherheit bei Zuordnungen ab; nützlich bei Grenzfällen zwischen Clustern; liefert vollständige Zugehörigkeitsverteilung pro Beobachtung.
+
+\textbf{Vergleich der drei Verfahren:}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{Aspekt} & \textbf{K-means} & \textbf{K-medoids} &
+        \textbf{Fuzzy C-Means} \\
+        \hline
+        Zuordnung & Hart (exklusiv) & Hart (exklusiv) & Weich (graduell) \\
+        \hline
+        Zentren & Durchschnitt & Echte Beobachtung & Durchschnitt (gewichtet) \\
+        \hline
+        Ausreißer-Robustheit & Gering & Hoch & Mittel \\
+        \hline
+        Distanzmaß & Euklidisch & Beliebig & Euklidisch (standard) \\
+        \hline
+        Zusatz-Parameter & -- & -- & Fuzzifikator $m$ \\
+        \hline
+        Interpretierbarkeit & Hoch & Sehr hoch & Mittel \\
+        \hline
+    \end{tabular}
+\end{table}
 
 \subsection{Model-based Clustering}
 

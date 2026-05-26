@@ -339,18 +339,37 @@ $L(G)$ ist positiv semidefinit; Anzahl der Eigenwerte $0$ = Anzahl der Zusammenh
     \item \textbf{Hamiltonkreis:} Kreis durch jeden Knoten. Graph heißt \textbf{hamiltonsch}.
 \end{itemize}
 
-\definition{\textbf{Satz von Euler-Hierholzer:} Zusammenhängender Graph enthält genau dann eine \textbf{Eulersche Tour}, wenn jeder Knoten geraden Grad hat ($\forall v: \deg(v)\bmod 2=0$); genau dann eine \textbf{Eulersche Kantenfolge}, wenn maximal zwei Knoten ungeraden Grad haben.}
+\definition{\textbf{Satz von Euler-Hierholzer:} Zusammenhängender Graph enthält genau dann
+eine \textbf{Eulersche Tour}, wenn jeder Knoten geraden Grad hat
+($\forall v: \deg(v)\bmod 2=0$); genau dann eine \textbf{Eulersche Kantenfolge}, wenn
+maximal zwei Knoten ungeraden Grad haben (diese bilden dann Start- und Endknoten).}
 
-\beispiel{Königsberger Brückenproblem (Euler, 1736): Alle vier Knoten haben ungeraden Grad $\Rightarrow$ keine Eulersche Kantenfolge möglich.}
+\beispiel{Königsberger Brückenproblem (Euler, 1736): Alle vier Knoten haben ungeraden
+Grad $\Rightarrow$ keine Eulersche Kantenfolge möglich.}
 
-\definition{\textbf{Satz von Dirac:} Schlichtgraph, $|V|\geq 3$, $\deg(v)\geq\frac{|V|}{2}$ für alle $v$ $\Rightarrow$ Hamiltonkreis (hinreichend, nicht notwendig). \textbf{Satz von Ore:} Für alle nicht-benachbarten Paare $u,v$: $\deg(u)+\deg(v)\geq|V|$ $\Rightarrow$ Hamiltonkreis (verallgemeinert Dirac).}
+\textbf{Hierholzers Algorithmus} (konstruktiv, $\mathcal{O}(|E|)$):
+\begin{enumerate}[leftmargin=1.5em]
+    \item Starte an einem beliebigen Knoten (bei Eulersche Kantenfolge: an einem Knoten ungeraden Grads) und folge Kanten, bis man zum Startknoten zurückgelangt
+    $\Rightarrow$ ergibt einen ersten Teilkreis $C_1$.
+    \item Entferne $C_1$ aus dem Graphen. Wähle einen Knoten $v \in C_1$, der noch nicht verwendete Kanten besitzt.
+    \item Starte von $v$ einen weiteren Teilkreis $C_2$ im Restgraphen.
+    \item Füge $C_2$ an der Stelle $v$ in $C_1$ ein. Wiederhole ab Schritt~2, bis alle Kanten verwendet sind.
+\end{enumerate}
 
-\textbf{Notwendige Bedingungen:} Graph mit Hamiltonkreis: zusammenhängend, kein Knoten mit Grad 1. Mit Hamiltonweg: höchstens zwei Knoten mit Grad 1.
+\definition{\textbf{Satz von Dirac:} Schlichtgraph, $|V|\geq 3$,
+$\deg(v)\geq\frac{|V|}{2}$ für alle $v$ $\Rightarrow$ Hamiltonkreis (hinreichend,
+nicht notwendig). \textbf{Satz von Ore:} Für alle nicht-benachbarten Paare $u,v$:
+$\deg(u)+\deg(v)\geq|V|$ $\Rightarrow$ Hamiltonkreis (verallgemeinert Dirac).}
 
-\textbf{Euler vs.\ Hamilton:} Für Euler: exaktes notwendiges-und-hinreichendes Kriterium (Gradparität). Für Hamilton: kein solches bekannt -- eines der großen offenen Probleme der Mathematik (P$\,\stackrel{?}{=}\,$NP).
+\textbf{Notwendige Bedingungen:} Graph mit Hamiltonkreis: zusammenhängend, kein Knoten
+mit Grad~1. Mit Hamiltonweg: höchstens zwei Knoten mit Grad~1.
 
-\newpage
-% ─────────────────────────────────────────────────────────────────────────────
+\textbf{Euler vs.\ Hamilton -- fundamentaler Unterschied:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Euler:} Exaktes notwendiges-und-hinreichendes Kriterium (Gradparität), effizienter Konstruktionsalgorithmus in $\mathcal{O}(|E|)$ -- polynomiell lösbar.
+    \item \textbf{Hamilton:} Kein solches Kriterium bekannt. Das Entscheidungsproblem ``Enthält $G$ einen Hamiltonkreis?'' ist \textbf{NP-vollständig} -- es ist bis heute unbekannt, ob ein polynomieller Algorithmus existiert (äquivalent zur offenen Frage P$\,\stackrel{?}{=}\,$NP). In der Praxis werden Heuristiken oder exponentielle Backtracking-Verfahren verwendet.
+\end{itemize}
+
 \subsection{Bipartite und planare Graphen}
 
 \definition{\textbf{Bipartiter Graph:} $G=(V,E)$ heißt bipartit, wenn $V=U\cup W$ (disjunkt) mit allen Kanten zwischen $U$ und $W$. Äquivalent: $G$ enthält keinen Kreis ungerader Länge.}
