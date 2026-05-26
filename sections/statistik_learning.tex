@@ -242,13 +242,20 @@ $V_w(10,3) = 10^3 = 1000$ Möglichkeiten.}
     \item $\binom{n}{0} = \binom{n}{n} = 1$
     \item $\binom{n}{k} + \binom{n}{k+1} = \binom{n+1}{k+1}$ (Pascal'sche Identität)
 \end{itemize}
-\textbf{Beispiel:} 5-Karten-Hände aus einem 52-Karten-Deck: $\binom{52}{5} = 2\,598\,960$ Möglichkeiten.} der Möglichkeiten, $k$ unterschiedliche Elemente aus $n$ Objekten auszuwählen, \emph{ohne} Berücksichtigung der Reihenfolge: $$C(n, k) = \binom{n}{k} = \frac{n!}{k!\cdot(n-k)!}$$ \textbf{Eigenschaften:} \begin{itemize}[leftmargin=1.5em]
-    \item $\binom{n}{k} = \binom{n}{n-k}$ (Symmetrie)
-    \item $\binom{n}{0} = \binom{n}{n} = 1$
-    \item $\binom{n}{k} + \binom{n}{k+1} = \binom{n+1}{k+1}$ (Pascal'sche Identität)
-\end{itemize}
-\textbf{Beispiel:} 5-Karten-Hände aus einem 52-Karten-Deck:     \small
-    \begin{tabular}{|l|c|c|} Elemente aus $n$ verschiedenen Typen auszuwählen, wobei jeder Typ beliebig oft verwendet werden kann und die Reihenfolge nicht zählt: $$C_w(n, k) = \binom{n+k-1}{k} = \frac{(n+k-1)!}{k!\cdot(n-1)!}$$ \textbf{Beispiel:} Auswahl von 3 Früchten aus 5 Sorten mit Wiederholung:         $n!$ & $\dfrac{n!}{n_1!\cdots n_k!}$ \\[6pt]
+\textbf{Beispiel:} 5-Karten-Hände aus einem 52-Karten-Deck: $\binom{52}{5} = 2\,598\,960$ Möglichkeiten.}
+
+\definition{\textbf{Kombination mit Wiederholung:} Die Anzahl der Möglichkeiten, $k$ Elemente aus $n$ verschiedenen Typen auszuwählen, wobei jeder Typ beliebig oft verwendet werden kann und die Reihenfolge nicht zählt: $$C_w(n, k) = \binom{n+k-1}{k} = \frac{(n+k-1)!}{k!\cdot(n-1)!}$$ \textbf{Beispiel:} Auswahl von 3 Früchten aus 5 Sorten mit Wiederholung: $\binom{7}{3} = 35$ Möglichkeiten.}
+
+\textbf{Zusammenfassende Übersicht:}
+\begin{table}[h]
+    \centering
+    \small
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Art} & \textbf{Ohne Wiederholung} & \textbf{Mit Wiederholung} \\
+        \hline
+        \textbf{Permutation} (alle $n$ Elemente anordnen) &
+        $n!$ & $\dfrac{n!}{n_1!\cdots n_k!}$ \\[6pt]
         \hline
         \textbf{Variation} ($k$ aus $n$, Reihenfolge zählt) &
         $\dfrac{n!}{(n-k)!}$ & $n^k$ \\[6pt]
