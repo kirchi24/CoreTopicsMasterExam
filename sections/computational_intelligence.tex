@@ -883,10 +883,11 @@ $$\min_G \max_D \mathbb{E}_{x \sim p_\text{data}}[\log D(x)] + \mathbb{E}_{z \si
 \textbf{Schritt 1 -- Diskriminator trainieren:} Maximiere Fähigkeit, echte und gefälschte Daten zu unterscheiden
 $$\mathcal{L}_D = -\mathbb{E}_{x}[\log D(x)] - \mathbb{E}_{z}[\log(1-D(G(z)))]$$
 
-\textbf{Schritt 2 -- Generator trainieren:} Minimiere Fähigkeit des Diskriminators zu unterscheiden (täusche ihn)
+\textbf{Schritt 2 -- Generator trainieren:} Täusche den Diskriminator, sodass generierte Daten als echt klassifiziert werden
 $$\mathcal{L}_G = -\mathbb{E}_{z}[\log D(G(z))]$$
 
-Alternativ (numerisch stabiler): $\mathcal{L}_G = \mathbb{E}_{z}[\log(1-D(G(z)))]$ (nicht-saturierend)
+Diese nicht-saturierende Variante wird in der Praxis häufig bevorzugt, da sie stärkere Gradienten liefert. Die ursprüngliche Minimax-Formulierung lautet:
+$$\mathcal{L}_G = \mathbb{E}_{z}[\log(1-D(G(z)))]$$
 
 \subsubsection*{Training-Dynamiken und Instabilität}
 
