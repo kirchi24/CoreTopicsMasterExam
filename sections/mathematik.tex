@@ -88,7 +88,6 @@ wobei $U \in \mathbb{R}^{m\times m}$ und $V \in \mathbb{R}^{n\times n}$ orthogon
 \textbf{Anwendungen der SVD:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Rang einer Matrix:} $\mathrm{rank}(A) = $ Anzahl der Singulärwerte $\sigma_i > 0$.
-    \item \textbf{Niedrigrangapproximation:} $A_k = \sum_{i=1}^{k} \sigma_i \bm{u}_i \bm{v}_i^\top$ ist die beste Rang-$k$-Approximation in Frobenius-Norm (Eckart-Young-Theorem). Grundlage von JPEG- und Datenkompression.
     \item \textbf{Pseudoinverse:} $A^+ = V \Sigma^+ U^\top$, wobei $\Sigma^+$ die Kehrwerte der Singulärwerte (für $\sigma_i \neq 0$) enthält.
 \end{itemize}
 
@@ -100,9 +99,21 @@ $\det(A) > 0$: Orientierung bleibt erhalten; $\det(A) < 0$: Transformation enth�
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Eigenwertproblem und Diagonalisierung von quadratischen Matrizen}
 
-\textbf{Charakteristisches Polynom:} Die Eigenwerte $\lambda_i$ einer $n \times n$-Matrix $A$ sind die Nullstellen von:
-\formel{P_n(\lambda) = \det(A - \lambda E) = 0}
-Das Polynom hat Grad $n$ und liefert über $\mathbb{C}$ genau $n$ Eigenwerte (mit Vielfachheit, nach dem Fundamentalsatz der Algebra).
+\textbf{Charakteristisches Polynom:} Gesucht sind Vektoren $x \neq 0$, die durch die lineare Abbildung nur gestreckt oder gestaucht werden: $Ax=\lambda x.$ Umformen liefert$(A-\lambda E)x=0.$ Da eine nichttriviale Lösung $x\neq0$ existieren soll, muss die Matrix $A-\lambda E$ singulär (singulär bedeutet $\det(A-\lambda E) = 0$) sein. Daher gilt als notwendige und hinreichende Bedingung
+
+\formel{P_n(\lambda)=\det(A-\lambda E)=0}
+
+Das Polynom hat Grad $n$ und liefert über $\mathbb{C}$ genau $n$ Eigenwerte (mit Vielfachheit, nach dem Fundamentalsatz der Algebra). Auf die Eigenwerte und Vektoren kommt man wie folgend:
+
+$$
+A-\lambda E
+\;\xrightarrow{\det}\;
+P_n(\lambda)
+\;\xrightarrow{P_n(\lambda)=0}\;
+\lambda_i
+\;\xrightarrow{(A-\lambda_i E)x=0}\;
+\text{Eigenvektoren}
+$$
 
 \textbf{Eigenschaften:}
 \begin{itemize}[leftmargin=1.5em]
@@ -114,7 +125,7 @@ Das Polynom hat Grad $n$ und liefert über $\mathbb{C}$ genau $n$ Eigenwerte (mi
 
 \textbf{Diagonalisierung:} $A$ ist \textbf{diagonalisierbar}, wenn sie $n$ linear unabhängige Eigenvektoren besitzt:
 \formel{A = V \Lambda V^{-1}, \quad \Lambda = \mathrm{diag}(\lambda_1, \ldots, \lambda_n)}
-wobei $V$ die Matrix der Eigenvektoren als Spalten ist. Matrizen mit $n$ verschiedenen Eigenwerten sind stets diagonalisierbar. Eine Matrix heißt \textbf{defekt}, wenn die geometrische Vielfachheit eines Eigenwertes kleiner als dessen algebraische Vielfachheit ist -- defekte Matrizen sind nicht diagonalisierbar, aber in \textbf{Jordansche Normalform} bringbar.
+wobei $V$ die Matrix der Eigenvektoren als Spalten ist. In $\Lambda$ stehen die Eigenwerte auf der Hauptdiagonale. Besitzt eine Matrix nicht genügend linear unabhängige Eigenvektoren, so ist sie nicht diagonalisierbar; solche Matrizen nennt man \textbf{defekt}.
 
 \textbf{Spezielle Matrixklassen und Diagonalisierbarkeit:}
 \begin{itemize}[leftmargin=1.5em]
@@ -125,9 +136,15 @@ wobei $V$ die Matrix der Eigenvektoren als Spalten ist. Matrizen mit $n$ verschi
 
 \textbf{Vorteil der Diagonalform:} Operationen vereinfachen sich drastisch. Matrixpotenzen: $A^k = V\Lambda^k V^{-1}$, da $\Lambda^k = \mathrm{diag}(\lambda_1^k,\ldots,\lambda_n^k)$. Matrixexponential: $e^A = Ve^{\Lambda}V^{-1}$ mit $e^{\Lambda} = \mathrm{diag}(e^{\lambda_1},\ldots,e^{\lambda_n})$ -- zentral für die Lösung linearer Differentialgleichungssysteme $\dot{\bm{x}} = A\bm{x}$.
 
-\textbf{Numerische Berechnung:} Analytische Berechnung nur für kleine $n$ praktikabel. Für größere Matrizen: \textbf{QR-Algorithmus} (iterativ, konvergiert zur Schur-Form), \textbf{Potenzmethode} (liefert dominanten Eigenwert), \textbf{Inverse Iteration} (für beliebigen Eigenwert in der Nähe eines Schätzwerts).
+\textbf{Definitheit:} Für eine symmetrische Matrix $A = A^\top$ betrachtet man die quadratische Form $x^\top A x$. Sie beschreibt, ob diese für alle $x \neq 0$ positiv oder negativ ist.
 
-\beispiel{$2\times2$-Matrix: $P_2(\lambda) = \lambda^2 - (a+d)\lambda + (ad-bc) = 0$, Lösung $\lambda_{1,2} = \frac{(a+d) \pm \sqrt{(a+d)^2 - 4(ad-bc)}}{2}$. Check: $\lambda_1 + \lambda_2 = \mathrm{Spur}(A)$, $\lambda_1 \cdot \lambda_2 = \det(A)$. Ist die Diskriminante negativ, sind die Eigenwerte komplex-konjugiert und die Matrix nicht über $\mathbb{R}$ diagonalisierbar.}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{positiv definit:} $x^\top A x > 0 \;\forall x \neq 0$
+    \item \textbf{negativ definit:} $x^\top A x < 0 \;\forall x \neq 0$
+    \item \textbf{indefinit:} sowohl positive als auch negative Werte möglich
+\end{itemize}
+
+Für symmetrische Matrizen gilt der direkte Zusammenhang zu den Eigenwerten $A \text{ positiv definit } \iff \lambda_i > 0 \;\forall i$ bzw. $A \text{ negativ definit } \iff \lambda_i < 0 \;\forall i$.
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
@@ -156,6 +173,11 @@ Operationen führen zu \emph{wachsender Unschärfe} und sind nicht exakt umkehrb
 
 \textbf{Fuzzy-Regler (Fuzzy Control):} Praktische Anwendung in der Regelungstechnik: Eingabegrößen werden \emph{fuzzifiziert}, Regelbasis (z.\,B.\ „IF Temperatur hoch AND Fehler groß THEN Kühlung stark") wird ausgewertet, Ausgabe wird \emph{defuzzifiziert} (z.\,B.\ Schwerpunktmethode). Vorteil: intuitives Expertenwissen direkt kodierbar.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{assets/add_fuzzy_numbers.png}
+\end{figure}
+
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Modulare Arithmetik und Integer-Darstellung am Computer}
@@ -181,9 +203,15 @@ Operationen führen zu \emph{wachsender Unschärfe} und sind nicht exakt umkehrb
 
 \textbf{Hamming-Distanz:} $d_H(b_1,b_2)$ = Anzahl unterschiedlicher Stellen zweier Bitfolgen = Gewicht $w(b_1 \oplus b_2)$. Grundlage fehlererkennender und fehlerkorrigierender Codes: Ein Code mit minimaler Hamming-Distanz $d$ kann bis zu $d-1$ Fehler erkennen und $\lfloor(d-1)/2\rfloor$ Fehler korrigieren. Paritätsbit (ASCII): $d=2$ (erkennt 1-Bit-Fehler). Hamming-Code $(7,4)$: $d=3$ (korrigiert 1-Bit-Fehler).
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/bin_dec_bin.png}
+\end{figure}
+
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
-\subsection{Darstellung reeller Zahlen am Computer}
+\subsection{Darstellung reeller Zahlen am Computer und Numerische Fehler}
+\subsubsection{Darstellung reeller Zahlen am Computer}
 
 Am Computer steht für eine Zahl nur eine \textbf{begrenzte Anzahl von Bits} zur Verfügung -- jede Darstellung reeller Zahlen ist daher ein Kompromiss zwischen Wertebereich und Genauigkeit.
 
@@ -211,9 +239,14 @@ bestehend aus Vorzeichen (1 Bit), Mantisse ($m$ Bits) und Exponent ($e$ Bits mit
 
 \textbf{Rundungsmodi:} IEEE-754 definiert mehrere Modi: zur nächsten Maschinenzahl (Standard), Richtung $+\infty$, Richtung $-\infty$, Richtung $0$. Intervallarithmetik nutzt gerichtetes Runden für garantierte Fehlerschranken.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/decimal_to_bin.png}
+\end{figure}
+
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
-\subsection{Numerische Fehler}
+\subsubsection{Numerische Fehler}
 
 Rechnen mit begrenzter Genauigkeit führt zu Fehlern. Ziel ist stets, jede Zahl durch die nächste \textbf{Maschinenzahl} darzustellen -- aber auch die Summe bester Darstellungen muss nicht die beste Darstellung des Ergebnisses sein ($0{,}333+0{,}333+0{,}333 = 0{,}999 \neq 1{,}000$).
 
@@ -223,9 +256,13 @@ Rechnen mit begrenzter Genauigkeit führt zu Fehlern. Ziel ist stets, jede Zahl 
 \formel{1{,}234567 - 1{,}234565 = 0{,}000002 \quad \text{(von 7 auf 1 signifikante Stelle!)}}
 Die relativen Fehler der Operanden werden durch die Subtraktion drastisch vergrößert. \textbf{Regel:} Wenn möglich, keine kleine Zahl als Differenz zweier großer Zahlen berechnen. Umformungen können helfen: $\sqrt{x+1} - \sqrt{x} = \frac{1}{\sqrt{x+1}+\sqrt{x}}$ vermeidet Auslöschung für große $x$.}
 
-\definition{\textbf{Absorption (Aufsummierung):} Addition einer kleinen Zahl zu einer betragsmäßig viel größeren kann keine Veränderung bewirken: $1\,245\,327 + 0{,}215231 \approx 1\,245\,327$ (bei 7 Stellen Genauigkeit). Gefahr bei wiederholter Addition kleiner Inkremente zu einem großen Akkumulator. Abhilfe: \textbf{Kahan-Summation} akkumuliert den Rundungsfehler in einer Hilfsvariablen und kompensiert ihn bei der nächsten Addition.}
+\definition{\textbf{Absorption (Aufsummierung):} Addition einer kleinen Zahl zu einer betragsmäßig viel größeren kann keine Veränderung bewirken: 
+\formel{1\,245\,327 + 0{,}215231 \approx 1\,245\,327 \quad \text{(bei 7 Stellen Genauigkeit)}}
+Gefahr bei wiederholter Addition kleiner Inkremente zu einem großen Akkumulator. Abhilfe: \textbf{Kahan-Summation} akkumuliert den Rundungsfehler in einer Hilfsvariablen und kompensiert ihn bei der nächsten Addition.}
 
-\definition{\textbf{Unterlauf (Underflow):} Multiplikation betragsmäßig kleiner Zahlen liefert $0$, obwohl das mathematisch falsch ist: $10^{-70} \cdot 10^{-70} \cdot 10^{70} \cdot 10^{70} \to 0 \cdot 10^{70} \cdot 10^{70} = 0$ (falsch, da $\approx 1$). Vorkommen bei Wahrscheinlichkeitsprodukten (z.\,B.\ in HMMs) -- Abhilfe: Rechnen im Logarithmussraum ($\log p_1 + \log p_2$ statt $p_1 \cdot p_2$).}
+\definition{\textbf{Unterlauf (Underflow):} Multiplikation betragsmäßig kleiner Zahlen liefert $0$, obwohl das mathematisch falsch ist:
+\formel{10^{-70} \cdot 10^{-70} \cdot 10^{70} \cdot 10^{70} \to 0 \cdot 10^{70} \cdot 10^{70} = 0 \quad \text{(falsch, da $\approx 1$)}}
+Vorkommen bei Wahrscheinlichkeitsprodukten (z.\,B.\ in Hidden Markov Models) -- Abhilfe: Rechnen im Logarithmussraum ($\log p_1 + \log p_2$ statt $p_1 \cdot p_2$).}
 
 \textbf{Überlauf (Overflow):} Ergebnis außerhalb des darstellbaren Bereichs; bei Gleitkomma spezieller Wert \texttt{Inf}. Arithmetik mit \texttt{Inf}: $\texttt{Inf} + x = \texttt{Inf}$, $\texttt{Inf} - \texttt{Inf} = \texttt{NaN}$, $0 \cdot \texttt{Inf} = \texttt{NaN}$.
 
@@ -289,7 +326,7 @@ Optimierungsaufgaben werden als Minimierungsprobleme formuliert ($\max f = \min(
 
 \textbf{Grundidee:} Beliebige (hinreichend gutartige) Funktionen lassen sich als Überlagerung von Sinus- und Kosinus-Schwingungen darstellen. Fourier-Theorie ermöglicht den Wechsel zwischen Zeit- und Frequenzbereich -- eine der mächtigsten Ideen der angewandten Mathematik.
 
-\textbf{Orthogonalität:} Die trigonometrischen Funktionen $\{1,\cos(n\omega_0 t),\sin(n\omega_0 t)\}$ mit $\omega_0=\frac{2\pi}{T}$ bilden ein \textbf{orthogonales System} bezüglich des Skalarprodukts $\langle f,g \rangle = \int_{-T/2}^{T/2} f(t)g(t)\,\mathrm{d}t$: $\int_{-T/2}^{T/2}\cos(n\omega_0 t)\cos(m\omega_0 t)\,\mathrm{d}t = 0$ für $n\neq m$, und $= T/2$ für $n=m\neq 0$. Ebenso die komplexen Exponentialfunktionen $e^{in\omega_0 t}$. Dieses System ist sogar \textbf{vollständig} (Basis des $L^2$-Raums).
+\textbf{Orthogonalität:} Die trigonometrischen Funktionen $\{1,\cos(n\omega_0 t),\sin(n\omega_0 t)\}$ mit $\omega_0=\frac{2\pi}{T}$ bilden ein \textbf{orthogonales System} bezüglich des Skalarprodukts $\langle f,g \rangle = \int_{-T/2}^{T/2} f(t)g(t)\,\mathrm{d}t$. Dies ergibt $\int_{-T/2}^{T/2}\cos(n\omega_0 t)\cos(m\omega_0 t)\,\mathrm{d}t = 0$ für $n\neq m$, und $= T/2$ für $n=m\neq 0$. Ebenso die komplexen Exponentialfunktionen $e^{in\omega_0 t}$. Dieses System ist sogar \textbf{vollständig} (Basis des $L^2$-Raums).
 
 \definition{\textbf{Fourier-Reihe} ($T$-periodische Funktion):
 \formel{f(t) = \frac{a_0}{2} + \sum_{n=1}^{\infty}\left[a_n\cos(n\omega_0 t) + b_n\sin(n\omega_0 t)\right]}
@@ -305,6 +342,11 @@ mit $a_n = \frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega_0 t)\,\mathrm{d}t$ und 
 
 \textbf{DFT und FFT:} $X_k = \sum_{n=0}^{N-1}x_n e^{-2\pi ikn/N}$ für $k=0,\ldots,N-1$. Naiver Aufwand $\mathcal{O}(N^2)$; \textbf{FFT} (Cooley-Tukey, 1965) nutzt Symmetrieeigenschaften der Einheitswurzeln und teilt das Problem rekursiv in zwei Hälften: $\mathcal{O}(N\log N)$. Praktische Anwendungen: Signalverarbeitung, Spektralanalyse. JPEG verwendet 2D-Diskrete-Kosinus-Transformation (DCT, reellwertige Variante) auf $8\times8$-Blöcken -- Hochfrequenzanteile werden stärker quantisiert (psychovisuelle Kompression).
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/fourier.png}
+\end{figure}
+
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Aliasing-Effekt und Shannon-Nyquist-Theorem}
@@ -315,11 +357,10 @@ mit $a_n = \frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega_0 t)\,\mathrm{d}t$ und 
 
 \textbf{Mathematische Erklärung:} Für ein abgetastetes Signal der Frequenz $\nu$ sind die Frequenzen $\nu + k\nu_s$ (für $k \in \mathbb{Z}$) nicht von $\nu$ zu unterscheiden. Das Spektrum des abgetasteten Signals ist die $\nu_s$-periodische Fortsetzung des Originalspektrums. Überlappen sich diese Kopien, entsteht Aliasing.
 
-\beispiel{Stroboskop-Effekt: Ein schnell drehendes Rad wirkt im Film rückwärts drehend, weil die Bildwiederholrate kleiner ist als die doppelte Umdrehungsfrequenz. Ähnlich: Wagenräder im Westernfilm, die scheinbar rückwärts drehen. Moire-Muster beim Fotografieren von feinen Gittern entstehen ebenfalls durch räumliches Aliasing.}
+\beispiel{Stroboskop-Effekt: Ein schnell drehendes Rad wirkt im Film rückwärts drehend, weil die Bildwiederholrate kleiner ist als die doppelte Umdrehungsfrequenz.}
 
 \definition{\textbf{Shannon-Nyquist-Theorem (Abtasttheorem):} Ein Signal, das nur Frequenzanteile $< \nu_\mathrm{max}$ enthält, kann aus seinen Abtastwerten mit Schrittweite $\Delta t$ vollständig rekonstruiert werden, wenn gilt:
-\formel{\nu_s = \frac{1}{\Delta t} > 2\nu_\mathrm{max} \quad \Leftrightarrow \quad \nu_\mathrm{Nyquist} = \frac{\nu_s}{2} > \nu_\mathrm{max}}
-Bei exakter Rekonstruktion wird der \textbf{Whittaker-Shannon-Interpolationsformel} mit sinc-Funktionen verwendet.}
+\formel{\nu_s = \frac{1}{\Delta t} > 2\nu_\mathrm{max} \quad \Leftrightarrow \quad \nu_\mathrm{Nyquist} = \frac{\nu_s}{2} > \nu_\mathrm{max}}}
 
 \textbf{Alias-Frequenz:} Liegt $\nu > \nu_\mathrm{Nyquist}$, wird es abgebildet auf $\nu_\mathrm{alias} = |\nu - k\nu_s|$ für das $k$, das $\nu_\mathrm{alias}$ minimiert (Faltung ins Basisband).
 
@@ -332,7 +373,12 @@ Bei exakter Rekonstruktion wird der \textbf{Whittaker-Shannon-Interpolationsform
     \item \textbf{Oversampling + digitaler Filter:} Abtastung mit vielfacher Nyquist-Rate, dann digitales Decimation-Filtering -- einfachere analoge Hardware bei besserer Kontrolle über das digitale Filter.
 \end{itemize}
 
-\textbf{Domänenwissen ist entscheidend:} Zu grobe Abtastung $\Rightarrow$ Aliasing; zu feine $\Rightarrow$ unnötig große Datenmengen. Optimale Wahl erfordert Kenntnis der maximalen Signalfrequenz (aus physikalischen Überlegungen oder Voruntersuchungen).
+\textbf{Domänenwissen ist entscheidend:} Zu grobe Abtastung $\Rightarrow$ Aliasing; zu feine $\Rightarrow$ unnötig große Datenmengen. Optimale Wahl aus physikalischen Überlegungen oder Voruntersuchungen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/aliasing.png}
+\end{figure}
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
@@ -372,26 +418,38 @@ Bei exakter Rekonstruktion wird der \textbf{Whittaker-Shannon-Interpolationsform
 
 \textbf{Grundprinzip:} Approximiere $f$ durch eine einfach integrierbare Funktion (Polynom), integriere diese exakt. Die Güte der Approximation bestimmt den \textbf{Quadraturfehler} (Abschneidefehler).
 
-\definition{\textbf{Newton-Cotes-Formeln:} Äquidistante Stützstellen $x_k = a + kh$, $h = (b-a)/n$:
+\definition{\textbf{Newton-Cotes-Formeln:} Äquidistante Stützstellen $x_k = a + kh$, $h = (b-a)/n$, wobei die Gewichte $w_k$ durch Interpolation mit Lagrange-Polynomen bestimmt werden:
 \formel{\int_a^b f(x)\,\mathrm{d}x \approx (b-a)\sum_{k=0}^{n}w_k f(x_k), \quad \sum w_k = 1}
-Gewichte $w_k$ durch Interpolation mit Lagrange-Polynomen bestimmt.}
+}
 
 \definition{\textbf{Trapezregel} (Newton-Cotes $n=1$):
-\formel{\int_a^b f\,\mathrm{d}x \approx \frac{h}{2}\left(f(x_0) + 2\sum_{k=1}^{n-1}f(x_k) + f(x_n)\right), \quad h=\frac{b-a}{n}}
-Lineare Interpolation zwischen Stützpunkten. Fehlerordnung: $\mathcal{O}(h^2)$ pro Teilintervall, $\mathcal{O}(h^2)$ global. Exakt für Polynome bis Grad 1.}
+\formel{\int_a^b f\,\mathrm{d}x \approx \frac{h}{2}\left(f(x_0) + 2\sum_{k=1}^{n-1}f(x_k) + f(x_n)\right), \quad h=\frac{b-a}{n}}}
 
-\definition{\textbf{Simpson-Regel} (Newton-Cotes $n=2$, auch $\frac{1}{3}$-Regel): Parabolisches Stück über je drei Stützpunkte (Gewichte $\frac{1}{6},\frac{4}{6},\frac{1}{6}$ bzw.\ $\frac{h}{3}(1,4,1)$). Fehlerordnung: $\mathcal{O}(h^4)$ global -- deutlich besser, da kubische Polynome exakt integriert werden (obwohl nur Grad-2-Interpolation -- Symmetrieeffekt!). Benötigt gerade Anzahl Teilintervalle.}
+\definition{\textbf{Simpson-Regel} (Newton-Cotes $n=2$, auch $\frac{1}{3}$-Regel): Parabolisches Stück über je drei Stützpunkte (Gewichte $\frac{h}{3}(1,4,1)$). Benötigt gerade Anzahl Teilintervalle. Beispiel im Bild}
 
-\definition{\textbf{Romberg-Integration:} Kombiniert Trapezregeln $T_n$ mit unterschiedlicher Schrittweite durch \textbf{Richardson-Extrapolation}. Der Fehler der Trapezregel entwickelt sich als $I - T_n = c_1 h^2 + c_2 h^4 + \ldots$: Durch Linearkombination zweier Trapezwerte mit $h$ und $h/2$ lässt sich der $\mathcal{O}(h^2)$-Term eliminieren:
-\formel{Q_n^{(m+1)} = Q_n^{(m)} + \frac{Q_n^{(m)} - Q_{n/2}^{(m)}}{4^m-1}}
-Jede weitere Spalte im Romberg-Schema erhöht die Fehlerordnung um $\mathcal{O}(h^2)$. Das Romberg-Schema ist triangulär und konvergiert für glatte Funktionen sehr schnell.}
+\textbf{Verbesserte Quadraturmethoden:} Statt fester Schrittweite werden sowohl Stützstellen als auch Gewichte an die Struktur von $f$ angepasst.
 
-\definition{\textbf{Gauß-Legendre-Quadratur:} Nicht-äquidistante, optimal gewählte Stützstellen (Nullstellen der Legendre-Polynome $P_n$) und Gewichte. Mit $n$ Stützstellen werden Polynome bis Grad $2n-1$ exakt integriert -- optimal mögliche Genauigkeit für gegebene Stützstellenanzahl. Nachteil: Stützstellen fest und oft nicht auf schönen Dezimalzahlen; nicht adaptiv gegenüber Integrand.}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Romberg-Integration:} Kombination von Trapezregeln mit unterschiedlichen Schrittweiten und Extrapolation zur systematischen Fehlerreduktion.
+    
+    \item \textbf{Gauß-Quadratur:} Optimale Wahl von Stützstellen und Gewichten (nicht äquidistant). Maximale Genauigkeit: exakt für Polynome bis Grad $2n-1$ bei $n$ Punkten.
+    
+    \item \textbf{Adaptive Quadratur:} Dynamische Verfeinerung der Schrittweite dort, wo $f$ stark variiert; Fehlerabschätzung durch Vergleich von grober und feiner Approximation.
+\end{itemize}
 
-\textbf{Adaptive Quadratur:} Stützstellen werden dort konzentriert, wo $f$ stark variiert -- automatische Schrittweitensteuerung. Fehlerabschätzung durch Vergleich grober und feiner Approximation.
+\textbf{Monte-Carlo-Integration:} Das Integral wird durch zufällig verteilte Punkte im Gebiet $\Omega$ approximiert:
+\formel{\int_\Omega f(x)\,dx \approx |\Omega| \cdot \frac{1}{N}\sum_{i=1}^N f(x_i)}
 
-\textbf{Monte-Carlo-Integration:} Für hochdimensionale Integrale ($d \gg 1$): $\int_\Omega f(\bm{x})\,\mathrm{d}\bm{x} \approx |\Omega| \cdot \frac{1}{N}\sum_{i=1}^N f(\bm{x}_i)$ mit zufällig gezogenen Punkten $\bm{x}_i$. Fehler $\mathcal{O}(N^{-1/2})$ unabhängig von der Dimension $d$ -- deterministische Methoden haben Fehler $\mathcal{O}(h^p)$ mit $N = (1/h)^d$ Punkten, also $\mathcal{O}(N^{-p/d})$: für großes $d$ ist Monte-Carlo überlegen. Standardmethode gegen den \emph{Fluch der Dimensionalität}. Varianzreduktion durch Importance Sampling, Stratified Sampling, Quasi-Monte-Carlo (Halton-Folgen).
+Dabei werden $N$ Punkte $\bm{x}_i$ zufällig im Integrationsgebiet gewählt und der Funktionswert gemittelt. Die Idee: Statt ein festes Gitter zu verwenden, „probiert“ man viele zufällige Punkte aus und nähert so den Mittelwert der Funktion im Gebiet an.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{assets/sum_simpson_regel.png}
+\end{figure}
+
 % ─────────────────────────────────────────────────────────────────────────────
+
+
 \subsection{Grundbegriffe der Graphentheorie}
 
 \definition{Ein \textbf{Graph} $G = (V, E)$ besteht aus Knotenmenge $V$ und Kantenmenge $E$. Jeder Kante sind zwei inzidente Knoten zugeordnet. Graphen modellieren netzartige Strukturen topologisch -- die konkrete Beschaffenheit der Knoten und Kanten spielt keine Rolle.}
@@ -399,112 +457,150 @@ Jede weitere Spalte im Romberg-Schema erhöht die Fehlerordnung um $\mathcal{O}(
 \textbf{Grundbegriffe:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Schlinge:} $e=\{v,v\}$. \textbf{Parallele Kanten:} zwei Kanten mit identischen Endknoten. Graphen ohne beides: \textbf{schlicht}; sonst \textbf{Multigraph}.
-    \item \textbf{Nachbarschaft:} $\Gamma(v)=\{w\in V\mid\{v,w\}\in E,\,w\neq v\}$. Knoten mit $\Gamma(v)=\emptyset$: \textbf{isoliert}.
-    \item \textbf{Grad:} $\deg(v)$ = Anzahl Kanten (Schlingen doppelt). \textbf{Handshaking-Lemma:} $\sum_v\deg(v)=2|E|$ -- Anzahl der Knoten mit ungeradem Grad stets gerade.
-    \item \textbf{Kenngrößen:} $\Delta(G)=\max_v\deg(v)$, $\delta(G)=\min_v\deg(v)$, $\Phi(G)=\frac{2|E|}{|V|}$.
-    \item \textbf{Dichte} (schlicht): $\rho(G)=\frac{2|E|}{|V|(|V|-1)}$.
+    \item \textbf{Nachbarschaft:} $\Gamma(v)=\{w\in V\mid\{v,w\}\in E,\,w\neq v\}$. Knoten mit $\Gamma(v)=\emptyset$: \textbf{isoliert} (auch bei ausschließlich Schlingen!).
+    \item \textbf{Grad:} $\deg(v)$ = Anzahl inzidenter Kanten; Schlingen zählen \emph{doppelt}. \textbf{Handshaking-Lemma:}
+    \[\sum_{v\in V}\deg(v)=2|E|\]
+    Folgerung: Die Anzahl der Knoten mit ungeradem Grad ist stets gerade.
+    \item \textbf{Gradmatrix:} $D(G)=\mathrm{diag}(\deg(1),\ldots,\deg(n))$.
+    \item \textbf{Kenngrößen:} Maximalgrad $\Delta(G)=\max_v\deg(v)$, Minimalgrad $\delta(G)=\min_v\deg(v)$, mittlerer Grad $\Phi(G)=\frac{2|E|}{|V|}$.
+    \item \textbf{Dichte} (nur für schlichte Graphen): $\rho(G)=\frac{2|E|}{|V|(|V|-1)}\in[0,1]$. Bei nicht-schlichten Graphen kann $\rho>1$ sein (parallele Kanten), daher nicht sinnvoll definierbar.
 \end{itemize}
 
-\textbf{Wege und Abstände:}
+\textbf{Wege, Kreise und Abstände:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Kantenfolge:} $v_1,e_1,v_2,\ldots,e_{k-1},v_k$. \textbf{Weg:} ohne wiederholte Knoten. \textbf{Kreis:} geschlossener Weg. \textbf{Taille:} kürzester Kreis. \textbf{Umfang:} längster. \textbf{Brücke:} Kante auf keinem Kreis.
-    \item \textbf{Abstand:} $\mathrm{dist}(v,w)$ = kürzester Weg; $\mathrm{dist}(v,v)=0$; $\infty$ falls kein Weg.
-    \item \textbf{Exzentrizität:} $e(v)=\max_w\mathrm{dist}(v,w)$. \textbf{Durchmesser:} $d(G)=\max_v e(v)$. \textbf{Radius:} $r(G)=\min_v e(v)$. \textbf{Zentrum:} Knoten mit $e(v)=r(G)$. Es gilt $r(G)\leq d(G)\leq 2r(G)$.
+    \item \textbf{Kantenfolge:} $v_1,e_1,v_2,\ldots,e_{k-1},v_k$; Länge = Anzahl Kanten. \textbf{Geschlossen:} $v_1=v_k$.
+    \item \textbf{Weg:} Kantenfolge ohne wiederholte Knoten. Bei einem Weg dürfen Kanten \emph{nicht} doppelt auftreten, da dies zwangsläufig einen bereits besuchten Knoten erzwingen würde (bei schlichten Graphen).
+    \item \textbf{Kreis:} geschlossene Kantenfolge, bei der Anfangs- und Endknoten identisch sind und kein weiterer Knoten wiederholt wird. Ein Kreis ist kein Weg.
+    \item \textbf{Taille:} Länge des kürzesten Kreises. \textbf{Umfang:} Länge des längsten Kreises. \textbf{Brücke:} Kante, die auf keinem Kreis liegt -- ihr Entfernen erhöht die Komponentenanzahl.
+    \item \textbf{Abstand:} $\mathrm{dist}(v,w)$ = Länge des kürzesten Weges; $\mathrm{dist}(v,v)=0$; $\mathrm{dist}(v,w)=\infty$ falls kein Weg existiert.
+    \item \textbf{Exzentrizität:} $e(v)=\max_{w\in V}\mathrm{dist}(v,w)$.
+    \item \textbf{Durchmesser:} $d(G)=\max_{v\in V}e(v)=\max_{i,j}m_{ij}$.
+    \item \textbf{Radius:} $r(G)=\min_{v\in V}e(v)$.
+    \item \textbf{Zentrum:} $\{v\in V\mid e(v)=r(G)\}$; \textbf{Randknoten:} $\{v\in V\mid e(v)=d(G)\}$.
+    \item Es gilt stets: $r(G)\leq d(G)\leq 2\,r(G)$.
 \end{itemize}
 
-\textbf{Zusammenhang:} Zwischen jedem Knotenpaar existiert ein Weg. Äquivalent: sukzessive Kantenkontraktionen führen auf einen einzelnen Knoten.
+\textbf{Zusammenhang:} $G$ heißt \textbf{zusammenhängend}, wenn zwischen jedem Knotenpaar $v\neq w$ ein Weg existiert, d.h.\ $\mathrm{dist}(v,w)<\infty$ für alle Paare. Äquivalent: sukzessive Kantenkontraktionen ($e=\{v,w\}$ entfernen + $v,w$ fusionieren) führen auf einen Einzelknoten; jeder Zwischengraph ist ein \textbf{Minor} von $G$. Ein nicht zusammenhängender Graph besteht aus mehreren \textbf{Komponenten}. Bei nicht zusammenhängenden Graphen sind Exzentrizitäten, Durchmesser und Radius $\infty$.
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
-\subsection{Graphentheorie: Inzidenz-, Grad-, Adjazenz-, Laplace- und Abstandsmatrizen sowie deren Zusammenhang}
+\subsection{Graphentheorie: Matrizen und ihre Zusammenhänge}
 
-Sei $G=(V,E)$ mit $n=|V|$ Knoten und $m=|E|$ Kanten.
+Sei $G=(V,E)$ mit $n=|V|$ Knoten und $m=|E|$ Kanten. Als durchgehendes Beispiel dient folgender Graph:
+\[G:\quad V=\{1,2,3,4,5\},\quad E=\{a,b,c,d,e,f\}\]
+\[a=\{1,2\},\;b=\{1,5\},\;c=\{1,3\},\;d=\{1,3\},\;e=\{2,4\},\;f=\{5,5\}\]
 
-\textbf{Inzidenzmatrix $B(G)$} ($n\times m$): $b_{ve}=1$ wenn $v$ und $e$ inzidieren; Schlingen: $b_{ve}=2$. Jede Spaltensumme $=2$.
+\textbf{Inzidenzmatrix $B(G)$} ($n\times m$, Knoten $\times$ Kanten): $b_{ve}=1$ wenn $v$ und $e$ inzidieren; bei Schlingen $b_{ve}=2$. Jede Spaltensumme $=2$ (Handshaking). Für das Beispiel:
+\[B(G)=\begin{pmatrix}1&1&1&1&0&0\\1&0&0&0&1&0\\0&0&1&1&0&0\\0&0&0&0&1&0\\0&1&0&0&0&2\end{pmatrix}\]
 
-\textbf{Gradmatrix $D(G)$:} Diagonalmatrix $\mathrm{diag}(\deg(1),\ldots,\deg(n))$.
+\textbf{Gradmatrix $D(G)$} ($n\times n$, Diagonalmatrix): $D(G)=\mathrm{diag}(\deg(1),\ldots,\deg(n))$. Schlingen zählen doppelt. Für das Beispiel: $\deg(1)=4,\;\deg(2)=2,\;\deg(3)=2,\;\deg(4)=1,\;\deg(5)=3$:
+\[D(G)=\begin{pmatrix}4&0&0&0&0\\0&2&0&0&0\\0&0&2&0&0\\0&0&0&1&0\\0&0&0&0&3\end{pmatrix}\]
 
-\textbf{Adjazenzmatrix $A(G)$} ($n\times n$): $a_{ij}$ = Anzahl Kanten zwischen $i$ und $j$. Stets symmetrisch; bei schlichten Graphen nur 0/1, Nulldiagonale. Zeilen-/Spaltensumme = Grad (Schlingen doppelt). \textbf{Potenzen:} $(A^p)_{ij}$ = Anzahl Kantenfolgen der Länge $p$ von $i$ nach $j$. Ist $A$ durch Permutation in Blockform bringbar: $G$ nicht zusammenhängend.
+\textbf{Adjazenzmatrix $A(G)$} ($n\times n$, Knoten $\times$ Knoten): $a_{ij}$ = Anzahl Kanten zwischen $i$ und $j$. Stets \textbf{symmetrisch}. Bei schlichten Graphen: nur $0/1$, Nulldiagonale. Zeilen-/Spaltensumme $=\deg(i)$ (Schlingen doppelt). Zerlegbarkeit durch Permutation in Blockform $\Leftrightarrow$ $G$ nicht zusammenhängend. Für das Beispiel (Schlinge $f$ doppelt):
+\[A(G)=\begin{pmatrix}0&1&2&0&1\\1&0&0&1&0\\2&0&0&0&0\\0&1&0&0&0\\1&0&0&0&2\end{pmatrix}\]
+
+\textbf{Potenzen der Adjazenzmatrix:} $(A^p)_{ij}$ = Anzahl der Kantenfolgen der Länge $p$ von $i$ nach $j$ (Schlingen dabei nur \emph{einfach} zählen). Berechnung: R: \texttt{A \%\^\% n} (Paket \texttt{expm}); Python/NumPy: \texttt{A**n}; Octave: \texttt{A\^{}n}.
 
 \textbf{Laplace- und vorzeichenlose Laplace-Matrix:}
-\formel{L(G) = D(G) - A(G), \qquad Q(G) = D(G) + A(G) = B(G)\cdot B(G)^\top}
-$L(G)$ ist positiv semidefinit; Anzahl der Eigenwerte $0$ = Anzahl der Zusammenhangskomponenten.
+\[L(G) = D(G) - A(G), \qquad Q(G) = D(G) + A(G) = B(G)\cdot B(G)^\top\]
+$L(G)$ ist positiv semidefinit; die Vielfachheit des Eigenwertes $0$ entspricht der Anzahl der Zusammenhangskomponenten.
 
-\textbf{Abstandsmatrix $\mathcal{M}(G)$:} $m_{ij}=\mathrm{dist}(i,j)$. Berechnung: Potenzen von $A$ sukzessive auswerten; bei erstem $(A^p)_{ij}>0$ für offenes Paar: $m_{ij}=p$.
-
-\textbf{Zusammenhang der Matrizen:}
+\textbf{Zusammenhang der Normen} (Hölder-1-Norm $\|X\|_{H1}=\sum_{i,j}|x_{ij}|$, Schlingen doppelt):
 \begin{itemize}[leftmargin=1.5em]
-    \item $\|B(G)\|_{H1} = \|D(G)\|_{H1} = \|A(G)\|_{H1} = 2|E|$
-    \item $Q(G) = B(G)\cdot B(G)^\top = D(G)+A(G)$; \quad $L(G) = D(G)-A(G)$
-    \item Exzentrizitäten, Durchmesser und Radius direkt aus $\mathcal{M}(G)$ ablesbar.
+    \item $\|B(G)\|_{H1} = \|D(G)\|_{H1} = \|A(G)\|_{H1} = 2|E| = \deg(G)$
+    \item $\|Q(G)\|_{H1} = \|B\cdot B^\top\|_{H1} = 4|E| = 2\cdot\deg(G)$
+    \item $\|L(G)\|_{H1} = 2\|A(G)\|_{H1} - \mathrm{spur}(D(G))$
 \end{itemize}
+
+\textbf{Abstandsmatrix $\mathcal{M}(G)$} ($n\times n$): $m_{ij}=\mathrm{dist}(i,j)$; symmetrisch, Nulldiagonale. \textbf{Berechnung:} Potenzen $A^1, A^2, A^3,\ldots$ sukzessive auswerten (Schlingen einfach zählen); sobald $(A^p)_{ij}>0$ für ein noch offenes Paar: setze $m_{ij}=p$. Abbruch wenn alle Einträge gefüllt (spätestens nach $|V|-1$ Schritten bei zusammenhängendem $G$).
+
+\textbf{Exzentrizitäten, Durchmesser und Radius} direkt aus $\mathcal{M}(G)$:
+\[e(v)=\max_j m_{vj},\quad d(G)=\max_{i,j}m_{ij},\quad r(G)=\min_v\max_j m_{vj}\]
+
+\beispiel{Fortsetzung des Beispielgraphen $G$. Die Abstandsmatrix ergibt sich schrittweise aus $A^1, A^2, \ldots$ (Schlingen einfach): Knoten 4 ist nur über Knoten 2 erreichbar, Knoten 3 direkt über die parallelen Kanten $c,d$.
+\[\mathcal{M}(G)=\begin{pmatrix}0&1&1&2&1\\1&0&2&1&2\\1&2&0&3&2\\2&1&3&0&3\\1&2&2&3&0\end{pmatrix}\]
+Daraus folgen die Exzentrizitäten: $e(1)=2,\;e(2)=2,\;e(3)=3,\;e(4)=3,\;e(5)=3$. Radius $r(G)=2$ (Zentrum: Knoten 1 und 2), Durchmesser $d(G)=3$. Es gilt $r(G)\leq d(G)\leq 2\,r(G)$, hier $2\leq 3\leq 4$. \checkmark}
+
+\newpage
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Graphentheorie: Eulersche Kantenfolgen und Eulersche Touren sowie Hamiltonwege und Hamiltonkreise}
 
-\textbf{Definitionen:}
+\textbf{Begriffe und Definitionen:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Eulersche Kantenfolge:} Kantenfolge, die jede Kante genau einmal durchläuft (Knoten dürfen mehrfach vorkommen).
-    \item \textbf{Eulersche Tour:} Geschlossene Eulersche Kantenfolge. Graph heißt \textbf{eulersch}.
-    \item \textbf{Hamiltonweg:} Weg durch jeden Knoten genau einmal.
-    \item \textbf{Hamiltonkreis:} Kreis durch jeden Knoten. Graph heißt \textbf{hamiltonsch}.
+    \item \textbf{Kantenfolge:} $v_1, e_1, v_2, \ldots, e_{k-1}, v_k$, wobei $e_i$ jeweils $v_i$ und $v_{i+1}$ verbindet. Länge = Anzahl der Kanten. \textbf{Geschlossen:} wenn $v_1 = v_k$.
+    \item \textbf{Weg:} Kantenfolge ohne wiederholte Knoten.
+    \item \textbf{Kreis:} Geschlossene Kantenfolge, bei der kein Knoten (außer Anfang\,=\,Ende) wiederholt wird -- ein Kreis ist kein Weg. \textbf{Taille:} kürzester Kreis. \textbf{Umfang:} längster Kreis.
+    \item \textbf{Brücke:} Kante, die auf keinem Kreis liegt; ihr Entfernen erhöht die Komponentenanzahl.
+    \item \textbf{Eulersche Kantenfolge:} Kantenfolge, die \emph{jede Kante genau einmal} durchläuft. Knoten dürfen mehrfach besucht werden -- daher im Allgemeinen kein Weg.
+    \item \textbf{Eulersche Tour (Eulerkreis):} Geschlossene Eulersche Kantenfolge. Graph heißt \textbf{eulersch}. Im Allgemeinen kein Kreis, da Knoten mehrfach auftreten können.
+    \item \textbf{Hamiltonweg:} Weg, der \emph{jeden Knoten genau einmal} enthält. Anfangs- und Endknoten müssen nicht identisch sein.
+    \item \textbf{Hamiltonkreis:} Kreis, der jeden Knoten genau einmal enthält (Anfang\,=\,Ende erzwungen). Graph heißt \textbf{hamiltonsch}.
 \end{itemize}
 
-\definition{\textbf{Satz von Euler-Hierholzer:} Zusammenhängender Graph enthält genau dann
-eine \textbf{Eulersche Tour}, wenn jeder Knoten geraden Grad hat
-($\forall v: \deg(v)\bmod 2=0$); genau dann eine \textbf{Eulersche Kantenfolge}, wenn
-maximal zwei Knoten ungeraden Grad haben (diese bilden dann Start- und Endknoten).}
+\definition{\textbf{Existenzsatz -- Eulersche Kantenfolge:} Ein zusammenhängender Graph enthält genau dann eine Eulersche Kantenfolge, wenn \textbf{höchstens zwei Knoten} ungeraden Grad haben:
+\[ |\{v \in V : \deg(v) \bmod 2 \neq 0\}| \leq 2 \]
+Diese (höchstens zwei) Knoten bilden zwingend Start- und Endknoten der Kantenfolge.}
 
-\beispiel{Königsberger Brückenproblem (Euler, 1736): Alle vier Knoten haben ungeraden
-Grad $\Rightarrow$ keine Eulersche Kantenfolge möglich.}
+\definition{\textbf{Satz von Euler--Hierholzer -- Eulersche Tour:} Ein zusammenhängender Graph enthält genau dann eine Eulersche Tour, wenn \textbf{jeder Knoten geraden Grad} hat:
+\[ \forall v \in V : \deg(v) \bmod 2 = 0 \]
+Dies ist ein notwendiges \emph{und} hinreichendes Kriterium.}
 
-\textbf{Hierholzers Algorithmus} (konstruktiv, $\mathcal{O}(|E|)$):
-\begin{enumerate}[leftmargin=1.5em]
-    \item Starte an einem beliebigen Knoten (bei Eulersche Kantenfolge: an einem Knoten ungeraden Grads) und folge Kanten, bis man zum Startknoten zurückgelangt
-    $\Rightarrow$ ergibt einen ersten Teilkreis $C_1$.
-    \item Entferne $C_1$ aus dem Graphen. Wähle einen Knoten $v \in C_1$, der noch nicht verwendete Kanten besitzt.
-    \item Starte von $v$ einen weiteren Teilkreis $C_2$ im Restgraphen.
-    \item Füge $C_2$ an der Stelle $v$ in $C_1$ ein. Wiederhole ab Schritt~2, bis alle Kanten verwendet sind.
-\end{enumerate}
+\beispiel{Königsberger Brückenproblem (Euler, 1736): Sieben Brücken über den Pregel in Königsberg -- modelliert als Graph mit 4 Knoten. Alle vier Knoten haben ungeraden Grad $\Rightarrow$ keine Eulersche Kantenfolge (und damit auch keine Eulersche Tour) möglich.}
 
-\definition{\textbf{Satz von Dirac:} Schlichtgraph, $|V|\geq 3$,
-$\deg(v)\geq\frac{|V|}{2}$ für alle $v$ $\Rightarrow$ Hamiltonkreis (hinreichend,
-nicht notwendig). \textbf{Satz von Ore:} Für alle nicht-benachbarten Paare $u,v$:
-$\deg(u)+\deg(v)\geq|V|$ $\Rightarrow$ Hamiltonkreis (verallgemeinert Dirac).}
+\definition{\textbf{Hinreichende Bedingung -- Satz von Dirac:} Sei $G$ ein schlichter Graph mit $|V| \geq 3$. Gilt $\deg(v) \geq \frac{|V|}{2}$ für alle $v \in V$, so besitzt $G$ einen Hamiltonkreis (und damit auch einen Hamiltonweg). Die Bedingung impliziert bereits Zusammenhang.}
 
-\textbf{Notwendige Bedingungen:} Graph mit Hamiltonkreis: zusammenhängend, kein Knoten
-mit Grad~1. Mit Hamiltonweg: höchstens zwei Knoten mit Grad~1.
+\definition{\textbf{Hinreichende Bedingung -- Satz von Ore:} Sei $G$ ein schlichter Graph mit $|V| \geq 3$. Gilt für alle \emph{nicht benachbarten} Paare $u, v \in V$:
+\[ \deg(u) + \deg(v) \geq |V| \]
+so besitzt $G$ einen Hamiltonkreis. Der Satz von Dirac ist ein Spezialfall von Ore.}
 
-\textbf{Euler vs.\ Hamilton -- fundamentaler Unterschied:}
+\textbf{Notwendige Bedingungen:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Euler:} Exaktes notwendiges-und-hinreichendes Kriterium (Gradparität), effizienter Konstruktionsalgorithmus in $\mathcal{O}(|E|)$ -- polynomiell lösbar.
-    \item \textbf{Hamilton:} Kein solches Kriterium bekannt. Das Entscheidungsproblem ``Enthält $G$ einen Hamiltonkreis?'' ist \textbf{NP-vollständig} -- es ist bis heute unbekannt, ob ein polynomieller Algorithmus existiert (äquivalent zur offenen Frage P$\,\stackrel{?}{=}\,$NP). In der Praxis werden Heuristiken oder exponentielle Backtracking-Verfahren verwendet.
+    \item Graph mit \textbf{Hamiltonweg}: zusammenhängend; höchstens zwei Knoten mit $\deg(v) = 1$.
+    \item Graph mit \textbf{Hamiltonkreis}: zusammenhängend; kein Knoten mit $\deg(v) = 1$.
 \end{itemize}
 
-\subsection{Bipartite und planare Graphen}
+Ein \textbf{notwendiges und hinreichendes} Kriterium für Hamiltonkreise ist bis heute \textbf{nicht bekannt} -- dies ist eines der schwierigsten ungelösten Probleme der Mathematik. Im Gegensatz zu Euler (exaktes Gradkriterium, effizient prüfbar) ist die Frage nach der Existenz eines Hamiltonkreises \textbf{NP-vollständig}.
 
-\definition{\textbf{Bipartiter Graph:} $G=(V,E)$ heißt bipartit, wenn $V=U\cup W$ (disjunkt) mit allen Kanten zwischen $U$ und $W$. Äquivalent: $G$ enthält keinen Kreis ungerader Länge.}
+\textbf{Allgemeiner Exkurs -- Notwendige und hinreichende Bedingungen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $A$ ist \textbf{hinreichend} für $B$: $A \Rightarrow B$ \quad (,,wenn $A$, dann $B$``)
+    \item $A$ ist \textbf{notwendig} für $B$: $A \Leftarrow B$ \quad (,,wenn $B$, dann $A$``)
+    \item $A$ ist \textbf{notwendig und hinreichend} für $B$: $A \Leftrightarrow B$
+\end{itemize}
+\newpage
+
+\subsection{Grundtypen von Netzwerken, Bipartität und Planarität}
+
+\textbf{Bekannte Grundtypen schlichter Netzwerke:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Complete Network $K_n$:} Jeder Knoten mit jedem; $|E|=\binom{|V|}{2}$. Alle Knoten bilden eine \textbf{Clique}. Ist ein Minor eines schlichten Graphen ein Complete Network, heißt dieser Minor \textbf{Clique}; die Größe der größten Clique = \textbf{Cliquenzahl}.
+    \item \textbf{Star Network:} Genau ein Zentralknoten mit allen anderen verbunden; Spezialfall des Tree Network.
+    \item \textbf{Ring Network:} Kreisförmig; jeder Knoten mit $k$ Nachbarn auf beiden Seiten. Complete Network ist Spezialfall ($k=\frac{|V|-1}{2}$).
+    \item \textbf{Tree Network:} Genau ein Weg zwischen je zwei Knoten; \textbf{kreisfrei}; alle Kanten Brücken; $|V|=|E|+1$.
+    \item \textbf{Grid Network (Torus):} Schachbrettartig; horizontal und vertikal periodisch verbunden.
+    \item \textbf{Small-World Network:} Ring mit zufälligen Zusatzkanten -- kurze durchschnittliche Pfadlängen bei hoher lokaler Vernetzung.
+    \item \textbf{Power-/Free-scale Network:} Wenige Hubs mit hohem Grad, viele Knoten mit sehr geringem Grad (Potenzgesetz).
+\end{itemize}
+
+\textbf{Wurzelbäume:} Tree Network mit einem ausgezeichneten Knoten (\textbf{Wurzel}, muss nicht oben sein). Terminologie: \textbf{Vorgänger} (näher an Wurzel), \textbf{Nachfolger} (weiter entfernt). Darstellung: Vorgänger stets oberhalb der Nachfolger. \textbf{Binärkodierung:} Baum von der Wurzel nach links unten umwandern; $1$ = Abstieg, $0$ = Aufstieg. Gleicher Baum kann unterschiedlich kodiert sein.
+
+\definition{\textbf{Bipartiter Graph:} $G=(V,E)$ heißt bipartit, wenn $V=U\cup W$ (disjunkt) mit allen Kanten zwischen $U$ und $W$. Äquivalent: $G$ enthält \textbf{keinen Kreis ungerader Länge}.}
 
 \textbf{Vollständiger bipartiter Graph $K_{m,n}$:} Alle $m$ Knoten aus $U$ mit allen $n$ Knoten aus $W$ verbunden; $|E|=m\cdot n$.
 
-\definition{\textbf{Planarer Graph:} $G$ heißt planar, wenn er sich ohne Kantenkreuzungen in die Ebene zeichnen lässt. Planarität ist eine Eigenschaft des Graphen, nicht der Zeichnung.}
+Bipartite Graphen können Schlingen und parallele Kanten enthalten (dann kein schlichter Graph). Schlingen erzeugen jedoch Kreise der Länge 1 (ungerade) -- bipartit und Schlingen schließen sich damit faktisch aus.
 
-\textbf{Satz von Kuratowski:} $G$ ist genau dann planar, wenn er weder $K_5$ noch $K_{3,3}$ als Minor enthält.
+\definition{\textbf{Planarer Graph:} $G$ heißt planar, wenn er sich ohne Kantenkreuzungen in die Ebene zeichnen lässt. Planarität ist eine Eigenschaft des Graphen, nicht der konkreten Zeichnung.}
 
-\textbf{Grundtypen von Netzwerken:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Complete Network:} Jeder Knoten mit jedem; $|E|=\binom{|V|}{2}$; Knoten bilden eine Clique.
-    \item \textbf{Star Network:} Ein Zentralknoten verbunden mit allen anderen.
-    \item \textbf{Tree Network:} Genau ein Weg zwischen je zwei Knoten; kreisfrei; $|V|=|E|+1$; alle Kanten Brücken.
-    \item \textbf{Ring Network:} Kreisförmig, jeder Knoten mit $k$ Nachbarn. Complete Network ist Spezialfall.
-    \item \textbf{Grid Network (Torus):} Schachbrettartig, horizontal und vertikal periodisch.
-    \item \textbf{Small-World Network:} Ring mit zufälligen Zusatzkanten -- kurze Pfade, hohe lokale Vernetzung.
-    \item \textbf{Power/Free-scale Network:} Wenige Hubs mit hohem Grad, viele mit geringem (Potenzgesetz).
-\end{itemize}
+\textbf{Satz von Kuratowski:} $G$ ist genau dann planar, wenn er weder $K_5$ (vollständiger Graph auf 5 Knoten) noch $K_{3,3}$ (vollständiger bipartiter Graph) als \textbf{Minor} enthält. Jedes $K_n$ mit $n\geq 5$ bzw.\ $K_{m,n}$ mit $m,n\geq 3$ ist nicht planar.
 
-\textbf{Wurzelbäume:} Tree Network mit ausgezeichnetem Knoten (Wurzel). Terminologie: Vorgänger/Vater, Nachfolger/Sohn. Binärkodierung: 1 = Abstieg, 0 = Aufstieg; hexadezimal darstellbar.
+\textbf{Merke:} Bipartit $\not\Rightarrow$ planar (z.B.\ $K_{3,3}$); planar $\not\Rightarrow$ bipartit (z.B.\ $K_4$ -- planar, aber nicht bipartit da ungerade Kreise).
 
-\textbf{Merke:} Bipartit $\not\Rightarrow$ planar; planar $\not\Rightarrow$ bipartit.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{assets/bipartit_planar.png}
+\end{figure}
 
 \newpage
