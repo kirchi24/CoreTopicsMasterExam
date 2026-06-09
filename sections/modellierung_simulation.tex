@@ -4,6 +4,8 @@
 
 \definition{Eine \textbf{Hypothese} ist eine allgemeingültige Annahme über Sachverhalte, die eine Beziehung zwischen $\geq 2$ Variablen formuliert. Sie muss als \emph{Konditionalsatz} ("Wenn--dann"/"Je--desto") vorliegen und muss (zumindest potentiell) \textbf{falsifizierbar} sein -- zweiwertig (widerlegbar) oder graduell.}
 
+Eine Aussage ist \textbf{falsifizierbar}, wenn es prinzipiell möglich ist, sie durch eine Beobachtung oder ein Experiment zu widerlegen. Nicht falsifizierbare Aussagen (z.\,B.\ \emph{,,Morgen regnet es oder es regnet nicht''}) sind tautologisch und damit wissenschaftlich wertlos. Beispiel: \emph{,,Wenn die Temperatur steigt, nimmt der Energieverbrauch ab''} ist falsifizierbar -- ein einziger Gegenfall (steigende Temperatur, steigender Verbrauch) würde die Hypothese widerlegen.
+
 \definition{Eine \textbf{Theorie} ist eine Vernetzung von gut bewährten Hypothesen. Mit zunehmendem Grad ihrer Bewährung erlangt sie den Charakter einer \emph{Gesetzmäßigkeit}.}
 
 \textbf{Variable vs.\ Parameter:}
@@ -60,7 +62,7 @@
     \item \textbf{Negativer Kreislauf}: Produkt aller Vorzeichen ist negativ $\Rightarrow$ \emph{selbstregulierend/stabilisierend}
 \end{itemize}
 
-\definition{Die \textbf{Wirkungsmatrix} $W$ stellt den Wirkungsgraphen kompakt dar: $w_{i,j}$ gibt Wirkungsintensität von Knoten $j$ auf $i$ an.}
+\definition{Die \textbf{Wirkungsmatrix} $W$ stellt den Wirkungsgraphen kompakt dar: $w_{i,j}$ gibt Wirkungsintensität von Knoten $j$ auf $i$ an. Die Wirkungsmatrix ist die transponierte Adjazenzmatrix für gerichtete Graphen.}
 
 \textbf{Graphentheoretische Eigenschaften:}
 \begin{itemize}[leftmargin=1.5em]
@@ -68,6 +70,11 @@
     \item \textbf{Parallele Bögen}: Mehrere gleichgerichtete Bögen zwischen zwei Knoten (zu vermeiden)
     \item \textbf{Schlichtheit}: Graph ohne Schlingen und parallele Bögen
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/effect_matrix.png}
+\end{figure}
 
 \newpage
 
@@ -82,18 +89,34 @@
 
 \textbf{Aggregiert vs.\ individuell:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textit{Aggregiert}: statistische Mittelwerte (z.\,B.\  System Dynamics)
-    \item \textit{Individuell}: Schlüsselaktöre explizit modelliert (z.\,B.\  agentenbasiert)
+    \item \textit{Aggregiert}: statistische Mittelwerte (z.\,B.\  System Dynamics) -- die Bevölkerung als Ganzes, nicht einzelne Personen
+    \item \textit{Individuell}: Schlüsselaktöre explizit modelliert (z.\,B.\  agentenbasiert) -- vgl.\ Agenten-basierte Modellierung
 \end{itemize}
 
 \textbf{Linear vs.\ nichtlinear:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textit{Homogen linear}: $f(\vec{x}) = A \cdot \vec{x}$ (analytisch lösbar)
-    \item \textit{Inhomogen linear}: $f(\vec{x}) = A \cdot \vec{x} + \vec{b}$ (gut handhabbar)
+    \item \textit{Inhomogen linear}: $f(\vec{x}) = A \cdot \vec{x} + \vec{b}$ (gut handhabbar; im Vgl.\ zu homogen geht die Proportionalität verloren)
     \item \textit{Nichtlinear}: numerisch/simulativ lösbar
 \end{itemize}
 
-\textbf{Zeitkontinuierlich vs.\ zeitdiskret} | \textbf{Wertkontinuierlich vs.\ wertdiskret} | \textbf{Raumkontinuierlich vs.\ raumdiskret}
+\textbf{Zeitkontinuierlich vs.\ zeitdiskret:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textit{Zeitkontinuierlich}: Zustände sind zu \emph{jedem} beliebigen Zeitpunkt $t \in \mathbb{R}$ definiert und messbar -- typisch für Differentialgleichungsmodelle (z.\,B.\ System Dynamics).
+    \item \textit{Zeitdiskret}: Zustände sind nur zu bestimmten diskreten Zeitpunkten $k \in \mathbb{N}$ (oder $\mathbb{Z}$) definiert -- typisch für Differenzengleichungen, Markow-Ketten und digitale Regelungen.
+\end{itemize}
+
+\textbf{Wertkontinuierlich vs.\ wertdiskret:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textit{Wertkontinuierlich}: Zustände können jeden beliebigen reellen Wert annehmen, z.\,B.\ $z(t) \in \mathbb{R}$ -- typisch für physikalische Größen wie Temperatur oder Druck.
+    \item \textit{Wertdiskret}: Zustände können nur bestimmte diskrete Werte annehmen, z.\,B.\ $z_k \in \mathbb{N}$ -- typisch für Personenzählungen, Zustandsautomaten oder Warteschlangenmodelle.
+\end{itemize}
+
+\textbf{Raumkontinuierlich vs.\ raumdiskret:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textit{Raumkontinuierlich}: Modellgrößen sind an \emph{jedem} Koordinatenpunkt definiert, z.\,B.\ $\mathbb{R}^2$ oder $\mathbb{R}^3$ -- typisch für partielle Differentialgleichungen (Strömungssimulation, Wärmeleitung).
+    \item \textit{Raumdiskret}: Modellgrößen sind nur an bestimmten Gitterpunkten definiert, z.\,B.\ $\mathbb{Z}^2$ -- typisch für zelluläre Automaten oder Finite-Elemente-Diskretisierungen.
+\end{itemize}
 
 \textbf{Deterministisch vs.\ stochastisch:}
 \begin{itemize}[leftmargin=1.5em]
@@ -101,17 +124,10 @@
     \item \textit{Stochastisch}: Wahrscheinlichkeitsmodellierung (z.\,B.\  Monte-Carlo)
 \end{itemize}
 
-\textbf{Wahrscheinlichkeit (Kolmogorov):} $P: \mathcal{A} \to [0,1]$ mit $P(\emptyset)=0$, $P(\Omega)=1$, $P(X \cup Y) = P(X) + P(Y)$ für $X \cap Y = \emptyset$.
-
-\textbf{Ungleichung von Tschebyscheff:}
-\[
-P(|x - \mu| \geq k\sigma) \leq \frac{1}{k^2}
-\]
-
 \textbf{Spezielle Parameter-Eigenschaften:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Numerisch vs.\ nicht-numerisch}: quantifizierbar vs.\ nicht quantifizierbar
-    \item \textbf{Konstant vs.\ zeitvariant}: $a$ vs.\ $a(t)$
+    \item \textbf{Numerisch vs.\ nicht-numerisch}: quantifizierbar (Geschwindigkeit, Temperatur) vs.\ nicht quantifizierbar (Emotionen, Farben)
+    \item \textbf{Konstant vs.\ zeitvariant}: $a$ vs.\ $a(t)$ -- über die Zeit konstant vs.\ ändert sich über die Zeit
     \item \textbf{Realparameter vs.\ Anpassung}: realer vs.\ gefitteter Parameterwert
 \end{itemize}
 
@@ -128,6 +144,12 @@ P(|x - \mu| \geq k\sigma) \leq \frac{1}{k^2}
 \vec{p}_k = A^k \cdot \vec{p}_0
 \]
 wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nicht} aus dem Kern entstammen, insbesondere $\vec{p}_0 \neq \vec{0}$). Kern: $\ker(A) = \{\vec{p} \in \mathbb{R}^n : A\vec{p} = \vec{0}\}$.
+
+\textbf{Zusammenhang Kern und Eigenwerte:} Der Kern von $A$ ist genau dann nicht-trivial ($\ker(A) \neq \{\vec{0}\}$), wenn $\lambda = 0$ ein Eigenwert von $A$ ist -- denn:
+\[
+A\vec{p} = \vec{0} = 0 \cdot \vec{p} \quad \Leftrightarrow \quad \vec{p} \text{ ist Eigenvektor zum Eigenwert } \lambda = 0.
+\]
+Ist $\lambda = 0$ ein Eigenwert, so ist $\det(A) = \prod_i \lambda_i = 0$, d.\,h.\ $A$ ist singulär. Startvektoren aus $\ker(A)$ ergeben $\vec{p}_1 = A \cdot \vec{p}_0 = \vec{0}$ und damit den trivialen (uninteressanten) Nullvektor für alle $k \geq 1$.
 
 \definition{Ein Pulsmodell ist \textbf{pulsstabil}, wenn alle Eigenwerte im Betrag $\leq 1$ sind: $\forall i: |\lambda_i(A)| \leq 1$. Der \textbf{Spektralradius} $\rho(A) = \max_i |\lambda_i(A)|$ ist der Radius des kleinsten Kreises, der alle Eigenwerte enthält (Gaußscher Zahlenebene).}
 
@@ -153,6 +175,11 @@ wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nic
 \mathrm{Spur}(A) = \sum_i \lambda_i, \quad \det(A) = \prod_i \lambda_i
 \]
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/effect_matrix_stability.png}
+\end{figure}
+
 \newpage
 
 \subsection{Diskrete Markow-Ketten}
@@ -167,10 +194,16 @@ wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nic
 \]
 wobei $\vec{g}^{(0)}$ die Startverteilung ist ($\sum_i g_i = 1$).
 
-\definition{Die \textbf{stationäre Verteilung} ist der normierte Eigenvektor zum Eigenwert $\lambda = 1$:}
+\definition{Die \textbf{stationäre Verteilung} ist der normierte Eigenvektor zum Eigenwert $\lambda = 1$ (auf Summe = 1 normiert, damit die Elemente Wahrscheinlichkeiten sind):}
 \[
 P \cdot \vec{\zeta} = \vec{\zeta} \quad \Rightarrow \quad \lim_{k \to \infty} P^k \cdot \vec{g}^{(0)} = \vec{\zeta}
 \]
+
+\textbf{Fixpunkte und stationäre Verteilung:} Die stationäre Verteilung $\vec{\zeta}$ ist ein \textbf{Fixpunkt} der Markow-Kette, d.\,h.\ eine einmal erreichte Verteilung ändert sich nicht mehr:
+\[
+f(\vec{\zeta}) = P \cdot \vec{\zeta} = \vec{\zeta}.
+\]
+Dies folgt direkt aus der Eigenwertgleichung $A \cdot \vec{e} = \lambda \cdot \vec{e}$: Für $\lambda = 1$ gilt $P \cdot \vec{\zeta} = 1 \cdot \vec{\zeta} = \vec{\zeta}$ -- der Eigenvektor zum Eigenwert 1 \emph{ist} per Definition ein Fixpunkt. Allgemein gilt: Jeder Eigenvektor zu $\lambda = 1$ definiert einen Fixpunkt; bei mehrfachem Eigenwert $1$ (unzusammenhängender Graph) existieren mehrere linear unabhängige Fixpunkte, und die langfristige Verteilung hängt dann von der Startverteilung $\vec{g}^{(0)}$ ab.
 
 \textbf{Sonderfälle:}
 \begin{itemize}[leftmargin=1.5em]
@@ -181,6 +214,11 @@ P \cdot \vec{\zeta} = \vec{\zeta} \quad \Rightarrow \quad \lim_{k \to \infty} P^
 \textbf{Berechnung der stationären Verteilung:} (1) Eigenwerte von $P$, (2) Eigenvektor zu $\lambda = 1$, (3) Normalisierung: $\vec{\zeta}_{\mathrm{norm}} = \frac{\vec{\zeta}}{\sum_i \zeta_i}$.
 
 \textbf{Unterschied zu Pulsmodellen:} Bei stochastischen Matrizen sind die \emph{Spaltensummen} gleich 1 (normiert), bei Pulsmodellen nicht. Iterationsvorschrift ist formal identisch.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/markow_chain.png}
+\end{figure}
 
 \newpage
 
@@ -210,6 +248,11 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
 
 \textbf{Unterschied SD vs.\ allgemeine Systemtheorie:} SD modelliert keine explizite Systemumgebung -- alle Einflüsse werden als Teil des Modells behandelt. Trajektorien in autonomen SD-Modellen können sich niemals schneiden.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/system_dynamics_representation.png}
+\end{figure}
+
 \newpage
 
 \subsection{Zustandsräume, Zustandsvektoren, Trajektorien und Attraktoren}
@@ -234,20 +277,24 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
 
 \definition{\textbf{Separatrizen} trennen Regionen unterschiedlichen Verhaltens und verlaufen durch Repelloren (stabile und instabile Mannigfaltigkeit). \textbf{Bifurkationen} treten auf, wenn eine Parameteränderung qualitativ anderes Verhalten ergibt -- z.\,B.\ Übergang von Punktattraktor zu Grenzzyklus.}
 
-\definition{\textbf{Ljapunov-Stabilität:} Ein Gleichgewichtspunkt $\vec{z}^*$ heißt textbf{stabil im Sinne von Ljapunov}, wenn Trajektorien, die nahe bei $\vec{z}^*$ starten, in dessen Nähe bleiben:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/system_dynamics_bifurkation.png}
+\end{figure}
 
-\[
-\forall\,\varepsilon > 0\;\exists\,\delta > 0:\;
-\|\vec{z}(0) - \vec{z}^*\| < \delta
-\;\Rightarrow\;
-\|\vec{z}(t) - \vec{z}^*\| < \varepsilon \quad \forall\, t \geq 0
-\]
+\newpage
 
-Er heißt \textbf{asymptotisch stabil}, wenn er zusätzlich anzieht: $\lim_{t\to\infty}\vec{z}(t) = \vec{z}^*$. Er heißt \textbf{instabil}, wenn er nicht einmal Ljapunov-stabil ist.}
+\textbf{Zusammenhang Attraktoren und Stabilität:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Punktattraktor} $\leftrightarrow$ \textit{asymptotisch stabiler Gleichgewichtspunkt}: alle benachbarten Trajektorien konvergieren gegen diesen Punkt ($\mathrm{Re}(\lambda_i) < 0$ für alle $\lambda_i$ bei LTI-Systemen).
+    \item \textbf{Repellor} $\leftrightarrow$ \textit{instabiler Gleichgewichtspunkt}: Trajektorien entfernen sich -- kleinste Störung führt zum Verlassen des Punktes ($\mathrm{Re}(\lambda_i) > 0$ für mind.\ ein $\lambda_i$).
+    \item \textbf{Grenzzyklus} $\leftrightarrow$ \textit{Grenzstabilität}: Trajektorien laufen auf eine geschlossene Kurve zu, ohne zu konvergieren oder zu divergieren.
+    \item \textbf{Seltsamer Attraktor} $\leftrightarrow$ \textit{deterministisches Chaos}: trotz deterministischem Modell starke Sensitivität gegenüber Anfangsbedingungen (positiver Lyapunov-Exponent).
+    \item \textbf{Separatrizen} verlaufen durch Repelloren und trennen die Einzugsbereiche (\emph{Bassins}) verschiedener Attraktoren.
+\end{itemize}
 
-\textbf{Zusammenhang Attraktoren und Stabilität:} Punktattraktoren entsprechen asymptotisch stabilen Gleichgewichtspunkten. Grenzzyklen sind stabil im Sinne von Ljapunov, aber kein Gleichgewichtspunkt. Repelloren entsprechen instabilen Gleichgewichtspunkten. asymptotisch stabilen Gleichgewichtspunkten. Grenzzyklen sind stabil im Sinne von Ljapunov, aber kein Gleichgewichtspunkt. Repelloren entsprechen instabilen Systemzustand die zukünftige Dynamik eindeutig bestimmt.
+\subsection{Dynamische lineare Systeme}
 
-\subsection{Dynamische lineare Systeme} 
 \definition{Ein \textbf{dynamisches System} wird formal beschrieben durch die
 \textbf{Zustandsgleichung} und \textbf{Verhaltensgleichung}:}
 \[
@@ -309,3 +356,21 @@ vollen Spaltenrang hat: $\mathrm{rank}(\mathcal{O}) = n$. Interpretation: Der in
 \end{itemize}
 
 \textit{Hinweis:} LTI-Theorie ist grundlegend für Regelungstechnik und lineare Pulsmodelle. SD modelliert keine explizite Systemumgebung.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/common_math_formulation_lin_sys_1.png}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/common_math_formulation_lin_sys_2.png}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/common_math_formulation_lin_sys_3.png}
+\end{figure}
