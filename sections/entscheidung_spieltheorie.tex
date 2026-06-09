@@ -4,6 +4,14 @@
 
 \definition{Die \textbf{schwache Präferenzrelation} $\succsim$ besagt: Akteur beurteilt Güterbündel $\vec{x}$ \emph{keinesfalls schlechter} als $\vec{y}$ ("mindestens so gut wie"). Es gilt $\vec{x}, \vec{y} \in X$, wobei $X$ die Menge aller Güterbündel ist.}
 
+In Worten: Ein \emph{Güterbündel} ist eine konkrete Zusammenstellung von Gütern oder Eigenschaften -- z.\,B.\ $(3\text{ Bier},\, 2\text{ Wein})$ als Vektor. Die schwache Präferenzrelation $\vec{x} \succsim \vec{y}$ drückt aus, dass der Akteur $\vec{x}$ \emph{mindestens so gern hat} wie $\vec{y}$ -- er könnte $\vec{x}$ vorziehen oder zwischen beiden indifferent sein, aber er hält $\vec{y}$ keinesfalls für besser.
+
+\textbf{Beispiel:} Akteur A präferiert sowohl $\vec{x}$ als auch $\vec{y}$ gegenüber $\vec{z}$, und zwischen $\vec{x}$ und $\vec{y}$ besteht Indifferenz. Dann gilt:
+\[
+\succsim_A:\; \vec{x}\succsim\vec{z}\;\wedge\;\vec{y}\succsim\vec{z}\;\wedge\;\vec{x}\succsim\vec{y}\;\wedge\;\vec{y}\succsim\vec{x}.
+\]
+Das Symbol $\succsim$ tritt dabei in zwei Bedeutungen auf: als \emph{schwache Präferenzrelation} (z.\,B.\ $\vec{x}\succsim\vec{z}$) und als \emph{Präferenzordnung eines Akteurs} (z.\,B.\ $\succsim_A$).
+
 \textbf{Abgeleitete Relationen:}
 \[
 \vec{x} \succ \vec{y} \;\Leftrightarrow\; \vec{x} \succsim \vec{y} \;\wedge\; \neg(\vec{y} \succsim \vec{x}) \quad \text{(strikte Präferenz)}
@@ -11,6 +19,8 @@
 \[
 \vec{x} \sim \vec{y} \;\Leftrightarrow\; \vec{x} \succsim \vec{y} \;\wedge\; \vec{y} \succsim \vec{x} \quad \text{(Indifferenz)}
 \]
+
+In Worten: \textbf{Strikte Präferenz} ($\vec{x} \succ \vec{y}$) bedeutet, dass $\vec{x}$ zwar mindestens so gut wie $\vec{y}$ ist, aber $\vec{y}$ \emph{nicht} mindestens so gut wie $\vec{x}$ -- der Akteur zieht $\vec{x}$ eindeutig vor. \textbf{Indifferenz} ($\vec{x} \sim \vec{y}$) bedeutet, dass beide Richtungen der schwachen Präferenz gleichzeitig gelten -- der Akteur ist zwischen $\vec{x}$ und $\vec{y}$ gleichgültig, hat beides gleich gern.
 
 \definition{Eine Präferenzordnung ist \textbf{rational}, wenn sie \textbf{vollständig} und \textbf{transitiv} ist:}
 \[
@@ -20,6 +30,8 @@
 \forall \vec{x},\vec{y},\vec{z}\in X: \vec{x}\succsim\vec{y} \wedge \vec{y}\succsim\vec{z} \Rightarrow \vec{x}\succsim\vec{z} \quad \text{(Transitivität)}
 \]
 
+In Worten: \textbf{Vollständigkeit} verlangt, dass ein Akteur je zwei Güterbündel stets vergleichen kann -- er muss sich für eines entscheiden oder Indifferenz feststellen, aber er darf nicht ratlos sein. \textbf{Transitivität} verlangt logische Konsistenz der Präferenzen: Wer $\vec{x}$ mindestens so gern mag wie $\vec{y}$ und $\vec{y}$ mindestens so gern wie $\vec{z}$, muss auch $\vec{x}$ mindestens so gern mögen wie $\vec{z}$. Ein einziger Gegenfall reicht, um Nicht-Transitivität zu zeigen; für Nicht-Vollständigkeit genügt ein Paar, für das weder $\vec{x}\succsim\vec{y}$ noch $\vec{y}\succsim\vec{x}$ gilt. Zwei Extremfälle: \emph{vollständige Indifferenz} (alles gleich lieb, stets transitiv) und \emph{eindeutige Präferenz} (keine Indifferenz, aber trotzdem möglicherweise nicht vollständig).
+
 \textit{Hinweis:} Zum Prüfen der \emph{Nicht}-Transitivität genügt \emph{ein} Gegenbeispiel. Für Nicht-Vollständigkeit: Paar finden, für das weder $\vec{x}\succsim\vec{y}$ noch $\vec{y}\succsim\vec{x}$ gilt.
 
 \textbf{Weitere Eigenschaften:}
@@ -27,6 +39,12 @@
     \item \textbf{Konvexität}: $\vec{x}\succsim\vec{z} \wedge \vec{y}\succsim\vec{z} \Rightarrow \lambda\vec{x}+(1-\lambda)\vec{y}\succsim\vec{z}$ (für alle $\lambda\in[0,1]$)
     \item \textit{Sonderfall}: Vollständige Indifferenz (alle gleich lieb, immer transitiv) oder eindeutige Präferenz (keine Indifferenz)
 \end{itemize}
+
+\textbf{Zusammenhang der abgeleiteten Präferenzordnungen:} Aus $\succsim_A$ lassen sich die Präferenzordnungen $\succ_A$ (strikte Präferenz) und $\sim_A$ (Indifferenz) ableiten. Es gilt:
+\[
+{\succsim_A} = {\succ_A} \cup {\sim_A},
+\]
+denn jede schwache Präferenz ist entweder eine strikte Präferenz \emph{oder} eine Indifferenz -- beides zusammen erschöpft die Relation vollständig. In Mengenschreibweise: $R_A = P_A \cup I_A$.
 
 \textbf{Alternative Darstellungen:}
 \begin{itemize}[leftmargin=1.5em]
@@ -56,7 +74,7 @@ x \succ y \Leftrightarrow v(x) > v(y), \quad x \sim y \Leftrightarrow v(x) = v(y
     \item \textbf{Risikofreude}: $\mathrm{EU}[\mathrm{EW}] > v[\mathrm{EW}]$ $\Rightarrow$ $v$ streng konvex, $v'' > 0$
 \end{itemize}
 
-\definition{\textbf{Sicherheitssäquivalent} $S = v^{-1}(\mathrm{EU}[\mathrm{EW}])$: jener sichere Betrag, gegenüber dem Akteur indifferent zur Lotterie. \textbf{Sicherheitspämie} $\mathrm{SP} = \mathrm{EW} - S$: Betrag zur Vermeidung des Risikos (risikoavers).}
+\definition{\textbf{Sicherheitsäquivalent} $S = v^{-1}(\mathrm{EU}[\mathrm{EW}])$: jener sichere Betrag, gegenüber dem Akteur indifferent zur Lotterie. \textbf{Sicherheitsprämie} $\mathrm{SP} = \mathrm{EW} - S$: Betrag zur Vermeidung des Risikos (risikoavers).}
 
 \definition{\textbf{Prospect Theory}} (Kahneman \& Tversky, 1979): Deskriptive Theorie, empirisch fundiert. Referenzpunkt: $x = 0$.
 \[
@@ -64,11 +82,54 @@ v(x) = \begin{cases} x^{0.88} & \text{wenn } x \geq 0 \\ -2{,}25\cdot(-x)^{0.88}
 \]
 Konkav für Gewinne, konvex für Verluste; Verlustkurve steiler (Faktor 2,25). Gewichtungsfunktion korrigiert Wahrscheinlichkeitsverzerrung (Unterschätzung hoher, Überschätzung niedriger Risiken).
 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/bernoulli_utility_function.png}
+\end{figure}
+
 \newpage
 
 \subsection{Lösungskonzepte bei Risiko}
 
 \textit{Rahmenbedingung:} Eintrittswahrscheinlichkeiten der Umweltzustände sind \emph{bekannt}. Alle Konzepte erfordern \emph{intervall-skalierte} Ergebnismatrizen.
+
+\textbf{Überblick der Konzepte bei Risiko:}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{3.2cm} p{5.5cm} p{4.5cm}}
+\hline
+\textbf{Konzept} & \textbf{Idee / Bewertungsfunktion} & \textbf{Kritik} \\
+\hline
+$\mu$-Regel (Bayes) & $L_\mu(A_i) = \sum_j e(A_i;U_j)\cdot w_j$; höchster EW gewinnt & Risikoneutralität unterstellt; Risiko ignoriert \\
+\hline
+$\mu$-$\sigma$-Regel & $L_{\mu\sigma}(A_i) = \mu(A_i) + q\cdot\sigma(A_i)$; $q<0$ risikoavers & Kann gegen Dominanzprinzip verstoßen \\
+\hline
+Bernoulli-Prinzip & $L_{\mathrm{EU}}(A_i) = \sum_j v(e(A_i;U_j))\cdot w_j$; Nutzen statt Ergebnis & Negativwerte erfordern positiv-affine Transformation \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Zahlenbeispiel} (Ziel: Umsatzmaximierung, $v(x)=\sqrt{x}$, $q=-0{,}8$):
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lccccccc}
+\hline
+ & \multicolumn{3}{c}{\textbf{Ergebnis}} & $L_\mu$ & $L_{\mu\sigma}$ & $L_{\mathrm{EU}}$ \\
+ & Flaute ($w=0{,}2$) & Normal ($w=0{,}7$) & Hochkonj.\ ($w=0{,}1$) & & ($q=-0{,}8$) & ($v=\sqrt{\cdot}$) \\
+\hline
+$A_1$ & 100 & 50 & 30 & 51{,}0 & 36{,}49 & 7{,}05 \\
+$A_2$ & 300 & 40 & 0  & 58{,}0 & 7{,}76  & 6{,}16 \\
+$A_3$ & 50  & 50 & 50 & 50{,}0 & 50{,}00 & 7{,}07 \\
+\hline
+\multicolumn{4}{l}{\textbf{Optimum}} & $A_2$ & $A_3$ & $A_3$ \\
+\hline
+\end{tabular}
+\end{table}
+
+Die drei Konzepte können zu unterschiedlichen Entscheidungen führen. $A_2$ hat den höchsten Erwartungswert, ist aber bei Risikoaversion unattraktiv ($\sigma$ hoch). $A_3$ ist risikolos (konstante Auszahlung), daher Favorit bei $\mu$-$\sigma$ und Bernoulli.
 
 \definition{Die \textbf{$\mu$-Regel} (Erwartungswert-Regel / Bayes-Prinzip):}
 \[
@@ -91,7 +152,7 @@ Standardverfahren der Mikroökonomie. Typischerweise: $v(x) = \sqrt{x}$ (risikoa
 \textbf{Dominierte Alternativen:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Stark dominiert}: andere Alternative bringt in \emph{jedem} Umweltzustand \emph{strikt} besseres Ergebnis
-    \item \textbf{Schwach dominiert}: zumindest gleiches, in mind. einem besser
+    \item \textbf{Schwach dominiert}: zumindest gleiches, in mind.\ einem besser
     \item Können für \emph{jeden} Akteur eliminiert werden
 \end{itemize}
 
@@ -100,6 +161,46 @@ Standardverfahren der Mikroökonomie. Typischerweise: $v(x) = \sqrt{x}$ (risikoa
 \subsection{Lösungskonzepte bei Unsicherheit}
 
 \textit{Rahmenbedingung:} Eintrittswahrscheinlichkeiten sind \emph{nicht bekannt} (nur: $P(U_j) > 0$ für alle angeführten Zustände).
+
+\textbf{Überblick der Konzepte bei Unsicherheit:}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{3.0cm} p{5.5cm} p{4.5cm}}
+\hline
+\textbf{Konzept} & \textbf{Idee / Bewertungsfunktion} & \textbf{Kritik} \\
+\hline
+Laplace & Gleiche WSK: $L_L(A_i)=\frac{1}{J}\sum_j e(A_i;U_j)$ & Anzahl der Umweltzustände beeinflusst Lösung \\
+\hline
+Maximin (Wald) & $\max_i \min_j e(A_i;U_j)$; bestes Worst-Case & Extrem pessimistisch; nur Minimum zählt \\
+\hline
+Maximax & $\max_i \max_j e(A_i;U_j)$; bestes Best-Case & Extrem optimistisch; nur Maximum zählt \\
+\hline
+Hurwicz & $\lambda\cdot\max_j e + (1-\lambda)\cdot\min_j e$ & Nur Extremwerte berücksichtigt \\
+\hline
+Savage-Niehans & $\min_i \max_j (\max_k e(A_k;U_j) - e(A_i;U_j))$ & Nicht unabhängig von irrelevanten Alternativen \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Zahlenbeispiel} (Ziel: Umsatzmaximierung, $\lambda=0{,}2$ für Hurwicz):
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccccc}
+\hline
+ & Hochkonj. & Normal & Flaute & $L_L$ & $L_{\min}$ & $L_{\max}$ & $L_{\mathrm{OP}}$ & $L_{\mathrm{SN}}$ \\
+\hline
+$A_1$ & 100 & 50 & 30 & 60{,}0 & 30 & 100 & 44 & 200 \\
+$A_2$ & 300 & 40 & 0  & 113{,}3 & 0 & 300 & 60 & 50 \\
+$A_3$ & 50  & 50 & 50 & 50{,}0 & 50 & 50  & 50 & 250 \\
+\hline
+\textbf{Optimum} & & & & $A_2$ & $A_3$ & $A_2$ & $A_2$ & $A_2$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\textit{Hinweis zur Savage-Niehans-Bedauernsmatrix:} Spaltenmaximum je Umweltzustand: Hochkonj.\,300, Normal\,50, Flaute\,50. Bedauernswerte: $A_1$: $\max(200,0,20)=200$; $A_2$: $\max(0,10,50)=50$; $A_3$: $\max(250,0,0)=250$. Daher $A_2^*$.
 
 \definition{Die \textbf{Laplace-Regel}: Vereinfacht gleiche Wahrscheinlichkeiten für alle $J$ Umweltzustände:}
 \[
@@ -133,7 +234,37 @@ L_{\mathrm{SN}}(A_i) = \max_j\!\left(\max_k e(A_k;U_j) - e(A_i;U_j)\right) \quad
 
 \subsection{Statische Spiele bei vollständiger Information}
 
-\definition{\textbf{Spiel in Normalform} $G = \{N, S, U\}$: $(N)$ Spielerraum mit $n = |N|$ Spielern, $(S)$ Strategiemengen (kartesisches Produkt), $(U)$ Auszahlungsraum mit $u_i: S \to \mathbb{R}$. \textbf{Statisches Spiel}: Spieler wählen Strategien \emph{gleichzeitig}}
+\textbf{Elementare spieltheoretische Grundbegriffe:}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Spieler / Spielerraum} $N$: Menge der Entscheidungsträger in einer strategischen Situation. $n = |N|$ bezeichnet die Anzahl der Spieler. Im Gefangenendilemma: $N = \{1, 2\}$.
+    \item \textbf{Strategiemenge} $S_i$: Menge aller Strategien, die Spieler $i$ zur Verfügung stehen. Im Gefangenendilemma: $S_1 = S_2 = \{\text{gestehen},\, \text{nicht gestehen}\}$.
+    \item \textbf{Menge aller Strategiemengen} $\Sigma$: Kollektion aller Strategiemengen aller Spieler. Im Gefangenendilemma: $\Sigma = \{S_1, S_2\}$.
+    \item \textbf{Strategie} $s_i$: Ein konkretes Element aus $S_i$ -- die vom Spieler gewählte Handlungsoption.
+    \item \textbf{Strategiekombination} $s$: Ein Tupel der von allen Spielern gewählten Strategien, z.\,B.\ $s = (s_1', s_2') = (\text{gestehen}, \text{gestehen})$. Tupel sind \emph{geordnet} -- Reihenfolge der Spieler ist festgelegt.
+    \item \textbf{Strategieraum} $S$: Menge aller möglichen Strategiekombinationen; kartesisches Produkt aller Strategiemengen:
+    \[
+    S = S_1 \times S_2 \times \cdots \times S_n, \quad |S| = |S_1| \cdot |S_2| \cdots |S_n|.
+    \]
+    \item \textbf{Auszahlungsfunktion} $u_i(s)$: Ordnet jeder Strategiekombination $s \in S$ eine Auszahlung (,,Payoff'') zu: $u_i: S \to \mathbb{R}$. Im Gefangenendilemma z.\,B.: $u_1(\text{gestehen}, \text{gestehen}) = -8\,\text{Jahre}$.
+    \item \textbf{Auszahlungsraum} $U$: Menge aller Auszahlungsfunktionen der Spieler; als vektorwertige Funktion $U: S \to \mathbb{R}^n$.
+\end{itemize}
+
+\textbf{Vollständige vs.\ unvollständige Information:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textit{Vollständige Information}: Allen Spielern sind das gesamte Spiel $G$ und insbesondere der Auszahlungsraum $U$ für \emph{alle} Spieler bekannt.
+    \item \textit{Unvollständige Information}: Mindestens einem Spieler ist der Auszahlungsraum $U$ nicht vollständig bekannt.
+\end{itemize}
+
+\textbf{Statische vs.\ dynamische Spiele:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textit{Statisches Spiel}: Spieler wählen ihre Strategien \emph{gleichzeitig} -- oder zu verschiedenen Zeitpunkten, ohne dass die Wahl eines Spielers dem anderen \emph{vor} dessen Entscheidung bekannt ist.
+    \item \textit{Dynamisches Spiel}: Spieler wählen ihre Strategien \emph{sequenziell}; mindestens einem nachfolgenden Spieler ist mindestens eine vorangegangene Aktion eines anderen Spielers bekannt. Nicht die bloße zeitliche Reihenfolge, sondern die \emph{Information} über frühere Züge ist entscheidend.
+\end{itemize}
+
+\textit{Hinweis:} Diskrete Spiele haben für jeden Spieler eine \emph{endliche} Anzahl möglicher Strategien; bei kontinuierlichen Spielen verfügt mindestens ein Spieler über unendlich viele reine Strategien.
+
+\definition{\textbf{Spiel in Normalform} $G = \{N, S, U\}$: $(N)$ Spielerraum mit $n = |N|$ Spielern, $(S)$ Strategiemengen (kartesisches Produkt), $(U)$ Auszahlungsraum mit $u_i: S \to \mathbb{R}$.}
 
 \definition{\textbf{GK 1 -- Nash-Gleichgewicht in dominanten Strategien} (ordinal-skaliert): Strategie $s_i'$ \textbf{stark dominiert} $s_i''$, wenn $u_i(s_i',s_{-i}) > u_i(s_i'',s_{-i})$ für alle $s_{-i}$. Wenn jeder Spieler eine dominante Strategie hat: Nash-Gleichgewicht (eindeutig, Spezialfall reines NGG).}
 
@@ -225,7 +356,7 @@ Kooperation ist als TSP-NGG in $G(\infty, \delta)$ implementierbar, wenn kein Sp
 4\delta \;\geq\; 2 \quad\Rightarrow\quad \boxed{\delta \;\geq\; \tfrac{1}{2}}
 \]
 
-\textit{Interpretation:} Wenn Spieler die Zukunft hinreichend gewichten ($\delta \geq \tfrac{1}{2}$), ist dauerhaftes Kooperieren im unendlich wiederholten Spiel ein TSP-NGG -- obwohl $(K,K)$ kein NGG des Einmalspiel $G$ ist. Für $\delta < \tfrac{1}{2}$ überwiegt der kurzfristige Abweichungsanreiz.
+\textit{Interpretation:} Wenn Spieler die Zukunft hinreichend gewichten ($\delta \geq \tfrac{1}{2}$), ist dauerhaftes Kooperieren im unendlich wiederholten Spiel ein TSP-NGG -- obwohl $(K,K)$ kein NGG des Einmalspiels $G$ ist. Für $\delta < \tfrac{1}{2}$ überwiegt der kurzfristige Abweichungsanreiz.
 
 \textbf{Allgemeine Formel (aus dem Skript):}
 \[
@@ -234,3 +365,71 @@ u^*_{\text{NGG}}} \;=\; \frac{5-3}{5-1} \;=\; \frac{2}{4} \;=\; \frac{1}{2} \che
 \]
 
 \newpage
+
+\subsection{Lösung von Spielen: Statisch, Dynamisch, Wiederholt -- Vergleich an einem Beispiel}
+
+Dieses Unterkapitel illustriert die drei Spieltypen am selben Grundspiel (Gefangenendilemma), um die unterschiedlichen Lösungskonzepte direkt vergleichen zu können.
+
+\textbf{Ausgangsmatrix (Einmalspiel $G$):}
+
+\[
+\begin{array}{c|cc}
+ & \text{Nicht gestehen (K)} & \text{Gestehen (D)} \\\hline
+\text{Nicht gestehen (K)} & (-1,\;-1) & (-10,\;0) \\
+\text{Gestehen (D)}       & (0,\;-10) & (-8,\;-8)
+\end{array}
+\]
+
+Auszahlungen in ,,Strafmaß'' (kleiner = besser für Spieler). Zur Vermeidung von Vorzeichenverwirrung: Das NGG ist $(D,D)$ mit $u^* = -8$ für beide.
+
+\medskip
+\textbf{1. Statisches Spiel -- GK 1 (dominante Strategien):}
+
+Für Spieler 1 ist ,,Gestehen'' (D) dominant: Unabhängig davon, was Spieler 2 tut, ist D stets besser (weniger Strafe). Ebenso für Spieler 2. Daher:
+\[
+s^* = (D, D), \quad u_1(s^*) = -8, \quad u_2(s^*) = -8.
+\]
+Obwohl $(K,K)$ für beide besser wäre ($-1$ statt $-8$), ist es kein NGG -- jeder Spieler hätte einen einseitigen Anreiz, auf D zu wechseln.
+
+\medskip
+\textbf{2. Dynamisches Spiel -- GK 4 (TSP-NGG via Rückwärtsinduktion):}
+
+Angenommen, Spieler 1 spielt zuerst (sichtbar für Spieler 2). Spielbaum (vereinfacht):
+\begin{itemize}[leftmargin=1.5em]
+    \item Spieler 1 wählt K oder D.
+    \item Spieler 2 beobachtet die Wahl und reagiert.
+\end{itemize}
+Rückwärtsinduktion: Bei jedem Entscheidungsknoten von Spieler 2 gilt: D dominiert K. Also spielt Spieler 2 stets D. Spieler 1 antizipiert dies und wählt ebenfalls D. Ergebnis:
+\[
+s^* = (D,\, D), \quad u_1(s^*) = -8, \quad u_2(s^*) = -8.
+\]
+Da $G$ ein eindeutiges NGG hat, ändert die Sequenzialität nichts am Ergebnis. Unglaubwürdige Drohungen (z.\,B.\ ,,Ich spiele K, wenn du D spielst'') werden durch Rückwärtsinduktion eliminiert.
+
+\medskip
+\textbf{3. Endlich wiederholtes Spiel $G(T)$ -- Rückwärtsinduktion:}
+
+Da $G$ ein \emph{eindeutiges} NGG $(D,D)$ hat (1. Feststellung), wird in \emph{jeder} Runde $(D,D)$ gespielt. Die Gesamtauszahlung beträgt $T \cdot (-8)$ für jeden Spieler -- Kooperation ist nicht stützbar.
+
+\medskip
+\textbf{4. Unendlich wiederholtes Spiel $G(\infty,\delta)$ -- Folk Theorem:}
+
+Mit der Grim-Trigger-Strategie (,,Kooperiere, solange der andere kooperiert; bestraf für immer bei Abweichung'') ist $(K,K)$ als TSP-NGG implementierbar, falls $\delta \geq \tfrac{1}{2}$ (siehe vorheriger Abschnitt). Die langfristige Auszahlung beträgt dann $\tfrac{-1}{1-\delta}$ statt $\tfrac{-8}{1-\delta}$ -- eine deutliche Verbesserung für beide Spieler.
+
+\medskip
+\textbf{Zusammenfassung:}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{4.0cm} p{3.5cm} p{4.5cm}}
+\hline
+\textbf{Spieltyp} & \textbf{Lösungskonzept} & \textbf{Ergebnis} \\
+\hline
+Statisch & Dominante Strategien (GK 1) & $(D,D)$, $u=-8$ \\
+Dynamisch & TSP-NGG / Rückwärtsinduktion (GK 4) & $(D,D)$, $u=-8$ \\
+Endlich wiederholt $G(T)$ & TSP-NGG, Rückwärtsinduktion & $(D,D)$ in jeder Runde \\
+Unendlich wiederholt $G(\infty,\delta\geq\frac{1}{2})$ & Folk Theorem / Grim Trigger & $(K,K)$ möglich, $u=-1$ \\
+\hline
+\end{tabular}
+\end{table}
+
+Der entscheidende Unterschied: Erst durch \emph{unendliche} Wiederholung mit hinreichend großem Diskontierungsfaktor kann Kooperation als rationales Gleichgewicht entstehen -- im Einmalspiel und im endlich wiederholten Spiel (bei eindeutigem NGG) dominiert stets das nicht-kooperative Ergebnis.
