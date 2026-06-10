@@ -356,7 +356,7 @@ Das menschliche Gehirn umfasst $\geq 10^{10}$ Neuronen mit je $\sim 1000$ Verbin
     \item \textbf{L2-Regularisierung} (Overfitting-Prävention): $\mathcal{L}_\text{tot} = \mathcal{L}_\text{data} + \lambda\sum_i w_i^2$
 \end{itemize}
 
-\textbf{Gradientenabstieg:} Gewichte werden iterativ in Richtung des negativen Gradienten aktualisiert:
+\textbf{Gradientenabstieg:} Gewichte iterativ in Richtung des negativen Gradienten aktualisieren:
 \[
 W \leftarrow W - \alpha\,\frac{\partial \mathcal{L}}{\partial W}
 \]
@@ -388,7 +388,7 @@ z^{(l)} = W^{(l)} h^{(l-1)} + b^{(l)}, \qquad h^{(l)} = \sigma(z^{(l)})
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.85\textwidth]{assets/backpropagation.png}
+    \includegraphics[width=0.80\textwidth]{assets/backpropagation.png}
 \end{figure}
 
 \newpage
