@@ -2,28 +2,28 @@
 
 \subsection{ABM/NetLogo}
 
-\definition{\textbf{Agenten-basierte Modellierung} (ABM) bedeutet die \textbf{disaggregierte} (d.\,h.\ auf der Ebene individueller Einheiten, nicht auf statistischen Aggregaten), meist erklärende und stochastische Formulierung eines komplexen Systems. Im Fokus stehen viele, abstrakt gleichartige, aber konkret heterogene Einheiten, die im Zusammenspiel \textbf{Emergenz} erzeugen -- also Phänomene auf Systemebene, die sich nicht direkt aus den Eigenschaften einzelner Agenten ableiten lassen (z.\,B.\ Staubildung aus individuellem Bremsverhalten).}
+\definition{\textbf{Agenten-basierte Modellierung} (ABM) bezeichnet die \textbf{disaggregierte}, meist erklärende und stochastische Modellierung komplexer Systeme auf Ebene einzelner Einheiten statt statistischer Aggregate. Viele heterogene Agenten interagieren und erzeugen dabei \textbf{Emergenz} -- also Systemeigenschaften, die nicht direkt aus dem Verhalten einzelner Agenten ableitbar sind (z.\,B.\ Staubildung durch individuelles Bremsverhalten).}
 
-\definition{\textbf{Agenten} sind Programme bzw.\ Programmteile, die ihre Umgebung (\textbf{Environment}) und andere Agenten wahrnehmen und abhängig von Wissen, Können, Zielen und innerem Zustand interagieren und Aktionen ausführen.}
+\definition{\textbf{Agenten} sind Programme bzw.\ Programmteile, die ihre Umgebung und andere Agenten wahrnehmen und abhängig von Wissen, Zielen und internem Zustand handeln.}
 
 \begin{table}[H]
 \centering
-\begin{tabular}{p{3.5cm} p{9cm}}
+\begin{tabular}{p{3.5cm} p{11cm}}
 \hline
 \textbf{Eigenschaft} & \textbf{Beschreibung} \\
 \hline
-Ontologische Repräsentanz & Direkte Entsprechung von Agenten zu realen Akteuren (Personen, Firmen, Staaten) oder Objekten (Bäume, Moleküle, Planeten) des Realsystems \\
-Heterogenität & Agenten unterscheiden sich in Dimensionen wie Alter, Risikoaversion, Wissensstand; Ausprägungen werden bei Simulationsstart per Zufallsverteilung initialisiert \\
-Eingeschränkte Rationalität & Agenten entscheiden basierend auf lokalen Informationen -- beliebiger Rationalitätsgrad modellierbar, kein vollkommen rationaler Akteur wie in der Spieltheorie \\
-Direkte Repr.\ des Environments & Die virtuelle Welt ist Teil des Modells (nicht außerhalb der Modellgrenze); enthält passive Objekte (Straßen, Barrieren), versorgt Agenten mit Ressourcen oder dient als Abfluss; Informationen können darin zwischengespeichert werden \\
-Lernende Agenten & \textit{Individuelles Lernen}: Erkenntnisse einzelner Agenten; \textit{Soziales Lernen}: Weitergabe an andere; \textit{Evolutionäres Lernen}: Erkenntnisse stehen ganzer Population zur Verfügung; auch Reinforcement Learning (Trial-and-Error) modellierbar \\
-Evolution & Reproduktion (neue Agenten entstehen), Variation/Mutation (neue Agenten unterscheiden sich), Selektion (unterschiedliche Überlebenswahrscheinlichkeiten) \\
+Ontologische Repräsentanz & Agenten entsprechen realen Akteuren (Personen, Firmen, Staaten) oder Objekten (Bäume, Moleküle) \\
+Heterogenität & Agenten unterscheiden sich z.\,B.\ in Alter, Wissen oder Risikoaversion; Eigenschaften werden oft zufällig initialisiert \\
+Eingeschränkte Rationalität & Entscheidungen basieren auf lokalen Informationen; beliebige Rationalitätsgrade modellierbar \\
+Direkte Repr.\ des Environments & Die Umwelt ist Teil des Modells und enthält Objekte, Ressourcen oder Informationsspeicher \\
+Lernende Agenten & Individuelles, soziales oder evolutionäres Lernen; auch Reinforcement Learning möglich \\
+Evolution & Reproduktion, Mutation und Selektion von Agenten \\
 \hline
 \multicolumn{2}{l}{\textit{Agenten-Eigenschaften nach Wooldridge \& Jennings (1995):}} \\
-Autonomy & Keine globale Steuerung -- Agenten agieren autonom basierend auf ihrer Programmierung \\
-Interact & Agenten kommunizieren und interagieren miteinander \\
-Reactivity & Reaktion auf Einflüsse aus der Umgebung \\
-Proactivity & Zielgesteuerte Eigeninitiative \\
+Autonomy & Autonomes Handeln ohne zentrale Steuerung \\
+Interact & Kommunikation und Interaktion mit anderen Agenten \\
+Reactivity & Reaktion auf Umweltveränderungen \\
+Proactivity & Eigeninitiative zur Zielerreichung \\
 \hline
 \end{tabular}
 \end{table}
@@ -193,9 +193,9 @@ Reproduktion & Touren pro Iteration & Keine (nur Bewegung) \\
 \newpage
 \subsection{Reinforcement Learning und MDPs}
 
-\definition{\textbf{Reinforcement Learning} (RL) ist ziel-orientiertes Trial-and-Error-Lernen durch Interaktion mit einer Umgebung. Aktionen liefern \textbf{Rewards}; das Ziel ist die Maximierung kumulierter Rewards. vs.\ SL: Lernen aus eigener Erfahrung, nicht aus Labels. vs.\ UL: Reward-Maximierung statt Strukturentdeckung.}
+\definition{\textbf{Reinforcement Learning} (RL) ist zielgerichtetes Lernen durch Interaktion mit einer Umgebung. Aktionen erzeugen \textbf{Rewards}; Ziel ist die Maximierung der kumulierten Belohnung. Im Gegensatz zu \textit{Supervised Learning} erfolgt das Lernen aus eigener Erfahrung statt aus Labels, und anders als beim \textit{Unsupervised Learning} steht die Reward-Maximierung im Vordergrund.}
 
-\textbf{Exploration-Exploitation-Dilemma:} \textit{Exploitation} = Rückgriff auf Gelerntes; \textit{Exploration} = Abweichen zur Entdeckung von Besserem. Ohne Exploration: lokale Optima; ohne Exploitation: verschwendete Zeit. Mathematisch ungelöst -- praktisch eine Balancierungsaufgabe. Modellfreie Verfahren (Q-Learning, SARSA) lernen aus Erfahrung ohne Umgebungsmodell; modellbasierte (AlphaGo) planen mit einem expliziten Modell.
+\textbf{Exploration-Exploitation-Dilemma:} \textit{Exploitation} nutzt bereits Gelerntes, während \textit{Exploration} neue Möglichkeiten ausprobiert. Beide müssen ausbalanciert werden, um weder in lokalen Optima zu verharren noch unnötig Zeit zu verschwenden. Modellfreie Verfahren (z.,B.\ Q-Learning, SARSA) lernen direkt aus Erfahrung, während modellbasierte Ansätze mit einem expliziten Umgebungsmodell planen.
 
 \subsubsection*{Markov Decision Process (MDP)}
 
@@ -205,6 +205,12 @@ Reproduktion & Touren pro Iteration & Keine (nur Bewegung) \\
 \[
 S_0 \to A_0 \to R_1 \to S_1 \to A_1 \to R_2 \to S_2 \to \cdots
 \]
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{assets/finite_markow_decision_process.png}
+\end{figure}
+
 
 \textbf{Stochastische Übergänge:} State $s'$ und Reward $r$ folgen nicht mit Sicherheit, sondern mit Wahrscheinlichkeit $p$ (risikobehaftete Situation):
 \[
@@ -309,7 +315,19 @@ $\delta$ & Exploration Decay & Wie schnell sinkt $\varepsilon$ pro Episode \\
 \end{tabular}
 \end{table}
 
-Bei zu großem Q-Table (großer/kontinuierlicher Zustandsraum): State Abstraction, Feature Engineering, Hierarchical RL oder \textbf{Deep Q-Network (DQN)} als neuronale Approximation von $q(s,a)$ statt Lookup-Table.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{assets/q_learning_vs_sarsa.png}
+\end{figure}
+
+Bei großem oder kontinuierlichem Zustandsraum sind klassische Q-Tabellen oft nicht praktikabel. Typische Lösungsansätze sind:
+
+\begin{itemize}
+    \item \textbf{State Abstraction}: Zusammenfassung ähnlicher Zustände durch Abstraktion oder Diskretisierung.
+    \item \textbf{Feature Engineering}: Reduktion der Zustandsraum-Dimensionalität durch Auswahl relevanter Merkmale.
+    \item \textbf{Hierarchical Reinforcement Learning (HRL)}: Zerlegung des Problems in kleinere, leichter lösbare Teilprobleme.
+    \item \textbf{Funktionale Approximation}: Verwendung eines \textbf{Deep Q-Networks (DQN)} zur Approximation von $q(s,a)$ anstelle einer Lookup-Tabelle.
+\end{itemize}
 
 \newpage
 \subsection{Natürliche Neuronale Netze}
@@ -515,46 +533,17 @@ Gradienten werden via \textbf{Backpropagation Through Time (BPTT)} über alle Ze
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/rnn_architecture.png}
+    \includegraphics[width=0.55\textwidth]{assets/rnn_architecture.png}
 \end{figure}
 
-\textbf{Long Short-Term Memory (LSTM):} Löst das Vanishing-Gradient-Problem durch einen expliziten \textbf{Cell State} $c_t$ und drei Gating-Mechanismen, die den Informationsfluss steuern:
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Forget Gate} $f_t = \sigma(W_f[h_{t-1},x_t]+b_f)$: Entscheidet, welche Information aus $c_{t-1}$ \emph{gelöscht} wird ($f_t \approx 0$ $\to$ vergessen, $f_t \approx 1$ $\to$ behalten).
-    \item \textbf{Input Gate} $i_t = \sigma(W_i[h_{t-1},x_t]+b_i)$: Entscheidet, welche \emph{neuen} Informationen $\tilde{c}_t = \tanh(W_c[h_{t-1},x_t]+b_c)$ in den Cell State aufgenommen werden.
-    \item \textbf{Output Gate} $o_t = \sigma(W_o[h_{t-1},x_t]+b_o)$: Entscheidet, welcher Teil des Cell States als neuer Hidden State ausgegeben wird.
-    \item \textbf{Cell State Update:} $c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$
-    \item \textbf{Hidden State:} $h_t = o_t \odot \tanh(c_t)$
-\end{itemize}
-Der Cell State $c_t$ propagiert direkt und nahezu ungestört durch die Zeit (nur elementweise Multiplikation, keine Gewichtsmatrix) -- dadurch kein Vanishing Gradient auf diesem Pfad.
+\textbf{Long Short-Term Memory (LSTM):} Löst das Vanishing-Gradient-Problem durch einen expliziten \textbf{Cell State} $c_t$ und drei Gates. Das \textbf{Forget Gate} entscheidet, welche Informationen aus dem bisherigen Cell State verworfen werden, das \textbf{Input Gate}, welche neuen Informationen aufgenommen werden, und das \textbf{Output Gate}, welcher Teil des Cell States als Hidden State ausgegeben wird. Der Cell State wird nach $c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$ aktualisiert, der Hidden State ergibt sich aus $h_t = o_t \odot \tanh(c_t)$. Da der Cell State über viele Zeitschritte nahezu unverändert weitergegeben werden kann, bleiben Gradienten erhalten und langfristige Abhängigkeiten lernbar.
 
-\textbf{Gated Recurrent Unit (GRU):} Vereinfachte LSTM-Variante, die Cell State und Hidden State zu einem einzigen Hidden State zusammenführt und mit nur \emph{zwei} Gates auskommt:
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Reset Gate} $r_t = \sigma(W_r[h_{t-1},x_t])$: Wie stark wird der vorherige Hidden State beim Berechnen des neuen Kandidatenwerts $\tilde{h}_t$ ignoriert?
-    \item \textbf{Update Gate} $z_t = \sigma(W_z[h_{t-1},x_t])$: Wie viel vom alten $h_{t-1}$ wird behalten vs.\ durch den neuen Kandidaten $\tilde{h}_t$ ersetzt?
-    \item \textbf{Hidden State Update:} $h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t$
-\end{itemize}
+\textbf{Gated Recurrent Unit (GRU):} Vereinfachte Variante des LSTM, die Cell State und Hidden State zu einem einzigen Zustand zusammenfasst und nur zwei Gates verwendet. Das \textbf{Reset Gate} steuert, wie stark frühere Informationen bei der Berechnung eines neuen Kandidatenzustands berücksichtigt werden, während das \textbf{Update Gate} den Anteil alter und neuer Information festlegt. Der Hidden State wird nach $h_t = (1-z_t)\odot h_{t-1} + z_t \odot \tilde{h}_t$ aktualisiert. GRUs besitzen weniger Parameter als LSTMs, sind dadurch effizienter trainierbar und liefern in vielen Anwendungen vergleichbare Ergebnisse.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/lstm_vs_gru.png}
+    \includegraphics[width=0.65\textwidth]{assets/lstm_vs_gru.png}
 \end{figure}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{p{3.5cm} p{4cm} p{4cm}}
-\hline
- & \textbf{LSTM} & \textbf{GRU} \\
-\hline
-Gates & 3 (Forget, Input, Output) & 2 (Reset, Update) \\
-Zustände & Cell State + Hidden State & Nur Hidden State \\
-Parameter & Mehr & Weniger ($\sim$25\,\% weniger) \\
-Training & Langsamer & Schneller \\
-Performance & Oft besser bei langen Sequenzen & Oft ähnlich, effizienter \\
-Einsatz & Sprachmodellierung, komplexe Seq. & Zeitreihen, kleinere Datensätze \\
-\hline
-\end{tabular}
-\end{table}
 
 \textbf{Anwendungen:} Sprachmodellierung (Vorhersage des nächsten Wortes), Sequence-to-Sequence mit Attention-Mechanismus (maschinelle Übersetzung, Zusammenfassung), Zeitreihenvorhersage. Heute weitgehend durch \textbf{Transformer}-Architekturen ersetzt, die parallelisierbares Self-Attention verwenden.
 
