@@ -142,6 +142,10 @@ Monotonie: $E_1 \subseteq E_2 \Rightarrow P(E_1) \leq P(E_2)$
 
 \newpage
 
+
+
+
+
 \subsection{Kombinatorik}
 
 \definition{\textbf{Kombinatorik:} Zählen von Anordnungen und Auswahlen endlicher Mengen. Fundamental für Wahrscheinlichkeitsberechnungen: $P(E) = \frac{\text{günstige Fälle}}{\text{mögliche Fälle}}$.}
@@ -443,6 +447,9 @@ Log-Odds (Logit, linear): $\log\left(\frac{p_i}{1-p_i}\right) = \beta_0 + \beta_
 \textbf{Gütemaße:} Deviance • McFadden $R^2$ (Pseudo) • Confusion Matrix (Accuracy, Sensitivity, Specificity) • ROC-AUC.
 \newpage
 
+
+
+
 \subsection{Polynomregression, Splines und additive Modelle}
 
 \definition{\textbf{Polynomregression:} $y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \cdots + \beta_d x_i^d + \varepsilon_i$ (Grad $d$). Reformuliert als MLR mit $x_{ij} = x_i^j$; geschätzt via OLS. \textbf{Problem:} Höheres $d$ führt zu Overfitting (hohe Varianz). Wahl $d$ via Cross-Validation, AIC, BIC. Nachteil: Global polynomiale Struktur (wenig flexibel bei lokalen Abweichungen).}
@@ -565,6 +572,7 @@ oder mit geteilten Basis-Funktionen für die \textbf{simultane} Schätzung aller
 \end{itemize}
 
 \newpage
+
 \subsection{PCA, PCR und MDS}
 
 \definition{\textbf{PCA (Principal Component Analysis):} Unsupervisierte Dimensionsreduktion. Findet neue orthogonale Koordinaten (PCs), bei denen maximale Varianz in ersten wenigen Achsen konzentriert ist.}
@@ -792,8 +800,14 @@ Die \textbf{Mahalanobis-Distanz} $\sqrt{(\mathbf{x}_A-\mathbf{x}_B)^T\boldsymbol
 
 \definition{\textbf{Varianten:} \textbf{Gewichtetes kNN} gewichtet Nachbarn nach Distanz ($w_i = 1/d_i$), sodass nähere Nachbarn mehr Einfluss haben. \textbf{Approximate kNN} verwendet KD-Trees oder Ball-Trees zur Beschleunigung bei großen Datensätzen.}
 
+
+
+
 \subsection{Ähnlichkeitsmaße}
 \newpage
+
+
+
 
 \subsection{K-means, K-medoids und Fuzzy-Clustering}
 
@@ -842,6 +856,7 @@ mit Mischungsgewichten $\pi_k > 0$, $\sum_k \pi_k = 1$, und komponentenspezifisc
 \textbf{Vorteile:} Probabilistisches Framework, Modellwahl via AIC/BIC. \textbf{Nachteile:} Rechenaufwendiger als K-means, Normalverteilungsannahme nicht immer realistisch.
 
 \newpage
+
 \subsection{Hierarchisches Clustering}
 
 \definition{\textbf{Grundkonzept:} Erzeugt eine Hierarchie von Partitionen statt einer einzigen festen Lösung. \textbf{Agglomerative} Verfahren starten mit $n$ Einzelclustern und fusionieren iterativ die ähnlichsten -- dies ist der gebräuchlichste Ansatz. Divisive Verfahren (umgekehrt) sind rechenintensiver und seltener.}
@@ -861,6 +876,7 @@ Der \textbf{Agglomerationskoeffizient} $ac = \frac{1}{n}\sum_i (1 - m(i))$, mit 
 \textbf{Vorteil:} Kein vorab festgelegtes $K$; Dendrogramm ermöglicht visuelle Exploration. \textbf{Nachteil:} $O(n^2)$ Komplexität; Fusionsentscheidungen sind final.}
 
 \newpage
+
 \subsection{Bedingte Wahrscheinlichkeit und Bayes-Theorem}
 
 \definition{\textbf{Bedingte Wahrscheinlichkeit:}
@@ -899,6 +915,7 @@ Dies reduziert die Parametrisierung erheblich durch bedingte Unabhängigkeiten.}
 mit Smoothing-Parameter $\alpha$ (typisch $\alpha=1$) und $m$ möglichen Werten von $X_j$. Vorteil: schnell, benötigt wenig Daten, liefert Klassifikationssicherheiten. Nachteil: Unabhängigkeitsannahme oft unrealistisch, schlechte Kalibrierung bei korrelierten Features.
 
 \newpage
+
 \subsection{Bayes-Updates: Prior, Likelihood, Evidenz, Posterior}
 
 \definition{\textbf{Bayesianische Inferenz:} Unbekannte Parameter werden als Zufallsvariablen behandelt; der Satz von Bayes dient als Update-Regel:
@@ -946,6 +963,12 @@ mit Smoothing-Parameter $\alpha$ (typisch $\alpha=1$) und $m$ möglichen Werten 
 
 %-----------------------------------------------------------------------
 \newpage
+
+
+
+
+
+
 \subsection{Survivorship Bias und kognitive Verzerrungen}
 
 \definition{\textbf{Survivorship Bias:} Analyse basiert nur auf den ``Überlebenden'' eines Prozesses; Misserfolge fehlen systematisch, was zu verzerrten Schlussfolgerungen führt: [cite: 1, 2]}
@@ -965,6 +988,7 @@ mit Smoothing-Parameter $\alpha$ (typisch $\alpha=1$) und $m$ möglichen Werten 
 
 %-----------------------------------------------------------------------
 \newpage
+
 \subsection{Wahrheitsmatrix und abgeleitete Kenngrößen}
 
 \definition{\textbf{Confusion Matrix:} Tabellarische Darstellung der Klassifikationsleistung für binäre Klassifikation: [cite: 10]}
@@ -1016,6 +1040,7 @@ FP = Fehlalarm; FN = übersehen. [cite: 10, 11]
 
 %-----------------------------------------------------------------------
 \newpage
+
 \subsection{Support Vector Machines}
 
 \definition{\textbf{SVM -- Grundidee:} Finde die Hyperebene $H\colon \mathbf{w}^T\mathbf{x} + b = 0$, die zwei Klassen mit maximalem Margin trennt (\emph{Maximum Margin Principle}). Klassifikation: $\hat{y} = \text{sign}(\mathbf{w}^T\mathbf{x}_0 + b)$. Die Lösung hängt nur von den \textbf{Support Vectors} ab -- Trainingspunkten auf oder nahe dem Margin; weiter entfernte Punkte haben keinen Einfluss. [cite: 21, 22, 23]}
@@ -1049,6 +1074,7 @@ $C$ steuert den Bias-Varianz-Tradeoff: großes $C$ $\Rightarrow$ enges Margin, O
 
 %-----------------------------------------------------------------------
 \newpage
+
 \subsection{Validierung, Underfitting und Overfitting}
 
 \definition{\textbf{Bias-Varianz-Zerlegung:} Der erwartete Testfehler zerfällt in drei Komponenten:}
@@ -1080,6 +1106,7 @@ $C$ steuert den Bias-Varianz-Tradeoff: großes $C$ $\Rightarrow$ enges Margin, O
 
 %-----------------------------------------------------------------------
 \newpage
+
 \subsection{Zeitreihenanalyse}
 
 \definition{\textbf{Zeitreihe:} Sequenz von Beobachtungen $(y_t)_{t=1}^T$ in fester zeitlicher Ordnung. Beobachtungen sind zeitlich abhängig (nicht i.i.d.). Wichtige Eigenschaften: feste Ordnung, typischerweise äquidistant, eine Realisierung eines stochastischen Prozesses $(Y_t)$. [cite: 36, 37]}
@@ -1105,6 +1132,7 @@ Schnell abfallende ACF: Kurzzeitabhängigkeit (stationär). Langsam abfallende A
 
 %-----------------------------------------------------------------------
 \newpage
+
 \subsection{Importance Sampling und MCMC}
 
 \definition{\textbf{Monte Carlo Integration:} Schätze $E_p[f(x)] = \int f(x)p(x)\,dx$ durch Ziehen von $n$ Stichproben aus $p$: $\hat{E} = \frac{1}{n}\sum_i f(x_i) \to E_p[f(x)]$ (Gesetz der großen Zahlen). Problem: Direktes Sampling aus $p$ oft intraktabel (z.\,B.\ Bayes-Posterior mit unbekannter Normalisierungskonstante). [cite: 48, 49]}
