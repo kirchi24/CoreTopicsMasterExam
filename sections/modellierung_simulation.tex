@@ -131,8 +131,6 @@ Eine Aussage ist \textbf{falsifizierbar}, wenn es prinzipiell möglich ist, sie 
     \item \textbf{Realparameter vs.\ Anpassung}: realer vs.\ gefitteter Parameterwert
 \end{itemize}
 
-\textit{Hinweis:} Gewöhnliche System-Dynamics-Modelle modellieren räumliche Ausdehnungen oft gar nicht.
-
 \newpage
 
 \subsection{Pulsmodelle und deren Dynamik}
@@ -265,17 +263,15 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
 
 \definition{Die \textbf{Zustandsebene} wird von zwei Zustandsgrößen aufgespannt. Ein \textbf{Zustandsbild} ist die Projektion der Zustandsbahn in einen niederdimensionaleren Raum.}
 
-\textbf{Grundtypen von Attraktoren:}
+\textbf{Zusammenhang Attraktoren und Stabilität:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Punktattraktor}: Zustandsbahnen konvergieren auf stabilen Gleichgewichtspunkt
-    \item \textbf{Grenzzyklus}: Zustandsbahnen laufen auf geschlossene Kurven zu
+    \item \textbf{Punktattraktor} $\leftrightarrow$ \textit{asymptotisch stabiler Gleichgewichtspunkt}: alle benachbarten Trajektorien konvergieren gegen diesen Punkt ($\mathrm{Re}(\lambda_i) < 0$ für alle $\lambda_i$ bei LTI-Systemen).
+    \item \textbf{Repellor} $\leftrightarrow$ \textit{instabiler Gleichgewichtspunkt}: Trajektorien entfernen sich -- kleinste Störung führt zum Verlassen des Punktes ($\mathrm{Re}(\lambda_i) > 0$ für mind.\ ein $\lambda_i$).
+    \item \textbf{Grenzzyklus} $\leftrightarrow$ \textit{Grenzstabilität}: Trajektorien laufen auf eine geschlossene Kurve zu, ohne zu konvergieren oder zu divergieren.
     \item \textbf{Torus}: Zyklus höherer Ordnung (bei $\geq 3$ Zustandsgrößen)
-    \item \textbf{Seltsamer Attraktor}: Chaotisch und/oder fraktal (starke Sensitivität gegenüber Anfangsbedingungen)
+    \item \textbf{Seltsamer Attraktor} $\leftrightarrow$ \textit{deterministisches Chaos}: trotz deterministischem Modell starke Sensitivität gegenüber Anfangsbedingungen (positiver Lyapunov-Exponent).
+    \item \textbf{Separatrizen} verlaufen durch Repelloren und trennen die Einzugsbereiche (\emph{Bassins}) verschiedener Attraktoren.
 \end{itemize}
-
-\definition{Ein \textbf{Repellor} ist ein instabiler Gleichgewichtspunkt -- Trajektorien entfernen sich von ihm.}
-
-\definition{\textbf{Separatrizen} trennen Regionen unterschiedlichen Verhaltens und verlaufen durch Repelloren (stabile und instabile Mannigfaltigkeit). \textbf{Bifurkationen} treten auf, wenn eine Parameteränderung qualitativ anderes Verhalten ergibt -- z.\,B.\ Übergang von Punktattraktor zu Grenzzyklus.}
 
 \begin{figure}[H]
     \centering
@@ -283,15 +279,6 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
 \end{figure}
 
 \newpage
-
-\textbf{Zusammenhang Attraktoren und Stabilität:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Punktattraktor} $\leftrightarrow$ \textit{asymptotisch stabiler Gleichgewichtspunkt}: alle benachbarten Trajektorien konvergieren gegen diesen Punkt ($\mathrm{Re}(\lambda_i) < 0$ für alle $\lambda_i$ bei LTI-Systemen).
-    \item \textbf{Repellor} $\leftrightarrow$ \textit{instabiler Gleichgewichtspunkt}: Trajektorien entfernen sich -- kleinste Störung führt zum Verlassen des Punktes ($\mathrm{Re}(\lambda_i) > 0$ für mind.\ ein $\lambda_i$).
-    \item \textbf{Grenzzyklus} $\leftrightarrow$ \textit{Grenzstabilität}: Trajektorien laufen auf eine geschlossene Kurve zu, ohne zu konvergieren oder zu divergieren.
-    \item \textbf{Seltsamer Attraktor} $\leftrightarrow$ \textit{deterministisches Chaos}: trotz deterministischem Modell starke Sensitivität gegenüber Anfangsbedingungen (positiver Lyapunov-Exponent).
-    \item \textbf{Separatrizen} verlaufen durch Repelloren und trennen die Einzugsbereiche (\emph{Bassins}) verschiedener Attraktoren.
-\end{itemize}
 
 \subsection{Dynamische lineare Systeme}
 
@@ -327,36 +314,6 @@ z(t) = e^{At} \cdot z_0 + \int_0^t e^{A(t-\tau)} B\, u(\tau)\, \mathrm{d}\tau
     \item $\mathrm{Re}(\lambda_i) > 0$ für mind.\ ein $i$: \textbf{instabil}
     \item $\mathrm{Re}(\lambda_i) = 0$: \textbf{grenzstabil} (Dauerschwingungen)
 \end{itemize}
-
-\definition{\textbf{Steuerbarkeit (Kalman):} Ein LTI-System $(\dot{z} = Az + Bu)$ ist
-\textbf{vollständig steuerbar}, wenn die \textbf{Steuerbarkeitsmatrix}
-
-\[
-\mathcal{S} = \begin{bmatrix} B & AB & A^2B & \cdots & A^{n-1}B \end{bmatrix}
-\in \mathbb{R}^{n \times nm}
-\]
-
-vollen Zeilenrang hat: $\mathrm{rank}(\mathcal{S}) = n$. Interpretation: Jeder Zustand $z^*$ ist von jedem Startzustand $z_0$ aus in endlicher Zeit durch geeignete Eingabe $u(t)$ erreichbar.}
-
-\definition{\textbf{Beobachtbarkeit (Kalman):} Ein LTI-System $(\dot{z} = Az,\; v = Cz)$
-ist \textbf{vollständig beobachtbar}, wenn die \textbf{Beobachtbarkeitsmatrix}
-
-\[
-\mathcal{O} = \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \\ CA^{n-1} \end{bmatrix}
-\in \mathbb{R}^{nm \times n}
-\]
-
-vollen Spaltenrang hat: $\mathrm{rank}(\mathcal{O}) = n$. Interpretation: Der interne Zustand $z(t)$ kann eindeutig aus den Ausgaben $v(t)$ rekonstruiert werden, ohne direkten Zugriff auf $z$.}
-
-\textbf{Praktische Bedeutung:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Nicht steuerbar}: Es gibt Zustände, die durch keine Eingabe erreichbar sind -- Reglerentwurf eingeschränkt.
-    \item \textbf{Nicht beobachtbar}: Es gibt Zustandsanteile, die in der Ausgabe unsichtbar bleiben -- Zustandsschätzung (z.\,B.\ Kalman-Filter) nicht möglich.
-    \item Beide Eigenschaften sind \emph{strukturelle} Systemeigenschaften, unabhängig von konkreten Eingaben oder Anfangsbedingungen.
-\end{itemize}
-
-\textit{Hinweis:} LTI-Theorie ist grundlegend für Regelungstechnik und lineare Pulsmodelle. SD modelliert keine explizite Systemumgebung.
-
 
 \begin{figure}[H]
     \centering

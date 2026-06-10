@@ -82,7 +82,6 @@ v(x) = \begin{cases} x^{0.88} & \text{wenn } x \geq 0 \\ -2{,}25\cdot(-x)^{0.88}
 \]
 Konkav für Gewinne, konvex für Verluste; Verlustkurve steiler (Faktor 2,25). Gewichtungsfunktion korrigiert Wahrscheinlichkeitsverzerrung (Unterschätzung hoher, Überschätzung niedriger Risiken).
 
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{assets/bernoulli_utility_function.png}
@@ -149,13 +148,6 @@ L_{\mathrm{EU}}(A_i) = \sum_j v\!\left(e(A_i;U_j)\right)\cdot w_j \quad \Rightar
 \]
 Standardverfahren der Mikroökonomie. Typischerweise: $v(x) = \sqrt{x}$ (risikoavers). \textit{Hinweis:} Für negative/undefinierte Ergebnisse ist \emph{positiv-affine Transformation} $\tilde{e} = a\cdot e + b$ ($a>0$) notwendig.
 
-\textbf{Dominierte Alternativen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Stark dominiert}: andere Alternative bringt in \emph{jedem} Umweltzustand \emph{strikt} besseres Ergebnis
-    \item \textbf{Schwach dominiert}: zumindest gleiches, in mind.\ einem besser
-    \item Können für \emph{jeden} Akteur eliminiert werden
-\end{itemize}
-
 \newpage
 
 \subsection{Lösungskonzepte bei Unsicherheit}
@@ -187,7 +179,7 @@ Savage-Niehans & $\min_i \max_j (\max_k e(A_k;U_j) - e(A_i;U_j))$ & Nicht unabh�
 
 \begin{table}[H]
 \centering
-\begin{tabular}{lcccccc}
+\begin{tabular}{lcccccccc} % Von 7 auf 9 Spalten erweitert
 \hline
  & Hochkonj. & Normal & Flaute & $L_L$ & $L_{\min}$ & $L_{\max}$ & $L_{\mathrm{OP}}$ & $L_{\mathrm{SN}}$ \\
 \hline
@@ -195,7 +187,7 @@ $A_1$ & 100 & 50 & 30 & 60{,}0 & 30 & 100 & 44 & 200 \\
 $A_2$ & 300 & 40 & 0  & 113{,}3 & 0 & 300 & 60 & 50 \\
 $A_3$ & 50  & 50 & 50 & 50{,}0 & 50 & 50  & 50 & 250 \\
 \hline
-\textbf{Optimum} & & & & $A_2$ & $A_3$ & $A_2$ & $A_2$ & $A_2$ \\
+\textbf{Optimum} & & & & $A_2$ & $A_3$ & $A_2$ & $A_2$ & $A_2$ \\ % Ausrichtung korrigiert
 \hline
 \end{tabular}
 \end{table}
