@@ -43,7 +43,7 @@ Proactivity & Eigeninitiative zur Zielerreichung \\
 
 \subsection{Zelluläre Automaten}
 
-\definition{\textbf{Zelluläre Automaten} sind diskrete dynamische Systeme auf einem Gitter von Zellen, die jeweils einen Zustand annehmen und sich nach festen lokalen Regeln (basierend auf Nachbarzuständen) entwickeln. Raum und Zeit sind diskretisiert.}
+\definition{\textbf{Zelluläre Automaten} sind diskrete dynamische Systeme auf einem Gitter von Zellen, die jeweils einen Zustand annehmen und sich nach festen lokalen Regeln (basierend auf Nachbarzuständen) entwickeln. Raum und Zeit sind diskretisiert. Historisch gehen sie auf John von Neumann und Alan Turing zurück; Conway's Game of Life (1970) ist das bekannteste Beispiel.}
 
 \begin{table}[H]
 \centering
@@ -71,6 +71,10 @@ Methuselahs & Langlebige Konfigurationen vor Stabilisierung \\
 \end{table}
 
 \definition{\textbf{Emergenz} ist ein nichttrivialer Zusammenhang zwischen Eigenschaften eines Systems auf disaggregierter Ebene (Einzelzellen) und auf aggregierter Ebene (Gesamtmuster). Eine aggregierte Eigenschaft ist emergent, wenn sie sich nicht direkt aus den Einzeleigenschaften vorhersagen lässt.}
+
+\textbf{Turing-Vollständigkeit:} Conway's Game of Life ist \textbf{Turing-vollständig} -- es kann prinzipiell jede berechenbare Funktion simulieren. Aus einfachen Glider-Mustern lassen sich logische Gatter (AND, OR, NOT) und damit vollständige Rechenwerke konstruieren. Dies ist ein eindrucksvolles Beispiel für Emergenz: aus vier lokalen Regeln entsteht universelle Berechenbarkeit.
+
+Eine \textbf{Turing-Maschine} (Alan Turing, 1936) ist ein abstraktes Rechenmodell bestehend aus: einem unendlichen \textbf{Band} (Speicher), einem \textbf{Lese-/Schreibkopf}, einem endlichen \textbf{Zustandsregister} und einer \textbf{Übergangstabelle} (Regeln: gegeben aktueller Zustand und gelesenes Symbol $\to$ schreibe Symbol, bewege Kopf, wechsle Zustand). Jeder Algorithmus, der auf einem modernen Computer ausführbar ist, lässt sich auch als Turing-Maschine formulieren (\textbf{Church-Turing-These}). Dass ein zellulärer Automat mit nur vier Regeln dasselbe leisten kann, verdeutlicht die Mächtigkeit einfacher lokaler Interaktionen.
 
 \textit{Implementierung in NetLogo:} Patches als Agentenart, 2D-Gitter, zeitdiskrete Schritte mit paralleler Update-Logik (Simulated Synchronous Execution).
 
