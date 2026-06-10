@@ -2,1205 +2,687 @@
 
 \subsection{ABM/NetLogo}
 
-\subsubsection*{Grundlagen der Agenten-basierten Modellierung}
+\definition{\textbf{Agenten-basierte Modellierung} (ABM) bedeutet die \textbf{disaggregierte} (d.\,h.\ auf der Ebene individueller Einheiten, nicht auf statistischen Aggregaten), meist erklärende und stochastische Formulierung eines komplexen Systems. Im Fokus stehen viele, abstrakt gleichartige, aber konkret heterogene Einheiten, die im Zusammenspiel \textbf{Emergenz} erzeugen -- also Phänomene auf Systemebene, die sich nicht direkt aus den Eigenschaften einzelner Agenten ableiten lassen (z.\,B.\ Staubildung aus individuellem Bremsverhalten).}
 
-\definition{\textbf{Agenten-basierte Modellierung} (ABM) bedeutet die disaggregierte, meist erklärende und stochastische Formulierung eines komplexen Systems zum Zwecke des Verständnisses, der Optimierung und/oder der Prognose. Im Fokus stehen dabei viele, meist abstrakt gleichartige, jedoch konkret durchaus heterogene Einheiten eines Systems, die im Zusammenspiel \textbf{Emergenz} verursachen.}
+\definition{\textbf{Agenten} sind Programme bzw.\ Programmteile, die ihre Umgebung (\textbf{Environment}) und andere Agenten wahrnehmen und abhängig von Wissen, Können, Zielen und innerem Zustand interagieren und Aktionen ausführen.}
 
-\definition{\textbf{Agenten} sind eigene Programme bzw. Programmteile, die andere Agenten sowie die Umgebung (\textbf{Environment}) wahrnehmen können und abhängig von ihrem Wissensstand, Können, ihren Zielen und ihrem inneren Zustand im Zeitablauf miteinander interagieren und verschiedene Aktionen (Bewegung, Kommunikation etc.) ausführen können.}
+\begin{table}[H]
+\centering
+\begin{tabular}{p{3.5cm} p{9cm}}
+\hline
+\textbf{Eigenschaft} & \textbf{Beschreibung} \\
+\hline
+Ontologische Repräsentanz & Direkte Entsprechung von Agenten zu realen Akteuren (Personen, Firmen, Staaten) oder Objekten (Bäume, Moleküle, Planeten) des Realsystems \\
+Heterogenität & Agenten unterscheiden sich in Dimensionen wie Alter, Risikoaversion, Wissensstand; Ausprägungen werden bei Simulationsstart per Zufallsverteilung initialisiert \\
+Eingeschränkte Rationalität & Agenten entscheiden basierend auf lokalen Informationen -- beliebiger Rationalitätsgrad modellierbar, kein vollkommen rationaler Akteur wie in der Spieltheorie \\
+Direkte Repr.\ des Environments & Die virtuelle Welt ist Teil des Modells (nicht außerhalb der Modellgrenze); enthält passive Objekte (Straßen, Barrieren), versorgt Agenten mit Ressourcen oder dient als Abfluss; Informationen können darin zwischengespeichert werden \\
+Lernende Agenten & \textit{Individuelles Lernen}: Erkenntnisse einzelner Agenten; \textit{Soziales Lernen}: Weitergabe an andere; \textit{Evolutionäres Lernen}: Erkenntnisse stehen ganzer Population zur Verfügung; auch Reinforcement Learning (Trial-and-Error) modellierbar \\
+Evolution & Reproduktion (neue Agenten entstehen), Variation/Mutation (neue Agenten unterscheiden sich), Selektion (unterschiedliche Überlebenswahrscheinlichkeiten) \\
+\hline
+\multicolumn{2}{l}{\textit{Agenten-Eigenschaften nach Wooldridge \& Jennings (1995):}} \\
+Autonomy & Keine globale Steuerung -- Agenten agieren autonom basierend auf ihrer Programmierung \\
+Interact & Agenten kommunizieren und interagieren miteinander \\
+Reactivity & Reaktion auf Einflüsse aus der Umgebung \\
+Proactivity & Zielgesteuerte Eigeninitiative \\
+\hline
+\end{tabular}
+\end{table}
 
-\textbf{Wichtige Konzepte:}
+\textbf{Kybiak-Struktur (Wersig 1974):} Kybernetisches Basismodell eines Agenten mit vier Komponenten: \textbf{Perzeptor} (Wahrnehmung), \textbf{Operator} (Entscheidung, bestehend aus internem Weltmodell, Situationsmodell, Steuereinheit und Programmspeicher mit Effektions-, Perzeptions-, Operations- und Motivationsprogrammen), \textbf{Effektor} (Aktion) und \textbf{Motivator} (Richtwerte für alle drei anderen).
+
+\textbf{Zeit und Parallelität:} ABM sind zeitdiskret. Innerhalb eines Zeitschritts müssen Agenten logisch parallel agieren, obwohl CPUs sequentiell arbeiten. Lösungsansätze: \textit{Sequential asynchronous} (feste Reihenfolge, Artefaktgefahr), \textit{Random asynchronous} (zufällige Reihenfolge, typisch), \textit{Simulated synchronous} (alle Inputs vor allen Outputs, beste aber komplexeste Methode). Jedes Modell benötigt eine \textbf{Zeitkalibrierung} (z.\,B.\ 1 Schritt = 1 Tag).
+
+\textbf{ODD-Protokoll:} Standardisiertes Beschreibungsformat für ABM-Modelle, gegliedert in drei Teile:
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Emergenz:} Ein nichttrivialer Zusammenhang zwischen den Eigenschaften eines Systems auf disaggregierter und auf aggregierter Ebene. Komplexe Phänomene entstehen aus einfachen Interaktionen.
-    \item \textbf{Environment:} Die virtuelle Welt der Agenten, meist ein-, zwei- oder dreidimensional aufgespannt. Enthält neben Agenten auch passive Objekte (Straßen, Barrieren) und kann Ressourcen bereitstellen.
-    \item \textbf{Disaggregation:} Simulationen erfolgen auf der individuellen Ebene der Agenten, nicht auf aggregierter Ebene.
+    \item \textbf{O -- Overview:} (1)~\textit{Purpose and Patterns} -- Zweck und adressierte Frage; (2)~\textit{Entities, state variables and scales} -- Struktur und Elemente des Modells; (3)~\textit{Process overview and scheduling} -- modellierte Prozesse und Abläufe.
+    \item \textbf{D -- Design Concepts:} Beschreibung von genau elf spezifischen ABM-Designkonzepten (z.\,B.\ Emergenz, Adaptation, Sensing).
+    \item \textbf{D -- Details:} (1)~\textit{Initialization} -- Startkonfiguration; (2)~\textit{Input data} -- exogene Einflussfaktoren; (3)~\textit{Submodels} -- Teilmodelle.
 \end{itemize}
-
-\subsubsection*{Typische Eigenschaften und Vorteile ABM-basierter Modelle}
-
-\textbf{Ontologische Repräsentanz:} Eine direkte Verbindung zwischen den Agenten des Modells und den Akteuren des zu modellierenden Realsystems (Personen, Firmen, Staaten) oder sogar Objekten (Bäume, Moleküle, Planeten) besteht.
-
-\textbf{Heterogenität:} Agenten unterscheiden sich in verschiedenen Dimensionen (Geschlecht, Alter, Risikoaversion, Wissensstand). Die Ausprägungen werden bei Simulationsstart meist zufällig nach vorgegebenen Wahrscheinlichkeitsverteilungen verteilt.
-
-\textbf{Eingeschränkte Rationalität:} Anders als in Entscheidungs- oder Spieltheorie wird nicht von vollkommener Rationalität ausgegangen, sondern von eingeschränkter Rationalität. Agenten wählen Aktionen basierend auf lokalen Informationen und beschränktem Wissen (beliebige Rationalitätsgrade modellierbar).
-
-\textbf{Lernende und evolvierende Agenten:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Individuelles Lernen:} Einzelne Agenten machen Erkenntnisse individuell.
-    \item \textbf{Soziales Lernen:} Erkenntnisse werden zwischen Agenten weitergegeben.
-    \item \textbf{Evolutionäres Lernen:} Erkenntnisse stehen einer ganzen Population zur Verfügung.
-    \item \textbf{Evolution:} Reproduktion, Variation/Mutation und Selektion führen zu Populationsdynamiken.
-\end{itemize}
-
-\subsubsection*{Agenten-Eigenschaften nach Wooldridge \& Jennings (1995)}
-
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Autonomy:} Keine globale Steuerung -- Agenten agieren autonom basierend auf ihrer Programmierung.
-    \item \textbf{Interact:} Agenten können mit anderen Agenten interagieren.
-    \item \textbf{Reactivity:} Agenten reagieren auf Einflüsse aus ihrer Umgebung.
-    \item \textbf{Proactivity:} Agenten haben Ziele, die ihr Verhalten steuern.
-\end{itemize}
-
-\subsubsection*{Die Kybiak-Struktur -- Kybernetisches Basis-Modell}
-
-Die Kybiak-Struktur (Wersig 1974, basierend auf Stachowiak) stellt ein einfaches kybernetisches Modell eines informationsverarbeitenden Akteurs dar und lässt sich direkt auf ABM anwenden.
-
-\textbf{Hauptkomponenten:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Perzeptor:} Einheit zur Wahrnehmung der Außenwelt (Perzeption).
-    \item \textbf{Operator:} Vermittelt zwischen Perzeption und Effektion -- Zentrale Komponente bestehend aus:
-          \begin{itemize}[leftmargin=2em]
-              \item Internem Außenweltmodell (interne Repräsentation der Welt)
-              \item Internem Situationsmodell (Modell der gegenwärtigen Situation)
-              \item Steuereinheit (Sitz des Bewusstseins/Entscheidung)
-              \item Programmspeicher (Handlungsprogramme)
-          \end{itemize}
-    \item \textbf{Effektor:} Einheit zur Einwirkung auf die Außenwelt (Effektion).
-    \item \textbf{Motivator:} Gibt Richtwerte für das Verhalten der anderen drei Einheiten vor.
-\end{itemize}
-
-\textbf{Vier Arten von Programmen im Speicher:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Effektionsprogramme:} Einwirkung auf die Außenwelt via Effektor.
-    \item \textbf{Perzeptionsprogramme:} Beeinflussen der Perzeption.
-    \item \textbf{Operationsprogramme:} Operationen am internen Außenweltmodell.
-    \item \textbf{Motivationsprogramme:} Änderung der Motivationslage.
-\end{itemize}
-
-\subsubsection*{Zeit, Parallelität und Synchronizität}
-
-ABM-Modelle sind zeitdiskrete Modelle: Agenten arbeiten in nacheinander folgenden Zeitschritten. Innerhalb eines diskreten Zeitschritts müssen alle Agenten \textit{logisch parallel} arbeiten, obwohl moderne CPUs dies sequentiell umsetzen.
-
-\textbf{Typische Lösungsansätze für Parallelitätsprobleeme:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Sequential asynchronous execution:} Agenten werden in fester Reihenfolge aktiviert (Gefahr von Artefakten).
-    \item \textbf{Random asynchronous execution:} Agenten in zufälliger Reihenfolge aktiviert (typisch).
-    \item \textbf{Simulated synchronous execution:} Mehrfache Aktivierung -- alle Inputs vor allen Outputs (beste, aber komplexeste Methode).
-\end{itemize}
-
-\textbf{Zeitkalibrierung:} Jedes Modell muss festlegen, wie viele Einheiten der Realzeit einer Modellzeiteinheit entsprechen (z.\,B.\  1 Modellschritt = 1 Tag, 1 Jahr o.\,ä.).
 
 \newpage
 
 \subsection{Zelluläre Automaten}
 
-\subsubsection*{Grundlagen und Hintergrund}
+\definition{\textbf{Zelluläre Automaten} sind diskrete dynamische Systeme auf einem Gitter von Zellen, die jeweils einen Zustand annehmen und sich nach festen lokalen Regeln (basierend auf Nachbarzuständen) entwickeln. Raum und Zeit sind diskretisiert.}
 
-\definition{\textbf{Zelluläre Automaten} sind diskrete dynamische Systeme, bei denen Raum und Zeit diskretisiert sind. Sie bestehen aus einem Gitter von Zellen, von denen jede einen Zustand annehmen kann und sich nach festen Regeln entwickelt, die auf den Zuständen der Nachbarzellen basieren.}
+\begin{table}[H]
+\centering
+\begin{tabular}{p{3.5cm} p{9cm}}
+\hline
+\textbf{Konzept} & \textbf{Beschreibung} \\
+\hline
+Moore-Nachbarschaft & 8 angrenzende Zellen (inkl.\ diagonal) \\
+Von-Neumann-Nachbarschaft & 4 Zellen mit gemeinsamer Kante (oben/unten/links/rechts) \\
+\hline
+\multicolumn{2}{l}{\textit{Conway's Game of Life (1970) -- Regeln (Moore-Nachbarschaft, 2D):}} \\
+Unterbevölkerung & Lebende Zelle mit $< 2$ lebenden Nachbarn stirbt \\
+Stabilität & Lebende Zelle mit 2 oder 3 Nachbarn bleibt am Leben \\
+Überbevölkerung & Lebende Zelle mit $> 3$ Nachbarn stirbt \\
+Fortpflanzung & Tote Zelle mit exakt 3 Nachbarn wird lebendig \\
+Stasis & Tote Zelle mit $\neq 3$ Nachbarn bleibt tot \\
+\hline
+\multicolumn{2}{l}{\textit{Emergente Mustertypen:}} \\
+Still lifes & Stabile, unveränderliche Konfigurationen (z.\,B.\ Block) \\
+Oscillators & Periodisch wiederkehrende Muster (z.\,B.\ Blinker) \\
+Spaceships & Sich über das Gitter bewegende Muster (z.\,B.\ Glider) \\
+Methuselahs & Langlebige Konfigurationen vor Stabilisierung \\
+\hline
+\end{tabular}
+\end{table}
 
-Das bekannteste und populärste Beispiel ist \textbf{Conway's Game of Life}, entworfen 1970 vom Mathematiker John Horton Conway (aufbauend auf Ideen von John von Neumann und Alan Turing). Das Modell zeigt eindrucksvoll, wie ein einfaches Regelwerk auf zellulärer Ebene komplexe dynamische Prozesse und \textit{Emergenz} hervorbringen kann.
+\definition{\textbf{Emergenz} ist ein nichttrivialer Zusammenhang zwischen Eigenschaften eines Systems auf disaggregierter Ebene (Einzelzellen) und auf aggregierter Ebene (Gesamtmuster). Eine aggregierte Eigenschaft ist emergent, wenn sie sich nicht direkt aus den Einzeleigenschaften vorhersagen lässt.}
 
-\subsubsection*{Nachbarschaftskonzepte}
-
-Zelluläre Automaten nutzen verschiedene Nachbarschaftsdefinitionen:
-
-\textbf{Moore-Nachbarschaft:}
-\begin{itemize}[leftmargin=1.5em]
-    \item Umfasst alle \textbf{acht angrenzenden Nachbarzellen} einer Zelle (einschließlich diagonaler Nachbarn).
-    \item Benannt nach Edward Moore.
-    \item Standard in vielen 2D-Modellen (z.\,B.\  Game of Life).
-\end{itemize}
-
-\textbf{Von-Neumann-Nachbarschaft:}
-\begin{itemize}[leftmargin=1.5em]
-    \item Umfasst nur die \textbf{vier Nachbarn mit gemeinsamer Kante} (oben, unten, links, rechts).
-    \item Diagonale Nachbarn sind nicht enthalten.
-    \item Alternative für bestimmte Anwendungen.
-\end{itemize}
-
-\subsubsection*{Conway's Game of Life -- Spielregeln}
-
-Das Game of Life operiert auf einem 2D-Gitter, bei dem jede Zelle einen von zwei Zuständen annimmt: \textit{lebendig} oder \textit{tot}. Pro Zeitperiode gelten folgende Regeln:
-
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Underbevölkerung:} Jede lebende Zelle mit weniger als zwei lebenden Moore-Nachbarn stirbt.
-    \item \textbf{Stabilität:} Jede lebende Zelle mit zwei oder drei lebenden Moore-Nachbarn bleibt lebendig.
-    \item \textbf{Überbevölkerung:} Jede lebende Zelle mit mehr als drei lebenden Moore-Nachbarn stirbt.
-    \item \textbf{Fortpflanzung:} Jede tote Zelle mit exakt drei lebenden Moore-Nachbarn wird lebendig.
-    \item \textbf{Stasis:} Jede tote Zelle mit nicht exakt drei lebenden Nachbarn bleibt tot.
-\end{itemize}
-
-\subsubsection*{Implementierung und Modellierung}
-
-Das Game of Life lässt sich einfach in NetLogo implementieren:
-
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Agentenart:} Patches (passive Zellen des Gitters)
-    \item \textbf{Dimensionalität:} 2D-Gitter
-    \item \textbf{Simulation:} Zeitdiskrete Schritte mit paralleler Update-Logik
-\end{itemize}
-
-\subsubsection*{Emergenzen und komplexe Muster}
-
-Trotz der Einfachheit der Regeln entstehen komplexe, sich selbst organisierende Muster:
-
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Still lifes:} Stabile, sich nicht verändernde Konfigurationen (z.\,B.\  Block, Beehive).
-    \item \textbf{Oscillators:} Muster, die sich periodisch wiederholen (z.\,B.\  Blinker, Toad).
-    \item \textbf{Spaceships:} Muster, die sich über das Gitter bewegen (z.\,B.\  Glider, Lightweight spaceship).
-    \item \textbf{Methuselahs:} Konfigurationen, die lange Zeit andauern, bevor sie stabilisieren.
-\end{itemize}
-
-Diese Muster sind klassische Beispiele für \textbf{Emergenz}: Sie entstehen aus einfachen lokalen Regeln, lassen sich aber nicht unmittelbar aus diesen vorhersagen oder erklären.
-
-\definition{\textbf{Emergenz} ist ein nichttrivialer Zusammenhang zwischen den Eigenschaften eines Systems auf disaggregierter Ebene (Einzelzellen) und auf aggregierter Ebene (Gesamtmuster). Eine aggregierte Eigenschaft ist emergent, wenn sie schwer auf Basis der Eigenschaften auf disaggregierter Ebene zu erklären ist.}
-
-\subsubsection*{Wolframs eindimensionale Automaten}
-
-Stephen Wolfram untersuchte systematisch eindimensionale zelluläre Automaten. Diese werden klassifiziert nach ihrer Komplexität:
-
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Klasse I:} Homogene, triviale Konfigurationen entstehen.
-    \item \textbf{Klasse II:} Einfache periodische oder stabile Muster.
-    \item \textbf{Klasse III:} Chaotische, scheinbar zufällige Dynamik.
-    \item \textbf{Klasse IV:} Komplexe Strukturen mit interessanten lokalen Phänomenen (Grenze zwischen Ordnung und Chaos).
-\end{itemize}
-
-Eindimensionale Automaten sind mathematisch einfacher zu analysieren als 2D-Modelle wie Game of Life und dienen als wichtiges theoretisches Werkzeug zum Verständnis komplexer Dynamiken.
+\textit{Implementierung in NetLogo:} Patches als Agentenart, 2D-Gitter, zeitdiskrete Schritte mit paralleler Update-Logik (Simulated Synchronous Execution).
 
 \newpage
 
 \subsection{Genetische Algorithmen und Simulated Annealing}
 
-\subsubsection*{Biologische Grundlagen und Motivation}
+Beide Methoden sind \textbf{Metaheuristiken}: gradientenfreie Optimierungsverfahren, die auch in hochdimensionalen, nicht-konvexen Suchräumen mit vielen lokalen Optima verwendet werden.
 
-Beidemethoden -- Genetische Algorithmen (GA) und Simulated Annealing (SA) -- sind klassische \textbf{Metaheuristiken} der evolutionären Optimierung. Beiden gemein ist, dass sie keine Ableitungsinformation benötigen und auch in hochdimensionalen, nicht-konvexen Suchräumen mit vielen lokalen Optima eingesetzt werden können.
+\subsubsection*{Genetische Algorithmen (GA)}
 
-\definition{\textbf{Genetische Algorithmen} basieren auf drei biologischen Prinzipien:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Darwin'sche Selektion:} Individuen, die besser an ihre Umgebung angepasst sind (``fitter''), überleben mit höherer Wahrscheinlichkeit und geben ihre Eigenschaften weiter.
-    \item \textbf{Mendelsche Vererbung:} Gene werden nicht vermischt, sondern diskret weitergegeben; dominante Gene setzen sich gegenüber rezessiven durch.
-    \item \textbf{Mutation:} Spontane, zufällige Veränderungen des Erbguts ermöglichen die Erkundung neuer genetischer Konstellationen -- der direkte Analogon zur stochastischen Exploration im Algorithmus.
-\end{itemize}
+\definition{GA basieren auf drei biologischen Prinzipien: \textbf{Darwin'sche Selektion} (fittere Individuen überleben mit höherer Wahrscheinlichkeit), \textbf{Mendelsche Vererbung} (diskrete Weitergabe von Genen) und \textbf{Mutation} (zufällige Veränderungen ermöglichen Exploration).}
 
-\subsubsection*{Terminologie und Kodierung}
+\textbf{Terminologie:} Chromosom (Kandidatenlösung), Population (Menge der Kandidaten), Gen (ein Parameter), Allel (Ausprägung), Genotyp (kodierte Darstellung), Phänotyp (dekodierter Wert).
 
-\textbf{GA-Terminologie:}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Chromosom:} Eine Kandidatenbilösung (biologisch: Individuum)
-    \item \textbf{Population:} Menge aller Kandidaten der Größe $M$
-    \item \textbf{Gen:} Ein Parameter der Lösung (biologisch: Merkmal)
-    \item \textbf{Allel:} Ein einzelnes Bit oder Wert (biologisch: Ausprägung eines Gens)
-    \item \textbf{Genotyp:} Kodierte Darstellung der Lösung (Bitstring, Integer-Vektor, etc.)
-    \item \textbf{Phänotyp:} Dekodierter Realwert; die eigentliche zu bewertende Lösung
-\end{itemize}
+\textbf{Kodierung:} Binär (klassisch), Integer, Gleitpunkt ($\mathbb{R}^n$-Vektor, ermöglicht Gauß-Mutation, modern), oder gemischt.
 
-\textbf{Kodierungsarten:}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Binärkodierung:} Jeder Parameter wird in einen Bitstring fixer Länge kodiert (klassisch, aber aufwendig zu dekodieren).
-    \item \textbf{Integer-Kodierung:} Ganzzahlige Parameter direkt als Vektor; einfacher, aber weniger flexibel.
-    \item \textbf{Gleitpunktkodierung:} Kontinuierliche Parameter als $\mathbb{R}^n$-Vektor; ermöglicht Gauß-Mutation und ist modern.
-    \item \textbf{Gemischte Kodierung:} Kombination der obigen Varianten je nach Problemstruktur.
-\end{itemize}
+\textbf{Die drei Operatoren:}
 
-\subsubsection*{Die drei genetischen Operatoren}
-
-\textbf{Selektion:} Die Fitnessfunktion $f(x)$ bewertet jedes Chromosom. Fittere Individuen erhalten höhere Reproduktionswahrscheinlichkeit. Typische Varianten:
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Roulette-Wheel:} Fitnessproportionale Auswahl (jedes Individuum belegt einen Kreissektor proportional zu seinem Fitnesswert).
-    \item \textbf{Turnier:} $\tau \geq 2$ zufällige Kandidaten werden gezogen; die zwei fittesten reproduzieren. Der Parameter $\tau$ steuert den Selektionsdruck.
-    \item \textbf{Elitismus:} Die besten $k$ Individuen werden unverändert in die nächste Generation übertragen.
-\end{itemize}
-
-\textbf{Crossover (Rekombination):} Zwei Elternchromosomen tauschen Genabschnitte aus und erzeugen zwei Nachkommen.
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Single-Point:} Ein zufälliger Schnittpunkt teilt beide Chromosomen; Teilstücke links/rechts werden getauscht.
-    \item \textbf{Multi-Point:} Zwei oder mehr Schnittpunkte für feinere Mischung.
-    \item \textbf{Uniform:} Jedes Allel wird unabhängig mit Wahrscheinlichkeit 0,5 vom anderen Elternteil übernommen.
-\end{itemize}
-
-\textbf{Mutation:} Einzelne Allele werden mit kleiner Wahrscheinlichkeit $p_\text{mut}$ verändert und verhindern so vorzeitige Konvergenz.
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Bit-Flip:} Einzelnes zufälliges Bit wird invertiert (binär).
-    \item \textbf{Gaußsche Mutation:} Kontinuierliche Parameter werden mit $\mathcal{N}(0,\sigma)$ gestört.
-    \item \textbf{Swap/Inversion/Scramble:} Für Permutationscodierung; Positionen werden getauscht oder Segmente gespiegelt.
-\end{itemize}
+\begin{table}[H]
+\centering
+\begin{tabular}{p{2.5cm} p{3cm} p{9cm}}
+\hline
+\textbf{Operator} & \textbf{Variante} & \textbf{Beschreibung} \\
+\hline
+Selektion & Roulette-Wheel & Fitnessproportionale Auswahl \\
+ & Turnier ($\tau \geq 2$) & Fitteste aus $\tau$ Zufallskandidaten --> Selektionsdruck \\
+ & Elitismus & Beste $k$ Individuen direkt übernommen \\
+\hline
+Crossover & Single-Point & Ein Schnittpunkt, Teilstücke tauschen \\
+ & Multi-Point & Mehrere Schnittpunkte \\
+ & Uniform & Jedes Allel unabhängig mit WSK 0,5 \\
+\hline
+Mutation & Bit-Flip & Einzelnes Bit invertiert (binär) \\
+ & Gauß & Parameter mit $\mathcal{N}(0,\sigma)$ gestört (kontinuierlich) \\
+ & Swap/Inversion & Für Permutationskodierung \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsubsection*{Simulated Annealing (SA)}
 
-\definition{\textbf{Simulated Annealing} ist eine \textbf{Einzellösungs-Metaheuristik}, inspiriert durch das physikalische Abkühlen von Metallen. Beim Erhitzen lösen sich Gitterstrukturen auf (hohe Entropie, Exploration); beim langsamen Abkühlen findet das Material einen stabilen Niedrigenergie-Zustand (Exploitation).}
+\definition{SA ist eine \textbf{Einzellösungs-Metaheuristik}, inspiriert durch das physikalische Abkühlen von Metallen: Beim Erhitzen Exploration (hohe Entropie), beim langsamen Abkühlen Exploitation (stabiler Niedrigenergie-Zustand).}
 
-\textbf{Das Metropolis-Kriterium:} Die Übergangswahrscheinlichkeit von Zustand $m$ zu Zustand $n$ lautet:
-$$P(n \mid m) = \begin{cases}
-        1                                            & \text{falls } E(n) < E(m) \quad\text{(besserer Zustand)}        \\
-        \exp\!\left(-\frac{E(n)-E(m)}{k_B\,T}\right) & \text{falls } E(n) \geq E(m) \quad\text{(schlechterer Zustand)}
-    \end{cases}$$
+\textbf{Metropolis-Kriterium} -- Übergangswahrscheinlichkeit von Zustand $m$ zu $n$:
+\[
+P(n \mid m) = \begin{cases} 1 & E(n) < E(m) \\ \exp\!\left(-\frac{E(n)-E(m)}{k_B T}\right) & E(n) \geq E(m) \end{cases}
+\]
+Schlechtere Zustände werden mit $P \in (0,1)$ akzeptiert -- Entkommen aus lokalen Optima.
 
-Da im schlechteren Fall $\Delta E = E(n) - E(m) > 0$ ist, liegt $P(n|m) \in (0,1)$: schlechtere Zustände werden mit nicht-null Wahrscheinlichkeit akzeptiert -- dies ermöglicht das Entkommen aus lokalen Optima.
+\textbf{Abkühlstrategien:} Linear ($T_{k+1} = \max(T_k - \eta, T_\text{min})$), Exponentiell ($T_{k+1} = a\,T_k$, $a<1$, realistisch), Logarithmisch ($T_{k+1} = T_0/\ln(k+1)$, theoretisch optimal).
 
-\textbf{Abkühlstrategien:}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Linear:} $T_{k+1} = \max(T_k - \eta,\, T_\text{min})$ -- einfach, aber unphysikalisch.
-    \item \textbf{Exponentiell:} $T_{k+1} = a\,T_k$ mit $a < 1$ -- realistisch, kritische Abhängigkeit von $a$.
-    \item \textbf{Logarithmisch:} $T_{k+1} = T_0/\ln(k+1)$ -- langsam am Ende, theoretisch optimal.
-\end{itemize}
+\textbf{Vergleich GA vs.\ SA:}
 
-\subsubsection*{Vergleich GA vs. SA}
+\begin{table}[H]
+\centering
+\begin{tabular}{p{3.5cm} p{5cm} p{7cm}}
+\hline
+ & \textbf{GA} & \textbf{SA} \\
+\hline
+Populationsgröße & $M > 1$ & $M = 1$ \\
+Exploration & Crossover + Mutation & Hohe Temperatur + Akzeptanz-WSK \\
+Parallelisierbarkeit & Gut & Schlecht \\
+Stärke & Kombinatorisch, multimodal & Kontinuierlich, einfach impl. \\
+\end{tabular}
+\end{table}
 
-\textbf{GA:} Populationsgroße $M > 1$; Exploration via Crossover + Mutation; gutes Gedächtnis (alle $M$ Chromosomen); $\mathcal{O}(M)$ Fitnessbewertungen pro Iteration; gut parallelisierbar; stark bei kombinatorischen und multi-modalen Problemen.\vspace{6pt}
-
-\textbf{SA:} Einzellösung ($M=1$); Exploration via hohe Temperatur + Akzeptanzwahrscheinlichkeit; Speicher nur für eigenes Bestes (optional); 1 Fitnessbewertung pro Iteration; schlecht parallelisierbar; einfach implementierbar für kontinuierliche Optimierung.\vspace{6pt}
-
-\textbf{Gemeinsamkeit:} Beide sind gradientenfreie Metaheuristiken, die stochastisch schlechtere Zustände akzeptieren können.
+\textit{Gemeinsamkeit: Beide sind gradientenfreie Metaheuristiken, die stochastisch schlechtere Zustände akzeptieren.}
 
 \newpage
 
 \subsection{ACO und PSO}
 
-\subsubsection*{Schwarmintelligenz als Grundlage}
-
-\definition{\textbf{Ant Colony Optimization} (ACO) und \textbf{Particle Swarm Optimization} (PSO) gehören zur Klasse der \textbf{schwarmbasierten Algorithmen}: Kollektives, dezentrales Verhalten einfacher Agenten erzeugt emergentes, komplexes Optimierungsverhalten -- ohne dass ein einzelner Agent das Gesamtproblem kennt.}
-
-Beide Algorithmen basieren nicht auf biologischer Vererbung, sondern auf der direkten Interaktion von Individuen mit ihrer Umgebung bzw. untereinander.
+\definition{ACO und PSO gehören zur Klasse der \textbf{schwarmbasierten Algorithmen}: Kollektives, dezentrales Verhalten einfacher Agenten erzeugt emergentes Optimierungsverhalten -- kein einzelner Agent kennt das Gesamtproblem.}
 
 \subsubsection*{Ant Colony Optimization (ACO)}
 
-\textbf{Biologisches Vorbild:} Ameisen finden auf dem Weg von Nest zu Futterquelle zunächst zufällige Pfade. Auf dem Rückweg hinterlassen sie \textbf{Pheromone}. Da kürzere Pfade schneller traversiert werden, akkumuliert dort Pheromon schneller (positive Rückkopplung). Pheromon verdampft mit der Zeit (negative Rückkopplung). Nach hinreichend vielen Iterationen dominiert der optimale Pfad.
+\textbf{Biologisches Vorbild:} Ameisen hinterlassen auf kürzeren Pfaden schneller mehr \textbf{Pheromone} (positive Rückkopplung). Pheromon verdampft mit der Zeit (negative Rückkopplung). Nach vielen Iterationen dominiert der optimale Pfad.
 
-\textbf{Mathematische Formulierung (Traveling Salesman Problem):} Die Wahrscheinlichkeit, dass Ameise $k$ von Knoten $A$ zu Knoten $B$ wechselt:
-$$p_{AB}^{(k)} = \frac{\tau_{AB}^{\alpha}\;\eta_{AB}^{\beta}}{\displaystyle\sum_{m \notin \mathcal{C}_k} \tau_{Am}^{\alpha}\;\eta_{Am}^{\beta}}$$
+\textbf{Übergangswahrscheinlichkeit} (TSP) von Knoten $A$ zu $B$:
+\[
+p_{AB}^{(k)} = \frac{\tau_{AB}^{\alpha}\;\eta_{AB}^{\beta}}{\sum_{m \notin \mathcal{C}_k} \tau_{Am}^{\alpha}\;\eta_{Am}^{\beta}}, \qquad \eta_{AB} = 1/d_{AB}
+\]
+$\tau_{AB}$: Pheromone auf Kante $(A,B)$; $\alpha, \beta$: Gewichtungsparameter (typisch $\alpha=1, \beta=5$); $\mathcal{C}_k$: bereits besuchte Städte.
 
-wobei:
-\begin{itemize}[leftmargin=1.5em]
-    \item $\tau_{AB}$: akkumulierte Pheromonmenge auf Kante $(A,B)$
-    \item $\eta_{AB} = 1/d_{AB}$: heuristische Information (inverse Distanz)
-    \item $\alpha, \beta$: Gewichtungsparameter (typisch $\alpha=1,\; \beta=5$)
-    \item $\mathcal{C}_k$: bereits besuchte Städte der Ameise $k$
-\end{itemize}
-
-\textbf{Pheromon-Update} nach Abschluss aller Touren:
-$$\tau_{ij} \leftarrow (1-\rho)\,\tau_{ij} + \sum_{k=1}^{K} \Delta\tau_{ij}^{(k)}, \quad \Delta\tau_{ij}^{(k)} = \begin{cases} Q / L_k & \text{Ameise }k\text{ nutzte Kante } (i,j) \\ 0 & \text{sonst} \end{cases}$$
-
-mit Verdunstungsrate $\rho \in (0,1)$, Depositionskonstante $Q$ und Tourlänge $L_k$.
-
-\textbf{Wichtige Varianten:}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Max-Min Ant System (MMAS):} Nur die beste Ameise darf Pheromon ablegen; $\tau_{ij}$ wird auf $[\tau_\text{min}, \tau_\text{max}]$ begrenzt (verhindert premature convergence).
-    \item \textbf{Elitismus:} Die global beste Ameise erhält zusätzliches Gewicht beim Pheromon-Update.
-\end{itemize}
-
-ACO ist besonders geeignet für diskrete und kombinatorische Optimierungsprobleme (TSP, Scheduling). Für kontinuierliche Probleme diskretisiert man den erlaubten Bereich in Bins.
+\textbf{Pheromon-Update:}
+\[
+\tau_{ij} \leftarrow (1-\rho)\,\tau_{ij} + \sum_{k} \Delta\tau_{ij}^{(k)}, \qquad \Delta\tau_{ij}^{(k)} = \begin{cases} Q/L_k & \text{Kante genutzt} \\ 0 & \text{sonst} \end{cases}
+\]
+$\rho$: Verdunstungsrate; $Q$: Depositionskonstante; $L_k$: Tourlänge. Variante \textbf{MMAS}: Nur beste Ameise depositioniert; $\tau$ wird auf $[\tau_\text{min}, \tau_\text{max}]$ begrenzt (verhindert vorzeitige Konvergenz).
 
 \subsubsection*{Particle Swarm Optimization (PSO)}
 
-\definition{\textbf{PSO} modelliert das Bewegungsverhalten von Schwarmtieren (Vögel, Fische). Jedes Individuum (\textit{Partikel}) $x_i \in \mathbb{R}^d$ besitzt eine Geschwindigkeit $v_i \in \mathbb{R}^d$ und ein Gedächtnis für den bisher besten eigenen Zustand $b_i$.}
+\definition{PSO modelliert Schwarmtiere: Jedes Partikel $x_i \in \mathbb{R}^d$ besitzt eine Geschwindigkeit $v_i$ und ein Gedächtnis für seine beste bekannte Position $b_i$.}
 
-\textbf{Geschwindigkeitsupdate:} Die Geschwindigkeit wird durch drei soziale Prinzipien bestimmt:
-$$v_i \;\leftarrow\; w\,v_i \;+\; \phi_1 \cdot (b_i - x_i) \;+\; \phi_2 \cdot (h_i - x_i) \;+\; \phi_3 \cdot (g - x_i)$$
+\textbf{Geschwindigkeits- und Positions-Update:}
+\[
+v_i \leftarrow \underbrace{w\,v_i}_{\text{Trägheit}} + \underbrace{\phi_1(b_i - x_i)}_{\text{Kognition}} + \underbrace{\phi_2(h_i - x_i)}_{\text{Imitation}} + \underbrace{\phi_3(g - x_i)}_{\text{Bewunderung}}, \qquad x_i \leftarrow x_i + v_i
+\]
+$w$: Trägheitsgewicht (Absenkung von $w_\text{max}$ auf $w_\text{min}$ $\to$ erst Exploration, dann Exploitation); $v_\text{max} \approx 10$--$20\,\%$ der Suchraum-Spanne verhindert Divergenz. Topologien: \textit{gbest} (All-to-All, schnell aber lokal-optima-anfällig), \textit{Ring} (bessere Diversität), \textit{Square/Torus}, \textit{Dynamisch}.
 
-wobei:
-\begin{itemize}[leftmargin=1.5em]
-    \item $w\,v_i$: Trägheit (``ein Objekt in Bewegung bleibt in Bewegung'')
-    \item $\phi_1 \cdot (b_i - x_i)$: Nostalgie/Kognition (eigene Erfahrung)
-    \item $\phi_2 \cdot (h_i - x_i)$: Imitation (nahestehende Individuen)
-    \item $\phi_3 \cdot (g - x_i)$: Bewunderung (globales Bestes)
-\end{itemize}
+\textbf{Vergleich ACO vs.\ PSO und No-Free-Lunch:}
 
-\textbf{Position-Update:} Nach der Geschwindigkeitsaktualisierung:
-$$x_i \leftarrow x_i + v_i$$
+\begin{table}[H]
+\centering
+\begin{tabular}{p{3.5cm} p{4cm} p{4cm}}
+\hline
+ & \textbf{ACO} & \textbf{PSO} \\
+\hline
+Vorbild & Ameisen (Pheromone) & Schwarmtiere (Bewegung) \\
+Gedächtnis & Globale Pheromonmatrix & Individuelle Bestposition $b_i$ \\
+Stärke & Diskret/kombinatorisch & Kontinuierlich \\
+Reproduktion & Touren pro Iteration & Keine (nur Bewegung) \\
+\hline
+\end{tabular}
+\end{table}
 
-\textbf{Konvergenz-Mechanismen:}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Trägheitsgewicht $w$:} Skaliert den alten Geschwindigkeitsanteil. Wird $w$ von $w_\text{max}$ auf $w_\text{min}$ abgesenkt, dominiert früh Exploration, später Exploitation.
-    \item \textbf{Geschwindigkeitsbegrenzung $v_\text{max}$:} Verhindert Divergenz (Faustregel: $v_\text{max} \approx 10$--$20\%$ der Suchraum-Spanne).
-\end{itemize}
-
-\textbf{Topologien (Informationsfluss):}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{gbest (All-to-All):} Gesamter Schwarm ist Nachbarschaft; schnelle Konvergenz, aber anfällig für lokale Optima.
-    \item \textbf{Ring:} Jeder Partikel kennt nur seine zwei direkten Nachbarn; bessere Diversität.
-    \item \textbf{Square/Torus:} Gitterartige Struktur mit 4 Nachbarn pro Partikel.
-    \item \textbf{Dynamisch:} Die $k$ räumlich nächsten Nachbarn werden in jeder Iteration neu bestimmt.
-\end{itemize}
-
-\subsubsection*{Vergleich ACO vs. PSO}
-
-\textbf{ACO:} Biologisches Vorbild Ameisenkolonie (Pheromone); Gedächtnis ist globale Pheromonmatrix; geeignet für diskrete/kombinatorische Probleme; Generationskonzept (Touren pro Iteration); gut parallelisierbar.\vspace{6pt}
-
-\textbf{PSO:} Biologisches Vorbild Schwarmtiere (Bewegung); Gedächtnis ist individuelle Bestposition $b_i$; geeignet für kontinuierliche Optimierung; Iterationskonzept (keine Reproduktion); gut parallelisierbar.\vspace{6pt}
-
-\subsubsection*{No-Free-Lunch-Theorem und Algorithmenauswahl}
-
-\definition{Das \textbf{No-Free-Lunch-Theorem} besagt, dass kein Algorithmus auf allen Optimierungsproblemen überlegen ist: Verbesserungen auf einer Problemklasse werden durch Verschlechterungen auf einer anderen erkauft.}
-
-\textbf{Empirische Auswahl:}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Diskret/kombinatorisch (TSP, Scheduling):} ACO, GA
-    \item \textbf{Kontinuierlich, viele Parameter:} PSO, SA, Gleitpunkt-GA
-    \item \textbf{Viele lokale Optima:} SA (Metropolis), GA mit Niching, MMAS
-    \item \textbf{Rechenaufwand gering:} SA (eine Lösung), PSO
-    \item \textbf{Parallelisierung wichtig:} GA, ACO, PSO
-\end{itemize}
+\definition{\textbf{No-Free-Lunch-Theorem}: Kein Algorithmus ist auf allen Optimierungsproblemen überlegen -- Verbesserungen auf einer Klasse werden durch Verschlechterungen auf einer anderen erkauft. Empirische Auswahl: diskret/kombinatorisch $\to$ ACO, GA; kontinuierlich $\to$ PSO, SA; viele lokale Optima $\to$ SA, MMAS; Parallelisierung $\to$ GA, ACO, PSO.}
 
 \newpage
-
 \subsection{Reinforcement Learning und MDPs}
 
-\subsubsection*{Grundidee und Abgrenzung}
+\definition{\textbf{Reinforcement Learning} (RL) ist ziel-orientiertes Trial-and-Error-Lernen durch Interaktion mit einer Umgebung. Aktionen liefern \textbf{Rewards}; das Ziel ist die Maximierung kumulierter Rewards. vs.\ SL: Lernen aus eigener Erfahrung, nicht aus Labels. vs.\ UL: Reward-Maximierung statt Strukturentdeckung.}
 
-\definition{\textbf{Reinforcement Learning} (RL) ist ziel-orientiertes Trial-and-Error-Lernen von Agenten durch die Interaktion mit ihrer Umgebung (Environment). Gewählte Aktionen liefern \textbf{Rewards}, die den Agenten ermöglichen, ihre Aktionen nachträglich zu bewerten und dadurch ihr zukünftiges Verhalten zu optimieren (bestärkendes Lernen).}
+\textbf{Exploration-Exploitation-Dilemma:} \textit{Exploitation} = Rückgriff auf Gelerntes; \textit{Exploration} = Abweichen zur Entdeckung von Besserem. Ohne Exploration: lokale Optima; ohne Exploitation: verschwendete Zeit. Mathematisch ungelöst -- praktisch eine Balancierungsaufgabe. Modellfreie Verfahren (Q-Learning, SARSA) lernen aus Erfahrung ohne Umgebungsmodell; modellbasierte (AlphaGo) planen mit einem expliziten Modell.
 
-\textbf{Unterschied zu anderen Lernparadigmen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{vs. Supervised Learning (SL):} RL erfolgt durch selbstständiges Lernen aus eigener Erfahrung, nicht aus vorgegebenen Trainingsdaten mit korrekten Labels.
-    \item \textbf{vs. Unsupervised Learning (UL):} RL maximiert Rewards zur Zielerreichung, statt verdeckte Strukturen in Daten aufzudecken.
-\end{itemize}
+\subsubsection*{Markov Decision Process (MDP)}
 
-\textbf{Kernziel:} Agenten sollen die \textit{kumulierten Rewards} über einen längeren Zeitraum maximieren.
+\definition{Ein \textbf{MDP} ist ein stochastisches Entscheidungsproblem, bei dem der nächste Zustand und Reward nur vom \emph{aktuellen} Zustand und der gewählten Aktion abhängen (\textbf{Markov-Eigenschaft} -- keine Vorgeschichte relevant).}
 
-\subsubsection*{Das Exploration-Exploitation-Dilemma}
+\textbf{Grundelemente:} State $S$ (Zustand des Environments, durch Aktionen veränderbar), Action $A$ (gewählte Aktion), Reward $R$ (Feedback auf die Aktion), Policy $\pi(a|s)$ (Wahrscheinlichkeitsverteilung über Aktionen je Zustand -- entspricht einer gemischten Strategie in der Spieltheorie). Sequenzieller Prozess:
+\[
+S_0 \to A_0 \to R_1 \to S_1 \to A_1 \to R_2 \to S_2 \to \cdots
+\]
 
-\definition{Das \textbf{Exploration-Exploitation-Dilemma} beschreibt den Konflikt zwischen zwei gegensätzlichen Strategien:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Exploitation:} Rückgriff auf bereits Gelerntes und Etabliertes -- Agenten nutzen ihre beste bekannte Strategie.
-    \item \textbf{Exploration:} Selektives Abweichen von Gelerntem -- Agenten versuchen neue Aktionen, um potenziell bessere Strategien zu finden.
-\end{itemize}
+\textbf{Stochastische Übergänge:} State $s'$ und Reward $r$ folgen nicht mit Sicherheit, sondern mit Wahrscheinlichkeit $p$ (risikobehaftete Situation):
+\[
+p(s', r \mid s, a) = \Pr(S_{t+1}=s', R_{t+1}=r \mid S_t=s, A_t=a), \qquad \sum_{s'}\sum_r p(s',r\mid s,a) = 1
+\]
+Erwarteter Reward gegeben $s$ und $a$ (unter stochastischer Policy $\pi$):
+\[
+\bar{r}(s,a) = \sum_{s',r} p(s',r\mid s,a)\cdot r, \qquad \mathbb{E}_\pi[R_{t+1}\mid S_t=s] = \sum_a \pi(a|s)\cdot\bar{r}(s,a)
+\]
 
-Ohne Exploration bleiben Agenten in lokalen Optima stecken; ohne Exploitation verschwenden sie Zeit auf suboptimale Aktionen. \textit{Dieses Dilemma ist mathematisch-theoretisch noch ungelöst}, daher besteht die praktische Aufgabe darin, eine möglichst gute Balance zu finden.
+\textbf{Return-Funktion} $G_t$ -- die zu maximierende Zielfunktion. Mit \textbf{Diskontierungsfaktor} $\gamma \in [0,1]$, der weiter in der Zukunft liegende Rewards geringer gewichtet (analog zu $\delta$ in der Spieltheorie):
+\[
+G_t = \sum_{k=1}^{T} \gamma^{k-1} R_{t+k} = R_{t+1} + \gamma\,G_{t+1}
+\]
+Die rekursive Form $G_t = R_{t+1} + \gamma\,G_{t+1}$ ist zentral: der Return ab $t$ ist der nächste Reward plus der diskontierte Return ab $t{+}1$.
 
-\subsubsection*{Modellfreie vs. Modellbasierte Verfahren}
+\textbf{Value-Function} $v_\pi(s)$ -- bewertet einen State $s$ unter Policy $\pi$ als erwarteten Return:
+\[
+v_{\pi}(s) = \mathbb{E}_\pi[G_t \mid S_t=s] = \sum_a \pi(a|s)\sum_{s',r} p(s',r|s,a)\cdot\bigl(r + \gamma\,v_\pi(s')\bigr)
+\]
+Interpretation: Wie gut ist es, sich in State $s$ zu befinden, wenn ich Policy $\pi$ verfolge? Der Wert ergibt sich rekursiv aus dem unmittelbaren Reward plus dem diskontierten Wert des Nachfolgezustands.
 
-\textbf{Modellfreie Verfahren:}
-\begin{itemize}[leftmargin=1.5em]
-    \item Agenten machen \textbf{keine Vorhersagen} über zukünftige Zustände.
-    \item Fokus liegt auf \textbf{Lernen} aus direkter Erfahrung.
-    \item Beispiele: Q-Learning, SARSA.
-    \item Vorteil: Einfacher zu implementieren, erfordern kein vollständiges Modell der Umgebung.
-\end{itemize}
+\textbf{Action-Value-Function} $q(s,a)$ -- bewertet eine konkrete Aktion $a$ in State $s$:
+\[
+q(s,a) = \sum_{s',r} p(s',r|s,a)\cdot\bigl(r + \gamma\,v_\pi(s')\bigr), \qquad v_\pi(s) = \sum_a \pi(a|s)\cdot q(s,a)
+\]
+Unterschied: $v_\pi(s)$ bewertet den State (über alle möglichen Aktionen gemittelt); $q(s,a)$ bewertet eine \emph{spezifische} Aktion in diesem State. $v_\pi$ ist der erwartete $q$-Wert unter $\pi$.
 
-\textbf{Modellbasierte Verfahren:}
-\begin{itemize}[leftmargin=1.5em]
-    \item Agenten erstellen ein \textbf{Modell} der Umgebung mit konkreten \textbf{Vorhersagen}.
-    \item Fokus liegt auf \textbf{Planen} mit diesem Modell.
-    \item Beispiele: Schach-Algorithmen (AlphaGo), Go-Algorithmen.
-    \item Vorteil: Können effizienter sein, wenn ein gutes Modell zur Verfügung steht.
-\end{itemize}
-
-\subsubsection*{Finite Markov Decision Processes (MDP)}
-
-\definition{Ein \textbf{Markov Decision Process} (MDP) ist ein stochastisches dynamisches Entscheidungsproblem, bei dem der nächste Zustand und der Reward nur vom aktuellen Zustand und der gewählten Aktion abhängen (\textbf{Markov-Eigenschaft}), unabhängig von der Vorgeschichte.}
-
-\textbf{Grundelemente des MDP:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{State (S):} Der Zustand der Umgebung, der durch eine gewählte Aktion verändert werden kann.
-    \item \textbf{Action (A):} Eine einzelne Aktion, die der Agent zu einem Zeitpunkt wählt.
-    \item \textbf{Reward (R):} Das Feedback aus der Umgebung auf eine konkret gewählte Aktion.
-    \item \textbf{Policy ($\pi$):} Die Gesamtheit der Wahrscheinlichkeitsverteilungen über mögliche Aktionen gegeben jeweils eines Zustands (entspricht einer gemischten Strategie in der Spieltheorie).
-\end{itemize}
-
-\textbf{Sequenzieller Prozess:}
-$$S_0 \to A_0 \to R_1 \to S_1 \to A_1 \to R_2 \to S_2 \to A_2 \to R_3 \to \cdots$$
-
-\subsubsection*{Stochastische Übergänge und Wahrscheinlichkeiten}
-
-Zustände und Rewards folgen nicht mit Sicherheit, sondern mit einer Wahrscheinlichkeit (Risiko):
-$$p(s', r | s, a) = \Pr(S_{t+1} = s', R_{t+1} = r | S_t = s, A_t = a)$$
-
-Mit der Normalisierungsbedingung:
-$$\sum_{s'} \sum_r p(s', r | s, a) = 1$$
-
-\textbf{Erwarteter Reward} gegeben State $s$ und Aktion $a$:
-$$\bar{r}(s, a) = \mathbb{E}[R_{t+1} | S_t = s, A_t = a] = \sum_{s', r} p(s', r | s, a) \cdot r$$
-
-Bei einer \textbf{stochastischen Policy} $\pi(a|s)$ (Wahrscheinlichkeitsverteilung über Aktionen):
-$$\mathbb{E}_{\pi}[R_{t+1} | S_t = s] = \sum_a \pi(a|s) \cdot \sum_{s', r} p(s', r | s, a) \cdot r$$
-
-\subsubsection*{Zielfunktion und Diskontierungsfaktor}
-
-Die zu maximierende \textbf{Return-Funktion} zum Zeitpunkt $t$ lautet:
-$$G_t = R_{t+1} + R_{t+2} + R_{t+3} + \cdots + R_{t+T} = \sum_{k=1}^{T} R_{t+k}$$
-
-Mit \textbf{Diskontierungsfaktor} $\gamma \in [0,1]$, der zukünftige Rewards geringer gewichtet:
-$$G_t = R_{t+1} + \gamma \cdot R_{t+2} + \gamma^2 \cdot R_{t+3} + \cdots + \gamma^{T-1} \cdot R_{t+T} = \sum_{k=1}^{T} \gamma^{k-1} \cdot R_{t+k}$$
-
-Rekursive Form:
-$$G_t = R_{t+1} + \gamma \cdot G_{t+1}$$
-
-\subsubsection*{Value-Function und Action-Value-Function}
-
-\definition{Die \textbf{Value-Function} $v_{\pi}(s)$ bewertet einen State $s$ gegeben einer Policy $\pi$. Sie entspricht dem erwarteten Return vom State $s$ unter Policy $\pi$:}
-$$v_{\pi}(s) = \mathbb{E}_{\pi}[G_t | S_t = s] = \sum_a \pi(a|s) \sum_{s', r} p(s', r | s, a) \cdot (r + \gamma \cdot v_{\pi}(s'))$$
-
-\definition{Die \textbf{Action-Value-Function} (Q-Funktion) $q(s, a)$ bewertet eine konkrete Aktion $a$ in State $s$:}
-$$q(s, a) = \sum_{s', r} p(s', r | s, a) \cdot (r + \gamma \cdot v_{\pi}(s'))$$
-
-\textbf{Zusammenhang:}
-$$v_{\pi}(s) = \sum_a \pi(a|s) \cdot q(s, a)$$
-
-\subsubsection*{Optimale Policies}
-
-Die \textbf{optimale Action-Value-Function} wird durch Maximierung bestimmt:
-$$q^*(s, a) = \sum_{s', r} p(s', r | s, a) \cdot (r + \gamma \cdot \max_{a'} q^*(s', a'))$$
-
-Die daraus folgende \textbf{optimale Policy} ist deterministisch (oder quasi-deterministisch mit Tie-Breaking):
-$$\pi^*(a|s) = \begin{cases} 1 / |\arg \max_a q^*(s, a)| & \text{wenn } a \in \arg \max_a q^*(s, a) \\ 0 & \text{sonst} \end{cases}$$
-
-Die \textbf{optimale Value-Function}:
-$$v^*(s) = \sum_a \pi^*(a|s) \cdot q^*(s, a) = \max_a q^*(s, a)$$
+\textbf{Optimale Policy} -- durch Maximierung der Action-Value-Function (Rückwärtsinduktion wie in der Spieltheorie):
+\[
+q^*(s,a) = \sum_{s',r} p(s',r|s,a)\cdot\bigl(r + \gamma\max_{a'} q^*(s',a')\bigr), \qquad v^*(s) = \max_a q^*(s,a)
+\]
+\[
+\pi^*(a|s) = \begin{cases} 1/|\arg\max_a q^*(s,a)| & a \in \arg\max_a q^*(s,a) \\ 0 & \text{sonst} \end{cases}
+\]
 
 \newpage
 
 \subsection{Q-Learning und Bellman-Gleichung}
 
-\subsubsection*{Temporal Difference Learning}
+\definition{\textbf{Temporal Difference (TD) Learning} ist modellfrei: Die Übergangswahrscheinlichkeiten $p(s',r|s,a)$ sind \emph{unbekannt} und werden nicht abgeschätzt. Statt einer vollständigen Summation über alle Übergänge (wie im MDP) wird jede neue beobachtete Erfahrung nur \emph{anteilig} über die \textbf{Lernrate} $\alpha$ übernommen.}
 
-\definition{\textbf{Temporal Difference (TD) Learning} ist ein modellfreies Verfahren, bei dem Agenten aus Erfahrung lernen, ohne die Umgebungsdynamiken $p(s', r | s, a)$ zu kennen. Im Gegensatz zum klassischen MDP-Formalismus wird neue Information nicht vollständig, sondern nur anteilig übernommen (via Learning Rate $\alpha$).}
+\textbf{Vergleich MDP vs.\ TD:}
+\[
+\underbrace{q(s,a)^{t+1} = \sum_{s',r} p(s',r|s,a)\cdot\bigl[r + \gamma\max_{a'} q(s',a')^t\bigr]}_{\text{MDP-Formalismus (modellbasiert): vollständige Summation mit bekanntem Modell}}
+\]
+\[
+\underbrace{q(s,a)^{t+1} = (1-\alpha)\,q(s,a)^t + \alpha\bigl[r + \gamma\max_{a'} q(s',a')^t\bigr]}_{\text{Q-Learning (modellfrei): Linearkombination aus altem Wert und beobachtetem Update}}
+\]
 
-\textbf{Vergleich der Update-Formeln:}
+\textbf{Q-Table:} Matrix mit Zeilen = States, Spalten = Aktionen; Zelle $(s,a)$ enthält den aktuellen Schätzwert $q(s,a)$. Initialisierung typisch mit $q^0 = 0$. Der Agent absolviert die Aufgabe in wiederholten \textbf{Episoden} ohne Reset des Q-Tables -- jede Episode verbessert die Qualität (und erhöht ggf.\ die Größe) der Tabelle.
+
+\subsubsection*{Q-Learning (Off-Policy)}
+
+\definition{Die \textbf{Bellman-Gleichung für Q-Learning} lautet in zwei äquivalenten Darstellungen:}
+\[
+q(s,a)^{t+1} = q(s,a)^t + \underbrace{\alpha}_{\text{Lernrate}} \cdot \underbrace{\Bigl[r + \gamma\max_{a'} q(s',a')^t - q(s,a)^t\Bigr]}_{\text{Temporale Differenz (TD-Fehler)}}
+\]
+\[
+= \underbrace{(1-\alpha)}_{\text{Gewicht alt}}\,q(s,a)^t + \underbrace{\alpha}_{\text{Gewicht neu}}\cdot\underbrace{\bigl[r + \gamma\max_{a'} q(s',a')^t\bigr]}_{\text{Neuberechnung des Action Values}}
+\]
+
+\textbf{Erklärung der Terme:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{MDP-Formalismus (modellbasiert):} Vollständige Summation über alle möglichen Übergänge mit bekannten Wahrscheinlichkeiten $p(s', r | s, a)$.
-    \item \textbf{TD-Learning (modellfrei):} Inkrementelle Updates basierend auf beobachteten Übergängen, ohne die Übergangsdynamiken zu kennen.
+    \item \textbf{$\alpha$ (Learning Rate):} Wie stark wird neue Information gegenüber dem alten Wert gewichtet; $\alpha \in (0,1]$. Groß $\to$ schnelles Lernen, aber instabil; klein $\to$ stabil, aber langsam.
+    \item \textbf{$r$:} Der tatsächlich beobachtete Reward nach Aktion $a$ in State $s$.
+    \item \textbf{$\gamma$ (Discount Factor):} Gewicht zukünftiger Rewards; $\gamma \in [0,1)$. $\gamma \approx 0$ $\to$ kurzfristiger Fokus; $\gamma \approx 1$ $\to$ langfristiger Fokus.
+    \item \textbf{$\max_{a'} q(s',a')^t$:} Bester bekannter Wert im Nachfolgezustand $s'$ -- Rückwärtsinduktion.
+    \item \textbf{TD-Fehler:} Differenz zwischen neuem Schätzwert $r + \gamma\max_{a'} q(s',a')^t$ und altem Wert $q(s,a)^t$; wird mit $\alpha$ skaliert addiert. Null $\to$ kein Update nötig.
 \end{itemize}
 
-\subsubsection*{Q-Tables: Tabellarische Speicherung}
+\textbf{Off-Policy:} Das Update basiert auf der \emph{optimalen} Folgeaktion $\max_{a'}$, nicht auf der tatsächlich gewählten -- daher kann während der Exploration trotzdem die optimale Policy gelernt werden.
 
-\definition{Ein \textbf{Q-Table} ist eine tabellarische Datenstruktur, die die Werte der Action-Value-Function $q(s, a)$ speichert. Jede Zelle enthält den geschätzten Wert einer Aktion $a$ in einem State $s$.}
+\textbf{$\varepsilon$-Greedy-Policy-Update:}
+\[
+\pi(a|s)^t = \begin{cases} 1 - \varepsilon_\text{ep} + \dfrac{\varepsilon_\text{ep}}{|A|} & a \in \arg\max_a q(s,a)^t \\[6pt] \dfrac{\varepsilon_\text{ep}}{|A|} & \text{sonst} \end{cases}
+\]
+Mit Wahrscheinlichkeit $1-\varepsilon$ wird die beste bekannte Aktion gewählt (Exploitation), mit $\varepsilon$ eine Zufallsaktion (Exploration). \textbf{$\varepsilon$-Decay:} $\varepsilon_{\text{ep}+1} = \delta \cdot \varepsilon_\text{ep}$ -- gradueller Übergang von Exploration zu Exploitation über die Episoden.
 
-\textbf{Struktur:}
+\textbf{SARSA (On-Policy):}
+\[
+q(s,a)^{t+1} = (1-\alpha)\,q(s,a)^t + \alpha\bigl[r + \gamma\,q(s',a')^t\bigr]
+\]
+Verwendet die \emph{tatsächlich} gewählte Folgeaktion $a'$ $\to$ konservativer, sicherer bei riskanter Exploration.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{p{3.2cm} p{3.8cm} p{3.8cm}}
+\hline
+ & \textbf{Q-Learning} & \textbf{SARSA} \\
+\hline
+Policy-Typ & Off-Policy & On-Policy \\
+Update mit & $\max_{a'} q(s',a')$ & tatsächlich gewähltem $a'$ \\
+Verhalten & Optimistischer & Konservativer \\
+\hline
+\multicolumn{3}{l}{\textit{Hyperparameter beider Verfahren:}} \\
+$\alpha$ & Learning Rate & Wie stark wird neue Info übernommen \\
+$\gamma$ & Discount Factor & Gewichtung zukünftiger Rewards \\
+$\varepsilon$ (oder $\beta$) & Exploration Rate & Anteil Zufallsaktionen \\
+$\delta$ & Exploration Decay & Wie schnell sinkt $\varepsilon$ pro Episode \\
+\hline
+\end{tabular}
+\end{table}
+
+Bei zu großem Q-Table (großer/kontinuierlicher Zustandsraum): State Abstraction, Feature Engineering, Hierarchical RL oder \textbf{Deep Q-Network (DQN)} als neuronale Approximation von $q(s,a)$ statt Lookup-Table.
+
+\newpage
+\subsection{Natürliche Neuronale Netze}
+
+\definition{\textbf{Neuronen} (Nervenzellen) sind die funktionellen Grundbausteine des Nervensystems. Sie bestehen aus \textbf{Dendriten} (baumartige Fortsätze, empfangen Signale afferent zum Soma), \textbf{Soma} (Zellkörper, integriert alle eingehenden Signale durch Summation erregender und hemmender Einflüsse) und \textbf{Axon} (einziger, bis zu 1\,m langer Fortsatz, leitet das Signal efferent weiter). An \textbf{Synapsen} erfolgt die Übertragung chemisch via \textbf{Neurotransmitter} (z.\,B.\ Glutamat, Acetylcholin, Dopamin): elektrisch $\to$ chemisch (präsynaptisch, Ausschüttung in den synaptischen Spalt) $\to$ elektrisch (postsynaptisch, Potentialänderung an der Membran).}
+
+\textbf{Erregende und hemmende Synapsen:} Das Ruhepotential der Membran beträgt ca.\ $-70\,\text{mV}$.
 \begin{itemize}[leftmargin=1.5em]
-    \item Zeilen entsprechen States $s$.
-    \item Spalten entsprechen Aktionen $a$.
-    \item Jede Zelle speichert $q(s, a)$.
-    \item Typische Initialisierung: $q(s, a)^0 = 0$ für alle $s, a$.
+    \item \textbf{Exzitatorisch (erregend):} Depolarisation -- Potentialdifferenz sinkt (erhöhte Na\textsuperscript{+}-Durchlässigkeit).
+    \item \textbf{Inhibitorisch (hemmend):} Hyperpolarisation -- Potentialdifferenz steigt, Depolarisation erschwert.
 \end{itemize}
 
-\textbf{Lernprozess:}
-Der Agent führt die gleiche Aufgabe in mehreren \textbf{Episoden} wiederholt aus, ohne das Q-Table dabei zu löschen oder zurückzusetzen. Mit jeder Episode verbessert sich die Qualität und möglicherweise die Größe des aufgebauten Q-Tables.
+\textbf{Aktionspotential und Schwellenwertprinzip:} Ein Neuron weist im Mittel $\sim 1000$ synaptische Verbindungen auf und wirkt wie eine Additionsmaschine. Übersteigt der exzitatorische Nettoinput den \textbf{Schwellenwert}, feuert das Axon einen Spike ($+40\,\text{mV}$); danach Repolarisation via K\textsuperscript{+}-Ausstrom. Das Axon kann bis zu \textbf{100 Spikes/s} abfeuern -- höhere Frequenz bewirkt stärkeren Effekt auf nachfolgende Neuronen.
 
-\subsubsection*{Q-Learning: Off-Policy Algorithmus}
-
-\definition{\textbf{Q-Learning} ist ein TD-Lernalgorithmus, der die Action-Value-Function über die \textbf{Bellman-Gleichung} aktualisiert:}
-
-$$q(s, a)^{t+1}_{\text{neu}} = q(s, a)^t_{\text{alt}} + \alpha \left[ r + \gamma \max_{a'} q(s', a')^t - q(s, a)^t \right]$$
-
-Alternative (äquivalente) Darstellung als Linearkombination:
-$$q(s, a)^{t+1} = (1 - \alpha) \cdot q(s, a)^t + \alpha \cdot \left[ r + \gamma \max_{a'} q(s', a')^t \right]$$
-
-\textbf{Komponenten:}
+\textbf{Drei Grundschaltprinzipien:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{$\alpha$ (Learning Rate):} Kontrolliert die Gewichtung zwischen altem und neuem Wert; $\alpha \in (0, 1]$.
-    \item \textbf{$r$ (Reward):} Das beobachtete Feedback aus der Umgebung.
-    \item \textbf{$\gamma$ (Discount Factor):} Gewichtet zukünftige Rewards; $\gamma \in [0, 1)$.
-    \item \textbf{Temporale Differenz:} Der Term $r + \gamma \max_{a'} q(s', a')^t - q(s, a)^t$ misst den Fehler.
+    \item \textbf{Rekurrente Hemmung:} Erregend $\to$ hemmend $\to$ zurück auf erregendes Neuron. Negativer Rückkopplungskreis, stabilisierend.
+    \item \textbf{Vorwärtshemmung:} Erregend $\to$ hemmend $\to$ nachfolgendes erregendes Neuron. Vorauseilende Dämpfung, kein Rückkopplungskreis.
+    \item \textbf{Disinhibition:} Hemmend $\to$ hemmend $\to$ erregendes Neuron. Doppelte Negation -- das erregende Neuron wird enthemmt.
 \end{itemize}
 
-\textbf{Off-Policy Charakteristik:}
-Q-Learning aktualisiert die Q-Werte basierend auf der \textbf{optimalen} (noch nicht gewählten) Aktion $\max_{a'} q(s', a')^t$, nicht auf der tatsächlich gewählten Aktion. Dies ermöglicht Exploration während der Optimierung der Policy.
+\textbf{Brücke zum künstlichen Neuron (Perceptron):} Die biologische Nervenzelle wird direkt abstrahiert: Eingaben $x_i$ $\leftrightarrow$ synaptische Impulse; Gewichte $w_i$ $\leftrightarrow$ Synapsenstärke ($w_i>0$ exzitatorisch, $w_i<0$ inhibitorisch); Bias $b$ $\leftrightarrow$ Schwellenwert; Aktivierungsfunktion $\sigma$ $\leftrightarrow$ Alles-oder-Nichts-Prinzip des Aktionspotentials:
+\[
+z = \sum_{i=1}^{n} w_i x_i + b, \qquad y = \sigma(z)
+\]
+Das menschliche Gehirn umfasst $\geq 10^{10}$ Neuronen mit je $\sim 1000$ Verbindungen -- eine Komplexität, die künstliche Netze mit Millionen von Parametern nur ansatzweise approximieren.
 
-\subsubsection*{Policy-Updates mit $\varepsilon$-Greedy-Strategie}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/natural_nn.png}
+\end{figure}
 
-Die Policy wird typischerweise mit einer \textbf{$\varepsilon$-Greedy-Strategie} aktualisiert:
-$$\pi(a|s)^t = \begin{cases}
-        1 - \varepsilon_{\text{Episode}} + \frac{\varepsilon_{\text{Episode}}}{|A|} & \text{wenn } a \in \arg\max_a q(s, a)    \\
-        \frac{\varepsilon_{\text{Episode}}}{|A|}                                    & \text{wenn } a \notin \arg\max_a q(s, a)
-    \end{cases}$$
-
-\textbf{Mechanik:}
-\begin{itemize}[leftmargin=1.5em]
-    \item Mit Wahrscheinlichkeit $1 - \varepsilon$: Wähle die beste bekannte Aktion (\textit{Exploitation}).
-    \item Mit Wahrscheinlichkeit $\varepsilon$: Wähle eine zufällige Aktion (\textit{Exploration}).
-\end{itemize}
-
-\textbf{$\varepsilon$-Decay:}
-Um graduell von Exploration zu Exploitation überzugehen, wird $\varepsilon$ über Episoden reduziert:
-$$\varepsilon_{\text{Episode}+1} = \delta \cdot \varepsilon_{\text{Episode}}$$
-wobei $\delta \in (0, 1)$ der Decay-Faktor ist.
-
-Die finale Value-Function unter der Policy:
-$$v^*(s)^t = \sum_a \pi(a|s)^t \cdot q(s, a)^t$$
-
-\subsubsection*{SARSA: On-Policy Alternative}
-
-\definition{\textbf{SARSA} (\textit{State-Action-Reward-State-Action}) ist ein TD-Lernalgorithmus, der im Gegensatz zu Q-Learning \textbf{On-Policy} ist.}
-
-Update der Action-Value-Function bei SARSA:
-$$q(s, a)^{t+1} = (1 - \alpha) \cdot q(s, a)^t + \alpha \cdot \left[ r + \gamma \cdot q(s', a')^t \right]$$
-
-\textbf{Unterschied zu Q-Learning:}
-\begin{itemize}[leftmargin=1.5em]
-    \item SARSA nutzt die \textbf{tatsächlich gewählte} Aktion $a'$ zum Update, nicht die optimale Aktion $\max_{a'} q(s', a')^t$.
-    \item Dies macht SARSA konservativ und sicherer bei Exploration.
-    \item SARSA ist immer On-Policy: Updates entsprechen der aktuell verfolgten Policy.
-\end{itemize}
-
-\subsubsection*{Hyperparameter des Temporal Difference Learning}
-
-\textbf{Wichtige Parameter zur Tuning:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{$\alpha$ (Learning Rate):} Bestimmt die Lerngeschwindigkeit; höher = schneller lernen, aber möglich instabil.
-    \item \textbf{$\gamma$ (Discount Factor):} Gewichtet langfristige vs. kurzfristige Rewards; höher = langfristiger Fokus.
-    \item \textbf{$\varepsilon$ (Exploration Rate):} Bestimmt die Balance zwischen Exploration und Exploitation.
-    \item \textbf{$\delta$ (Exploration Decay):} Bestimmt, wie schnell $\varepsilon$ abnimmt.
-\end{itemize}
-
-\subsubsection*{Probleme und Lösungsansätze}
-
-\textbf{Problem: Zu großes Q-Table}
-Bei großen oder kontinuierlichen Zustandsräumen wächst die Größe des Q-Tables exponentiell, was zu Speicher- und Rechenproblemen führt.
-
-\textbf{Lösungsansatz 1 -- Reduktion des Zustandsraums:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{State Abstraction:} Zusammenfassung ähnlicher States zu einem abstrakten State durch Diskretisierung.
-    \item \textbf{Feature Engineering:} Reduktion der Dimensionalität durch Auswahl relevanter Merkmale; wenig relevante Facetten des Zustandsraums werden ignoriert.
-    \item \textbf{Hierarchical RL (HRL):} Zerlegung des Problems in kleinere, leichter lösbare Teilprobleme.
-\end{itemize}
-
-\textbf{Lösungsansatz 2 -- Steigerung der Performance:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Funktionelle Approximation:} Statt eines Lookup-Tables wird eine Funktion (z.\,B.\  \textbf{Deep Q-Network, DQN}) verwendet, um $q(s, a)$ zu approximieren. Dies ermöglicht Generalisierung über ähnliche States.
-    \item \textbf{Multidimensionale Datenbanken:} Speicherung von Lookup-Daten in OLAP-Cubes statt flachen Tabellen, um Speicherung und Abfrageleistung zu optimieren.
-\end{itemize}
 
 \newpage
 
-\subsection{Natürliche Neuronale Netze}
-
-\subsubsection*{Biologischer Aufbau von Nervenzellen}
-
-\definition{\textbf{Neuronen} (Nervenzellen) sind die funktionellen Grundbausteine des Nervensystems. Eine Nervenzelle besteht stets aus drei Hauptkomponenten: dem \textbf{Zellkörper} (Soma/Perikaryon), einem \textbf{Axon} (Neurit) und meist mehreren \textbf{Dendriten}.}
-
-\textbf{Funktionsweise der Komponenten:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Dendriten:} Baumartige Fortsätze des Somas; empfangen Signale von Sinneszellen oder anderen Neuronen (\textit{afferente Erregungsleitung} zum Zellkern).
-    \item \textbf{Soma:} Integriert alle eingehenden Signale; summiert erregende und hemmende Einflüsse auf.
-    \item \textbf{Axon:} Einziger, bis zu einem Meter langer Fortsatz; leitet das Aktionspotential von der Zelle weg zu anderen Neuronen oder Muskelzellen (\textit{efferente Erregungsleitung}).
-\end{itemize}
-
-\subsubsection*{Synapsen, Neurotransmitter und Signalübertragung}
-
-\definition{Die Verbindungsstelle zwischen dem axonalen Endköpfchen eines Neurons und dem Dendrit (bzw.\ Soma oder Axon) eines anderen Neurons heißt \textbf{Synapse}. Bei Säugetieren dominieren \textbf{chemische Synapsen}: Die Übertragung erfolgt durch \textbf{Neurotransmitter} (z.\,B.\ Glutamat, Acetylcholin, Dopamin), die in synaptischen Bläschen bereitstehen und bei Bedarf in den synaptischen Spalt (10--50\,nm) ausgeschüttet werden.}
-
-\textbf{Doppelte Signalumwandlung an der chemischen Synapse:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Präsynaptisch:} Elektrisches Signal $\to$ chemisches Signal (Neurotransmitter-Ausschüttung).
-    \item \textbf{Postsynaptisch:} Chemisches Signal $\to$ elektrisches Signal (Potentialänderung an der Membran).
-\end{itemize}
-
-\textbf{Erregende und hemmende Synapsen:} Die Membran eines Neurons weist im Ruhezustand
-ein Potential von ca.\ $-70\,\text{mV}$ auf (Ruhepotential). Je nach ausgeschüttetem
-Neurotransmitter wird dieses Potential verändert:
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Exzitatorisch (erregend):} Potentialdifferenz wird gesenkt $\to$ Depolarisation begünstigt; erhöhte Na\textsuperscript{+}-Durchlässigkeit der Membran.
-    \item \textbf{Inhibitorisch (hemmend):} Potentialdifferenz wird erhöht $\to$ Depolarisation erschwert.
-\end{itemize}
-
-\subsubsection*{Aktionspotential und Schwellenwertprinzip}
-
-Soma und Dendriten eines Neurons weisen im Mittel \textbf{1.000 synaptische Verbindungen} auf. Das Neuron wirkt dabei wie eine \textit{Additionsmaschine}: Erregende Impulse werden summiert, hemmende subtrahiert. Übersteigt der exzitatorische Nettoinput einen \textbf{Schwellenwert}, kommt es zur \textbf{Depolarisation} am Axonhügel:
-
-\[
-    V_{\text{mem}} \;\xrightarrow{\text{Schwellenwert überschritten}}\; +40\,\text{mV}
-    \quad \Rightarrow \quad \text{Aktionspotential (Spike)}
-\]
-
-Das Aktionspotential pflanzt sich entlang des Axons fort und bewirkt an den Endköpfchen die
-Ausschüttung von Neurotransmittern -- der Kreis schließt sich. Das Axon kann bis zu \textbf{100-mal pro Sekunde} feuern; höhere Impulsfrequenz $\Rightarrow$ stärkere Wirkung auf postsynaptische Neuronen. Nach dem Spannungsgipfel stellt ein K\textsuperscript{+}-Ausstrom das Ruhepotential wieder her (\textit{Repolarisation}).
-
-\subsubsection*{Grundprinzipien neuronaler Verschaltungen}
-
-Aus einfachen exzitatorischen und inhibitorischen Synapsen entstehen drei idealtypische Schaltprinzipien:
-
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Rekurrente Hemmung:} Ein erregendes Neuron aktiviert ein hemmendes Neuron, das auf das ursprünglich erregende Neuron \emph{zurückwirkt} $\Rightarrow$ negativer Rückkopplungskreis; stabilisierend.
-    \item \textbf{Vorwärtshemmung:} Ein erregendes Neuron aktiviert ein hemmendes Neuron, das auf ein \emph{nachfolgendes} erregendes Neuron wirkt $\Rightarrow$ kein Rückkopplungskreis; vorauseilende Dämpfung.
-    \item \textbf{Disinhibition:} Ein hemmendes Neuron hemmt ein weiteres hemmendes Neuron, das auf ein erregendes Neuron wirkt $\Rightarrow$ doppelte Negation; das erregende Neuron wird \emph{enthemmt}.
-\end{itemize}
-
-\subsubsection*{Brücke zum künstlichen neuronalen Netz}
-
-\definition{Das \textbf{künstliche Neuron (Perceptron)} abstrahiert die biologische Nervenzelle direkt: Eingaben $x_i$ entsprechen synaptischen Impulsen; Gewichte $w_i$ modellieren die Synapsenst\"{a}rke (exzitatorisch: $w_i > 0$, inhibitorisch: $w_i < 0$); der Bias $b$ entspricht dem Schwellenwert; die Aktivierungsfunktion $\sigma$ modelliert das Alles-oder-Nichts-Prinzip des Aktionspotentials:}
-
-\[
-    z = \sum_{i=1}^{n} w_i \cdot x_i + b, \qquad y = \sigma(z)
-\]
-
-Das menschliche Gehirn besteht aus mindestens \textbf{10 Milliarden Neuronen}, jedes durchschnittlich mit 1.000 anderen verbunden -- eine Komplexität, die in künstlichen Netzen durch tiefe Architekturen mit Millionen von Parametern approximiert wird, aber biologisch noch bei weitem nicht erreicht ist.
-
 \subsection{Training neuronaler Netze und Backpropagation}
 
-\subsubsection*{Optimierungsproblem und Kostenfunktion}
+\definition{\textbf{Training} ist ein Optimierungsproblem: Gegeben Trainingspaare $(x_i, y_i)$, finde Gewichte $W$ und Bias $b$, die eine Kostenfunktion minimieren.}
 
-\definition{\textbf{Training} von neuronalen Netzen ist ein Optimierungsproblem: Gegeben ein Datensatz von Paaren $(x_i, y_i)$ finde Gewichte $W$ und Bias $b$, die eine Kostenfunktion minimieren.}
-
-Typische Kostenfunktionen:
+\textbf{Typische Kostenfunktionen:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Mittlerer quadratischer Fehler (MSE):} $\mathcal{L} = \frac{1}{M}\sum_{i=1}^{M}(y_i - \hat{y}_i)^2$ (Regression)
-    \item \textbf{Cross-Entropy:} $\mathcal{L} = -\frac{1}{M}\sum_{i=1}^{M}[y_i\log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i)]$ (Klassifikation)
-    \item \textbf{Mit Regularisierung:} $\mathcal{L}_\text{tot} = \mathcal{L}_\text{data} + \lambda \sum_{i}w_i^2$ (L2-Regularisierung, Overfitting-Prävention)
+    \item \textbf{MSE} (Regression): $\mathcal{L} = \frac{1}{M}\sum_{i=1}^{M}(y_i - \hat{y}_i)^2$
+    \item \textbf{Cross-Entropy} (Klassifikation): $\mathcal{L} = -\frac{1}{M}\sum_{i=1}^{M}[y_i\log\hat{y}_i + (1-y_i)\log(1-\hat{y}_i)]$
+    \item \textbf{L2-Regularisierung} (Overfitting-Prävention): $\mathcal{L}_\text{tot} = \mathcal{L}_\text{data} + \lambda\sum_i w_i^2$
 \end{itemize}
 
-\subsubsection*{Gradientenabstieg}
+\textbf{Gradientenabstieg:} Gewichte werden iterativ in Richtung des negativen Gradienten aktualisiert:
+\[
+W \leftarrow W - \alpha\,\frac{\partial \mathcal{L}}{\partial W}
+\]
+Der Gradient $\frac{\partial\mathcal{L}}{\partial W}$ gibt an, wie stark die Kostenfunktion in jede Parameter-Richtung ansteigt. Varianten: \textit{Batch} (gesamter Datensatz, stabil aber langsam), \textit{SGD} (ein Sample pro Update, schnell aber verrauscht), \textit{Mini-Batch} (typisch $B \in \{32,64,128\}$, Standardkompromiss).
 
-\definition{\textbf{Gradientenabstieg} ist ein iteratives Optimierungsverfahren, das Gewichte in Richtung des negativen Gradienten aktualisiert:}
-$$W \leftarrow W - \alpha \frac{\partial \mathcal{L}}{\partial W}$$
+\definition{\textbf{Backpropagation} ist der Standardalgorithmus zur Gradientenberechnung in neuronalen Netzen mittels \textbf{Kettenregel}. Komplexität: $\mathcal{O}(W)$ -- nur ein konstanter Faktor mehr als der Vorwärtsdurchlauf.}
 
-wobei $\alpha$ die \textbf{Lernrate} ist. Der Gradient $\frac{\partial \mathcal{L}}{\partial W}$ gibt an, wie schnell die Kostenfunktion in jede Parameter-Richtung ansteigt.
+\textbf{Forward Pass} (schichtweise Aktivierungen berechnen):
+\[
+z^{(l)} = W^{(l)} h^{(l-1)} + b^{(l)}, \qquad h^{(l)} = \sigma(z^{(l)})
+\]
 
-\textbf{Varianten:}\vspace{2pt}
+\textbf{Backward Pass} (Fehlergradienten von hinten nach vorne propagieren):
+\[
+\delta^{(L)} = \frac{\partial\mathcal{L}}{\partial h^{(L)}}\cdot\sigma'(z^{(L)}), \qquad \delta^{(l)} = \bigl(W^{(l+1)}\bigr)^T\delta^{(l+1)}\cdot\sigma'(z^{(l)})
+\]
+\[
+\frac{\partial\mathcal{L}}{\partial W^{(l)}} = \delta^{(l)}\bigl(h^{(l-1)}\bigr)^T, \qquad \frac{\partial\mathcal{L}}{\partial b^{(l)}} = \delta^{(l)}
+\]
+
+\textbf{Adaptive Optimierer:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Batch Gradient Descent:} Update nach Verarbeitung des gesamten Datensatzes; stabil, aber langsam
-    \item \textbf{Stochastic Gradient Descent (SGD):} Update nach jedem Sample; schnell, aber verrauscht
-    \item \textbf{Mini-Batch:} Kompromiss; Update nach $B$ Samples (typisch $B=32, 64, 128$)
+    \item \textbf{Momentum:} Akkumuliert Gradienten über Zeit; schnellere Konvergenz.
+    \item \textbf{Adam:} Kombiniert Momentum mit adaptiven Lernraten pro Parameter.
+    \item \textbf{RMSprop:} Adaptive Lernraten basierend auf dem Second Moment des Gradienten.
 \end{itemize}
 
-\subsubsection*{Backpropagation}
+\textbf{Wichtige Hyperparameter:} Lernrate $\alpha$ (zu groß $\to$ Divergenz; zu klein $\to$ langsame Konvergenz), Batch-Größe, Epochenzahl (zu viele $\to$ Overfitting), Regularisierungsparameter $\lambda$.
 
-\definition{\textbf{Backpropagation} ist der Standard-Algorithmus zur Berechnung von Gradienten in neuronalen Netzen mittels \textbf{Kettenregel} (Chain Rule).}
-
-\textbf{Forward Pass:} Berechne Aktivierungen schichtweise:
-$$h^{(l)} = \sigma(z^{(l)})\quad\text{mit}\quad z^{(l)} = W^{(l)} \cdot h^{(l-1)} + b^{(l)}$$
-
-\textbf{Backward Pass:} Berechne Fehlergradienten von hinten nach vorne:
-$$\delta^{(L)} = \frac{\partial \mathcal{L}}{\partial z^{(L)}} = \frac{\partial \mathcal{L}}{\partial h^{(L)}} \cdot \sigma'(z^{(L)})$$
-
-Rückwärts propagieren:
-$$\delta^{(l)} = (W^{(l+1)})^T \delta^{(l+1)} \cdot \sigma'(z^{(l)})$$
-
-Gradiente für Gewichte und Bias:
-$$\frac{\partial \mathcal{L}}{\partial W^{(l)}} = \delta^{(l)} (h^{(l-1)})^T, \quad \frac{\partial \mathcal{L}}{\partial b^{(l)}} = \delta^{(l)}$$
-
-\textbf{Komplexität:} Backpropagation berechnet alle Gradienten in $\mathcal{O}(W)$ Zeit (nur konstanter Faktor mehr als Vorwärtsdurchlauf).
-
-\subsubsection*{Optimierer und Hyperparameter}
-
-\textbf{Adaptive Optimierer (über reines SGD hinaus):}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Momentum:} Akkumuliert Gradient über Zeit; schnellere Konvergenz in konsistenten Richtungen
-    \item \textbf{Adam:} Kombiniert Momentum mit adaptiven Lernraten pro Parameter; sehr populär
-    \item \textbf{RMSprop:} Adaptive Lernraten basierend auf Second Moment
-\end{itemize}
-
-\textbf{Wichtige Hyperparameter:}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Lernrate $\alpha$:} Zu groß = Divergenz; zu klein = langsame Konvergenz
-    \item \textbf{Batch-Größe:} Größer = stabiler, aber mehr Speicher; kleiner = schnellere Updates
-    \item \textbf{Epochen:} Vollständige Durchläufe durch Trainingsset; zu viele = Overfitting
-    \item \textbf{Regularisierungsparameter $\lambda$:} Balanziert Training vs. Generalisierung
-\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{assets/backpropagation.png}
+\end{figure}
 
 \newpage
 
 \subsection{Aktivierungsfunktionen}
 
-\subsubsection*{Rolle und Anforderungen}
+\definition{\textbf{Aktivierungsfunktionen} $\sigma(z)$ führen \textbf{Nichtlinearität} in neuronale Netze ein. Ohne sie wäre selbst ein tiefes Netz äquivalent zu einem einzigen linearen Modell -- unabhängig von der Anzahl der Schichten. Anforderungen: nichtlinear, differenzierbar, recheneffizient, berechenbare Ableitungen.}
 
-\definition{\textbf{Aktivierungsfunktionen} $\sigma(z)$ führen \textbf{Nichtlinearität} in neuronale Netze ein. Ohne sie wären auch tiefe Netze äquivalent zu einem einzigen linearen Modell.}
+\begin{table}[H]
+\centering
+\begin{tabular}{p{2.5cm} p{4.5cm} p{7.5cm}}
+\hline
+\textbf{Funktion} & \textbf{Formel / Ableitung} & \textbf{Eigenschaften / Probleme} \\
+\hline
+Sigmoid & $\sigma = \frac{1}{1+e^{-z}}$; $\sigma' = \sigma(1-\sigma)$ & Ausgabe $(0,1)$; gut für binäre Ausgabeschicht; \textbf{Vanishing Gradient} bei $|z|\gg0$ \\
+Tanh & $\tanh(z) = \frac{e^z-e^{-z}}{e^z+e^{-z}}$; $\sigma' = 1-\sigma^2$ & Ausgabe $(-1,1)$; nullzentriert, stärker als Sigmoid; ähnliches Vanishing-Problem \\
+ReLU & $\max(0,z)$; $\sigma'=1$ für $z>0$, sonst $0$ & Standard in Hidden Layers; recheneffizient; \textbf{Dead Neuron}: Neuron bleibt dauerhaft inaktiv \\
+Leaky ReLU & $\max(\alpha z,z)$, $0<\alpha\ll 1$ & Kleiner Gradient für $z<0$ verhindert Dead Neurons \\
+Softmax & $\sigma(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}$ & Ausgabe = WSK-Verteilung mit $\sum_i\sigma(z_i)=1$; für Multi-Class-Klassifikation \\
+\hline
+\end{tabular}
+\end{table}
 
-\textbf{Anforderungen:}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item Nichtlinear (um Ausdruckskraft zu erhöhen)
-    \item Differenzierbar (für Backpropagation)
-    \item Recheneffizient (wird millionenfach aufgerufen)
-    \item Mit berechenbaren Ableitungen
-\end{itemize}
+\textbf{Vanishing/Exploding Gradient Problem:} Bei sehr tiefen Netzen multipliziert die Kettenregel Gradienten durch alle Schichten:
+\[
+\frac{\partial\mathcal{L}}{\partial W^{(1)}} = \frac{\partial\mathcal{L}}{\partial z^{(L)}} \prod_{l=2}^{L} \frac{\partial z^{(l)}}{\partial z^{(l-1)}}
+\]
+Sind die Faktoren $<1$ (Sigmoid/Tanh bei Sättigung), verschwinden die Gradienten exponentiell (\textit{Vanishing}); sind sie $>1$, explodieren sie. Lösungen: ReLU (Ableitung konstant 1 für $z>0$), Batch Normalization (stabilisiert Aktivierungsverteilungen), Gradient Clipping, Skip/Residual Connections.
 
-\subsubsection*{Standard-Aktivierungsfunktionen}
-
-\textbf{Sigmoid:}
-$$\sigma(z) = \frac{1}{1 + e^{-z}}, \quad \sigma'(z) = \sigma(z)(1-\sigma(z))$$
-Ausgabe in $(0,1)$; gut für binäre Klassifikation in Ausgabeschicht. Problem: Vanishing Gradient bei extremen Werten.
-
-\textbf{Tanh (Tangens Hyperbolicus):}
-$$\sigma(z) = \tanh(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}}, \quad \sigma'(z) = 1 - \sigma(z)^2$$
-Ausgabe in $(-1,1)$; stärker als Sigmoid, aber ähnliche Vanishing Gradient-Problematik.
-
-\textbf{ReLU (Rectified Linear Unit):}
-$$\sigma(z) = \max(0, z), \quad \sigma'(z) = \begin{cases} 1 & z > 0 \\ 0 & z \leq 0 \end{cases}$$
-Heutzutage Standard in Hidden Layers; computationally efficient, aber "Dead Neuron" Problem (Neuronen können permanent auf 0 bleiben).
-
-\textbf{Leaky ReLU:}
-$$\sigma(z) = \max(\alpha z, z)\quad\text{mit}\quad 0 < \alpha \ll 1$$
-Variante von ReLU, die kleine Gradienten für $z < 0$ erlaubt; verhindert "Dead Neurons".
-
-\textbf{Softmax (für Multi-Class-Klassifikation):}
-$$\sigma(z_i) = \frac{e^{z_i}}{\sum_j e^{z_j}}$$
-Gibt Wahrscheinlichkeitsverteilung über Klassen aus; normalisiert auf $[0,1]$ mit $\sum_i \sigma(z_i) = 1$.
-
-\subsubsection*{Vanishing/Exploding Gradient Problem}
-
-\textbf{Problem:} Bei sehr tiefen Netzen können Gradienten exponentiell klein (Vanishing) oder groß (Exploding) werden.
-
-\textbf{Grund:} Kettenregel multipliziert Gradienten durch alle Schichten:
-$$\frac{\partial \mathcal{L}}{\partial W^{(1)}} = \frac{\partial \mathcal{L}}{\partial z^{(L)}} \prod_{l=2}^{L} \frac{\partial z^{(l)}}{\partial z^{(l-1)}}$$
-
-\textbf{Lösungsansätze:}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item ReLU statt Sigmoid/Tanh (Ableitung ist konstant 1 für positive Eingaben)
-    \item Batch Normalization (stabilisiert Aktivierungsverteilungen)
-    \item Gradient Clipping (limitiere Gradienten auf Maximum)
-    \item Skip Connections / Residual Connections (ermöglichen direkte Pfade)
-\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/activation_functions.png}
+\end{figure}
 
 \newpage
 
 \subsection{Autoencoder}
 
-\subsubsection*{Grundkonzept und Architektur}
+\definition{\textbf{Autoencoder} sind unüberwachte neuronale Netze, die darauf trainiert sind, ihre Eingaben zu rekonstruieren. Die Architektur besteht aus \textbf{Encoder} $f_\text{enc}$ und \textbf{Decoder} $f_\text{dec}$:}
+\[
+z = f_\text{enc}(x) \in \mathbb{R}^k,\quad \hat{x} = f_\text{dec}(z),\quad k \ll d = \dim(x)
+\]
+\textbf{Verlustfunktion:} $\mathcal{L} = \mathbb{E}[\|x - \hat{x}\|^2]$ (MSE) oder Cross-Entropy. Der Flaschenhals (Bottleneck) erzwingt, dass der Encoder nur die wesentlichste Information in $z$ kodiert.
 
-\definition{\textbf{Autoencoder} sind unüberwachte neuronale Netze, die darauf trainiert sind, ihre Eingaben zu rekonstruieren. Die Architektur besteht aus einem \textbf{Encoder} und einem \textbf{Decoder}.}
+\begin{table}[H]
+\centering
+\begin{tabular}{p{4cm} p{12cm}}
+\hline
+\textbf{Variante} & \textbf{Beschreibung und Anwendung} \\
+\hline
+Standard AE & Dimensionsreduktion (nichtlineare Verallgemeinerung von PCA); Anomalieerkennung: unbekannte Daten haben hohen Rekonstruktionsfehler \\
+Variational AE (VAE) & Encoder produziert Verteilung $p(z|x)$ statt deterministischem $z$; Reparametrisierungstrick ermöglicht Backpropagation; generative Modellierung durch Sampling aus kontinuierlichem Latent Space \\
+Denoising AE & Training auf verrauschten Eingaben, Ziel saubere Rekonstruktion; erzwingt robuste latente Repräsentation \\
+Convolutional AE & Conv-Layer statt Fully Connected; effizient für Bilddaten \\
+\hline
+\end{tabular}
+\end{table}
 
-\textbf{Encoder:} Komprimiert Eingabe $x \in \mathbb{R}^d$ in eine latente Darstellung $z \in \mathbb{R}^k$ mit $k \ll d$:
-$$z = f_\text{enc}(x)$$
+\textbf{Vom Standard-AE zum VAE -- Motivation:} Beim Standard-Autoencoder wird jede Eingabe $x$ auf einen \emph{einzelnen Punkt} $z$ im Latent Space abgebildet. Das Problem: der Latent Space ist nicht strukturiert und enthält ``Lücken''. Möchte man neue Daten \emph{generieren}, indem man zwischen bekannten Punkten sampelt -- z.\,B.\ zwischen einem Dreieck-Vektor und einem Kreis-Vektor -- erhält man bedeutungslose Ausgaben.
 
-\textbf{Decoder:} Rekonstruiert ursprüngliche Eingabe aus latenter Darstellung:
-$$\hat{x} = f_\text{dec}(z)$$
+Der \textbf{Variational Autoencoder (VAE)} löst dies, indem der Encoder nicht einen Punkt, sondern eine \emph{Verteilung} $\mathcal{N}(\mu, \sigma^2)$ im Latent Space produziert. Jede Eingabe wird auf Mittelwert $\mu$ und Standardabweichung $\sigma$ abgebildet; der eigentliche Latent-Vektor wird daraus gesampelt:
+\[
+z = \mu + \sigma \cdot \varepsilon, \quad \varepsilon \sim \mathcal{N}(0, I)
+\]
+Dieser \textbf{Reparametrisierungstrick} ($z = \mu + \sigma\cdot\varepsilon$) ist entscheidend: Das Sampling selbst ist nicht differenzierbar, aber durch Auslagern der Zufälligkeit in $\varepsilon$ kann der Gradient durch $\mu$ und $\sigma$ zurückpropagiert werden -- Backpropagation bleibt möglich. Die Verlustfunktion des VAE enthält zusätzlich einen \textbf{KL-Divergenz-Term}, der die gelernten Verteilungen zur Standardnormalverteilung hin regularisiert und so einen kontinuierlichen, strukturierten Latent Space erzwingt:
+\[
+\mathcal{L}_\text{VAE} = \underbrace{\mathbb{E}[\|x - \hat{x}\|^2]}_{\text{Rekonstruktionsfehler}} + \underbrace{D_\text{KL}\!\bigl(\mathcal{N}(\mu,\sigma^2)\,\|\,\mathcal{N}(0,I)\bigr)}_{\text{Regularisierung des Latent Space}}
+\]
 
-\textbf{Verlustfunktion:} Minimiere Rekonstruktionsfehler:
-$$\mathcal{L} = \mathbb{E}[\|x - \hat{x}\|^2]\quad\text{oder}\quad\mathcal{L} = \mathbb{E}[\text{CrossEntropy}(x, \hat{x})]$$
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{assets/autoencoder.png}
+        \caption*{Standard-Autoencoder: $x \to z \to \hat{x}$, deterministischer Latent-Vektor.}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{assets/variational_autoencoder.png}
+        \caption*{VAE: $x \to (\mu, \sigma) \to z = \mu + \sigma\varepsilon \to \hat{x}$, kontinuierlicher Latent Space.}
+    \end{minipage}
+\end{figure}
 
-\subsubsection*{Anwendungen und Varianten}
+\newpage
 
-\textbf{Dimensionalitätsreduktion:} Die latente Darstellung $z$ ist niedrigdimensional; ähnlich PCA, aber nichtlinear.
-
-\textbf{Anomalieerkennung:} Hohe Rekonstruktionsfehler auf unbekannten Daten deuten auf Anomalien hin.
-
-\textbf{Variational Autoencoders (VAEs):} Erweiterte Variante mit probabilistischer Interpretation. Der Encoder produziert eine Verteilung $p(z|x)$ statt deterministischer $z$; ermöglicht generative Modellierung.
-
-\textbf{Denoising Autoencoders:} Trainiert auf beschädigten Eingaben (mit zufälligem Rauschen), rekonstruiert saubere Version; robuster gegen Noise.
-
-\textbf{Convolutional Autoencoders:} Verwenden Convolutional Layers statt vollständig verbundener Schichten; effizient für Bilder.
 
 \newpage
 
 \subsection{Convolutional Neural Networks}
 
-\subsubsection*{Motivation und lokale Konnektivität}
+\definition{\textbf{CNNs} nutzen \textbf{lokale Konnektivität} (jedes Neuron sieht nur eine räumliche Region) und \textbf{Parameter Sharing} (gleicher Filter überall im Bild), um räumliche Strukturen effizient zu verarbeiten. Vollständig verbundene Netze wären für Bilder zu groß; lokale Merkmale (Kanten, Texturen) und Translationsinvarianz sind entscheidend.}
 
-\definition{\textbf{Convolutional Neural Networks} (CNNs) nutzen lokale Konnektivität und Gewichtsfreigabe (Parameter Sharing), um Bilder und räumliche Daten effizient zu verarbeiten.}
+\textbf{2D-Faltung} mit Kernel $K$, Eingabe $I$, Stride $s$:
+\[
+\text{Output}[i,j] = \sum_{k_x}\sum_{k_y} K[k_x,k_y]\cdot I[i\cdot s + k_x,\; j\cdot s + k_y]
+\]
+Kernel-Größe typisch $3\times3$ bis $7\times7$; mehrere Filter pro Layer (32, 64, 128, \ldots -- jeder lernt andere Merkmale); Padding erhält räumliche Größe; Stride $s$ steuert Auflösungsreduktion.
 
-\textbf{Warum CNNs?}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item Bilder sind hochdimensional; vollständig verbundene Netze sind zu groß
-    \item Lokale räumliche Strukturen (Kanten, Texturen) sind wichtig
-    \item Gleiche Merkmale sollten überall im Bild erkannt werden (Translationsinvarianz)
-\end{itemize}
+\textbf{Pooling Layers:} Reduzieren räumliche Dimensionen durch Aggregation (Max-Pooling, Average-Pooling), typisch $2\times2$ mit Stride 2. Erzeugen Translationsinvarianz und reduzieren Parameteranzahl.
 
-\subsubsection*{Convolutional Layer}
+\textbf{Batch Normalization:}
+\[
+\hat{z} = \frac{z - \mu_\text{batch}}{\sqrt{\sigma_\text{batch}^2 + \epsilon}}
+\]
+Normalisiert Aktivierungen je Mini-Batch: schnelleres Training, höhere Lernraten möglich, weniger Abhängigkeit von Gewichtsinitialisierung.
 
-\definition{Ein \textbf{Convolutional Layer} wendet einen Filter (Kernel) $K$ auf die Eingabe durch Faltung an.}
+\textbf{Typische Architektur:} Mehrere Blöcke Conv + ReLU + BatchNorm + Pooling (räumliche Kompression, aber mehr Filter pro Ebene), abgeschlossen durch Fully Connected Layers für Klassifikation. Bekannte Netze: LeNet (klassisch), AlexNet (Durchbruch ImageNet 2012), ResNet (Skip Connections gegen Vanishing Gradient), VGG (sehr tiefe, uniforme Architektur).
 
-\textbf{2D-Faltung:} Für Eingabe $I$ und Filter $K$ mit Schrittweite $s$:
-$$\text{Output}[i,j] = \sum_{k_x}\sum_{k_y} K[k_x, k_y] \cdot I[i \cdot s + k_x, j \cdot s + k_y]$$
-
-\textbf{Charakteristiken:}\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Kernel Size:} Typisch $3 \times 3$, $5 \times 5$ oder $7 \times 7$
-    \item \textbf{Filter:} Mehrere Filter pro Layer (z.\,B.\  32, 64, 128); jeder lernt verschiedene Muster
-    \item \textbf{Padding:} Randelemente können aufgefüllt werden, um Größe zu erhalten
-    \item \textbf{Stride:} Schrittweite der Fensterverschiebung
-\end{itemize}
-
-\subsubsection*{Pooling und Normalisierung}
-
-\textbf{Pooling Layers:} Reduzieren räumliche Dimensionen durch Aggregation (z.\,B.\  Max-Pooling, Average-Pooling). Typisch $2 \times 2$ oder $3 \times 3$ Fenster mit Stride 2.
-
-\textbf{Batch Normalization:} Normalisiert Aktivierungen über den Mini-Batch:
-$$\hat{z} = \frac{z - \mu_\text{batch}}{\sqrt{\sigma_\text{batch}^2 + \epsilon}}$$
-
-Vorteile: Schnelleres Training, höhere Lernraten, weniger Abhängigkeit von Initialisierung.
-
-\subsubsection*{Typische CNN-Architektur}
-
-\textbf{Standard-Design:}\vspace{2pt}
-\begin{enumerate}[leftmargin=1.5em]
-    \item Mehrere Convolutional Blöcke (Conv + ReLU + BatchNorm + Pooling)
-    \item Progressive räumliche Kompression, aber mehr Filter pro Ebene
-    \item Am Ende: Fully Connected Layers für Klassifikation
-\end{enumerate}
-
-\textbf{Beispiele:} LeNet (klassisch), AlexNet (Durchbruch 2012), ResNet (Skip Connections), VGG (tiefe Architektur).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/cnn_architecture.png}
+\end{figure}
 
 \newpage
 
 \subsection{Recurrent Neural Networks}
 
-\subsubsection*{Sequenzielle Abhängigkeiten und Zustandsgeflecht}
+\definition{\textbf{RNNs} sind Netze mit Zyklen, die Sequenzen verarbeiten, indem sie einen \textbf{Hidden State} $h_t$ über die Zeit propagieren. Im Gegensatz zu Feed-Forward-Netzen hat der Hidden State ein ``Gedächtnis'' über vorherige Zeitschritte:}
+\[
+h_t = \sigma(W_{hh}h_{t-1} + W_{xh}x_t + b_h), \qquad y_t = W_{hy}h_t + b_y
+\]
+Gradienten werden via \textbf{Backpropagation Through Time (BPTT)} über alle Zeitschritte zurückpropagiert -- das Produkt vieler Gradienten führt bei langen Sequenzen zum \textbf{Vanishing/Exploding Gradient Problem}: relevante Information aus frühen Zeitschritten geht verloren.
 
-\definition{\textbf{Recurrent Neural Networks} (RNNs) sind Netze mit Zyklen, die Sequenzen verarbeiten können, indem sie einen \textbf{Hidden State} $h_t$ über Zeit hinweg propagieren.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/rnn_architecture.png}
+\end{figure}
 
-\textbf{Grundgleichung (Vanilla RNN):}
-$$h_t = \sigma(W_{hh} h_{t-1} + W_{xh} x_t + b_h)$$
-$$y_t = W_{hy} h_t + b_y$$
-
-wobei $x_t$ die Eingabe zum Zeitpunkt $t$, $h_t$ der Hidden State und $y_t$ die Ausgabe sind.
-
-\textbf{Backpropagation Through Time (BPTT):} Gradienten werden über die Zeit hinweg backpropagiert. Problem: Vanishing/Exploding Gradients über lange Sequenzen.
-
-\subsubsection*{Long Short-Term Memory (LSTM)}
-
-\definition{\textbf{LSTMs} sind eine populäre RNN-Variante mit Gating-Mechanismen, die Informationen über lange Zeiträume halten können.}
-
-\textbf{LSTM-Komponenten:}\vspace{2pt}
+\textbf{Long Short-Term Memory (LSTM):} Löst das Vanishing-Gradient-Problem durch einen expliziten \textbf{Cell State} $c_t$ und drei Gating-Mechanismen, die den Informationsfluss steuern:
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Cell State} $c_t$: Interne Speicher, die unverändert propagiert werden können
-    \item \textbf{Forget Gate} $f_t$: Steuert, welche Informationen gelöscht werden: $f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)$
-    \item \textbf{Input Gate} $i_t$: Steuert, welche neuen Informationen hinzugefügt werden
-    \item \textbf{Output Gate} $o_t$: Steuert, welche Informationen ausgegeben werden
+    \item \textbf{Forget Gate} $f_t = \sigma(W_f[h_{t-1},x_t]+b_f)$: Entscheidet, welche Information aus $c_{t-1}$ \emph{gelöscht} wird ($f_t \approx 0$ $\to$ vergessen, $f_t \approx 1$ $\to$ behalten).
+    \item \textbf{Input Gate} $i_t = \sigma(W_i[h_{t-1},x_t]+b_i)$: Entscheidet, welche \emph{neuen} Informationen $\tilde{c}_t = \tanh(W_c[h_{t-1},x_t]+b_c)$ in den Cell State aufgenommen werden.
+    \item \textbf{Output Gate} $o_t = \sigma(W_o[h_{t-1},x_t]+b_o)$: Entscheidet, welcher Teil des Cell States als neuer Hidden State ausgegeben wird.
+    \item \textbf{Cell State Update:} $c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$
+    \item \textbf{Hidden State:} $h_t = o_t \odot \tanh(c_t)$
+\end{itemize}
+Der Cell State $c_t$ propagiert direkt und nahezu ungestört durch die Zeit (nur elementweise Multiplikation, keine Gewichtsmatrix) -- dadurch kein Vanishing Gradient auf diesem Pfad.
+
+\textbf{Gated Recurrent Unit (GRU):} Vereinfachte LSTM-Variante, die Cell State und Hidden State zu einem einzigen Hidden State zusammenführt und mit nur \emph{zwei} Gates auskommt:
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Reset Gate} $r_t = \sigma(W_r[h_{t-1},x_t])$: Wie stark wird der vorherige Hidden State beim Berechnen des neuen Kandidatenwerts $\tilde{h}_t$ ignoriert?
+    \item \textbf{Update Gate} $z_t = \sigma(W_z[h_{t-1},x_t])$: Wie viel vom alten $h_{t-1}$ wird behalten vs.\ durch den neuen Kandidaten $\tilde{h}_t$ ersetzt?
+    \item \textbf{Hidden State Update:} $h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde{h}_t$
 \end{itemize}
 
-\textbf{Cell State Update:}
-$$c_t = f_t \odot c_{t-1} + i_t \odot \tilde{c}_t$$
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/lstm_vs_gru.png}
+\end{figure}
 
-Der elementweise Multiplikation ($\odot$) ermöglicht, dass relevante Informationen erhalten bleiben (kein Vanishing Gradient auf Zellzustand).
+\begin{table}[H]
+\centering
+\begin{tabular}{p{3.5cm} p{4cm} p{4cm}}
+\hline
+ & \textbf{LSTM} & \textbf{GRU} \\
+\hline
+Gates & 3 (Forget, Input, Output) & 2 (Reset, Update) \\
+Zustände & Cell State + Hidden State & Nur Hidden State \\
+Parameter & Mehr & Weniger ($\sim$25\,\% weniger) \\
+Training & Langsamer & Schneller \\
+Performance & Oft besser bei langen Sequenzen & Oft ähnlich, effizienter \\
+Einsatz & Sprachmodellierung, komplexe Seq. & Zeitreihen, kleinere Datensätze \\
+\hline
+\end{tabular}
+\end{table}
 
-\subsubsection*{Gated Recurrent Unit (GRU)}
-
-\definition{\textbf{GRUs} sind eine vereinfachte LSTM-Variante mit nur zwei Gates (Reset und Update).}
-
-Vorteile: Weniger Parameter als LSTM, schneller zu trainieren, oft ähnliche Performance.
-
-\subsubsection*{Anwendungen}
-
-\textbf{Sprachmodellierung:} Vorhersage des nächsten Wortes gegeben Vorgeschichte.
-
-\textbf{Sequence-to-Sequence:} Encoder-Decoder Architektur für Übersetzung, Zusammenfassung, etc.\vspace{2pt}
-\begin{itemize}[leftmargin=1.5em]
-    \item Encoder RNN verarbeitet Eingabesequenz und produziert Context Vector
-    \item Decoder RNN generiert Ausgabesequenz basierend auf Context Vector
-    \item Attention-Mechanismus ermöglicht fokussiertes Hinschauen auf relevante Eingabeteile
-\end{itemize}
-
-\textbf{Zeitreihenvorhersage:} Prognose zukünftiger Werte aus Vergangenheit.
+\textbf{Anwendungen:} Sprachmodellierung (Vorhersage des nächsten Wortes), Sequence-to-Sequence mit Attention-Mechanismus (maschinelle Übersetzung, Zusammenfassung), Zeitreihenvorhersage. Heute weitgehend durch \textbf{Transformer}-Architekturen ersetzt, die parallelisierbares Self-Attention verwenden.
 
 \newpage
 
 \subsection{Generative Adversarial Networks}
 
-\subsubsection*{Grundkonzept und Adversariales Spiel}
+\definition{GANs bestehen aus zwei konkurrierenden Netzen: \textbf{Generator} $G$ erzeugt synthetische Daten $x_\text{fake} = G(z)$ aus Zufallsrauschen $z \sim p(z)$; \textbf{Diskriminator} $D(x)\in[0,1]$ klassifiziert Eingaben als echt ($D(x)\approx 1$) oder gefälscht ($D(x)\approx 0$). Beide spielen ein \textbf{Minimax-Spiel}:}
+\[
+\min_G\max_D\;\underbrace{\mathbb{E}_{x\sim p_\text{data}}[\log D(x)]}_{\text{D möchte echte Daten erkennen}} + \underbrace{\mathbb{E}_{z\sim p(z)}[\log(1-D(G(z)))]}_{\text{D möchte Fakes erkennen; G möchte diesen Term maximieren}}
+\]
 
-\definition{\textbf{Generative Adversarial Networks} (GANs) bestehen aus zwei konkurrierenden Netzen: einem \textbf{Generator} $G$ und einem \textbf{Diskriminator} $D$.}
+\textbf{Minimax-Dynamik:} Der Diskriminator \emph{maximiert} den Ausdruck -- er möchte $D(x)\to 1$ für echte Daten und $D(G(z))\to 0$ für generierte. Der Generator \emph{minimiert} denselben Ausdruck -- er möchte $D(G(z))\to 1$, also den Diskriminator täuschen. In der Praxis wird für den Generator statt $\min_G \log(1-D(G(z)))$ die äquivalente, aber gradientenstärkere Formulierung $\max_G \log D(G(z))$ verwendet (\textbf{non-saturating loss}).
 
-\textbf{Generator:} Erzeugt synthetische Daten aus zufälligem Rauschen $z \sim p(z)$:
-$$x_\text{fake} = G(z)$$
-
-\textbf{Diskriminator:} Klassifiziert Daten als echt (von Training) oder gefälscht (von Generator):
-$$D(x) \in [0,1]\quad(1 = \text{echt}, 0 = \text{gefälscht})$$
-
-\textbf{Adversariales Spiel:} Generator und Diskriminator spielen ein Minimax-Spiel:
-$$\min_G \max_D \mathbb{E}_{x \sim p_\text{data}}[\log D(x)] + \mathbb{E}_{z \sim p(z)}[\log(1 - D(G(z)))]$$
-
-\subsubsection*{Trainingsprozess}
-
-\textbf{Schritt 1 -- Diskriminator trainieren:} Maximiere Fähigkeit, echte und gefälschte Daten zu unterscheiden
-$$\mathcal{L}_D = -\mathbb{E}_{x}[\log D(x)] - \mathbb{E}_{z}[\log(1-D(G(z)))]$$
-
-\textbf{Schritt 2 -- Generator trainieren:} Täusche den Diskriminator, sodass generierte Daten als echt klassifiziert werden
-$$\mathcal{L}_G = -\mathbb{E}_{z}[\log D(G(z))]$$
-
-Diese nicht-saturierende Variante wird in der Praxis häufig bevorzugt, da sie stärkere Gradienten liefert. Die ursprüngliche Minimax-Formulierung lautet:
-$$\mathcal{L}_G = \mathbb{E}_{z}[\log(1-D(G(z)))]$$
-
-\subsubsection*{Training-Dynamiken und Instabilität}
-
-\textbf{Mode Collapse:} Generator lernt, nur wenige Modi der Datenverteilung zu erzeugen (unvollständige Vielfalt).
-
-\textbf{Trainingsschwankungen:} GANs können instabil sein; der Diskriminator kann überwältigend stark werden.
-
-\textbf{Lösungsansätze:}\vspace{2pt}
+\textbf{Trainingsprozess (abwechselnd):}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Wasserstein GAN:} Alternative Verlustfunktion basierend auf Wasserstein-Distanz (stabilerer Gradient)
-    \item \textbf{Conditional GAN:} Generiere Daten gegeben Klasse/Label (mehr Kontrolle)
-    \item \textbf{Spectral Normalization:} Normalisiere Gewichte des Diskriminators (stabilisiert Training)
-    \item \textbf{Progressive Growing:} Trainiere schrittweise größere Generatoren (erfolgreicher für hochauflösende Bilder)
+    \item \textbf{Schritt 1 -- Diskriminator:} $G$ eingefroren; Update von $D$ via $\mathcal{L}_D = -\mathbb{E}_x[\log D(x)] - \mathbb{E}_z[\log(1-D(G(z)))]$. Ziel: echte von gefälschten Daten unterscheiden.
+    \item \textbf{Schritt 2 -- Generator:} $D$ eingefroren; Update von $G$ via $\mathcal{L}_G = -\mathbb{E}_z[\log D(G(z))]$. Ziel: Daten erzeugen, die $D$ als echt klassifiziert.
 \end{itemize}
 
-\subsubsection*{Anwendungen}
+Im Nash-Gleichgewicht gilt $p_G = p_\text{data}$ und $D(x) = \tfrac{1}{2}$ überall -- der Diskriminator kann echte und gefälschte Daten nicht mehr unterscheiden.
 
-\textbf{Bilderzeugung:} StyleGAN erzeugt hochauflösende synthetische Gesichter, Kunstwerke, etc.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/gan_architecture.png}
+\end{figure}
 
-\textbf{Datenaug mentierung:} Generiere synthetische Trainingsdaten, wenn echte Daten knapp sind.
+\textbf{Mode Collapse} ist ein zentrales Trainingsproblem bei GANs. Der Generator spezialisiert sich auf wenige Ausgaben, die den Diskriminator zuverlässig täuschen, anstatt die gesamte Datenverteilung $p_\text{data}$ zu lernen. Dadurch kollabiert $p_G$ auf wenige Punkte (z.,B.\ nur ein bestimmter Gesichtstyp). Gegenmaßnahmen sind \textit{Minibatch Discrimination}, \textit{Wasserstein GAN} und \textit{Spektralnormalisierung}.
 
-\textbf{Image-to-Image Translation:} Pix2Pix, CycleGAN übersetzen Bilder zwischen Domänen (z.\,B.\  Foto $\leftrightarrow$ Kunstwerk).
+\textbf{Trainingsinstabilität:} Werden $G$ und $D$ nicht im Gleichgewicht trainiert, kollabiert das Training -- ein zu starker Diskriminator liefert dem Generator keine nutzbaren Gradienten mehr (Gradienten $\approx 0$); ein zu schwacher Diskriminator gibt keine sinnvollen Lernsignale.
 
-\textbf{Super-Resolution:} Hochauflösen niedriger Auflösungsbilder.
-
-\textbf{Video Generation:} Generiere realistische Videosequenzen.
-
-\subsubsection*{Bewertungsmetriken}
-
-\textbf{Inception Score (IS):} Misst Qualität und Diversität mit einem vortrainierten Klassifizierer. Höher ist besser.
-
-\textbf{Fréchet Inception Distance (FID):} Vergleicht Merkmalsverteilungen echter vs. generierter Bilder. Niedriger ist besser.
+\textbf{Anwendungen:} Bilderzeugung (StyleGAN -- hochauflösende synthetische Gesichter), Datenanreicherung, Image-to-Image Translation (Pix2Pix, CycleGAN: Foto $\leftrightarrow$ Kunstwerk), Super-Resolution, Videogenerierung.
 
 \newpage
 
 \subsection{Codierung von Texten}
 
-\subsubsection*{Hierarchieebenen von Textdaten}
+\textbf{Texthierarchie:} Corpus $D = \{d_1, d_2, \ldots\}$ $\supset$ Dokumente $\supset$ Sätze $\supset$ Tokens (Worte, Wortteile, Bigramme). \textbf{Tokenisierung} ist der erste Verarbeitungsschritt: einfache `.split()`-Methoden, Regex (Modul `re` mit `\textbackslash w`), oder spezialisierte Tools (nltk, spaCy, Keras) mit linguistischen Regeln.
 
-\definition{Textdaten folgen einer charakteristischen Hierarchie-Struktur:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Corpus $D$:} Sammlung aller betrachteten Dokumente: $D = \{d_1, d_2, d_3, \ldots\}$.
-    \item \textbf{Dokumente $d_i$:} Bestehen meist aus einer Folge von Sätzen: $d_i = (s_{i1}, s_{i2}, s_{i3}, \ldots)$.
-    \item \textbf{Sätze $s_{ij}$:} Bestehen aus einer Folge von Worten: $s_{ij} = (w_{ij1}, w_{ij2}, w_{ij3}, \ldots)$.
-    \item \textbf{Worte/Tokens:} Atomare Einheiten (können auch Wortteile oder Bigramme sein).
-\end{itemize}
+\textbf{Warum nicht direkt Zeichenketten?} Die \textbf{Levenshtein-Distanz} $d_\text{Lev}$ zählt minimale Editieroperationen (Einfügen, Löschen, Ersetzen), erfasst aber keine Semantik: ,,Bank'' $\leftrightarrow$ ,,Tank'': $d_\text{Lev}=1$, völlig verschiedene Bedeutung; ,,Lexikon'' $\leftrightarrow$ ,,Nachschlagewerk'': $d_\text{Lev}\geq8$, gleiche Bedeutung. Zudem ist der Raum möglicher Zeichenketten mit $26^{20} \approx 2\times10^{28}$ Elementen extrem groß, aber fast leer an bedeutungstragenden Strings.
 
-Einfache Analysen ignorieren häufig die Satzstruktur und betrachten Dokumente als reine Wortfolgen.
+\begin{table}[H]
+\centering
+\begin{tabular}{p{2.6cm} p{4.5cm} p{4.5cm}}
+\hline
+\textbf{Darstellung} & \textbf{Beschreibung} & \textbf{Eigenschaften} \\
+\hline
+One-Hot & Vektor mit 1 an Wortindex, sonst 0 & Hochdim.\ ($|V|$ oft $>10^4$), sparse, orthogonal (Kosinus-Sim.$=0$), keine Semantik \\
+Bag of Words & Häufigkeitszählung je Dokument; Wortfolge ignoriert & Verbessert durch Stop-Word-Entfernung, Stemming (Endungen), Lemmatisierung (Grundform via PoS) \\
+TF-IDF & $\text{TF}(t,d)\cdot\log(|D|/n_D(t))$; TF normiert auf Dokumentlänge, IDF bewertet Seltenheit & Seltene Wörter höher gewichtet; Längenabhängigkeit reduziert; $\log$ nötig wegen großer Wertspanne \\
+\hline
+\end{tabular}
+\end{table}
 
-\subsubsection*{Tokenisierung}
+\textbf{Kosinus-Ähnlichkeit} auf Dokumentvektoren: normiertes Skalarprodukt, längenunabhängig. Ermöglicht Dokumentsuche (Abfrage als Vektor, Dokumente mit höchster Ähnlichkeit), Clustering (k-Means, hierarchisch) und Klassifikation (Lineare Diskriminanzanalyse, SVM).
 
-\definition{\textbf{Tokenisierung}} ist die Aufspaltung eines Dokuments (Zeichenfolge) in einzelne Worte oder allgemeiner \textit{Tokens}. Dies ist der typische erste Verarbeitungsschritt.
-
-\textbf{Mögliche Implementierungen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Stringmethoden:} Einfache `.split()`-Methoden (oft nicht ausreichend für komplexe Fälle).
-    \item \textbf{Regular Expressions:} Einsatz von Modulen wie `re` oder `regex`, insbesondere mit Hilfe von `\textbackslash w`.
-    \item \textbf{Spezialisierte Tokenizer:} Professionelle Tools aus `nltk`, `spaCy`, `Keras` u.\,ä., die linguistische Regeln berücksichtigen.
-\end{itemize}
-
-\subsubsection*{Probleme mit Zeichenketten-Darstellung}
-
-\definition{Die \textbf{Levenshtein-Distanz}} $d_\text{Lev}$ gibt die Anzahl der notwendigen elementaren Editieroperationen (Einfügen, Löschen, Ersetzen eines Zeichens) an, um eine Zeichenkette in eine andere umzuwandeln.
-
-\textbf{Problem:} Zeichenketten sind zur Codierung von Worten schlecht geeignet:
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Keine semantische Bedeutung:} Zwei Wörter können geringe Levenshtein-Distanz aber sehr unterschiedliche Bedeutung haben (z.\,B.\  "Bank" vs. "Tank": $d_\text{Lev} = 1$).
-    \item \textbf{Synonyme problematisch:} Verwandte Wörter können große Abstände haben (z.\,B.\  "Lexikon" vs. "Nachschlagewerk": $d_\text{Lev} \geq 8$).
-    \item \textbf{Hochdimensionalität:} Der Raum möglicher Zeichenketten ist extrem groß -- $26^{20} \approx 2 \times 10^{28}$ für das Standardalphabet mit maximal 20 Buchstaben. Die weitaus meisten Elemente haben keine Bedeutung.
-\end{itemize}
-
-\subsubsection*{One-Hot-Encoding}
-
-\definition{\textbf{One-Hot-Encoding}} ist der übliche erste Schritt der Wortcodierung. Jedes Wort wird als ein Vektor codiert, bei dem nur eine Komponente (entsprechend zum Wort-Index) den Wert 1 hat, alle anderen sind 0.
-
-\textbf{Charakteristiken:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Sehr hochdimensional:} Vokabulare umfassen typischerweise viele zehntausend Worte.
-    \item \textbf{Sehr dünn besetzt (Sparse):} Fast alle Komponenten sind 0.
-    \item \textbf{Orthogonal:} Alle One-Hot-Vektoren stehen senkrecht aufeinander (Kosinus-Ähnlichkeit = 0).
-    \item \textbf{Keine semantische Information:} Synonyme sind nicht erkennbar.
-\end{itemize}
-
-\subsubsection*{Bag of Words (BoW) und Preprocessing}
-
-\definition{\textbf{Bag of Words} ist eine Dokumentrepräsentation, die zählt, wie oft jedes Token in einem Dokument vorkommt. Die Wortfolge wird ignoriert ("Sack, in den die Worte geworfen werden").}
-
-\textbf{Vorverarbeitung zur Verbesserung:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Stop Words entfernen:} Häufige Worte ("und", "ist", "hat", "ein", etc.) tragen wenig Information bei und werden entfernt.
-    \item \textbf{Stemming:} Automatische Entfernung von typischen Endungen (z.\,B.\  "schneller", "Schnelligkeit" $\to$ "schnell"). Einfach, aber nicht immer präzise.
-    \item \textbf{Lemmatization:} Wörterbuchbasierte Bestimmung der Grundform (z.\,B.\  "besser" $\to$ "gut"). Aufwändiger, aber präziser; erfordert oft Part-of-Speech-Tagging (PoS).
-\end{itemize}
-
-BoW ist sinnvoll für einfache Text-Mining-Aufgaben, aber nicht für feinere NLP-Analysen ausreichend.
-
-\subsubsection*{TF-IDF-Gewichtung}
-
-\definition{\textbf{TF-IDF} (Term Frequency -- Inverse Document Frequency) gewichtet die Häufigkeit von Worten und berücksichtigt dabei sowohl die Dokumentenlänge als auch die Seltenheit von Worten im gesamten Corpus.}
-
-$$\text{TF-IDF}(t, d) = \text{TF}(t, d) \cdot \text{IDF}(t)$$
-
-\textbf{Term Frequency (TF):}
-$$\text{TF}(t, d) = \frac{\text{Häufigkeit von } t \text{ in } d}{\text{Gesamtzahl Tokens in } d}$$
-Normalisiert die Häufigkeit auf die Dokumentenlänge.
-
-\textbf{Inverse Document Frequency (IDF):}
-$$\text{IDF}(t) = \log\left(\frac{|D|}{n_D(t)}\right)$$
-wo $|D|$ die Gesamtzahl Dokumente und $n_D(t)$ die Anzahl Dokumente mit Token $t$ ist. Der Logarithmus ist nötig, weil $|D| / n_D(t)$ über viele Größenordnungen variiert.
-
-\textbf{Vorteile:}
-\begin{itemize}[leftmargin=1.5em]
-    \item Seltene Worte (z.\,B.\  "Kryptographie") erhalten höhere Gewichte als häufige (z.\,B.\  "Nachricht").
-    \item Bessere Indikation für die Art des Dokuments.
-    \item Längenabhängigkeiten werden reduziert.
-\end{itemize}
-
-\subsubsection*{Einfache Analysen mit Dokumentvektoren}
-
-\textbf{Kosinus-Ähnlichkeit:} Das normierte Skalarprodukt zweier Vektoren misst ihre Ähnlichkeit unabhängig von deren Länge. Dies ermöglicht:
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Dokumentensuche:} Eine Abfrage $q$ wird in einen Dokumentvektor übersetzt und die Dokumente mit höchster Kosinus-Ähnlichkeit werden zurückgegeben.
-    \item \textbf{Clustering:} Dokumente mit ähnlichen Vektoren werden gruppiert (k-Means, hierarchisches Clustering, dichtebasiert).
-    \item \textbf{Klassifikation:} Supervised Learning für binäre Klassifikation (z.\,B.\  relevant vs. nicht relevant, Spam vs. Ham) via Lineare Diskriminanzanalyse o.\,ä..
-\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{assets/code_of_text.png}
+\end{figure}
 
 \newpage
 
 \subsection{Topic Modelling}
 
-\subsubsection*{Semantische Analyse und das Synonymie-Problem}
+\textbf{Kernproblem:} One-Hot/BoW erfassen keine Semantik -- Synonyme erscheinen unverbunden, Polysemie unsichtbar. Grundprinzip (J.\,R.\ Firth): \textit{``You shall know a word by the company it keeps''} -- gemeinsam vorkommende Wörter gehören zu einem Thema und lassen sich aus der Document-Term-Matrix extrahieren.
 
-\definition{\textbf{Topic Modelling}} zielt darauf ab, Worte automatisch zu Themen zu gruppieren, sodass Synonyme dem gleichen Thema zugeordnet werden -- unabhängig von ihrer lexikalischen Ähnlichkeit.
+\begin{table}[H]
+\centering
+\begin{tabular}{p{2.3cm} p{4.5cm} p{4.5cm}}
+\hline
+\textbf{Methode} & \textbf{Idee} & \textbf{Eigenschaften} \\
+\hline
+LSA & Trunkierte SVD der Document-Term-Matrix; nur die $k$ größten Singulärwerte behalten & Einfach, effizient; reduziert Rauschen; Interpretierbarkeit manchmal schwach \\
+NMF & Alternative Faktorisierung mit erzwungener Nicht-Negativität & Intuitivere, additivere Topics \\
+LDA & Bayes'sches Dirichlet-Multinomialmodell; lernt $p(\text{Topic}|\text{Dok})$ und $p(\text{Wort}|\text{Topic})$ gleichzeitig & Generativ, probabilistisch; bessere Interpretierbarkeit; numerisch aufwändiger; Hyperparameter $\alpha, \beta \ll 1$ \\
+\hline
+\end{tabular}
+\end{table}
 
-\textbf{Kernproblem:} One-Hot-Encoding und einfache Bag-of-Words-Vektoren können semantische Ähnlichkeit nicht erfassen. Unterschiedliche Worte können sehr unterschiedliche Bedeutungen haben, und Synonyme erscheinen völlig unverbunden.
+\textbf{LDA-Hyperparameter:} $\alpha$ steuert die Dirichlet-Verteilung der Topics über Dokumente (klein $\to$ wenige dominante Topics je Dokument); $\beta$ die Dirichlet-Verteilung der Wörter über Topics (klein $\to$ spitze Topic-Wort-Verteilung). Beide typisch $\ll 1$.
 
-\textbf{Grundprinzip (nach J.\,R.\  Firth):}
-\textit{"You shall know a word by the company it keeps."}
-Often zusammen vorkommende Wörter gehören vermutlich zu einem Thema und sollten sich automatisch aus der Document-Term-Matrix extrahieren lassen.
-
-\subsubsection*{Latent Semantic Analysis (LSA)}
-
-\definition{\textbf{Latent Semantic Analysis} (LSA) zerlegt die Document-Term-Matrix näherungsweise mittels $k$ Themen (Topics) durch eine trunkierte Singulärwertzerlegung (SVD).}
-
-\textbf{Prinzip:}
+\textbf{Word Embeddings (Word2Vec, Mikolov et al.\ 2012/13):} Einbettung von Wörtern in $\mathbb{R}^k$ ($k\approx100$--$300$ statt $|V|$ für One-Hot). Zwei Varianten:
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Document-Term-Matrix:} Einträge geben an, wie oft jedes Wort/Token in welchem Dokument vorkommt.
-    \item \textbf{Matrixfaktorisierung:} Die Matrix wird in Faktoren zerlegt, die latente Themen repräsentieren.
-    \item \textbf{Dimensionsreduktion:} Nur die $k$ größten Singulärwerte werden beibehalten, was Rauschen reduziert und Struktur offenbart.
+    \item \textbf{CBOW} (Continuous Bag of Words): Vorhersage des mittleren Wortes aus den umgebenden Wörtern im 5-Wort-Fenster.
+    \item \textbf{Skip-gram}: Vorhersage der umgebenden 4 Wörter aus dem mittleren Wort.
 \end{itemize}
+Ein neuronales Netz wird trainiert; die Gewichtsmatrix \emph{nach} dem Training \emph{ist} die Einbettung (corpus-spezifisch). Ermöglicht Analogien (,,König $-$ Mann $+$ Frau $\approx$ Königin''), Synonymerkennung und Outlier-Detektion. \textbf{GloVe} als Alternative via globaler Optimierung der Kookkurrenzmatrix.
 
-\textbf{Varianten:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Truncated SVD:} Klassische Variante, am häufigsten verwendet.
-    \item \textbf{Nichtnegative Matrixfaktorisierung (NMF):} Alternative, die Nicht-Negativität erzwingt.
-\end{itemize}
-
-LSA ist mathematisch einfach und effizient, aber die Interpretierbarkeit der Topics kann gelegentlich schwach sein.
-
-\subsubsection*{Latent Dirichlet Allocation (LDA)}
-
-\definition{\textbf{Latent Dirichlet Allocation} (LDA) ist eine Bayes'sche Methode basierend auf dem Dirichlet-Multinomialmodell für die Zugehörigkeit von Worten zu Themen und Themen zu Dokumenten.}
-
-\textbf{Charakteristiken:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Probabilistisches Modell:} Speichert Verteilungen von Themen über Dokumente und Worten über Themen.
-    \item \textbf{Generativ:} LDA kann synthetische Dokumente generieren, nicht nur bestehende analysieren.
-    \item \textbf{Aufwändiger als LSA:} Numerisch komplexer, aber meist bessere Interpretierbarkeit der Topics.
-\end{itemize}
-
-\textbf{Hyperparameter:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{$\alpha$:} Hyperparameter für die Dirichlet-Verteilung der Topics über Dokumente; oft klein gewählt ($\alpha = 0.1 \ll 1$).
-    \item \textbf{$\beta$:} Hyperparameter für die Dirichlet-Verteilung der Worte über Topics; oft klein ($\beta = 0.1 \ll 1$).
-\end{itemize}
-
-LDA bietet oft bessere und interpretierbarere Ergebnisse als LSA, besonders für komplexere Textsammlungen.
-
-\subsubsection*{Worteinbettungen (Word Embeddings)}
-
-\definition{\textbf{Worteinbettungen} (Word Embeddings) sind eine \textit{"Revolution"} im NLP (ab 2012/13 mit Word2Vec). Das Ziel ist die Einbettung von Worten in einen niedrigdimensionalen Vektorraum (typischerweise wenige hundert Dimensionen statt zehntausend für One-Hot-Encoding).}
-
-\textbf{Charakteristiken:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Semantische Struktur:} Die Lage der Vektoren im Raum enthält Information über semantische Ähnlichkeit.
-    \item \textbf{Analogien:} Ermöglicht Antworten auf Analogiefragen (z.\,B.\  "Tiger verhält sich zu Großkatzen wie Delfin zu ...").
-    \item \textbf{"Outlier"-Erkennung:} Ermöglicht Fragen wie "Was gehört nicht dazu?" (Salz / Pfeffer / Sessel / Curry).
-\end{itemize}
-
-\textbf{Word2Vec (Mikolov et al., 2012/13):}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Continuous Bag of Words (CBOW):} Vorhersage des mittleren Wortes basierend auf den umgebenden Worten in einem 5-Wort-Fenster.
-    \item \textbf{Skip-gram:} Vorhersage der umgebenden vier Worte basierend auf dem mittleren Wort.
-    \item \textbf{Training:} Ein Neuronales Netz wird trainiert; die Gewichtsmatrizen definieren nach dem Training die Worteinbettungen (spezifisch für den jeweiligen Corpus).
-\end{itemize}
-
-\textbf{GloVe (Global Vectors for Word Representation):}
-Alternative zu Word2Vec mit ähnlichen oder teilweise besseren Ergebnissen durch globale Optimierung.
-
-\subsubsection*{Kontextuelle Einbettung}
-
-\definition{\textbf{Kontextuelle Einbettung} behandelt das Problem der Mehrdeutigkeit: Ein Wort erhält nicht einen einzigen Vektor, sondern wird je nach Kontext unterschiedlich repräsentiert.}
-
-\textbf{Problem mit Word2Vec:} Für jeden Corpus erhält jedes Wort nur einen Vektor, der bei mehrdeutigen Worten eine "Mischbedeutung" darstellt.
-
-\textbf{Moderne Lösungsansätze:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{RNN-basiert:} ELMo u.\,ä.\  -- Sequenz-Modelle verarbeiten jeden Satz kontextabhängig.
-    \item \textbf{Transformer-basiert:} BERT, T5 (Text-to-text Transfer Transformer), GPT u.\,ä.\  -- Der Input ist (mindestens) ein ganzer Satz.
-\end{itemize}
-
-\textbf{Charakteristiken:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Hohe Genauigkeit:} Kontextuelle Modelle erzielen state-of-the-art Ergebnisse bei vielen NLP-Aufgaben.
-    \item \textbf{Netz erforderlich:} Im Gegensatz zu Word2Vec wird das vollständige Netz zur Laufzeit benötigt, nicht nur zur Erzeugung von Einbettungen.
-    \item \textbf{Rechenintensiv:} Diese Modelle erfordern erhebliche Rechenressourcen.
-\end{itemize}
+\textbf{Kontextuelle Einbettung:} Word2Vec gibt jedem Wort \emph{einen} Vektor (Mischbedeutung bei Polysemie, z.\,B.\ ,,Bank''). Moderne Lösungen: RNN-basiert (ELMo) oder Transformer-basiert (BERT, GPT, T5) -- ganzer Satz als Input, kontextabhängige Repräsentation je nach Verwendung. Sehr genau, aber rechenintensiv; das vollständige Netz wird zur Laufzeit benötigt.
 
 \newpage
 
 \subsection{Adversarial Attacks und Deep Fakes}
 
-\subsubsection*{Adversariale Angreifer: Definition und Motivation}
+\definition{\textbf{Adversariale Angriffe} sind speziell konstruierte Eingaben, die ML-Modelle (insb.\ neuronale Netze) zu falschen Vorhersagen verleiten, für Menschen aber oft unauffällig oder korrekt erscheinen. \textbf{Deep Fakes} sind via GANs oder Autoencoder synthetisch generierte oder manipulierte Audio-/Video-/Bildinhalte, die täuschend echt wirken.}
 
-\definition{\textbf{Adversariale Angreifer} sind speziell konstruierte Eingaben, die darauf abzielen, maschinelle Lernmodelle (insbesondere neuronale Netze) zu täuschen und falsche Vorhersagen zu verursachen, während sie für Menschen oft unauffällig oder korrekt erscheinen.}
+\begin{table}[H]
+\centering
+\begin{tabular}{p{3.0cm} p{4.5cm} p{4.5cm}}
+\hline
+\textbf{Typ} & \textbf{Beschreibung} & \textbf{Beispiel} \\
+\hline
+\multicolumn{3}{l}{\textit{Adversariale Angriffe -- Bild:}} \\
+Imperceptible Pert. & Kleine, kontrollierte unsichtbare Störungen $\delta$ zum Bild & CNN klassifiziert Panda als Gibbon \\
+Physical Examples & Manipulierte physische Objekte/Szenen & Gefälschte Stop-Schilder täuschen AV \\
+Targeted/Untargeted & Mit/ohne vorgegebene Zielklasse & Spez.\ Fehlklassifikation vs.\ beliebiger Fehler \\
+\hline
+\multicolumn{3}{l}{\textit{Adversariale Angriffe -- NLP:}} \\
+Character-Level & Tippfehler, Zeichensubstitution & Umgehung von Spam-Filtern \\
+Word-Level & Synonym-Substitution & Semantik erhalten, Klassifikator getäuscht \\
+Syntax-Manipulation & Umstrukturierung des Satzes & Bedeutung gleich, Transformer verwirrt \\
+\hline
+\multicolumn{3}{l}{\textit{Deep Fakes:}} \\
+Face Swap & Gesichter via Autoencoder/GAN tauschen & Gefälschte Politikvideos \\
+Voice Synthesis & Stimm-Cloning via TTS-Modelle & Betrug, Identitätsdiebstahl \\
+\hline
+\end{tabular}
+\end{table}
 
-\textbf{Motivation:}
+\textbf{Gesellschaftliche Risiken:} Desinformation (gefälschte Reden, Videobeweise), Identitätsdiebstahl, Erosion des Medienvertrauens (,,Sehen ist Glauben'' wird fragwürdig), Umgehung biometrischer Sicherheitssysteme, Gefährdung autonomer Fahrzeuge durch Sensor-Manipulation.
+
+\textbf{Gegenmaßnahmen:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Sicherheit testen:} Evaluierung der Robustheit von ML-Modellen gegen Manipulationen.
-    \item \textbf{Vulnerabilities aufdecken:} Identifikation von Schwachstellen in Systemen (z.\,B.\  Gesichtserkennungssysteme, autonome Fahrzeuge).
-    \item \textbf{Malicious Attacks:} Böswillige Angreifer können diese Schwachstellen ausnutzen.
-    \item \textbf{Sicherheitsforschung:} Verstehen der Grenzen von Deep Learning.
+    \item \textbf{Adversarial Training:} Modelle werden mit adversarialen Beispielen trainiert $\to$ robustere Gewichte; mathematische Garantien via Certified Defenses für begrenzte Perturbationsmengen.
+    \item \textbf{Input Preprocessing:} JPEG-Kompression, Rauschreduktion oder Feature Squeezing vor Modelleingabe.
+    \item \textbf{Ensemble Methods:} Mehrere Modelle robust gegenüber gemeinsamen Angriffen.
+    \item \textbf{Deep Fake Detektion:} Spezialisierte Netze für GAN-Artefakte, Frequenzdomänenanalyse (synthetische Bilder zeigen charakteristische Frequenzmuster), temporale Inkonsistenz in Videos.
+    \item \textbf{Blockchain-Authentifizierung:} Digitale Zertifikate für Medienechtheit.
+    \item \textbf{Medienkompetenz \& Transparent Labeling:} Kennzeichnung synthetischer Inhalte; Förderung kritischen Denkens.
 \end{itemize}
-
-\subsubsection*{Arten von Adversarialen Angriffen}
-
-\textbf{Visuelle Domains (Bilderkennung):}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Imperceptible Perturbations:} Kleine, kontrollierte Störungen werden dem Eingabebild hinzugefügt, die für Menschen unsichtbar sind, aber CNNs zu fehlerhaften Vorhersagen führen.
-    \item \textbf{Physical Adversarial Examples:} Manipulierte physische Objekte oder Szenen, die Erkennungssysteme in der realen Welt täuschen (z.\,B.\  gefälschte Stop-Schilder).
-    \item \textbf{Targeted Attacks:} Angreifer spezifizieren eine bestimmte Zielklasse, zu der das Modell fehlklassifizieren soll.
-    \item \textbf{Untargeted Attacks:} Das Ziel ist lediglich, eine falsche Vorhersage zu provozieren, egal welche.
-\end{itemize}
-
-\textbf{NLP-Domain:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Character-Level Perturbations:} Änderungen von einzelnen Zeichen, Tippfehler oder Umformulierungen.
-    \item \textbf{Word-Level Perturbations:} Wortsustitutionen, Synonyme oder semantisch ähnliche Worte.
-    \item \textbf{Syntax-Manipulationen:} Umstrukturierung von Sätzen, die die Bedeutung erhalten, aber RNNs/Transformer verwirren.
-\end{itemize}
-
-\subsubsection*{Deep Fakes: Synthetische Medien}
-
-\definition{\textbf{Deep Fakes} sind synthetisch generierte oder manipulierte Audio-, Video- oder Bildinhalte, die oft täuschend echt wirken, tatsächlich aber mittels Deep Learning (typischerweise \textbf{Generative Adversarial Networks, GANs}) erzeugt oder verfälscht wurden.}
-
-\textbf{Technische Grundlagen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{GANs:} Ein Generator erzeugt synthetische Medien; ein Discriminator versucht, echte von gefälschten Medien zu unterscheiden. Die beiden Netzwerke spielen ein Minimax-Spiel.
-    \item \textbf{Face Swap:} Gesichter werden mittels Autoencoder und Decoder zwischen Videos ausgetauscht.
-    \item \textbf{Voice Synthesis:} Text-to-Speech-Modelle oder Voice-Cloning generieren synthetische Sprache, die Originalstimmen täuschend ähnelt.
-    \item \textbf{Temporal Coherence:} Videos erfordern zusätzliche Konsistenz über zeitliche Sequenzen.
-\end{itemize}
-
-\subsubsection*{Auswirkungen und Risiken}
-
-\textbf{Gesellschaftliche Risiken:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Desinformation:} Deep Fakes können Falschinformationen verbreiten (z.\,B.\  gefälschte Reden oder Videobeweise).
-    \item \textbf{Identitätsdiebstahl:} Gesichts- und Sprach-Deepfakes ermöglichen Betrügereien und Identitätsmissbrauch.
-    \item \textbf{Erosion des Vertrauens:} "Sehen ist Glauben" wird fragwürdig; Menschen können Authentizität von Medien nicht mehr verlassen auf visuelle/auditive Indizien.
-    \item \textbf{Malware Distribution:} Adversariale Beispiele können Sicherheitssysteme umgehen.
-\end{itemize}
-
-\textbf{Sicherheitliche Konsequenzen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Biometrische Systeme:} Gesichts- und Stimmerkennung anfällig für Deep Fakes und adversariale Angriffe.
-    \item \textbf{Autonomous Systems:} Selbstfahrende Autos können durch adversariale Manipulationen der Sensorinputs gefährlich beeinflusst werden.
-    \item \textbf{Malware Detection:} Adversariale Angreifer können Malware-Detektoren umgehen.
-\end{itemize}
-
-\subsubsection*{Verteidigungsmechanismen}
-
-\textbf{Robustheit verbessern:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Adversarial Training:} Modelle werden mit adversarialen Beispielen trainiert, um Widerstandsfähigkeit aufzubauen.
-    \item \textbf{Certified Defenses:} Mathematische Garantien für begrenzte Robustheit gegen Perturbationen bis zu bestimmten Grenzen.
-    \item \textbf{Input Preprocessing:} Defensive Techniken vor der Modelleingabe (z.\,B.\  JPEG-Kompression, Rauschreduktion).
-    \item \textbf{Ensemble Methods:} Mehrere Modelle können robuster gegen Angreifer sein.
-\end{itemize}
-
-\textbf{Detektion von Deep Fakes:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{GAN-basierte Detektoren:} Spezialisierte Netzwerke lernen, Artefakte von GANs zu erkennen.
-    \item \textbf{Temporal Inconsistencies:} Fehler in zeitlicher Konsistenz von Videos aufdecken.
-    \item \textbf{Frequency Domain Analysis:} Analyse von Frequenzmustern zur Erkennung synthetischer Inhalte.
-    \item \textbf{Blockchain-basierte Authentifizierung:} Digitale Zertifikate und Verifikation von Medienechtheit.
-\end{itemize}
-
-\subsubsection*{Regulierung und ethische Überlegungen}
-
-\textbf{Regulatorische Herausforderungen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item Schwierigkeit, legitime von böswilligen Deep Fakes zu unterscheiden.
-    \item Balance zwischen Forschungsfreiheit und Missbrauchsprävention.
-    \item Internationale Koordination nötig, da die Technologie global verbreitet ist.
-\end{itemize}
-
-\textbf{Best Practices:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Medienkompetenz:} Förderung von kritischem Denken bezüglich Medieninhalte.
-    \item \textbf{Transparent Labeling:} Kennzeichnung von synthetisch generierten oder editierten Inhalten.
-    \item \textbf{Research Transparency:} Veröffentlichung von Detektionsmethoden zur Gegenmaßnahmenentwicklung.
-    \item \textbf{Ethische Richtlinien:} Verantwortungsvolle Entwicklung und Verwendung von Generative-AI-Modellen.
-\end{itemize}
-
-\newpage
