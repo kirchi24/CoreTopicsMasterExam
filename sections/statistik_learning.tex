@@ -35,20 +35,10 @@ Abhängig & Zielgröße (Kriterium) \\
 \medskip
 \noindent\textbf{Skalenniveaus} bilden eine Hierarchie, die bestimmt, welche mathematischen Operationen und Lagemaße zulässig sind:
 
-\begin{center}
-\small
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{Skala} & \textbf{Eigenschaft} & \textbf{Operationen} & \textbf{Lagemaße} \\
-\hline
-Nominal & reine Klassifikation & $=$, $\neq$ & Modus \\
-Ordinal & Rangordnung, kein fixer Abstand & $=$, $\neq$, $<$, $>$ & Modus, Median \\
-Intervall & feste Abstände, kein wahrer Nullpunkt & $+$, $-$ zusätzlich & Modus, Median, $\bar{x}$ \\
-Verhältnis & wahrer Nullpunkt & $\cdot$, $\div$ zusätzlich & Modus, Median, $\bar{x}$ \\
-Absolut & natürliche Einheit (Stückzahl) & alle & Modus, Median, $\bar{x}$ \\
-\hline
-\end{tabular}
-\end{center}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/scale_niveau.png}
+\end{figure}
 
 \noindent Beispiele: \emph{Nominal} -- Nationalität; \emph{Ordinal} -- Schulnoten, Likert-Skalen; \emph{Intervall} -- Temperatur in °C, IQ; \emph{Verhältnis} -- Länge, Preis; \emph{Absolut} -- Anzahl von Personen.
 
@@ -160,7 +150,7 @@ Manhattan -- allgemeine Robustheit.
 \subsection{Diagrammtypen und Einsatzgebiete}
 % ============================================================
 
-\noindent\textit{Hinweis: Dieses Core Topic ist in den vorliegenden Ausarbeitungen nicht eigenständig ausgearbeitet, sondern wird in den Subsections „Lage-, Streuungs- und Assoziationsmaße" sowie „Ähnlichkeitsmaße und Distanzmaße" abgedeckt. Die folgende Zusammenfassung konsolidiert die relevanten Inhalte.}
+\noindent\textit{Hinweis: Dieses Core Topic ist in den vorliegenden Ausarbeitungen nicht eigenständig ausgearbeitet, sondern wird in den Subsections Lage-, Streuungs- und Assoziationsmaße sowie Ähnlichkeitsmaße und Distanzmaße abgedeckt. Die folgende Zusammenfassung konsolidiert die relevanten Inhalte.}
 
 \medskip
 \noindent Die Wahl eines Diagrammtyps hängt von drei Faktoren ab: \emph{Skalenniveau} der Variablen, \emph{Anzahl} der betrachteten Variablen und dem \emph{Analyseziel} (Häufigkeiten, Verteilungsform, Zusammenhang, Zeitverlauf).
@@ -212,7 +202,7 @@ Intensitätsmatrix & 2 Variablen (z.\,B. Korrelation) & Heatmap \\
 \noindent\textbf{Wahrscheinlichkeitsinterpretationen:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Frequentistisch:} Relative Häufigkeit eines Ereignisses bei sehr häufiger Wiederholung unter identischen Bedingungen -- objektiv, beobachterunabhängig.
-    \item \textbf{Bayessch:} Subjektiver Grad der Gewissheit basierend auf verfügbarem Vorwissen; ermöglicht Aussagen wie „99\,\% Wahrscheinlichkeit, dass der Fingerabdruck von Person X stammt".
+    \item \textbf{Bayessch:} Subjektiver Grad der Gewissheit basierend auf verfügbarem Vorwissen; ermöglicht Aussagen wie 99\,\% Wahrscheinlichkeit, dass der Fingerabdruck von Person X stammt.
 \end{itemize}
 
 \medskip
@@ -233,7 +223,7 @@ Intensitätsmatrix & 2 Variablen (z.\,B. Korrelation) & Heatmap \\
 \[
     P(E) = \frac{g}{m} = \frac{\text{Anzahl günstiger Fälle}}{\text{Anzahl möglicher Fälle}}
 \]
-\textit{Beispiel Würfel:} $\Omega=\{1,\ldots,6\}$, Ereignis „gerade Zahl" $E=\{2,4,6\}$: $P(E)=\frac{3}{6}=\frac{1}{2}$.
+\textit{Beispiel Würfel:} $\Omega=\{1,\ldots,6\}$, Ereignis gerade Zahl $E=\{2,4,6\}$: $P(E)=\frac{3}{6}=\frac{1}{2}$.
 
 \medskip
 \noindent\textbf{Abgeleitete Rechenregeln:}
@@ -280,7 +270,7 @@ Intensitätsmatrix & 2 Variablen (z.\,B. Korrelation) & Heatmap \\
 
 \textbf{Beispiele:}
 Permutation: 3 Personen auf $3! = 6$ Arten anordnen.
-Permutation mit WH: Buchstaben in „AABBCC": $\frac{6!}{2!\cdot2!\cdot2!} = 90$.
+Permutation mit WH: Buchstaben in AABBCC: $\frac{6!}{2!\cdot2!\cdot2!} = 90$.
 Variation ohne WH: Erste 3 Plätze aus 10 Pferden: $\frac{10!}{7!} = 720$.
 Variation mit WH: 3-stellige Codes aus Ziffern 0--9: $10^3 = 1000$.
 Kombination ohne WH: 5 Karten aus 52: $\binom{52}{5} = 2\,598\,960$.
@@ -304,7 +294,7 @@ Kombination mit WH: 3 Früchte aus 5 Sorten: $\binom{7}{3} = 35$.
 
 \textbf{Hypothesenarten:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{$H_0$ (Nullhypothese):} Konservative Standardannahme, meist „kein Effekt".
+    \item \textbf{$H_0$ (Nullhypothese):} Konservative Standardannahme, meist kein Effekt.
     \item \textbf{$H_1$ (Alternativhypothese):} Die zu prüfende Gegenhypothese.
     \item \textbf{Einfach vs. zusammengesetzt:} Einzelner Parameterwert ($H_0: \mu = 10$) vs. Wertebereich ($H_0: \mu \leq 10$).
     \item \textbf{Einseitig vs. zweiseitig:} $H_1: \mu > \mu_0$ bzw. $H_1: \mu < \mu_0$ vs. $H_1: \mu \neq \mu_0$. Einseitige Tests nur bei klar vorherbestimmter Effektrichtung gerechtfertigt.
@@ -337,8 +327,8 @@ $H_0$ ablehnen & \textbf{Fehler I.\ Art} ($\alpha$) & Korrekt (Power $1-\beta$) 
 \end{center}
 
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Fehler I.\ Art} ($\alpha$): $H_0$ abgelehnt, obwohl wahr („Fehlalarm").
-    \item \textbf{Fehler II.\ Art} ($\beta$): $H_0$ nicht abgelehnt, obwohl $H_1$ wahr („falsch negativ").
+    \item \textbf{Fehler I.\ Art} ($\alpha$): $H_0$ abgelehnt, obwohl wahr (Fehlalarm).
+    \item \textbf{Fehler II.\ Art} ($\beta$): $H_0$ nicht abgelehnt, obwohl $H_1$ wahr (falsch negativ).
     \item \textbf{Teststärke (Power)} $= 1 - \beta$: Wahrscheinlichkeit, $H_0$ richtig abzulehnen.
     \item \textbf{Tradeoff:} $\alpha$ und $\beta$ sind negativ korreliert. Beide gleichzeitig reduzieren $\Rightarrow$ größere Stichprobe nötig.
 \end{itemize}
@@ -597,7 +587,7 @@ wobei $\mathbf{T}$ ($n \times a$) die \emph{Score-Matrix} (Koordinaten der Beoba
 
 \textbf{Algorithmus:} (1) Standardisierung von $\mathbf{X}$ (Mittelwert 0, SD 1); (2) Kovarianzmatrix $\mathbf{C} = \frac{1}{n-1}\mathbf{X}^T\mathbf{X}$; (3) Eigenwertzerlegung: $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_p \geq 0$; (4) Scores: $\mathbf{T} = \mathbf{X}\mathbf{P}$.
 
-\textbf{Varianzzerlegung:} $\lambda_j$ = Varianz der $j$-ten PC. Kumulativer Varianzanteil: $\frac{\sum_{j=1}^a \lambda_j}{\sum_{j=1}^p \lambda_j}$. \emph{Scree-Plot}: Eigenwerte gegen PC-Nummer, Wahl von $a$ am „Ellbogen".
+\textbf{Varianzzerlegung:} $\lambda_j$ = Varianz der $j$-ten PC. Kumulativer Varianzanteil: $\frac{\sum_{j=1}^a \lambda_j}{\sum_{j=1}^p \lambda_j}$. \emph{Scree-Plot}: Eigenwerte gegen PC-Nummer, Wahl von $a$ am Ellbogen.
 
 \textbf{Visualisierung:} \emph{Score-Plot} (Beobachtungen in PC1/PC2, zeigt Cluster/Ausreißer); \emph{Loading-Plot} (Beitrag der Originalvariablen zu jeder PC); \emph{Biplot} (kombiniert beides).
 
@@ -1048,7 +1038,7 @@ Dies reduziert die Parametrisierung erheblich durch bedingte Unabhängigkeiten.}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Seriell} $X \to Y \to Z$: Fluss von $X$ zu $Z$ wird blockiert, wenn $Y$ beobachtet wird ($X \perp Z \mid Y$).
     \item \textbf{Divergent} $X \leftarrow Y \to Z$: Gemeinsamer Elternknoten; $X$ und $Z$ werden unabhängig, wenn $Y$ beobachtet wird ($X \perp Z \mid Y$).
-    \item \textbf{Konvergent} $X \to Y \leftarrow Z$: Gemeinsamer Kindknoten; $X$ und $Z$ sind unabhängig, wenn $Y$ \emph{nicht} beobachtet wird. Beobachten von $Y$ (oder eines Nachfahren) aktiviert Abhängigkeit -- \emph{„explaining away"}.
+    \item \textbf{Konvergent} $X \to Y \leftarrow Z$: Gemeinsamer Kindknoten; $X$ und $Z$ sind unabhängig, wenn $Y$ \emph{nicht} beobachtet wird. Beobachten von $Y$ (oder eines Nachfahren) aktiviert Abhängigkeit -- \emph{explaining away}.
 \end{itemize}}
 
 \definition{\textbf{Naive-Bayes-Klassifikator:} Nimmt bedingte Unabhängigkeit aller Features gegeben die Klasse an: $P(X_1,\ldots,X_p \mid C) = \prod_j P(X_j \mid C)$. Klassifikation via MAP-Schätzung im Log-Raum:
@@ -1140,7 +1130,7 @@ Der letzte Term in $\beta_n$ bestraft die Abweichung zwischen Stichprobenmittelw
 \subsection{Survivorship Bias und kognitive Verzerrungen}
 % ============================================================
 
-\definition{\textbf{Survivorship Bias:} Analyse basiert nur auf den „Überlebenden" eines Prozesses; Misserfolge fehlen systematisch, was zu verzerrten Schlussfolgerungen führt:
+\definition{\textbf{Survivorship Bias:} Analyse basiert nur auf den Überlebenden eines Prozesses; Misserfolge fehlen systematisch, was zu verzerrten Schlussfolgerungen führt:
 $$\mathbb{E}[\text{Statistik} \mid D_{\text{obs}}] \neq \mathbb{E}[\text{Statistik} \mid D_{\text{obs}} \cup D_{\text{missing}}]$$}
 
 \textbf{Beispiel -- Flugzeug-Panzerfrage (Wald, 2. WK):} Zurückgekehrte Flugzeuge zeigten Treffer an Tragflächen und Rumpf -- naïve Schlussfolgerung: diese Bereiche panzern. Richtige Schlussfolgerung: Flugzeuge mit Treffern an Cockpit oder Motoren kehrten \emph{nicht} zurück und fehlen in der Analyse. Gerade die Bereiche \emph{ohne} gehäufte Treffer sind die kritischen.

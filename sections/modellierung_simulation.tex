@@ -2,7 +2,7 @@
 
 \subsection{Grundbegriffe: Modell, Modellierung, Simulation}
 
-\definition{Eine \textbf{Hypothese} ist eine allgemeingültige Annahme über Sachverhalte, die eine Beziehung zwischen $\geq 2$ Variablen formuliert. Sie muss als \emph{Konditionalsatz} ("Wenn--dann"/"Je--desto") vorliegen und muss (zumindest potentiell) \textbf{falsifizierbar} sein -- zweiwertig (widerlegbar) oder graduell.}
+\definition{Eine \textbf{Hypothese} ist eine allgemeingültige Annahme über Sachverhalte, die eine Beziehung zwischen $\geq 2$ Variablen formuliert. Sie muss als \emph{Konditionalsatz} (Wenn--dann/Je--desto) vorliegen und muss (zumindest potentiell) \textbf{falsifizierbar} sein -- zweiwertig (widerlegbar) oder graduell.}
 
 Eine Aussage ist \textbf{falsifizierbar}, wenn es prinzipiell möglich ist, sie durch eine Beobachtung oder ein Experiment zu widerlegen. Nicht falsifizierbare Aussagen (z.\,B.\ \emph{,,Morgen regnet es oder es regnet nicht''}) sind tautologisch und damit wissenschaftlich wertlos. Beispiel: \emph{,,Wenn die Temperatur steigt, nimmt der Energieverbrauch ab''} ist falsifizierbar -- ein einziger Gegenfall (steigende Temperatur, steigender Verbrauch) würde die Hypothese widerlegen.
 
@@ -15,22 +15,22 @@ Eine Aussage ist \textbf{falsifizierbar}, wenn es prinzipiell möglich ist, sie 
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Variable} ($x, y, \varepsilon$): Symbol für eine Menge von Merkmalsausprägungen
     \begin{itemize}[leftmargin=1.5em]
-        \item \textit{Unabhängige Variable} ($x$): gehört zum "Wenn-/Je-Teil" (Ursache/Bedingung)
-        \item \textit{Abhängige Variable} ($y$): gehört zum "Dann-/Desto-Teil" (Wirkung/Konsequenz)
+        \item \textit{Unabhängige Variable} ($x$): gehört zum Wenn-/Je-Teil (Ursache/Bedingung)
+        \item \textit{Abhängige Variable} ($y$): gehört zum Dann-/Desto-Teil (Wirkung/Konsequenz)
         \item \textit{Störvariable} ($\varepsilon$): nicht erfasste Ursache (vergessene unabhängige Variable)
     \end{itemize}
     \item \textbf{Parameter} ($a$): festgesetzter Wert, Teil der Struktur, nicht durch Variablen beeinflusst
 \end{itemize}
 
-\definition{Ein \textbf{Modell} ist eine vereinfachte, formale (meist mathematische) Abbildung einer partiellen Realität -- notwendigerweise \emph{Abstraktionen} bzw.\ "Karikaturen" des Realsystems. Maxime: so einfach wie möglich, aber so komplex wie notwendig. Jedes Modell wird für einen \textbf{Modellzweck} entwickelt.}
+\definition{Ein \textbf{Modell} ist eine vereinfachte, formale (meist mathematische) Abbildung einer partiellen Realität -- notwendigerweise \emph{Abstraktionen} bzw.\ Karikaturen des Realsystems. Maxime: so einfach wie möglich, aber so komplex wie notwendig. Jedes Modell wird für einen \textbf{Modellzweck} entwickelt.}
 
-\definition{Die \textbf{Modellierung} ist der Prozess der Erstellung eines Modells: (1) Nichtformale Beschreibung, (2) Semiformale Beschreibung ("Modellkonzept"), (3) Streng formale mathematische Formulierung.}
+\definition{Die \textbf{Modellierung} ist der Prozess der Erstellung eines Modells: (1) Nichtformale Beschreibung, (2) Semiformale Beschreibung (Modellkonzept), (3) Streng formale mathematische Formulierung.}
 
 \definition{Ein \textbf{Experiment} ist eine empirische Forschungsmethode, bei der eine oder mehrere unabhängige Variablen variiert werden.}
 
 \definition{Eine \textbf{Simulation} ist im weiteren Sinne der Gesamtkomplex aus Modellieren, Simulieren und Auswerten. Im engeren Sinne: virtuelles Experiment auf Basis eines Simulationsmodells (fast ausschließlich Computersimulation).}
 
-\definition{Ein \textbf{Szenario} ist eine bestimmte Zusammenstellung von Modellannahmen bzw.\ Konfiguration der unabhängigen Variablen für eine Simulation (vgl.\ "Treatments" bei Experimenten).}
+\definition{Ein \textbf{Szenario} ist eine bestimmte Zusammenstellung von Modellannahmen bzw.\ Konfiguration der unabhängigen Variablen für eine Simulation (vgl.\ Treatments bei Experimenten).}
 
 \textbf{Typen von Computersimulationen:}
 \begin{itemize}[leftmargin=1.5em]
@@ -89,8 +89,8 @@ Eine Aussage ist \textbf{falsifizierbar}, wenn es prinzipiell möglich ist, sie 
 
 \textbf{Aggregiert vs.\ individuell:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textit{Aggregiert}: statistische Mittelwerte (z.\,B.\  System Dynamics) -- die Bevölkerung als Ganzes, nicht einzelne Personen
-    \item \textit{Individuell}: Schlüsselaktöre explizit modelliert (z.\,B.\  agentenbasiert) -- vgl.\ Agenten-basierte Modellierung
+    \item \textit{Aggregiert}: statistische Mittelwerte (z.\,B.\  System Dynamics) -- die Bevölkerung als Ganzes
+    \item \textit{Individuell}: Schlüsselaktöre explizit modelliert (z.\,B.\  agentenbasiert)
 \end{itemize}
 
 \textbf{Linear vs.\ nichtlinear:}
@@ -178,6 +178,10 @@ Ist $\lambda = 0$ ein Eigenwert, so ist $\det(A) = \prod_i \lambda_i = 0$, d.\,h
     \includegraphics[width=0.75\textwidth]{assets/effect_matrix_stability.png}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/pulse_stable.png}
+\end{figure}
 \newpage
 
 \subsection{Diskrete Markow-Ketten}

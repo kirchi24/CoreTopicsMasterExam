@@ -95,7 +95,7 @@ Weitere nützliche Konzepte sind: `DISTINCT` entfernt Duplikate aus Ergebnissen;
 
 \definition{\textbf{Normalisierung}} ist die systematische Umstrukturierung eines Relationenschemas, um Redundanzen zu reduzieren und Anomalien zu vermeiden. Ohne Normalisierung entstehen typische Probleme: **Insert-Anomalien** treten auf, wenn neue Entitäten nicht eingefügt werden können, ohne irrelevante Daten hinzuzufügen. **Update-Anomalien** entstehen, wenn eine Information an mehreren Stellen gepflegt werden muss, was Inkonsistenzen riskiert. **Delete-Anomalien** treten auf, wenn das Löschen einer Entität zu ungewolltem Datenverlust führt.
 
-Die Normalformen bilden eine Hierarchie von immer strengeren Anforderungen. Die \textbf{1. Normalform (1NF)} fordert, dass alle Attributwerte atomar (unteilbar) sind und keine Wiederholungsgruppen existieren. Ein Beispiel für Verletzung: eine Spalte "Hobbys" mit dem Wert "Lesen, Schwimmen, Joggen" -- dies müsste stattdessen auf mehrere Zeilen verteilt sein.
+Die Normalformen bilden eine Hierarchie von immer strengeren Anforderungen. Die \textbf{1. Normalform (1NF)} fordert, dass alle Attributwerte atomar (unteilbar) sind und keine Wiederholungsgruppen existieren. Ein Beispiel für Verletzung: eine Spalte Hobbys mit dem Wert Lesen, Schwimmen, Joggen -- dies müsste stattdessen auf mehrere Zeilen verteilt sein.
 
 Die \textbf{2. Normalform (2NF)} fordert 1NF plus: Es darf keine partiellen Abhängigkeiten geben. Dies ist relevant, wenn der Primärschlüssel aus mehreren Attributen besteht (zusammengesetzter Schlüssel). Eine partielle Abhängigkeit liegt vor, wenn ein Nicht-Schlüssel-Attribut nur von einem Teil des zusammengesetzten Schlüssels abhängt. Ein Beispiel: Tabelle (StudentenID, KursID, KursName) -- KursName hängt nur von KursID ab, nicht von der Kombination.
 
@@ -301,7 +301,7 @@ Die **atomare Vektoren** sind die Bausteine. Sie sind homogen (ein Datentyp für
 
 **Arrays** sind n-dimensionale Verallgemeinerungen. Sie sind homogen wie Matrizen, aber beliebig-dimensional. Index-Zugriff funktioniert mit \texttt{arr[i1, i2, ..., in]}, und Subsetting mit \texttt{arr[1:5, , 3]} (erste 5 Zeilen, alle Spalten, 3. Slice). Typische Einsätze: Zeitreihenanalyse mit mehreren Variablen, 3D-Daten (z.B. Neuronale-Netze-Preprocessing).
 
-\definition{Der \textbf{Data Frame} ist R's Antwort auf eine relationale Tabelle. Im Gegensatz zu Matrizen ist ein Data Frame \textbf{heterogen} -- Spalten dürfen unterschiedliche Typen haben. Jede Spalte ist ein Vektor (oder faktorisiert), und alle Spalten müssen gleich lang sein. Spalten werden accessed via \texttt{\$}-Operator (\texttt{df\$Name}) oder Bracket-Notation (\texttt{df[, "Name"]}).}
+\definition{Der \textbf{Data Frame} ist R's Antwort auf eine relationale Tabelle. Im Gegensatz zu Matrizen ist ein Data Frame \textbf{heterogen} -- Spalten dürfen unterschiedliche Typen haben. Jede Spalte ist ein Vektor (oder faktorisiert), und alle Spalten müssen gleich lang sein. Spalten werden accessed via \texttt{\$}-Operator (\texttt{df\$Name}) oder Bracket-Notation (\texttt{df[, Name]}).}
 
 Data Frames sind das Arbeitspferd von Statistik in R. Sie ermöglichen elegante statistische Formeln: \texttt{lm(y \textasciitilde\ x1 + x2, data=df)} regressiert $y$ auf $x_1$ und $x_2$. Der Vorteil ist Flexibilität und nahtlose Integration mit statistischen Funktionen. Der Nachteil ist, dass Data Frames bei rein numerischen Berechnungen langsamer sind als Matrizen. Moderne Alternativen sind \texttt{tibble} (verbesserter Data Frame mit strikterem Verhalten) und \texttt{data.table} (stark optimiert für große Datenmengen).
 
@@ -568,7 +568,7 @@ Ein \textbf{Branch} ist nur ein Zeiger auf einen Commit. Erstellen ist eine $\ma
 \begin{itemize}
   \item \texttt{git add <datei>} -- Datei stagen
   \item \texttt{git add -p} -- Interaktiv: nur bestimmte Hunks
-  \item \texttt{git commit -m "Nachricht"} -- Commit mit Message
+  \item \texttt{git commit -m Nachricht} -- Commit mit Message
   \item \texttt{git commit --amend} -- Letzten Commit korrigieren
 \end{itemize}
 

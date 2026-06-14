@@ -3,32 +3,33 @@
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Abbildungen und deren Eigenschaften}
 
-\definition{Eine \textbf{Abbildung} $f: X \to Y$ ordnet jedem Element $x$ aus dem \textbf{Definitionsbereich} $X$ genau ein Element $f(x)$ aus dem \textbf{Wertebereich} $Y$ zu.}
-
-Diese Definition stellt zwei wesentliche Anforderungen: Erstens muss für jedes $x \in X$ ein Funktionswert definiert sein (\emph{Totalität}), und zweitens muss dieser Wert eindeutig sein. Eine Relation, die einem $x$ mehrere $y$-Werte zuordnet, ist keine Abbildung (z.\,B.\ ist die Kreisgleichung $x^2+y^2=1$ keine Abbildung von $\mathbb{R}$ nach $\mathbb{R}$).
+\definition{Eine \textbf{Abbildung} $f: X \to Y$ ordnet jedem Element $x$ aus dem \textbf{Definitionsbereich} $X$ genau ein Element $f(x)$ aus dem \textbf{Wertebereich} $Y$ zu. Diese Definition stellt zwei wesentliche Anforderungen: Es muss für jedes $x \in X$ ein Funktionswert definiert sein (\emph{Totalität}), und dieser Wert muss eindeutig sein. Eine Relation, die einem $x$ mehrere $y$-Werte zuordnet, ist keine Abbildung (z.\,B.\ ist die Kreisgleichung $x^2+y^2=1$ keine Abbildung).}
 
 \textbf{Wichtige Teilmengen:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Bildmenge} $f(X) = \{ f(x) \mid x \in X \} \subseteq Y$: die Menge aller tatsächlich angenommenen Werte. Zu unterscheiden vom Wertebereich $Y$, der lediglich ein „Zielraum" ist -- $f(X)$ kann eine echte Teilmenge davon sein.
+    \item \textbf{Bildmenge} $f(X) = \{ f(x) \mid x \in X \} \subseteq Y$: die Menge aller tatsächlich angenommenen Werte. Zu unterscheiden vom Wertebereich $Y$, der lediglich ein Zielraum ist -- $f(X)$ kann eine echte Teilmenge davon sein.
     \item \textbf{Kern} $\ker(f) = \{ x \in X \mid f(x) = 0 \}$: Urbildmenge der Null (relevant bei linearen Abbildungen). Bei linearen Abbildungen ist $\ker(f)$ ein Untervektorraum von $X$.
     \item \textbf{Urbild} $f^{-1}(B) = \{x \in X \mid f(x) \in B\}$ einer Menge $B \subseteq Y$ -- allgemein definiert, auch wenn $f$ nicht umkehrbar ist.
 \end{itemize}
 
 \textbf{Eigenschaften:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Injektiv:} $f(x_1) = f(x_2) \Rightarrow x_1 = x_2$. Keine zwei verschiedenen Inputs liefern denselben Output. Für lineare Abbildungen äquivalent zu $\ker(f) = \{0\}$. Geometrisch: keine „Zusammenklappung" des Definitionsbereichs.
+    \item \textbf{Injektiv:} $f(x_1) = f(x_2) \Rightarrow x_1 = x_2$. Keine zwei verschiedenen Inputs liefern denselben Output. Für lineare Abbildungen äquivalent zu $\ker(f) = \{0\}$. Geometrisch: keine Zusammenklappung des Definitionsbereichs.
     \item \textbf{Surjektiv:} $f(X) = Y$, d.\,h.\ jedes $y \in Y$ wird angenommen. Es gibt kein Element im Wertebereich, das unerreichbar ist.
     \item \textbf{Bijektiv:} injektiv und surjektiv -- Voraussetzung für die Umkehrabbildung $f^{-1}: Y \to X$. Bei bijektiven Abbildungen ist $|X| = |Y|$ (für endliche Mengen).
     \item \textbf{Monoton wachsend:} $x_1 < x_2 \Rightarrow f(x_1) \leq f(x_2)$; streng monoton: $<$ statt $\leq$ (impliziert Injektivität auf $\mathbb{R}$). Streng monotone Abbildungen sind stets injektiv.
     \item \textbf{Fixpunkte:} $x^*$ mit $f(x^*) = x^*$; relevant z.\,B.\ bei Iterationsverfahren. Der \textbf{Banachsche Fixpunktsatz} garantiert Existenz und Eindeutigkeit eines Fixpunktes, wenn $f$ eine Kontraktion ist ($\|f(x)-f(y)\| \leq L\|x-y\|$ mit $L<1$).
     \item \textbf{Stetig:} $\lim_{x \to x_0} f(x) = f(x_0)$. Bei linearen Abbildungen zwischen normierten Räumen äquivalent zu Beschränktheit: $\|f(\bm{x})\| \leq C\|\bm{x}\|$ für ein $C > 0$.
+    \item \textbf{Konvex:} $f: X \to \mathbb{R}$ heißt konvex, wenn für alle $x_1, x_2 \in X$ und alle $\lambda \in [0,1]$ gilt:
+    \formel{f(\lambda x_1 + (1-\lambda)x_2) \leq \lambda f(x_1) + (1-\lambda)f(x_2)}
+    Geometrisch: Die Verbindungsgerade (Sekante) zweier Punkte liegt \emph{oberhalb} des Graphen. Strenge Konvexität gilt mit $<$. Eine Abbildung ist \textbf{konkav}, wenn $-f$ konvex ist. Für zweimal differenzierbare Funktionen gilt: $f$ konvex $\Leftrightarrow$ $f''(x) \geq 0$ (bzw.\ Hesse-Matrix $H_f \succeq 0$ im Mehrdimensionalen). Konvexität ist entscheidend für die Optimierung: Jedes lokale Minimum einer konvexen Funktion ist auch ein globales Minimum.
 \end{itemize}
 
 \textbf{Umkehrbarkeit:} Eine Abbildung ist genau dann umkehrbar, wenn sie bijektiv ist. Bei linearen Abbildungen $f(\bm{x}) = A\bm{x}$ äquivalent zu $\det(A) \neq 0$ (reguläre Matrix). Die Umkehrabbildung erfüllt $f^{-1} \circ f = \mathrm{id}_X$ und $f \circ f^{-1} = \mathrm{id}_Y$.
 
 \textbf{Zusammensetzung von Abbildungen:} Sind $f: X \to Y$ und $g: Y \to Z$ Abbildungen, so ist die Komposition $g \circ f: X \to Z$ mit $(g \circ f)(x) = g(f(x))$ definiert. Ist $f$ injektiv und $g$ injektiv, so ist auch $g \circ f$ injektiv; analoges gilt für Surjektivität und Bijektivität.
 
-\beispiel{$f(x) = x^2$ ist weder injektiv ($f(1)=f(-1)$) noch surjektiv (negative Werte fehlen). Eingeschränkt auf $[0,\infty)$ ist $f$ bijektiv mit $f^{-1}(y) = \sqrt{y}$. Die Exponentialfunktion $e^x: \mathbb{R} \to (0,\infty)$ ist bijektiv; ihr Kern $\ker(e^x)$ ist leer (da $e^x > 0$ für alle $x$), ihr Fixpunkt erfüllt $e^{x^*}=x^*$, was in $\mathbb{R}$ keine Lösung hat.}
+\beispiel{$f(x) = x^2$ ist weder injektiv ($f(1)=f(-1)$) noch surjektiv (negative Werte fehlen). Eingeschränkt auf $[0,\infty)$ ist $f$ bijektiv mit $f^{-1}(y) = \sqrt{y}$. Die Exponentialfunktion $e^x: \mathbb{R} \to (0,\infty)$ ist bijektiv; ihr Kern $\ker(e^x)$ ist leer (da $e^x > 0$ für alle $x$), ihr Fixpunkt erfüllt $e^{x^*}=x^*$, was in $\mathbb{R}$ keine Lösung hat. Die Funktion $f(x)=x^2$ ist konvex ($f''=2>0$): die Sekante zwischen zwei Punkten liegt stets oberhalb der Parabel. Im Gegensatz dazu ist $g(x)=-x^2$ konkav.}
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
@@ -36,7 +37,9 @@ Diese Definition stellt zwei wesentliche Anforderungen: Erstens muss für jedes 
 
 \definition{Eine \textbf{Norm} $\|\cdot\|$ auf einem Vektorraum ist eine Abbildung nach $\mathbb{R}_{\geq 0}$, die folgende vier Axiome erfüllt: Nichtnegativität, Definitheit ($\|\bm{v}\|=0 \Leftrightarrow \bm{v}=\bm{0}$), Homogenität ($\|\alpha\bm{v}\|=|\alpha|\cdot\|\bm{v}\|$) und Dreiecksungleichung ($\|\bm{u}+\bm{v}\|\leq\|\bm{u}\|+\|\bm{v}\|$).}
 
-Eine Norm ist ein Distanz- bzw.\ Größenmaß für Vektoren. Sie verallgemeinert die intuitive Länge aus der Geometrie auf beliebige Vektorräume. Zwei Normen auf einem endlichdimensionalen Raum sind stets \textbf{äquivalent}: es existieren $c_1, c_2 > 0$ mit $c_1\|\bm{v}\|_a \leq \|\bm{v}\|_b \leq c_2\|\bm{v}\|_a$. Für den $\mathbb{R}^n$ gilt konkret: $\|\bm{v}\|_\infty \leq \|\bm{v}\|_2 \leq \|\bm{v}\|_1 \leq \sqrt{n}\|\bm{v}\|_2 \leq n\|\bm{v}\|_\infty$.
+Eine Norm ist ein Größenmaß für Vektoren und verallgemeinert die intuitive Länge aus der Geometrie auf beliebige Vektorräume. Zwei Normen auf einem endlichdimensionalen Raum sind stets \textbf{äquivalent}: es existieren $c_1, c_2 > 0$ mit $c_1\|\bm{v}\|_a \leq \|\bm{v}\|_b \leq c_2\|\bm{v}\|_a$. Für den $\mathbb{R}^n$ gilt konkret: $\|\bm{v}\|_\infty \leq \|\bm{v}\|_2 \leq \|\bm{v}\|_1 \leq \sqrt{n}\|\bm{v}\|_2 \leq n\|\bm{v}\|_\infty$.
+
+\textbf{Norm vs.\ Metrik (Abstand):} Eine Norm induziert stets eine \textbf{Metrik} (Abstandsfunktion) durch $d(\bm{u},\bm{v}) = \|\bm{u}-\bm{v}\|$. Eine Metrik erfüllt: Nichtnegativität, Symmetrie ($d(x,y)=d(y,x)$), Definitheit ($d(x,y)=0 \Leftrightarrow x=y$) und Dreiecksungleichung ($d(x,z)\leq d(x,y)+d(y,z)$). Umgekehrt ist nicht jede Metrik durch eine Norm erzeugbar -- eine Norm misst die \emph{Größe eines Vektors}, eine Metrik den \emph{Abstand zweier Punkte}. Beide sind unabhängige Konzepte, die für Vektornormen aber zusammenfallen.
 
 \textbf{Vektornormen ($p$-Normen):}
 \formel{\|\bm{v}\|_p = \left(\sum_{i=1}^n |v_i|^p\right)^{1/p}}
@@ -80,7 +83,7 @@ wobei $U \in \mathbb{R}^{m\times m}$ und $V \in \mathbb{R}^{n\times n}$ orthogon
 
 \textbf{Geometrische Interpretation:} Eine lineare Abbildung $A$ transformiert alle Vektoren des Einheitskreises in eine \textbf{Ellipse}.
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Eigenvektoren:} Richtungen, die unter $A$ unverändert bleiben (nur Skalierung); Eigenwerte = Streckungsfaktoren. Sie zeigen die „natürlichen Achsen" der Transformation.
+    \item \textbf{Eigenvektoren:} Richtungen, die unter $A$ unverändert bleiben (nur Skalierung); Eigenwerte = Streckungsfaktoren. Sie zeigen die natürlichen Achsen der Transformation.
     \item \textbf{Singulärvektoren:} Die rechten Singulärvektoren (Spalten von $V$) geben die Eingangsrichtungen an, die auf die Halbachsen der Ausgangsellipse abgebildet werden. Die linken Singulärvektoren (Spalten von $U$) zeigen die Richtungen dieser Halbachsen. Singulärwerte = Halbachsenlängen. Input- und Output-Singulärvektoren stehen jeweils orthogonal aufeinander.
     \item In 2D: Eine Einheitskreisscheibe wird durch $A$ in eine Ellipse transformiert; $\sigma_1$ ist die große Halbachse, $\sigma_2$ die kleine.
 \end{itemize}
@@ -150,11 +153,11 @@ Für symmetrische Matrizen gilt der direkte Zusammenhang zu den Eigenwerten $A \
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Fuzzy-Logik, Fuzzy-Sets und unscharfe Zahlen}
 
-\textbf{Motivation -- Grenzen der klassischen Logik:} Die zweiwertige Logik stößt bei graduellen Übergängen an Grenzen (Sorites-Paradoxon: „Wann ist ein Sandhaufen kein Sandhaufen?"). Reale Konzepte wie „warm", „groß" oder „jung" haben keine scharfen Grenzen. Zudem gilt \emph{ex falso quodlibet}: aus einer falschen Aussage folgt klassisch-logisch alles.
+\textbf{Motivation -- Grenzen der klassischen Logik:} Die zweiwertige Logik stößt bei graduellen Übergängen an Grenzen (Sorites-Paradoxon: Wann ist ein Sandhaufen kein Sandhaufen?). Reale Konzepte wie warm, groß oder jung haben keine scharfen Grenzen. Zudem gilt \emph{ex falso quodlibet}: aus einer falschen Aussage folgt klassisch-logisch alles (vgl. Implikation).
 
-\definition{In der \textbf{Fuzzy-Logik} (L.\,A.\ Zadeh, 1965) werden Wahrheitswerte von $\{0,1\}$ auf $[0,1]$ verallgemeinert. Standardverknüpfungen (Łukasiewicz/Zadeh):
+\definition{In der \textbf{Fuzzy-Logik} (L.\,A.\ Zadeh, 1965) werden Wahrheitswerte von $\{0,1\}$ auf $[0,1]$ verallgemeinert. Standardverknüpfungen:
 \formel{\llbracket \lnot A \rrbracket = 1 - \llbracket A \rrbracket, \quad \llbracket A \land B \rrbracket = \min(\llbracket A \rrbracket, \llbracket B \rrbracket), \quad \llbracket A \lor B \rrbracket = \max(\llbracket A \rrbracket, \llbracket B \rrbracket)}
-Weitere Varianten: \textbf{t-Normen} für $\land$ (z.\,B.\ Produkt $T_\mathrm{prod}(x,y)=x\cdot y$, Łukasiewicz $T_L(x,y)=\max(0,x+y-1)$) und \textbf{t-Conormen} für $\lor$, jeweils mit den 4 Grundaxiomen: Kommutativität, Assoziativität, Monotonie, Randbedingung.}
+Weitere Varianten: \textbf{t-Normen} für $\land$ (z.\,B.\ Produkt $T_\mathrm{prod}(x,y)=x\cdot y$ und \textbf{t-Conormen} für $\lor$, jeweils mit den 4 Grundaxiomen: Kommutativität, Assoziativität, Monotonie, Randbedingung.}
 
 \definition{Eine \textbf{Fuzzy-Menge} $M \subseteq X$ ist definiert durch eine \textbf{Zugehörigkeitsfunktion} $\mu_M: X \to [0,1]$. Scharfe Mengen sind Spezialfall mit $\mu_M(x) \in \{0,1\}$. Typische Formen: Dreieck (einfach, stückweise linear), Trapez, Gauß-förmig. Mengenoperationen: $\mu_{M^c}(x) = 1-\mu_M(x)$, $\mu_{A\cap B}(x)=\min(\mu_A,\mu_B)$, $\mu_{A\cup B}(x)=\max(\mu_A,\mu_B)$.}
 
@@ -167,18 +170,26 @@ Weitere Varianten: \textbf{t-Normen} für $\land$ (z.\,B.\ Produkt $T_\mathrm{pr
 
 \textbf{$\alpha$-Schnitte:} $[\mu]_\alpha = \{x \in X \mid \mu(x) \geq \alpha\}$ -- algorithmisch handhabbare Darstellung (z.\,B.\ als Intervall oder verkettete Listen). Eine Fuzzy-Menge ist vollständig durch ihre $\alpha$-Schnitte charakterisiert. Eine Fuzzy-Menge ist \textbf{konvex}, wenn alle $\alpha$-Schnitte konvex sind, d.\,h.\ $\mu_M(\lambda x_1+(1-\lambda)x_2) \geq \min(\mu_M(x_1),\mu_M(x_2))$ für alle $\lambda\in[0,1]$.
 
-\textbf{Unscharfe Zahlen und Fuzzy-Arithmetik:} Fuzzy-Mengen können unscharfe Zahlen (z.\,B.\ „ungefähr 2") darstellen. Rechenoperationen erfolgen über das \textbf{Erweiterungsprinzip} von Zadeh:
+\textbf{Unscharfe Zahlen und Fuzzy-Arithmetik:} Fuzzy-Mengen können unscharfe Zahlen (z.\,B.\ ungefähr 2) darstellen. Rechenoperationen erfolgen über das \textbf{Erweiterungsprinzip} von Zadeh:
 \formel{\mu_{f(A,B)}(z) = \sup_{z = f(x,y)} \min(\mu_A(x), \mu_B(y))}
 Operationen führen zu \emph{wachsender Unschärfe} und sind nicht exakt umkehrbar: $(\sim\!2)+(\sim\!2)-(\sim\!2)\neq(\sim\!2)$. Mit $\alpha$-Schnitten lässt sich Arithmetik auf Intervallrechnung zurückführen.
 
-\textbf{Fuzzy-Regler (Fuzzy Control):} Praktische Anwendung in der Regelungstechnik: Eingabegrößen werden \emph{fuzzifiziert}, Regelbasis (z.\,B.\ „IF Temperatur hoch AND Fehler groß THEN Kühlung stark") wird ausgewertet, Ausgabe wird \emph{defuzzifiziert} (z.\,B.\ Schwerpunktmethode). Vorteil: intuitives Expertenwissen direkt kodierbar.
+\textbf{Fuzzy-Regler (Fuzzy Control):} Praktische Anwendung in der Regelungstechnik: Eingabegrößen werden \emph{fuzzifiziert}, Regelbasis (z.\,B.\ IF Temperatur hoch AND Fehler groß THEN Kühlung stark) wird ausgewertet, Ausgabe wird \emph{defuzzifiziert} (z.\,B.\ Schwerpunktmethode). Vorteil: intuitives Expertenwissen direkt kodierbar.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{assets/add_fuzzy_numbers.png}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/add_fuzzy_numbers.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/defuzzy.png}
+    \end{minipage}
 \end{figure}
-
 \newpage
+
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Modulare Arithmetik und Integer-Darstellung am Computer}
 
@@ -195,11 +206,23 @@ Operationen führen zu \emph{wachsender Unschärfe} und sind nicht exakt umkehrb
 
 \definition{\textbf{Modulare Arithmetik:} $a \equiv b \pmod{n}$ wenn $n \mid (a-b)$, d.\,h.\ $a$ und $b$ lassen bei Division durch $n$ denselben Rest. Restklassen $\mathbb{Z}/n\mathbb{Z} = \{[0],[1],\ldots,[n-1]\}$ bilden den \textbf{Restklassenring}. Addition, Subtraktion und Multiplikation sind verträglich mit der Restklassenstruktur: $(a+b) \bmod n = ((a \bmod n) + (b \bmod n)) \bmod n$.}
 
-\textbf{Euklidischer Algorithmus:} $\gcd(a,b) = \gcd(b, a \bmod b)$ bis Rest $=0$. Laufzeit: $\mathcal{O}(\log \min(a,b))$. Der \textbf{erweiterte euklidische Algorithmus} liefert zusätzlich Bézout-Koeffizienten $\alpha,\beta \in \mathbb{Z}$ mit $\alpha a + \beta b = \gcd(a,b)$ -- wichtig für die Berechnung modularer Inverser.
+\textbf{Euklidischer Algorithmus:} Berechnet den größten gemeinsamen Teiler (ggT) durch wiederholte Division mit Rest: $\gcd(a,b) = \gcd(b, a \bmod b)$ bis Rest $=0$.
 
-\textbf{Multiplikatives Inverses:} $b$ mit $a\cdot b \equiv 1 \pmod{n}$ existiert genau dann, wenn $\gcd(a,n)=1$ (Koprimalität). Bei Primzahl $p$ hat jedes $a \not\equiv 0$ ein Inverses -- $\mathbb{Z}/p\mathbb{Z}$ ist ein \textbf{Körper}. Anwendung: RSA-Kryptographie nutzt Modularithmetik mit großen Primzahlen.
+\beispiel{$\gcd(48, 18)$: $48 = 2\cdot18 + 12$; $18 = 1\cdot12 + 6$; $12 = 2\cdot6 + 0 \;\Rightarrow\; \gcd(48,18) = 6$.}
 
-\textbf{Chinesischer Restsatz (CRT):} Ist $n = n_1 \cdot n_2 \cdots n_k$ mit paarweise koprimen $n_i$, so ist $\mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}/n_1\mathbb{Z} \times \cdots \times \mathbb{Z}/n_k\mathbb{Z}$. Ermöglicht parallele Berechnung in kleineren Ringen.
+Laufzeit: $\mathcal{O}(\log \min(a,b))$. Der \textbf{erweiterte euklidische Algorithmus} liefert zusätzlich Bézout-Koeffizienten $\alpha,\beta \in \mathbb{Z}$ mit $\alpha a + \beta b = \gcd(a,b)$ -- wichtig für die Berechnung modularer Inverser.
+
+\textbf{Multiplikatives Inverses:} Gesucht ist $b$ mit $a \cdot b \equiv 1 \pmod{n}$. Dies existiert genau dann, wenn $\gcd(a,n)=1$ (Koprimalität); $b$ erhält man aus den Bézout-Koeffizienten des erweiterten euklidischen Algorithmus.
+
+\beispiel{$\gcd(3, 7) = 1$, also existiert das Inverse von 3 mod 7. Erweiterter euklidischer Algorithmus liefert $3\cdot5 = 15 = 2\cdot7+1 \;\Rightarrow\; 3\cdot5 \equiv 1 \pmod{7}$, also ist $3^{-1} \equiv 5 \pmod 7$.}
+
+Bei Primzahl $p$ hat jedes $a \not\equiv 0$ ein Inverses -- $\mathbb{Z}/p\mathbb{Z}$ ist ein \textbf{Körper}. Anwendung: RSA-Kryptographie nutzt Modularithmetik mit großen Primzahlen.
+
+\textbf{Chinesischer Restsatz (CRT):} Ist $n = n_1 \cdot n_2 \cdots n_k$ mit paarweise koprimen $n_i$, so lässt sich ein Gleichungssystem der Form $x \equiv a_i \pmod{n_i}$ eindeutig modulo $n$ lösen.
+
+\beispiel{Gesucht: $x \equiv 2 \pmod{3}$ und $x \equiv 3 \pmod{5}$. Da $\gcd(3,5)=1$: eindeutige Lösung mod 15. Probe: $x = 8$: $8 = 2\cdot3+2\;\checkmark$, $8 = 1\cdot5+3\;\checkmark$.}
+
+Formal gilt $\mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}/n_1\mathbb{Z} \times \cdots \times \mathbb{Z}/n_k\mathbb{Z}$, was parallele Berechnung in kleineren Ringen ermöglicht.
 
 \textbf{Hamming-Distanz:} $d_H(b_1,b_2)$ = Anzahl unterschiedlicher Stellen zweier Bitfolgen = Gewicht $w(b_1 \oplus b_2)$. Grundlage fehlererkennender und fehlerkorrigierender Codes: Ein Code mit minimaler Hamming-Distanz $d$ kann bis zu $d-1$ Fehler erkennen und $\lfloor(d-1)/2\rfloor$ Fehler korrigieren. Paritätsbit (ASCII): $d=2$ (erkennt 1-Bit-Fehler). Hamming-Code $(7,4)$: $d=3$ (korrigiert 1-Bit-Fehler).
 
@@ -284,7 +307,7 @@ Vorkommen bei Wahrscheinlichkeitsprodukten (z.\,B.\ in Hidden Markov Models) -- 
 \end{itemize}
 Die Kondition ist eine \emph{Untergrenze} des zu erwartenden Fehlers -- selbst der beste Algorithmus kann schlecht konditionierte Probleme nicht besser lösen.}
 
-\textbf{Ursachen schlechter Kondition:} Das Problem selbst ist „nahe an der Singularität" -- z.\,B.\ ein lineares Gleichungssystem mit fast linearen abhängigen Gleichungen, eine Auslöschungssituation, oder die Berechnung kleiner Differenzen großer Zahlen.
+\textbf{Ursachen schlechter Kondition:} Das Problem selbst ist nahe an der Singularität -- z.\,B.\ ein lineares Gleichungssystem mit fast linearen abhängigen Gleichungen, eine Auslöschungssituation, oder die Berechnung kleiner Differenzen großer Zahlen.
 
 \textbf{Absoluter und relativer Fehler:} Bei Störung $\delta x$: absoluter Fehler $\|\delta x\|$, relativer Fehler $\delta_x = \frac{\|\delta x\|}{\|x\|}$. Relative Fehler sind oft aussagekräftiger, da sie die Größenordnung berücksichtigen. Ein absoluter Fehler von $1$ mm ist bei einem Nagel kritisch, bei einer Brücke vernachlässigbar.
 
@@ -310,7 +333,7 @@ Optimierungsaufgaben werden als Minimierungsprobleme formuliert ($\max f = \min(
 
 \definition{\textbf{Gradientenabstieg (Steepest Descent):} $\bm{d}_k = -\nabla f(\bm{x}_k)$ -- lokal steilste Abstiegsrichtung. Reduziert auf ein 1D-Linesearch-Problem. Problem: \textbf{Zick-Zack-Verhalten} bei schlecht konditionierten Problemen (Konvergenzrate $\frac{\kappa-1}{\kappa+1}$, d.\,h.\ bei $\kappa=1000$: sehr langsam). \textbf{Armijo-Regel (Backtracking):} Schrittweite von $\lambda=1$ ausgehend mit Faktor $q\in(0,1)$ reduzieren bis $f(\bm{x}_k+\lambda_k\bm{d}_k)-f(\bm{x}_k) \leq \lambda_k\alpha(\nabla f)^\top\bm{d}_k$ mit $\alpha \in (0,0{,}5)$.}
 
-\definition{\textbf{Konjugierte Gradienten (CG):} Neue Suchrichtung $A$-orthogonal zur vorherigen ($\bm{d}_{k+1}^\top A\bm{d}_k=0$). Behebt Zick-Zack; bei quadratischen Problemen $\min \frac{1}{2}\bm{x}^\top A\bm{x} - \bm{b}^\top\bm{x}$ exakte Lösung nach $n$ Schritten. Für allgemeine Funktionen: nichtlineares CG (Fletcher-Reeves, Polak-Ribière).}
+\definition{\textbf{Konjugierte Gradienten (CG):} Neue Suchrichtung $A$-orthogonal zur vorherigen ($\bm{d}_{k+1}^\top A\bm{d}_k=0$). Behebt Zick-Zack; bei quadratischen Problemen $\min \frac{1}{2}\bm{x}^\top A\bm{x} - \bm{b}^\top\bm{x}$ exakte Lösung nach $n$ Schritten. Für allgemeine Funktionen: nichtlineares CG.}
 
 \definition{\textbf{Newton-Abstieg:} Löst $H_f(\bm{x}_k)\bm{s}_k = -\nabla f(\bm{x}_k)$, setzt $\bm{x}_{k+1}=\bm{x}_k+\bm{s}_k$. Quadratische Konvergenz in der Nähe des Minimums. Voraussetzung: Hesse-Matrix $H_f$ positiv definit (sonst kein Abstieg). Nachteil: Berechnung und Invertierung von $H_f$ kostet $\mathcal{O}(n^3)$. Varianten: \textbf{Frozen Newton} (Hesse einfrieren, seltener aktualisieren), \textbf{Inexact Newton} (LGS nur näherungsweise lösen, z.\,B.\ via CG), \textbf{BFGS} (Rang-2-Update $H_k \approx H_f$, speichert die Matrix explizit), \textbf{L-BFGS} (Limited Memory BFGS, speichert nur die letzten $m$ Vektorpaare -- Standardwahl für hochdimensionale Probleme).}
 
@@ -319,6 +342,11 @@ Optimierungsaufgaben werden als Minimierungsprobleme formuliert ($\max f = \min(
 \textbf{Line Search vs.\ Trust Region:} Line Search bestimmt Richtung, sucht dann Minimum entlang dieser Geraden. Trust Region approximiert die Zielfunktion lokal durch ein quadratisches Modell und minimiert dieses innerhalb eines Vertrauensbereichs (Radius wird je nach Modellgüte vergrößert/verkleinert) -- robuster bei nichtkonvexen Problemen.
 
 \textbf{Globale vs.\ lokale Optima:} Abstiegsverfahren konvergieren i.\,A.\ nur zu lokalen Minima. Für globale Optimierung: simulated annealing, evolutionäre Algorithmen, oder Mehrfachstarts mit verschiedenen $\bm{x}_0$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/gradient_descent.png}
+\end{figure}
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
@@ -334,11 +362,11 @@ mit $a_n = \frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega_0 t)\,\mathrm{d}t$ und 
 
 \textbf{Komplexe Form:} $f(t) = \sum_{n=-\infty}^{+\infty}c_n e^{in\omega_0 t}$ mit $c_n = \frac{1}{T}\int_{-T/2}^{T/2}f(t)e^{-in\omega_0 t}\,\mathrm{d}t$. Für reelles $f$: $c_{-n}=\overline{c_n}$, $|c_n|$ ist das \textbf{Amplitudenspektrum}.}
 
-\textbf{Konvergenzaussagen:} Für stetige, stückweise glatte Funktionen: punktweise Konvergenz überall. An Sprungstellen: Konvergenz gegen den Mittelwert $\frac{f(t^+)+f(t^-)}{2}$. \textbf{Parsevals Theorem} für Reihen: $\frac{1}{T}\int_0^T|f(t)|^2\,\mathrm{d}t = \frac{a_0^2}{4} + \frac{1}{2}\sum_{n=1}^\infty(a_n^2+b_n^2) = \sum_{n=-\infty}^\infty |c_n|^2$ -- Gesamtenergie = Summe der Energiebeiträge aller Frequenzen.
+\textbf{Konvergenzaussagen:} Für stetige, stückweise glatte Funktionen: punktweise Konvergenz überall. An Sprungstellen: Konvergenz gegen den Mittelwert $\frac{f(t^+)+f(t^-)}{2}$.
 
 \textbf{Gibbs'sches Phänomen:} An Sprungstellen überschießt die Fourier-Reihe stets um ca.\ $9\%$ der Sprungamplitude, unabhängig von der Anzahl der Terme. Das Überschwingen verschiebt sich nur zur Sprungstelle hin, wird aber nicht kleiner.
 
-\definition{\textbf{Fourier-Transformation} (nicht-periodisch, $T \to \infty$): $\hat{f}(\nu) = \int_{-\infty}^{\infty}f(t)e^{-2\pi i\nu t}\,\mathrm{d}t$. Umkehrung: $f(t) = \int_{-\infty}^{\infty}\hat{f}(\nu)e^{2\pi i\nu t}\,\mathrm{d}\nu$. Wichtige Eigenschaften: Linearität, \textbf{Verschiebungssatz} ($f(t-t_0) \leftrightarrow e^{-2\pi i\nu t_0}\hat{f}(\nu)$), \textbf{Parsevals Theorem} ($\int|f|^2\,\mathrm{d}t = \int|\hat{f}|^2\,\mathrm{d}\nu$ -- Energie im Zeit- und Frequenzbereich gleich), \textbf{Faltungssatz} ($\widehat{f*g}=\hat{f}\cdot\hat{g}$).}
+\definition{\textbf{Fourier-Transformation} (nicht-periodisch, $T \to \infty$): $\hat{f}(\nu) = \int_{-\infty}^{\infty}f(t)e^{-2\pi i\nu t}\,\mathrm{d}t$. Umkehrung: $f(t) = \int_{-\infty}^{\infty}\hat{f}(\nu)e^{2\pi i\nu t}\,\mathrm{d}\nu$. Wichtige Eigenschaften: Linearität, \textbf{Verschiebungssatz} ($f(t-t_0) \leftrightarrow e^{-2\pi i\nu t_0}\hat{f}(\nu)$), \textbf{Faltungssatz} ($\widehat{f*g}=\hat{f}\cdot\hat{g}$).}
 
 \textbf{DFT und FFT:} $X_k = \sum_{n=0}^{N-1}x_n e^{-2\pi ikn/N}$ für $k=0,\ldots,N-1$. Naiver Aufwand $\mathcal{O}(N^2)$; \textbf{FFT} (Cooley-Tukey, 1965) nutzt Symmetrieeigenschaften der Einheitswurzeln und teilt das Problem rekursiv in zwei Hälften: $\mathcal{O}(N\log N)$. Praktische Anwendungen: Signalverarbeitung, Spektralanalyse. JPEG verwendet 2D-Diskrete-Kosinus-Transformation (DCT, reellwertige Variante) auf $8\times8$-Blöcken -- Hochfrequenzanteile werden stärker quantisiert (psychovisuelle Kompression).
 
@@ -384,11 +412,17 @@ mit $a_n = \frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega_0 t)\,\mathrm{d}t$ und 
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Faltung (diskret und stetig) sowie Faltungskerne und Anwendungen}
 
-\textbf{Kernidee:} Der Ausgabewert zum Zeitpunkt $t$ hängt von einem gewichteten Mittel der Vergangenheit/Umgebung ab -- das Gewicht gibt der \textbf{Faltungskern} (Filter, Impulsantwort) vor. Tritt bei linearen zeitinvarianten (LTI) Systemen auf: Linearität ($T(af+bg)=aT(f)+bT(g)$) und Zeitinvarianz (Verschiebung der Eingabe verschiebt die Ausgabe gleichermaßen) implizieren gemeinsam die Faltungsstruktur.
+\textbf{Kernidee:} Der Ausgabewert zum Zeitpunkt $t$ ist ein gewichtetes Mittel der Vergangenheit/Umgebung -- das Gewicht gibt der \textbf{Faltungskern} (Filter, Impulsantwort) vor. Tritt bei linearen zeitinvarianten (LTI) Systemen auf: Linearität und Zeitinvarianz implizieren gemeinsam die Faltungsstruktur.
 
-\definition{\textbf{Stetige Faltung:} $(f*g)(t) = \int_{-\infty}^{\infty}f(\tau)\,g(t-\tau)\,\mathrm{d}\tau = \int_{-\infty}^{\infty}f(t-\tau)\,g(\tau)\,\mathrm{d}\tau$. Eigenschaften: kommutativ ($f*g = g*f$), assoziativ ($(f*g)*h = f*(g*h)$), linear, distributiv über Addition. \textbf{Faltungssatz:} $\widehat{f*g}(\nu)=\hat{f}(\nu)\cdot\hat{g}(\nu)$ -- Faltung im Zeitbereich = Multiplikation im Frequenzbereich (und vice versa: Multiplikation im Zeitbereich = Faltung im Frequenzbereich).}
+\definition{\textbf{Diskrete Faltung:} $(x*k)_n = \sum_{m=-\infty}^{\infty} x_m\,k_{n-m}$. Anschaulich: Der gespiegelte und verschobene Kern gleitet über das Signal; an jeder Position wird das Skalarprodukt von Signal und Kern gebildet. Für endliche Sequenzen hat das Ergebnis Länge $|x| + |k| - 1$.}
 
-\definition{\textbf{Diskrete Faltung:} $(x*k)_n = \sum_{m=-\infty}^{\infty} x_m\,k_{n-m}$. Für endliche Sequenzen: das Ergebnis hat Länge $|x| + |k| - 1$. \textbf{Randbehandlung} bei endlichen Signalen: Zero-padding (Nullen anhängen, häufigste Wahl), periodische Fortsetzung (zirkuläre Faltung, für FFT-basierte Berechnung), oder Spiegelung (Mirroring -- vermeidet Artefakte an Bildrändern).}
+\beispiel{Signal $x = [1, 2, 3]$, Kern $k = [1, -1]$ (Vorwärtsdifferenz):
+\[(x*k)_n = [\,1,\;2{-}1,\;3{-}2,\;0{-}3\,] = [\,1,\;1,\;1,\;{-}3\,]\]
+Jedes Ausgabeelement ist die Differenz zweier benachbarter Eingabewerte -- der Kern erkennt also Änderungen (Kantendetektion in 1D).}
+
+\definition{\textbf{Stetige Faltung:} $(f*g)(t) = \int_{-\infty}^{\infty}f(\tau)\,g(t-\tau)\,\mathrm{d}\tau$. Eigenschaften: kommutativ, assoziativ, linear, distributiv. \textbf{Faltungssatz:} $\widehat{f*g}(\nu)=\hat{f}(\nu)\cdot\hat{g}(\nu)$ -- Faltung im Zeitbereich entspricht Multiplikation im Frequenzbereich.}
+
+\textbf{Randbehandlung} bei endlichen Signalen: Zero-padding (Nullen anhängen, häufigste Wahl), periodische Fortsetzung (zirkuläre Faltung, für FFT-basierte Berechnung), oder Spiegelung (vermeidet Artefakte an Bildrändern).
 
 \textbf{Wichtige Faltungskerne:}
 \begin{itemize}[leftmargin=1.5em]
@@ -400,15 +434,11 @@ mit $a_n = \frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega_0 t)\,\mathrm{d}t$ und 
     \item \textbf{Dirac-Delta:} Identität -- $f*\delta = f$, da $\delta$ im Frequenzbereich konstant 1 ist (flaches Spektrum).
 \end{itemize}
 
-\textbf{2D-Faltung in der Bildverarbeitung:} $(I * K)(x,y) = \sum_{i,j} I(x-i, y-j) \cdot K(i,j)$. Der Kern wird über das Bild geschoben (konvolviert). Separierbare Kerne ($K = \bm{u}\bm{v}^\top$) ermöglichen Berechnung als zwei 1D-Faltungen: von $\mathcal{O}(N \cdot k^2)$ auf $\mathcal{O}(N \cdot 2k)$.
+\textbf{2D-Faltung in der Bildverarbeitung:} $(I * K)(x,y) = \sum_{i,j} I(x-i, y-j) \cdot K(i,j)$. Der Kern wird über das Bild geschoben. Separierbare Kerne ($K = \bm{u}\bm{v}^\top$) ermöglichen Berechnung als zwei 1D-Faltungen: von $\mathcal{O}(N \cdot k^2)$ auf $\mathcal{O}(N \cdot 2k)$.
 
-\textbf{Anwendungen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item Rauschunterdrückung in Messsignalen (Gauß/Mittelwert), Hall-Effekt (Audiotechnik -- Raumimpulsantwort), Bildverarbeitung (Weichzeichnen, Kantendetektion, Schärfen).
-    \item In \textbf{CNNs} sind Kerngewichte lernbar (Backpropagation); Translationsinvarianz durch Schieben des Kerns über das Bild (\textbf{Weight Sharing} reduziert Parameter drastisch).
-\end{itemize}
+\textbf{Anwendungen:} Rauschunterdrückung in Messsignalen (Gauß/Mittelwert), Hall-Effekt (Audiotechnik -- Raumimpulsantwort), Bildverarbeitung (Weichzeichnen, Kantendetektion, Schärfen). In \textbf{CNNs} sind Kerngewichte lernbar (Backpropagation); Translationsinvarianz durch Weight Sharing reduziert Parameter drastisch.
 
-\textbf{Effizienz:} Direkte Faltung: $\mathcal{O}(N \cdot M)$ ($N$ Signallänge, $M$ Kernlänge); über FFT: $\mathcal{O}(N\log N)$ via $x*k = \mathcal{F}^{-1}(\mathcal{F}(x)\cdot\mathcal{F}(k))$ -- vorteilhaft für lange Kerne ($M > \log N$).
+\textbf{Effizienz:} Direkte Faltung: $\mathcal{O}(N \cdot M)$; über FFT: $\mathcal{O}(N\log N)$ -- vorteilhaft für lange Kerne ($M > \log N$).
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
@@ -440,7 +470,7 @@ mit $a_n = \frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega_0 t)\,\mathrm{d}t$ und 
 \textbf{Monte-Carlo-Integration:} Das Integral wird durch zufällig verteilte Punkte im Gebiet $\Omega$ approximiert:
 \formel{\int_\Omega f(x)\,dx \approx |\Omega| \cdot \frac{1}{N}\sum_{i=1}^N f(x_i)}
 
-Dabei werden $N$ Punkte $\bm{x}_i$ zufällig im Integrationsgebiet gewählt und der Funktionswert gemittelt. Die Idee: Statt ein festes Gitter zu verwenden, „probiert“ man viele zufällige Punkte aus und nähert so den Mittelwert der Funktion im Gebiet an.
+Dabei werden $N$ Punkte $\bm{x}_i$ zufällig im Integrationsgebiet gewählt und der Funktionswert gemittelt. Die Idee: Statt ein festes Gitter zu verwenden, probiert man viele zufällige Punkte aus und nähert so den Mittelwert der Funktion im Gebiet an.
 
 \begin{figure}[H]
     \centering
@@ -462,7 +492,7 @@ Dabei werden $N$ Punkte $\bm{x}_i$ zufällig im Integrationsgebiet gewählt und 
     Folgerung: Die Anzahl der Knoten mit ungeradem Grad ist stets gerade.
     \item \textbf{Gradmatrix:} $D(G)=\mathrm{diag}(\deg(1),\ldots,\deg(n))$.
     \item \textbf{Kenngrößen:} Maximalgrad $\Delta(G)=\max_v\deg(v)$, Minimalgrad $\delta(G)=\min_v\deg(v)$, mittlerer Grad $\Phi(G)=\frac{2|E|}{|V|}$.
-    \item \textbf{Dichte} (nur für schlichte Graphen): $\rho(G)=\frac{2|E|}{|V|(|V|-1)}\in[0,1]$. Bei nicht-schlichten Graphen kann $\rho>1$ sein (parallele Kanten), daher nicht sinnvoll definierbar.
+    \item \textbf{Dichte} (nur für schlichte Graphen): $\rho(G)=\frac{2|E|}{|V|(|V|-1)}\in[0,1]$. Bei nicht-schlichten Graphen kann $\rho>1$ sein (parallele Kanten), daher nicht sinnvoll definierbar. Dichte sagt aus, wie vollständig der Graph ist, gemessen an den Kanten zu max. Kantenanzahl.
 \end{itemize}
 
 \textbf{Wege, Kreise und Abstände:}
@@ -498,7 +528,7 @@ Sei $G=(V,E)$ mit $n=|V|$ Knoten und $m=|E|$ Kanten. Als durchgehendes Beispiel 
 \textbf{Adjazenzmatrix $A(G)$} ($n\times n$, Knoten $\times$ Knoten): $a_{ij}$ = Anzahl Kanten zwischen $i$ und $j$. Stets \textbf{symmetrisch}. Bei schlichten Graphen: nur $0/1$, Nulldiagonale. Zeilen-/Spaltensumme $=\deg(i)$ (Schlingen doppelt). Zerlegbarkeit durch Permutation in Blockform $\Leftrightarrow$ $G$ nicht zusammenhängend. Für das Beispiel (Schlinge $f$ doppelt):
 \[A(G)=\begin{pmatrix}0&1&2&0&1\\1&0&0&1&0\\2&0&0&0&0\\0&1&0&0&0\\1&0&0&0&2\end{pmatrix}\]
 
-\textbf{Potenzen der Adjazenzmatrix:} $(A^p)_{ij}$ = Anzahl der Kantenfolgen der Länge $p$ von $i$ nach $j$ (Schlingen dabei nur \emph{einfach} zählen). Berechnung: R: \texttt{A \%\^\% n} (Paket \texttt{expm}); Python/NumPy: \texttt{A**n}; Octave: \texttt{A\^{}n}.
+\textbf{Potenzen der Adjazenzmatrix:} $(A^p)_{ij}$ = Anzahl der Kantenfolgen der Länge $p$ von $i$ nach $j$ (Schlingen dabei nur \emph{einfach} zählen).
 
 \textbf{Laplace- und vorzeichenlose Laplace-Matrix:}
 \[L(G) = D(G) - A(G), \qquad Q(G) = D(G) + A(G) = B(G)\cdot B(G)^\top\]
@@ -579,15 +609,10 @@ Ein \textbf{notwendiges und hinreichendes} Kriterium für Hamiltonkreise ist bis
 \subsection{Grundtypen von Netzwerken, Bipartität und Planarität}
 
 \textbf{Bekannte Grundtypen schlichter Netzwerke:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Complete Network $K_n$:} Jeder Knoten mit jedem; $|E|=\binom{|V|}{2}$. Alle Knoten bilden eine \textbf{Clique}. Ist ein Minor eines schlichten Graphen ein Complete Network, heißt dieser Minor \textbf{Clique}; die Größe der größten Clique = \textbf{Cliquenzahl}.
-    \item \textbf{Star Network:} Genau ein Zentralknoten mit allen anderen verbunden; Spezialfall des Tree Network.
-    \item \textbf{Ring Network:} Kreisförmig; jeder Knoten mit $k$ Nachbarn auf beiden Seiten. Complete Network ist Spezialfall ($k=\frac{|V|-1}{2}$).
-    \item \textbf{Tree Network:} Genau ein Weg zwischen je zwei Knoten; \textbf{kreisfrei}; alle Kanten Brücken; $|V|=|E|+1$.
-    \item \textbf{Grid Network (Torus):} Schachbrettartig; horizontal und vertikal periodisch verbunden.
-    \item \textbf{Small-World Network:} Ring mit zufälligen Zusatzkanten -- kurze durchschnittliche Pfadlängen bei hoher lokaler Vernetzung.
-    \item \textbf{Power-/Free-scale Network:} Wenige Hubs mit hohem Grad, viele Knoten mit sehr geringem Grad (Potenzgesetz).
-\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.95\textwidth]{assets/network_types.png}
+\end{figure}
 
 \textbf{Wurzelbäume:} Tree Network mit einem ausgezeichneten Knoten (\textbf{Wurzel}, muss nicht oben sein). Terminologie: \textbf{Vorgänger} (näher an Wurzel), \textbf{Nachfolger} (weiter entfernt). Darstellung: Vorgänger stets oberhalb der Nachfolger. \textbf{Binärkodierung:} Baum von der Wurzel nach links unten umwandern; $1$ = Abstieg, $0$ = Aufstieg. Gleicher Baum kann unterschiedlich kodiert sein.
 
