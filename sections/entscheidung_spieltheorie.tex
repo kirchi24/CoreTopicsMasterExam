@@ -52,6 +52,11 @@ denn jede schwache Präferenz ist entweder eine strikte Präferenz \emph{oder} e
     \item Präferenzordnungen als \emph{gerichtete Graphen} oder \emph{Adjazenzmatrizen} darstellbar
 \end{itemize}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/example_preferences.png}
+\end{figure}
+
 \newpage
 
 \subsection{Bernoulli-Nutzenfunktion, VNM-Nutzenfunktion und Prospect Theory}
@@ -93,22 +98,23 @@ Konkav für Gewinne, konvex für Verluste; Verlustkurve steiler (Faktor 2,25). G
 
 \textit{Rahmenbedingung:} Eintrittswahrscheinlichkeiten der Umweltzustände sind \emph{bekannt}. Alle Konzepte erfordern \emph{intervall-skalierte} Ergebnismatrizen.
 
-\textbf{Überblick der Konzepte bei Risiko:}
+\definition{Die \textbf{$\mu$-Regel} (Erwartungswert-Regel / Bayes-Prinzip):}
+\[
+L_{\mu}(A_i) = \sum_j e(A_i; U_j)\cdot w_j \quad \Rightarrow \quad A^* = \operatorname{arg\,max}_i L_{\mu}(A_i)
+\]
+\textit{Kritik:} Geht von risikoneutralem Akteur aus; Risikoneigung wird ignoriert (Verstoß gegen ökonomische Standardunterstellung --- Akteure sind im allgemeinen rational und risikoscheu).
 
-\begin{table}[H]
-\centering
-\begin{tabular}{p{3.2cm} p{5.5cm} p{4.5cm}}
-\hline
-\textbf{Konzept} & \textbf{Idee / Bewertungsfunktion} & \textbf{Kritik} \\
-\hline
-$\mu$-Regel (Bayes) & $L_\mu(A_i) = \sum_j e(A_i;U_j)\cdot w_j$; höchster EW gewinnt & Risikoneutralität unterstellt; Risiko ignoriert \\
-\hline
-$\mu$-$\sigma$-Regel & $L_{\mu\sigma}(A_i) = \mu(A_i) + q\cdot\sigma(A_i)$; $q<0$ risikoavers & Kann gegen Dominanzprinzip verstoßen \\
-\hline
-Bernoulli-Prinzip & $L_{\mathrm{EU}}(A_i) = \sum_j v(e(A_i;U_j))\cdot w_j$; Nutzen statt Ergebnis & Negativwerte erfordern positiv-affine Transformation \\
-\hline
-\end{tabular}
-\end{table}
+\definition{Die \textbf{$\mu$-$\sigma$-Regel}:}
+\[
+L_{\mu\sigma}(A_i) = \sum_j e(A_i;U_j)\cdot w_j + q\cdot\sigma(A_i)
+\]
+Parameter $q \in \mathbb{R}$: $q=0$ (neutral), $q<0$ (risikoavers), $q>0$ (risikofreudig). \textit{Kritik:} Kann gegen das Dominanzprinzip verstoßen.
+
+\definition{Das \textbf{Bernoulli-Prinzip} (Erwartungsnutzen-Prinzip):}
+\[
+L_{\mathrm{EU}}(A_i) = \sum_j v\!\left(e(A_i;U_j)\right)\cdot w_j \quad \Rightarrow \quad A^* = \operatorname{arg\,max}_i L_{\mathrm{EU}}(A_i)
+\]
+Standardverfahren der Mikroökonomie. Typischerweise: $v(x) = \sqrt{x}$ (risikoavers). \textit{Hinweis:} Für negative/undefinierte Ergebnisse ist \emph{positiv-affine Transformation} $\tilde{e} = a\cdot e + b$ ($a>0$) notwendig.
 
 \textbf{Zahlenbeispiel} (Ziel: Umsatzmaximierung, $v(x)=\sqrt{x}$, $q=-0{,}8$):
 
@@ -130,69 +136,11 @@ $A_3$ & 50  & 50 & 50 & 50{,}0 & 50{,}00 & 7{,}07 \\
 
 Die drei Konzepte können zu unterschiedlichen Entscheidungen führen. $A_2$ hat den höchsten Erwartungswert, ist aber bei Risikoaversion unattraktiv ($\sigma$ hoch). $A_3$ ist risikolos (konstante Auszahlung), daher Favorit bei $\mu$-$\sigma$ und Bernoulli.
 
-\definition{Die \textbf{$\mu$-Regel} (Erwartungswert-Regel / Bayes-Prinzip):}
-\[
-L_{\mu}(A_i) = \sum_j e(A_i; U_j)\cdot w_j \quad \Rightarrow \quad A^* = \operatorname{arg\,max}_i L_{\mu}(A_i)
-\]
-\textit{Kritik:} Geht von risikoneutralem Akteur aus; Risikoneigung wird ignoriert (Verstoß gegen ökonomische Standardunterstellung).
-
-\definition{Die \textbf{$\mu$-$\sigma$-Regel}:}
-\[
-L_{\mu\sigma}(A_i) = \sum_j e(A_i;U_j)\cdot w_j + q\cdot\sigma(A_i)
-\]
-Parameter $q \in \mathbb{R}$: $q=0$ (neutral), $q<0$ (risikoavers), $q>0$ (risikofreudig). \textit{Kritik:} Kann gegen das Dominanzprinzip verstoßen.
-
-\definition{Das \textbf{Bernoulli-Prinzip} (Erwartungsnutzen-Prinzip):}
-\[
-L_{\mathrm{EU}}(A_i) = \sum_j v\!\left(e(A_i;U_j)\right)\cdot w_j \quad \Rightarrow \quad A^* = \operatorname{arg\,max}_i L_{\mathrm{EU}}(A_i)
-\]
-Standardverfahren der Mikroökonomie. Typischerweise: $v(x) = \sqrt{x}$ (risikoavers). \textit{Hinweis:} Für negative/undefinierte Ergebnisse ist \emph{positiv-affine Transformation} $\tilde{e} = a\cdot e + b$ ($a>0$) notwendig.
-
 \newpage
 
 \subsection{Lösungskonzepte bei Unsicherheit}
 
 \textit{Rahmenbedingung:} Eintrittswahrscheinlichkeiten sind \emph{nicht bekannt} (nur: $P(U_j) > 0$ für alle angeführten Zustände).
-
-\textbf{Überblick der Konzepte bei Unsicherheit:}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{p{3.0cm} p{5.5cm} p{4.5cm}}
-\hline
-\textbf{Konzept} & \textbf{Idee / Bewertungsfunktion} & \textbf{Kritik} \\
-\hline
-Laplace & Gleiche WSK: $L_L(A_i)=\frac{1}{J}\sum_j e(A_i;U_j)$ & Anzahl der Umweltzustände beeinflusst Lösung \\
-\hline
-Maximin (Wald) & $\max_i \min_j e(A_i;U_j)$; bestes Worst-Case & Extrem pessimistisch; nur Minimum zählt \\
-\hline
-Maximax & $\max_i \max_j e(A_i;U_j)$; bestes Best-Case & Extrem optimistisch; nur Maximum zählt \\
-\hline
-Hurwicz & $\lambda\cdot\max_j e + (1-\lambda)\cdot\min_j e$ & Nur Extremwerte berücksichtigt \\
-\hline
-Savage-Niehans & $\min_i \max_j (\max_k e(A_k;U_j) - e(A_i;U_j))$ & Nicht unabhängig von irrelevanten Alternativen \\
-\hline
-\end{tabular}
-\end{table}
-
-\textbf{Zahlenbeispiel} (Ziel: Umsatzmaximierung, $\lambda=0{,}2$ für Hurwicz):
-
-\begin{table}[H]
-\centering
-\begin{tabular}{lcccccccc} % Von 7 auf 9 Spalten erweitert
-\hline
- & Hochkonj. & Normal & Flaute & $L_L$ & $L_{\min}$ & $L_{\max}$ & $L_{\mathrm{OP}}$ & $L_{\mathrm{SN}}$ \\
-\hline
-$A_1$ & 100 & 50 & 30 & 60{,}0 & 30 & 100 & 44 & 200 \\
-$A_2$ & 300 & 40 & 0  & 113{,}3 & 0 & 300 & 60 & 50 \\
-$A_3$ & 50  & 50 & 50 & 50{,}0 & 50 & 50  & 50 & 250 \\
-\hline
-\textbf{Optimum} & & & & $A_2$ & $A_3$ & $A_2$ & $A_2$ & $A_2$ \\ % Ausrichtung korrigiert
-\hline
-\end{tabular}
-\end{table}
-
-\textit{Hinweis zur Savage-Niehans-Bedauernsmatrix:} Spaltenmaximum je Umweltzustand: Hochkonj.\,300, Normal\,50, Flaute\,50. Bedauernswerte: $A_1$: $\max(200,0,20)=200$; $A_2$: $\max(0,10,50)=50$; $A_3$: $\max(250,0,0)=250$. Daher $A_2^*$.
 
 \definition{Die \textbf{Laplace-Regel}: Vereinfacht gleiche Wahrscheinlichkeiten für alle $J$ Umweltzustände:}
 \[
@@ -221,6 +169,25 @@ Parameter $\lambda\in[0,1]$: $\lambda=0$ (Maximin), $\lambda=1$ (Maximax). \text
 L_{\mathrm{SN}}(A_i) = \max_j\!\left(\max_k e(A_k;U_j) - e(A_i;U_j)\right) \quad \Rightarrow \quad A^* = \operatorname{arg\,min}_i L_{\mathrm{SN}}(A_i)
 \]
 \textit{Kritik:} \textbf{Nicht unabhängig von irrelevanten Alternativen} -- Hinzufügen einer nicht gewählten Alternative kann Spaltenmaximum verschieben und Ergebnis ändern.
+
+\textbf{Zahlenbeispiel} (Ziel: Umsatzmaximierung, $\lambda=0{,}2$ für Hurwicz):
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccccccc} % Von 7 auf 9 Spalten erweitert
+\hline
+ & Hochkonj. & Normal & Flaute & $L_L$ & $L_{\min}$ & $L_{\max}$ & $L_{\mathrm{OP}}$ & $L_{\mathrm{SN}}$ \\
+\hline
+$A_1$ & 100 & 50 & 30 & 60{,}0 & 30 & 100 & 44 & 200 \\
+$A_2$ & 300 & 40 & 0  & 113{,}3 & 0 & 300 & 60 & 50 \\
+$A_3$ & 50  & 50 & 50 & 50{,}0 & 50 & 50  & 50 & 250 \\
+\hline
+\textbf{Optimum} & & & & $A_2$ & $A_3$ & $A_2$ & $A_2$ & $A_2$ \\ % Ausrichtung korrigiert
+\hline
+\end{tabular}
+\end{table}
+
+\textit{Hinweis zur Savage-Niehans-Bedauernsmatrix:} Spaltenmaximum je Umweltzustand: Hochkonj.\,300, Normal\,50, Flaute\,50. Bedauernswerte: $A_1$: $\max(200,0,20)=200$; $A_2$: $\max(0,10,50)=50$; $A_3$: $\max(250,0,0)=250$. Daher $A_2^*$.
 
 \newpage
 
@@ -269,6 +236,22 @@ L_{\mathrm{SN}}(A_i) = \max_j\!\left(\max_k e(A_k;U_j) - e(A_i;U_j)\right) \quad
 NGG \text{ dominante Strategien} \subset NGG \text{ rein} \subset NGG \text{ gemischt}
 \]
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/iesds_game_solved.png}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/best_answers_game_solved.png}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/mixed_strategy_game_solved.png}
+\end{figure}
+
+
 \newpage
 
 \subsection{Dynamische Spiele bei vollständiger Information}
@@ -285,6 +268,16 @@ NGG \text{ dominante Strategien} \subset NGG \text{ rein} \subset NGG \text{ gem
     \item Erster Spieler: voller Aktionsraum, muss mit optimaler Reaktion rechnen
     \item Zweiter Spieler: weniger Freiheit, aber mehr Information
 \end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/dyn_game_1.png}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/dyn_game_2.png}
+\end{figure}
 
 \newpage
 
@@ -355,6 +348,22 @@ Kooperation ist als TSP-NGG in $G(\infty, \delta)$ implementierbar, wenn kein Sp
 \delta \;\geq\; \frac{u^*_{\text{Abw}} - u^*_{\text{Koop}}}{u^*_{\text{Abw}} -
 u^*_{\text{NGG}}} \;=\; \frac{5-3}{5-1} \;=\; \frac{2}{4} \;=\; \frac{1}{2} \checkmark
 \]
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/repeated_game_1.png}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/repeated_game_2.png}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/discont_factor.png}
+\end{figure}
 
 \newpage
 
