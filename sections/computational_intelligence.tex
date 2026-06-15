@@ -180,7 +180,7 @@ $w$: Trägheitsgewicht (Absenkung von $w_\text{max}$ auf $w_\text{min}$ $\to$ er
 
 \begin{table}[H]
 \centering
-\begin{tabular}{p{3.5cm} p{4cm} p{4cm}}
+\begin{tabular}{p{3.5cm} p{4cm} p{8cm}}
 \hline
  & \textbf{ACO} & \textbf{PSO} \\
 \hline
@@ -195,6 +195,7 @@ Reproduktion & Touren pro Iteration & Keine (nur Bewegung) \\
 \definition{\textbf{No-Free-Lunch-Theorem}: Kein Algorithmus ist auf allen Optimierungsproblemen überlegen -- Verbesserungen auf einer Klasse werden durch Verschlechterungen auf einer anderen erkauft. Empirische Auswahl: diskret/kombinatorisch $\to$ ACO, GA; kontinuierlich $\to$ PSO, SA; viele lokale Optima $\to$ SA, MMAS; Parallelisierung $\to$ GA, ACO, PSO.}
 
 \newpage
+
 \subsection{Reinforcement Learning und MDPs}
 
 \definition{\textbf{Reinforcement Learning} (RL) ist zielgerichtetes Lernen durch Interaktion mit einer Umgebung. Aktionen erzeugen \textbf{Rewards}; Ziel ist die Maximierung der kumulierten Belohnung. Im Gegensatz zu \textit{Supervised Learning} erfolgt das Lernen aus eigener Erfahrung statt aus Labels, und anders als beim \textit{Unsupervised Learning} steht die Reward-Maximierung im Vordergrund.}
@@ -334,6 +335,7 @@ Bei großem oder kontinuierlichem Zustandsraum sind klassische Q-Tabellen oft ni
 \end{itemize}
 
 \newpage
+
 \subsection{Natürliche Neuronale Netze}
 
 \definition{\textbf{Neuronen} (Nervenzellen) sind die funktionellen Grundbausteine des Nervensystems. Sie bestehen aus \textbf{Dendriten} (baumartige Fortsätze, empfangen Signale afferent zum Soma), \textbf{Soma} (Zellkörper, integriert alle eingehenden Signale durch Summation erregender und hemmender Einflüsse) und \textbf{Axon} (einziger, bis zu 1\,m langer Fortsatz, leitet das Signal efferent weiter). An \textbf{Synapsen} erfolgt die Übertragung chemisch via \textbf{Neurotransmitter} (z.\,B.\ Glutamat, Acetylcholin, Dopamin): elektrisch $\to$ chemisch (präsynaptisch, Ausschüttung in den synaptischen Spalt) $\to$ elektrisch (postsynaptisch, Potentialänderung an der Membran).}
@@ -617,7 +619,7 @@ TF-IDF & $\text{TF}(t,d)\cdot\log(|D|/n_D(t))$; TF normiert auf Dokumentlänge, 
 
 \begin{table}[H]
 \centering
-\begin{tabular}{p{2.3cm} p{4.5cm} p{4.5cm}}
+\begin{tabular}{p{2cm} p{7cm} p{7cm}}
 \hline
 \textbf{Methode} & \textbf{Idee} & \textbf{Eigenschaften} \\
 \hline
@@ -647,7 +649,7 @@ Ein neuronales Netz wird trainiert; die Gewichtsmatrix \emph{nach} dem Training 
 
 \begin{table}[H]
 \centering
-\begin{tabular}{p{3.0cm} p{4.5cm} p{4.5cm}}
+\begin{tabular}{p{3.0cm} p{6.5cm} p{6.5cm}}
 \hline
 \textbf{Typ} & \textbf{Beschreibung} & \textbf{Beispiel} \\
 \hline
