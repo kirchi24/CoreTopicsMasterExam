@@ -325,29 +325,39 @@ Die Kondition ist eine \emph{Untergrenze} des zu erwartenden Fehlers -- selbst d
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
-\subsection{Minimumsuche: Gradientenabstieg, Newton-Verfahren, Impulsmethode}
+\subsection{Minimumsuche: Gradientenabstieg, Newton-Verfahren, Momentum}
 
-Optimierungsaufgaben werden als Minimierungsprobleme formuliert ($\max f = \min(-f)$). Da $\nabla f = 0$ meist nicht direkt analytisch lösbar, verwendet man iterative \textbf{Abstiegsverfahren}: Wähle $\bm{x}_0$, bestimme Abstiegsrichtung $\bm{d}_k$, wähle Schrittweite $\lambda_k > 0$, setze $\bm{x}_{k+1} = \bm{x}_k + \lambda_k\bm{d}_k$; es muss gelten $f(\bm{x}_{k+1}) < f(\bm{x}_k)$.
+Optimierungsaufgaben werden als Minimierungsprobleme formuliert ($\max f = \min{-f}$). Da $\nabla f = 0$ meist nicht analytisch lösbar, verwendet man iterative \textbf{Abstiegsverfahren}: Wähle $\bm{x}_0$, bestimme Richtung $\bm{d}_k$ und Schrittweite $\lambda_k > 0$, setze $\bm{x}_{k+1} = \bm{x}_k + \lambda_k\bm{d}_k$ mit $f(\bm{x}_{k+1}) < f(\bm{x}_k)$.
 
-\textbf{Konvergenzbegriffe:} \emph{Lineare Konvergenz}: Fehler sinkt um konstanten Faktor $< 1$ pro Schritt ($\|e_{k+1}\| \leq c \|e_k\|$). \emph{Superlineare Konvergenz}: Faktor geht gegen 0. \emph{Quadratische Konvergenz}: $\|e_{k+1}\| \leq c \|e_k\|^2$ -- Anzahl korrekter Stellen verdoppelt sich pro Schritt.
+\definition{\textbf{Gradientenabstieg:} $\bm{d}_k = -\nabla f(\bm{x}_k)$ -- lokal steilste Richtung (nur 1. Ableitung). \textbf{Schrittweite} via \emph{Armijo-Backtracking}: Start bei $\lambda=1$, reduziere mit Faktor $q\in(0,1)$ bis $f(\bm{x}_k+\lambda\bm{d}_k) \leq f(\bm{x}_k) + \lambda\alpha\,\nabla f^\top\bm{d}_k$. \textbf{Problem:} Zick-Zack-Verhalten bei schlecht konditionierten Problemen; Konvergenzrate $\tfrac{\kappa-1}{\kappa+1}$ (bei $\kappa=1000$ sehr langsam). Nur lineare Konvergenz.}
 
-\definition{\textbf{Gradientenabstieg (Steepest Descent):} $\bm{d}_k = -\nabla f(\bm{x}_k)$ -- lokal steilste Abstiegsrichtung. Reduziert auf ein 1D-Linesearch-Problem. Problem: \textbf{Zick-Zack-Verhalten} bei schlecht konditionierten Problemen (Konvergenzrate $\frac{\kappa-1}{\kappa+1}$, d.\,h.\ bei $\kappa=1000$: sehr langsam). \textbf{Armijo-Regel (Backtracking):} Schrittweite von $\lambda=1$ ausgehend mit Faktor $q\in(0,1)$ reduzieren bis $f(\bm{x}_k+\lambda_k\bm{d}_k)-f(\bm{x}_k) \leq \lambda_k\alpha(\nabla f)^\top\bm{d}_k$ mit $\alpha \in (0,0{,}5)$.}
+\definition{\textbf{Newton-Abstieg:} Löse $H_f(\bm{x}_k)\,\bm{s}_k = -\nabla f(\bm{x}_k)$, setze $\bm{x}_{k+1}=\bm{x}_k+\bm{s}_k$ (1. \emph{und} 2. Ableitung). Nutzt die \textbf{Krümmungsinformation} der Hesse-Matrix: flache Richtungen $\Rightarrow$ großer Schritt, steile $\Rightarrow$ kleiner Schritt -- kein Zick-Zack. \textbf{Quadratische Konvergenz} nahe dem Minimum (Anzahl korrekter Stellen verdoppelt sich). \textbf{Nachteil:} $H_f$ muss positiv definit sein; Berechnung/Invertierung kostet $\mathcal{O}(n^3)$.}
 
-\definition{\textbf{Konjugierte Gradienten (CG):} Neue Suchrichtung $A$-orthogonal zur vorherigen ($\bm{d}_{k+1}^\top A\bm{d}_k=0$). Behebt Zick-Zack; bei quadratischen Problemen $\min \frac{1}{2}\bm{x}^\top A\bm{x} - \bm{b}^\top\bm{x}$ exakte Lösung nach $n$ Schritten. Für allgemeine Funktionen: nichtlineares CG.}
+\begin{center}\small
+\begin{tabular}{|l|l|l|}
+\hline
+& \textbf{Gradientenabstieg} & \textbf{Newton} \\
+\hline
+Ableitungen & $\nabla f$ (1. Ordnung) & $\nabla f$, $H_f$ (2. Ordnung) \\
+Konvergenz & Linear & Quadratisch \\
+Kosten/Schritt & $\mathcal{O}(n)$ & $\mathcal{O}(n^3)$ \\
+Zick-Zack & Ja (bei hohem $\kappa$) & Nein \\
+\hline
+\end{tabular}
+\end{center}
 
-\definition{\textbf{Newton-Abstieg:} Löst $H_f(\bm{x}_k)\bm{s}_k = -\nabla f(\bm{x}_k)$, setzt $\bm{x}_{k+1}=\bm{x}_k+\bm{s}_k$. Quadratische Konvergenz in der Nähe des Minimums. Voraussetzung: Hesse-Matrix $H_f$ positiv definit (sonst kein Abstieg). Nachteil: Berechnung und Invertierung von $H_f$ kostet $\mathcal{O}(n^3)$. Varianten: \textbf{Frozen Newton} (Hesse einfrieren, seltener aktualisieren), \textbf{Inexact Newton} (LGS nur näherungsweise lösen, z.\,B.\ via CG), \textbf{BFGS} (Rang-2-Update $H_k \approx H_f$, speichert die Matrix explizit), \textbf{L-BFGS} (Limited Memory BFGS, speichert nur die letzten $m$ Vektorpaare -- Standardwahl für hochdimensionale Probleme).}
+\definition{\textbf{Quasi-Newton (BFGS / L-BFGS):} Approximiert $H_f^{-1}$ via Rang-2-Updates aus Gradienten-Differenzen -- kein explizites Aufstellen von $H_f$. \textbf{L-BFGS} speichert nur die letzten $m$ Vektorpaare: $\mathcal{O}(mn)$ statt $\mathcal{O}(n^2)$ -- Standardwahl für hochdimensionale Probleme. Superlineare Konvergenz.}
 
-\definition{\textbf{Impulsmethode (Momentum):} $\bm{v}_\mathrm{neu} = \beta\bm{v}_\mathrm{alt} - \alpha\nabla_W L$, $W_\mathrm{neu} = W_\mathrm{alt} + \bm{v}_\mathrm{neu}$, $0\leq\beta<1$. Mischt aktuelle Gradienteninformation mit alter Bewegungsrichtung (Trägheit). Schneller als klassischer Abstieg, kann lokale Minima und Sattelpunkte überwinden, aber Overshoot möglich (Oszillation). \textbf{Nesterov Momentum}: Gradient wird am antizipierten Punkt ausgewertet -- stabileres Verhalten. \textbf{Adam} kombiniert Momentum (1. Moment) mit adaptiven Lernraten via RMSprop (2. Moment) und Bias-Korrektur für die Anfangsphase -- aktuell verbreitetster Optimierer für neuronale Netze.}
+\definition{\textbf{Konjugierte Gradienten (CG):} Suchrichtungen $A$-orthogonal zur vorherigen ($\bm{d}_{k+1}^\top A\bm{d}_k=0$). Behebt Zick-Zack ohne Hesse-Matrix; bei quadratischen Problemen exakte Lösung nach $\leq n$ Schritten.}
 
-\textbf{Line Search vs.\ Trust Region:} Line Search bestimmt Richtung, sucht dann Minimum entlang dieser Geraden. Trust Region approximiert die Zielfunktion lokal durch ein quadratisches Modell und minimiert dieses innerhalb eines Vertrauensbereichs (Radius wird je nach Modellgüte vergrößert/verkleinert) -- robuster bei nichtkonvexen Problemen.
+\definition{\textbf{Momentum / Adam:} $\bm{v}_{k+1} = \beta\bm{v}_k - \alpha\nabla L$, $W_{k+1}=W_k+\bm{v}_{k+1}$ -- Trägheit glättet Zick-Zack und hilft Sattelpunkte zu überwinden. \textbf{Nesterov}: Gradient am antizipierten Punkt -- stabileres Verhalten. \textbf{Adam}: Momentum + adaptive Lernraten (RMSprop) + Bias-Korrektur -- verbreitetster Optimierer für neuronale Netze.}
 
-\textbf{Globale vs.\ lokale Optima:} Abstiegsverfahren konvergieren i.\,A.\ nur zu lokalen Minima. Für globale Optimierung: simulated annealing, evolutionäre Algorithmen, oder Mehrfachstarts mit verschiedenen $\bm{x}_0$.
+\textbf{Globale Optima:} Abstiegsverfahren konvergieren nur zu lokalen Minima. Abhilfe: Mehrfachstarts, Simulated Annealing, evolutionäre Algorithmen.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{assets/gradient_descent.png}
 \end{figure}
-
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Fourier-Reihen und Fourier-Transformation}

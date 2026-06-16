@@ -48,101 +48,102 @@ Abhängig & Zielgröße (Kriterium) \\
 \subsection{Lage-, Streuungs- und Assoziationsmaße}
 % ============================================================
 
-\textbf{Ziel:} Erste Eindrücke über die Verteilung von Daten durch kompakte Kennzahlen gewinnen.
+\textbf{Grundkonzept:} Kennzahlen verdichten Rohdaten auf wenige aussagekräftige Zahlen.
+Die Wahl des geeigneten Maßes hängt primär vom \emph{Skalenniveau} ab.
 
 \medskip
-\noindent\textbf{Grafische Darstellung -- Univariat:}
 
-\begin{center}
-\small
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Diagrammtyp} & \textbf{Einsatz} \\
-\hline
-Balkendiagramm & Kategoriale und metrische Häufigkeiten \\
-Kreisdiagramm & Kategoriale Daten mit wenigen Kategorien (Anteile) \\
-Histogramm & Kontinuierliche Verteilungen (Klassen, Dichte) \\
-Boxplot & Median, Quartile, Ausreißer; ordinal und metrisch \\
-Violin-Plot & Boxplot + Kernel-Density-Schätzung (Verteilungsform) \\
-\hline
+\begin{table}[H]
+\centering\small
+\begin{tabular}{p{2.6cm} p{3.0cm} p{3.0cm} p{3.2cm} p{2.8cm}}
+\toprule
+\textbf{Kategorie} & \textbf{Nominal} & \textbf{Ordinal} & \textbf{Intervall} & \textbf{Verhältnis} \\
+\midrule
+\textbf{Lagemaße} &
+  Modus &
+  Modus, Median, Quantile &
+  + Arithm. Mittel &
+  + (Geom./Harm. Mittel) \\[6pt]
+\textbf{Streuungsmaße} &
+  Simpson-Index &
+  IQR, MAD &
+  + Varianz, Std.-abw., Schiefe, Wölbung &
+  + Variations\-koeff. \\[6pt]
+\textbf{Assoziationsmaße} &
+  Cramér's $V$, Phi ($\phi$) &
+  Spearman $r_S$, Kendall $\tau$ &
+  Pearson $r$ &
+  Pearson $r$ \\
+\bottomrule
 \end{tabular}
-\end{center}
+\caption*{Übersicht: zulässige Maße je Skalenniveau (jede Zelle gilt zusätzlich zu den Maßen links davon, außer wo gesondert angegeben)}
+\end{table}
 
 \medskip
-\noindent\textbf{Grafische Darstellung -- Bivariat:}
 
-\begin{center}
-\small
-\begin{tabular}{|l|l|}
-\hline
-\textbf{Diagrammtyp} & \textbf{Einsatz} \\
-\hline
-Streudiagramm (Scatterplot) & 2 metrische Variablen, Korrelation/Trends \\
-Boxplot nach Gruppen & Metrisch vs. kategorial, Vergleich von Lagen \\
-Gruppiertes Balkendiagramm & 2 kategoriale oder gemischte Variablen \\
-Liniendiagramm & Zeitreihen, Trends über Kategorien \\
-Heatmap & Korrelationsmatrizen, 2-D-Intensitäten \\
-\hline
-\end{tabular}
-\end{center}
+% ----------------------------------------------------------
+\noindent\textbf{Wichtigste Lagemaße:}
 
-\noindent\textbf{Grundsatz:} Maximale Informationsdichte bei minimaler visueller Komplexität.
-Die Wahl des Diagrammtyps hängt von der Art der Variablen (kategorial/metrisch), der Anzahl der Variablen und dem Analyseziel (Häufigkeiten, Verteilungsform, Zusammenhang) ab.
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Modus} $\hat{x}$: häufigster Wert; einziges Lagemaß für Nominalskala; nicht immer eindeutig.
+
+    \item \textbf{Median} $\tilde{x}$: mittlerer Rangwert nach Sortierung; robust gegenüber Ausreißern;
+    mindestens Ordinalskala erforderlich.
+
+    \item \textbf{Arithmetisches Mittel} $\bar{x} = \frac{1}{n}\sum_{i=1}^n x_i$:
+    empfindlich gegenüber Ausreißern; minimiert $\sum(x_i - c)^2$; nur für metrische Daten sinnvoll.
+\end{itemize}
+
+% ----------------------------------------------------------
+\noindent\textbf{Wichtigste Streuungsmaße:}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{IQR} $= Q_{0{,}75} - Q_{0{,}25}$: robustes Streuungsmaß; Basis des Boxplots;
+    ignoriert Extremwerte vollständig.
+
+    \item \textbf{Varianz} $s^2 = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})^2$:
+    quadratische mittlere Abweichung vom Mittelwert; $n-1$ für Erwartungstreue (Bessel-Korrektur);
+    Einheit ist quadriert.
+
+    \item \textbf{Standardabweichung} $s = \sqrt{s^2}$: gleiche Einheit wie die Daten; am gebräuchlichsten.
+
+    \item \textbf{Variationskoeffizient} $CV = s/\bar{x}$: relative, dimensionslose Streuung;
+    vergleichbar über verschiedene Skalen und Einheiten; nur bei Verhältnisskala sinnvoll ($\bar{x} \neq 0$).
+
+    \item \textbf{Schiefe} $\gamma_1 = \frac{1}{n}\sum\!\left(\tfrac{x_i-\bar{x}}{s}\right)^{\!3}$:
+    $\gamma_1 > 0$ rechtssteil (langer rechter Ausläufer), $\gamma_1 = 0$ symmetrisch.
+
+    \item \textbf{Wölbung (Kurtosis)} $\gamma_2 = \frac{1}{n}\sum\!\left(\tfrac{x_i-\bar{x}}{s}\right)^{\!4} - 3$:
+    Exzesskurtosis relativ zur Normalverteilung; $>0$ spitzgipflig (leptokurtisch), $<0$ flachgipflig.
+\end{itemize}
+
+% ----------------------------------------------------------
+\noindent\textbf{Wichtigste Assoziationsmaße:}
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Empirische Kovarianz} $s_{xy} = \frac{1}{n-1}\sum(x_i-\bar{x})(y_i-\bar{y})$:
+    zeigt Richtung des linearen Zusammenhangs ($>0$ gleichsinnig, $<0$ gegensinnig);
+    skalenabhängig, daher schwer interpretierbar.
+
+    \item \textbf{Pearson-Korrelation} $r = s_{xy}/(s_x s_y) \in [-1,1]$:
+    misst \emph{linearen} Zusammenhang; $|r|=1$ perfekte Linie, $r=0$ keine lineare Abhängigkeit;
+    empfindlich gegenüber Ausreißern und Nichtlinearität.
+
+    \item \textbf{Spearman-Rangkorrelation} $r_S \in [-1,1]$:
+    Pearson-Korrelation der Ränge; erfasst \emph{monotone} (auch nichtlineare) Zusammenhänge;
+    robust; mindestens Ordinalskala.
+
+    \item \textbf{Cramér's $V$} $= \sqrt{\chi^2 / (n \cdot \min(r-1,\, c-1))} \in [0,1]$:
+    normierter $\chi^2$-basierter Koeffizient für \emph{Nominalvariablen} in Kontingenztabellen;
+    $V=0$ Unabhängigkeit, $V=1$ perfekte Assoziation; tabellengrößenunabhängig.
+\end{itemize}
+
+\newpage
 
 % ============================================================
 \newpage
 
-\subsection{Ähnlichkeitsmaße und Distanzmaße}
-% ============================================================
 
-\textbf{Grundkonzept:} \emph{Distanz} $d$ misst Unähnlichkeit, \emph{Ähnlichkeit} $s$ ist deren Inverses.
-Bei normierten Maßen gilt: $s = 1 - d$.
-
-\medskip
-\noindent\textbf{Distanzmaße für numerische Daten:}
-
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Euklidische Distanz:}
-    $d_{\text{Euk}} = \sqrt{\sum_{j=1}^{p}(x_{B,j}-x_{A,j})^2}$ --
-    geometrischer Luftlinienabstand; empfindlich gegenüber Ausreißern und unterschiedlichen Skalierungen (Standardisierung empfohlen).
-
-    \item \textbf{Manhattan-Distanz:}
-    $d_{\text{Man}} = \sum_{j=1}^{p}|x_{B,j}-x_{A,j}|$ --
-    Summe der absoluten Koordinatendifferenzen; robuster gegenüber Ausreißern.
-
-    \item \textbf{Minkowski-Distanz:}
-    $d_k = \bigl(\sum_{j=1}^{p}|x_{B,j}-x_{A,j}|^k\bigr)^{1/k}$ --
-    Verallgemeinerung mit Parameter $k$: $k=1$ Manhattan, $k=2$ Euklidisch, $k\to\infty$ Chebyshev ($\max_j|x_{A,j}-x_{B,j}|$).
-
-    \item \textbf{Mahalanobis-Distanz:}
-    $d_{\text{Mah}} = \sqrt{(\mathbf{x}_B-\mathbf{x}_A)^T\hat{\boldsymbol{\Sigma}}^{-1}(\mathbf{x}_B-\mathbf{x}_A)}$ --
-    berücksichtigt Korrelationsstruktur und Skalierungen; erfordert invertierbare Kovarianzmatrix (instabil bei $p>n$).
-\end{itemize}
-
-\noindent\textbf{Ähnlichkeitsmaße:}
-
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Kosinus-Ähnlichkeit:}
-    $\cos(\theta)=\frac{\mathbf{x}_A \cdot \mathbf{x}_B}{\|\mathbf{x}_A\|_2\|\mathbf{x}_B\|_2}\in[-1,1]$ --
-    misst den Winkel zwischen Vektoren unabhängig von ihrer Länge; Standard für Text- und Bildvektoren (TF-IDF, Word Embeddings).
-
-    \item \textbf{Tanimoto-Koeffizient (Jaccard):}
-    $S = \frac{|A \cap B|}{|A \cup B|}\in[0,1]$ -- für Binärvektoren/Mengen; Anwendung in Genetik und Chemoinformatik.
-
-    \item \textbf{Dice-Koeffizient:}
-    $S_{\text{Dice}}=\frac{2|A\cap B|}{|A|+|B|}$ -- gewichtet die Überschneidung stärker als Tanimoto; Zusammenhang: $S_{\text{Dice}}=\frac{2S_{\text{Tan}}}{1+S_{\text{Tan}}}$; Einsatz in NLP und Biologie.
-
-    \item \textbf{Pearson-/Spearman-Distanz:}
-    $d = 1-r$ bzw. $d = 1-r_S$ -- korrelationsbasiert; Spearman ist robust gegenüber Ausreißern und monoton nichtlinearen Zusammenhängen.
-\end{itemize}
-
-\noindent\textbf{Faustregeln zur Wahl:}
-Euklidisch -- normalisierte numerische Daten $\cdot$
-Mahalanobis -- korrelierte Variablen $\cdot$
-Kosinus -- hochdimensionale Text-/Bildvektoren $\cdot$
-Tanimoto/Dice -- Binärvektoren $\cdot$
-Spearman -- Ausreißer/Rangdaten $\cdot$
-Manhattan -- allgemeine Robustheit.
 
 % ============================================================
 \newpage
@@ -150,45 +151,55 @@ Manhattan -- allgemeine Robustheit.
 \subsection{Diagrammtypen und Einsatzgebiete}
 % ============================================================
 
-\noindent\textit{Hinweis: Dieses Core Topic ist in den vorliegenden Ausarbeitungen nicht eigenständig ausgearbeitet, sondern wird in den Subsections Lage-, Streuungs- und Assoziationsmaße sowie Ähnlichkeitsmaße und Distanzmaße abgedeckt. Die folgende Zusammenfassung konsolidiert die relevanten Inhalte.}
+\textbf{Ziel:} Visuelle Darstellung von Datenverteilungen und Zusammenhängen.
+Die Wahl des Diagrammtyps hängt von drei Faktoren ab: \emph{Skalenniveau} der Variablen,
+\emph{Anzahl} der betrachteten Variablen und dem \emph{Analyseziel}
+(Häufigkeiten, Verteilungsform, Zusammenhang, Zeitverlauf).
 
 \medskip
-\noindent Die Wahl eines Diagrammtyps hängt von drei Faktoren ab: \emph{Skalenniveau} der Variablen, \emph{Anzahl} der betrachteten Variablen und dem \emph{Analyseziel} (Häufigkeiten, Verteilungsform, Zusammenhang, Zeitverlauf).
 
-\medskip
-\noindent\textbf{Übersicht nach Analyseziel:}
-
-\begin{center}
-\small
-\begin{tabular}{|l|l|l|}
-\hline
-\textbf{Ziel} & \textbf{Variablentyp} & \textbf{Diagramm} \\
-\hline
-Häufigkeitsverteilung & Kategorial (nominal, ordinal) & Balken-, Kreisdiagramm \\
-Häufigkeitsverteilung & Metrisch, stetig & Histogramm \\
-Lage \& Streuung & Metrisch / ordinal & Boxplot \\
-Verteilungsform & Metrisch & Violin-Plot, Histogramm + Dichte \\
-Linearer Zusammenhang & 2 metrische Variablen & Streudiagramm (Scatterplot) \\
-Gruppenvergleich & Metrisch vs. kategorial & Boxplot nach Gruppen \\
-Kategorialer Vergleich & 2 kategoriale Variablen & Gestapeltes/gruppiertes Balkendiagramm \\
-Zeitlicher Verlauf & Ordinal / metrisch & Liniendiagramm \\
-Intensitätsmatrix & 2 Variablen (z.\,B. Korrelation) & Heatmap \\
-\hline
+\begin{table}[H]
+\centering\small
+\begin{tabular}{p{2.6cm} p{3.8cm} p{4.0cm} p{3.2cm}}
+\toprule
+\textbf{Analyseziel} & \textbf{Variablentyp} & \textbf{Diagramm} & \textbf{Anmerkung} \\
+\midrule
+Häufigkeitsvert. & Kategorial (nominal/ordinal) & Balken-, Kreisdiagramm & Kreis nur bei $\leq$5 Kategorien \\[4pt]
+Häufigkeitsvert. & Metrisch, stetig & Histogramm & Klassenbreite beeinflusst Aussage \\[4pt]
+Lage \& Streuung & Metrisch / ordinal & Boxplot & Kompakt für Gruppenvergleiche \\[4pt]
+Verteilungsform & Metrisch & Violin-Plot & Boxplot + Kerndichteschätzung \\[4pt]
+Linearer Zus.hang & 2 metrische Variablen & Scatterplot & Erweiterbar zum Bubble Chart \\[4pt]
+Gruppenvergleich & Metrisch vs. kategorial & Boxplot nach Gruppen & Ausreißer direkt sichtbar \\[4pt]
+Kategorialer Vgl. & 2 kategoriale Variablen & Gestapeltes Balkendiagramm & Anteile gut vergleichbar \\[4pt]
+Zeitlicher Verlauf & Ordinal / metrisch & Liniendiagramm & Punkte nur bei diskreten Werten \\[4pt]
+Intensitätsmatrix & 2 Variablen & Heatmap & Z.\,B. Korrelationsmatrix \\
+\bottomrule
 \end{tabular}
-\end{center}
+\end{table}
 
-\medskip
 \noindent\textbf{Wichtige Eigenschaften einzelner Typen:}
 
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Boxplot:} Zeigt Median (Q2), unteres/oberes Quartil (Q1, Q3), Whiskers und Ausreißer. Kompakt für Vergleiche über Gruppen.
-    \item \textbf{Violin-Plot:} Erweiterung des Boxplots mit Kernel-Density-Schätzung -- sichtbar, ob die Verteilung multimodal ist.
-    \item \textbf{Scatterplot:} Ein Punkt pro Beobachtung $(x_i, y_i)$; Erweiterung als Bubble Chart mit dritter Variable als Punktgröße.
-    \item \textbf{Heatmap:} Farben kodieren Wertebereiche einer zweidimensionalen Matrix, z.\,B. einer Korrelationsmatrix.
-    \item \textbf{Kreisdiagramm:} Nur sinnvoll bei wenigen Kategorien; Menschen vergleichen Winkel schlechter als Längen (daher Balkendiagramm oft bevorzugt).
+    \item \textbf{Boxplot:} Zeigt Median ($Q_2$), erstes und drittes Quartil ($Q_1$, $Q_3$),
+    Whiskers (typisch $1{,}5 \cdot \text{IQR}$) und Ausreißer als einzelne Punkte.
+    Kompakt und direkt vergleichbar über Gruppen hinweg.
+
+    \item \textbf{Violin-Plot:} Erweiterung des Boxplots mit Kerndichteschätzung --
+    macht sichtbar, ob die Verteilung \emph{multimodal} ist, was der Boxplot verbirgt.
+
+    \item \textbf{Scatterplot:} Ein Punkt pro Beobachtung $(x_i, y_i)$; Muster deuten auf
+    linearen oder nichtlinearen Zusammenhang hin. Als \emph{Bubble Chart} kann eine dritte Variable
+    über die Punktgröße kodiert werden.
+
+    \item \textbf{Kreisdiagramm:} Menschen vergleichen Winkel schlechter als Längen --
+    Balkendiagramm ist daher bei mehr als drei bis vier Kategorien vorzuziehen.
+
+    \item \textbf{Heatmap:} Farbe kodiert Wertebereiche einer zweidimensionalen Matrix,
+    z.\,B. einer Korrelationsmatrix; besonders effektiv bei vielen Variablen.
 \end{itemize}
 
-\noindent\textbf{Grundsatz:} Maximale Informationsdichte bei minimaler visueller Komplexität -- unnötige 3-D-Effekte und überladene Legenden vermeiden.
+\noindent\textbf{Grundsatz:} Maximale Informationsdichte bei minimaler visueller Komplexität --
+unnötige 3-D-Effekte und überladene Legenden vermeiden.
 
 % ============================================================
 \newpage
@@ -200,30 +211,39 @@ Intensitätsmatrix & 2 Variablen (z.\,B. Korrelation) & Heatmap \\
 
 \medskip
 \noindent\textbf{Wahrscheinlichkeitsinterpretationen:}
+
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Frequentistisch:} Relative Häufigkeit eines Ereignisses bei sehr häufiger Wiederholung unter identischen Bedingungen -- objektiv, beobachterunabhängig.
-    \item \textbf{Bayessch:} Subjektiver Grad der Gewissheit basierend auf verfügbarem Vorwissen; ermöglicht Aussagen wie 99\,\% Wahrscheinlichkeit, dass der Fingerabdruck von Person X stammt.
+    \item \textbf{Frequentistisch:} $P(E) = \lim_{n\to\infty} h_n(E)$ -- die relative Häufigkeit stabilisiert sich bei sehr vielen Wiederholungen unter identischen Bedingungen. Objektiv und beobachterunabhängig. \textit{Beispiel: Ein fairer Würfel zeigt bei 10\,000 Würfen fast genau $1/6$ der Zeit eine Sechs.}
+
+    \item \textbf{Bayessch:} Subjektiver Grad der Gewissheit basierend auf Vorwissen; aktualisierbar durch neue Beobachtungen (Bayes-Theorem). \textit{Beispiel: 99\,\% Wahrscheinlichkeit, dass ein Fingerabdruck von Person X stammt -- eine Aussage, die ohne Wiederholbarkeit nur bayessch sinnvoll ist.}
 \end{itemize}
 
 \medskip
 \noindent\textbf{Formale Grundstruktur -- Wahrscheinlichkeitsraum $(\Omega, \mathcal{A}, P)$:}
 
+\medskip
+\noindent\textit{Laufendes Beispiel: fairer sechsseitiger Würfel.}
+
 \begin{itemize}[leftmargin=1.5em]
-    \item $\Omega$ \textbf{(Stichprobenraum/Ergebnisraum):} Menge aller möglichen Ausgänge; kann endlich, abzählbar oder überabzählbar sein.
-    \item $\mathcal{A}$ \textbf{($\sigma$-Algebra/Ereignisraum):} Menge aller Ereignisse $E \subseteq \Omega$, denen Wahrscheinlichkeiten zugeordnet werden. Eigenschaften: (i) $\Omega \in \mathcal{A}$; (ii) $E\in\mathcal{A} \Rightarrow E^c\in\mathcal{A}$; (iii) abzählbare Vereinigungen von Ereignissen $\in\mathcal{A}$.
+    \item $\Omega$ \textbf{(Ergebnisraum):} Menge aller möglichen Ausgänge. Kann endlich, abzählbar oder überabzählbar sein. \textit{Beispiel: $\Omega = \{1,2,3,4,5,6\}$.}
+
+    \item $\mathcal{A}$ \textbf{($\sigma$-Algebra):} Menge aller Ereignisse $E \subseteq \Omega$, denen Wahrscheinlichkeiten zugeordnet werden. Drei Eigenschaften müssen gelten: (i) $\Omega \in \mathcal{A}$; (ii) $E\in\mathcal{A} \Rightarrow E^c\in\mathcal{A}$; (iii) abzählbare Vereinigungen bleiben in $\mathcal{A}$. \textit{Beispiel: $\mathcal{A} = 2^\Omega$ (alle Teilmengen), u.\,a. $E_{\text{gerade}} = \{2,4,6\} \in \mathcal{A}$.}
+
     \item $P$ \textbf{(Wahrscheinlichkeitsfunktion):} $P:\mathcal{A}\to[0,1]$ nach den \textbf{Kolmogorov-Axiomen}:
     \begin{enumerate}[leftmargin=1.5em]
-        \item $P(\Omega)=1$
-        \item $P(E)\geq 0$ für alle $E\in\mathcal{A}$
-        \item $\sigma$-Additivität: $P\!\left(\bigcup_{i=1}^\infty E_i\right)=\sum_{i=1}^\infty P(E_i)$ für paarweise disjunkte $E_i$
+        \item $P(\Omega)=1$ \hfill (Normierung)
+        \item $P(E)\geq 0$ für alle $E\in\mathcal{A}$ \hfill (Nichtnegativität)
+        \item $P\!\left(\bigcup_{i=1}^\infty E_i\right)=\sum_{i=1}^\infty P(E_i)$ für paarweise disjunkte $E_i$ \hfill ($\sigma$-Additivität)
     \end{enumerate}
+    \textit{Beispiel: $P(\{1\}) = P(\{2\}) = \cdots = P(\{6\}) = \tfrac{1}{6}$; $P(E_{\text{gerade}}) = \tfrac{3}{6} = \tfrac{1}{2}$.}
 \end{itemize}
 
-\noindent\textbf{Laplace'scher Wahrscheinlichkeitsraum:} Endlicher Raum mit gleichverteilten Elementarereignissen (Indifferenzprinzip). Für $m$ mögliche Fälle und $g$ günstige Fälle gilt:
+\medskip
+\noindent\textbf{Laplace'scher Wahrscheinlichkeitsraum:} Spezialfall mit \emph{endlichem} $\Omega$ und gleichverteilten Elementarereignissen (Indifferenzprinzip). Für $g$ günstige von $m$ möglichen Fällen gilt:
 \[
     P(E) = \frac{g}{m} = \frac{\text{Anzahl günstiger Fälle}}{\text{Anzahl möglicher Fälle}}
 \]
-\textit{Beispiel Würfel:} $\Omega=\{1,\ldots,6\}$, Ereignis gerade Zahl $E=\{2,4,6\}$: $P(E)=\frac{3}{6}=\frac{1}{2}$.
+Voraussetzung: alle Elementarereignisse sind \emph{gleich wahrscheinlich} (z.\,B. fairer Würfel, gut gemischte Karten). Nicht anwendbar bei stetigen Verteilungen oder unsymmetrischen Experimenten.
 
 \medskip
 \noindent\textbf{Abgeleitete Rechenregeln:}
@@ -233,11 +253,7 @@ Intensitätsmatrix & 2 Variablen (z.\,B. Korrelation) & Heatmap \\
     \item \textbf{Monotonie:} $E_1 \subseteq E_2 \Rightarrow P(E_1) \leq P(E_2)$
 \end{itemize}
 
-
-
-
-
-% ============================================================
+\newpage
 
 \subsection{Kombinatorik}
 % ============================================================
@@ -282,7 +298,47 @@ Kombination mit WH: 3 Früchte aus 5 Sorten: $\binom{7}{3} = 35$.
 \subsection{Diskrete und stetige Zufallsvariablen}
 % ============================================================
 
-\textit{[Dieses Core Topic war in beiden vorliegenden Ausarbeitungen nicht inhaltlich ausgearbeitet -- bitte Inhalt nachliefern.]}
+\definition{\textbf{Zufallsvariable (ZV):} Eine Funktion $X: \Omega \to \mathbb{R}$, die jedem Elementarereignis $\omega \in \Omega$ eine reelle Zahl zuordnet. Man unterscheidet \emph{diskrete} ZV (endlich oder abzählbar viele Werte) und \emph{stetige} ZV (überabzählbar viele Werte, z.\,B. ein Intervall).}
+
+\textit{Beispiel: Zwei Würfel, $\omega = (\omega_1, \omega_2)$. Statt der einzelnen Augenzahlen interessiert uns nur $X(\omega) = \omega_1 + \omega_2 \in \{2,\ldots,12\}$ -- die ZV komprimiert $|\Omega|=36$ Ausgänge auf das Wesentliche.}
+
+\medskip
+\begin{table}[H]
+\centering\small
+\begin{tabular}{p{3.2cm} p{5.5cm} p{5.5cm}}
+\toprule
+ & \textbf{Diskret} & \textbf{Stetig} \\
+\midrule
+\textbf{Wertebereich} & Endlich oder abzählbar unendlich & Überabzählbar (z.\,B. Intervall) \\[4pt]
+\textbf{Verteilungsfunktion (CDF)} & $F_X(x) = P(X \leq x) = \sum_{x_i \leq x} f(x_i)$ \newline Treppenfunktion mit Sprüngen bei $x_i$ & $F_X(x) = \int_{-\infty}^{x} f(t)\,dt$ \newline stetige, monoton wachsende Funktion \\[8pt]
+\textbf{Wahrscheinlichkeitsfkt.} & PMF: $f(x_i) = P(X = x_i) \geq 0$ \newline $\sum_i f(x_i) = 1$ & PDF: $f(x) \geq 0$, $\int_{-\infty}^{\infty} f(x)\,dx = 1$ \newline $P(X = x) = 0$ für jeden Einzelwert \\[8pt]
+\textbf{Intervallwahrsch.} & $P(X \in A) = \sum_{x_i \in A} p_i$ & $P(a < X \leq b) = \int_a^b f(x)\,dx = F(b)-F(a)$ \\[4pt]
+\textbf{Erwartungswert} $\mu$ & $E(X) = \sum_i x_i \cdot p_i$ & $E(X) = \int_{-\infty}^{\infty} x \cdot f(x)\,dx$ \\[4pt]
+\textbf{Varianz} $\sigma^2$ & $\text{Var}(X) = \sum_i (x_i - \mu)^2 \cdot p_i$ & $\text{Var}(X) = \int_{-\infty}^{\infty}(x-\mu)^2 \cdot f(x)\,dx$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent\textbf{Eigenschaften der CDF (gelten für diskret und stetig):}
+\begin{itemize}[leftmargin=1.5em]
+    \item $F_X: \mathbb{R} \to [0,1]$, monoton nicht-fallend; $\lim_{x \to -\infty} F_X(x) = 0$, $\lim_{x \to +\infty} F_X(x) = 1$.
+    \item $P(a < X \leq b) = F_X(b) - F_X(a)$.
+\end{itemize}
+
+\noindent\textbf{Kennzahlen (Momente):}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Erwartungswert} $\mu = E(X)$: Schwerpunkt der Verteilung; analog zum arithmetischen Mittel, aber für theoretische Verteilungen (keine Daten nötig). Linearität: $E(aX + b) = aE(X) + b$; $E(X+Y) = E(X)+E(Y)$.
+
+    \item \textbf{Varianz} $\sigma^2 = \text{Var}(X) = E\!\left[(X-\mu)^2\right]$: mittlere quadratische Abweichung. Verschiebungssatz: $\sigma^2 = E(X^2) - (E(X))^2$.
+
+    \item \textbf{Schiefe} $\gamma_1 = E\!\left[\left(\tfrac{X-\mu}{\sigma}\right)^3\right]$: $\gamma_1 > 0$ rechtssteil, $\gamma_1 < 0$ linkssteil.
+
+    \item \textbf{Kurtosis (Wölbung)} $\gamma_2 = E\!\left[\left(\tfrac{X-\mu}{\sigma}\right)^4\right] - 3$: Exzesskurtosis relativ zur Normalverteilung; $>0$ spitzgipflig, $<0$ flachgipflig.
+
+    \item \textbf{Modus} $x_{\text{mod}}$: Wert, an dem PMF bzw. PDF ihr Maximum annimmt; nicht zwingend eindeutig.
+
+    \item \textbf{$p$-Quantil} $x_p$: kleinster Wert mit $F(x_p) \geq p$. Bei stetigen ZV stets eindeutig; bei diskreten ZV ggf. nicht.
+\end{itemize}
 
 % ============================================================
 \newpage
@@ -327,13 +383,34 @@ $H_0$ ablehnen & \textbf{Fehler I.\ Art} ($\alpha$) & Korrekt (Power $1-\beta$) 
 \end{center}
 
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Fehler I.\ Art} ($\alpha$): $H_0$ abgelehnt, obwohl wahr (Fehlalarm).
-    \item \textbf{Fehler II.\ Art} ($\beta$): $H_0$ nicht abgelehnt, obwohl $H_1$ wahr (falsch negativ).
+    \item \textbf{Fehler I.\ Art} ($\alpha$): $H_0$ abgelehnt, obwohl wahr -- \emph{Fehlalarm}. Kontrolliert durch die Wahl von $\alpha$ (üblich: $0{,}05$).
+    \item \textbf{Fehler II.\ Art} ($\beta$): $H_0$ nicht abgelehnt, obwohl $H_1$ wahr -- \emph{falsch negativ}. Hängt von Effektgröße und $n$ ab.
     \item \textbf{Teststärke (Power)} $= 1 - \beta$: Wahrscheinlichkeit, $H_0$ richtig abzulehnen.
-    \item \textbf{Tradeoff:} $\alpha$ und $\beta$ sind negativ korreliert. Beide gleichzeitig reduzieren $\Rightarrow$ größere Stichprobe nötig.
+    \item \textbf{Tradeoff:} $\alpha \downarrow$ führt zu $\beta \uparrow$. Beide gleichzeitig reduzieren $\Rightarrow$ größere Stichprobe nötig.
 \end{itemize}
 
-% ============================================================
+\medskip
+\noindent\textbf{Durchgehendes Beispiel -- Einstichproben-$t$-Test:}
+
+\noindent Eine Maschine soll Schrauben mit $\mu_0 = 50\,\text{mm}$ produzieren. Aus $n = 20$ Schrauben ergibt sich $\bar{x} = 50{,}8\,\text{mm}$ und $s = 1{,}5\,\text{mm}$. Ist die Maschine falsch eingestellt?
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Hypothesen:} $H_0: \mu = 50$ vs. $H_1: \mu \neq 50$ (zweiseitig); $\alpha = 0{,}05$.
+
+    \item \textbf{Teststatistik:}
+    $t_{\text{obs}} = \dfrac{\bar{x} - \mu_0}{s/\sqrt{n}} = \dfrac{50{,}8 - 50}{1{,}5/\sqrt{20}} \approx 2{,}39$
+
+    \item \textbf{Kritischer Bereich:} $t_{19;\,0{,}025} \approx 2{,}093$ (zweiseitig, $df=19$). Ablehnungsbereich: $|t_{\text{obs}}| > 2{,}093$.
+
+    \item \textbf{Entscheidung:} $2{,}39 > 2{,}093$ $\Rightarrow$ $H_0$ ablehnen; p-Wert $\approx 0{,}027 < 0{,}05$.
+\end{enumerate}
+
+\noindent\textbf{Fehlertypen am Beispiel:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Fehler I.\ Art:} Maschine ist korrekt eingestellt ($\mu=50$), wir lehnen $H_0$ dennoch ab -- wir stoppen die Produktion unnötig.
+    \item \textbf{Fehler II.\ Art:} Maschine ist tatsächlich falsch eingestellt ($\mu\neq 50$), wir erkennen es nicht -- fehlerhafte Schrauben werden ausgeliefert.
+\end{itemize}
+
 \newpage
 
 \subsection{Population, Stichproben und Konfidenzintervalle}
@@ -341,7 +418,7 @@ $H_0$ ablehnen & \textbf{Fehler I.\ Art} ($\alpha$) & Korrekt (Power $1-\beta$) 
 
 \definition{\textbf{Grundkonzept:} Die \textbf{Grundgesamtheit (Population)} ist die Menge aller Objekte mit unbekannter Verteilung. Die \textbf{Stichprobe} ist eine zufällig gezogene Teilmenge. \textbf{Inferenzprinzip:} Von der empirischen Stichprobenverteilung auf die wahre Populationsverteilung schließen.}
 
-\textbf{Punktschätzer} schätzen einen Populationsparameter mit einem einzelnen Wert:
+\textbf{Punktschätzer} schätzen einen Populationsparameter mit einem einzelnen Wert (z.\,B. Mittelwert $\mu$, Varianz $\sigma^2$, Anteil $p$). \textbf{Eigenschaften:}
 
 \begin{center}
 \small
@@ -381,7 +458,7 @@ $$\text{KI: } \left[\frac{(n-1)S^2}{\chi^2_{n-1,\, 1-\alpha/2}},\quad \frac{(n-1
 
 \definition{\textbf{Unabhängig und identisch verteilt (u.i.v., iid):} Zufallsvariablen $X_1, \ldots, X_n$ heißen u.i.v., wenn sie unabhängig voneinander sind und alle dieselbe Verteilung wie $X$ haben (gleicher Erwartungswert $\mu$, gleiche Varianz $\sigma^2$). Die Zahlenwerte $x_1, \ldots, x_n$ heißen Realisierungen.}
 
-\textbf{Hilfsungleichungen:}
+\textbf{Hilfsungleichungen:} (liefern verteilungsunabhängige Wahrscheinlichkeitsabschätzungen; Tschebyscheff wird zum Beweis des LLN verwendet)
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Markov-Ungleichung:} Für nicht-negative $X$ und $a > 0$: $P(X \geq a) \leq \frac{\mathbb{E}[X]}{a}$. Modellunabhängige obere Schranke.
     \item \textbf{Tschebyscheff-Ungleichung:} Für beliebiges $X$ mit Erwartungswert $\mu$ und Varianz $\sigma^2$:
@@ -395,13 +472,12 @@ d.\,h. $P(|\bar{X}_n - \mu| < c) \to 1$ für jedes $c > 0$. \textbf{Beweis via T
 
 \definition{\textbf{Zentraler Grenzwertsatz (CLT):} Für u.i.v. $X_1, \ldots, X_n$ mit $\mathbb{E}[X] = \mu$ und $\text{Var}(X) = \sigma^2 > 0$ gilt:
 $$Z_n = \frac{\bar{X}_n - \mu}{\sigma/\sqrt{n}} \xrightarrow{d} N(0,1) \quad \text{bzw.} \quad \bar{X}_n \xrightarrow{d} N\!\left(\mu,\, \frac{\sigma^2}{n}\right)$$
-\textbf{Das Besondere:} Die Normalverteilung tritt \emph{unabhängig von der Verteilung} der $X_i$ auf -- gleichmäßig, exponentiell, diskret, etc. \textbf{Faustregel:} Wirkt ab $n \approx 30$, bei symmetrischen Verteilungen auch früher.}
+Dabei bedeutet $\xrightarrow{d}$ \emph{Konvergenz in Verteilung}. \textbf{Das Besondere:} Die Normalverteilung tritt \emph{unabhängig von der Verteilung} der $X_i$ auf -- gleichmäßig, exponentiell, diskret, etc. \textbf{Faustregel:} Wirkt ab $n \approx 30$, bei symmetrischen Verteilungen auch früher.}
 
 \textbf{Praktische Relevanz:}
 Viele reale Phänomene sind Summen vieler unabhängiger Einflussfaktoren (Messfehler, Körpergröße, Prüfungsnoten) und daher näherungsweise normalverteilt. Der CLT rechtfertigt die Konstruktion von Konfidenzintervallen und die Verwendung von $z$-Tests auch bei nicht-normalverteilten Populationen.
 
 \textbf{Beispiel (Würfel):} $\mu = 3{,}5$, $\sigma^2 = 2{,}9$. Summe von $n=100$ Würfeln: $S_{100} \approx N(350, 290)$; Mittelwert: $\bar{X}_{100} \approx N(3{,}5;\, 0{,}029)$.
-
 % ============================================================
 \newpage
 
@@ -455,6 +531,13 @@ Unabhängig & \multicolumn{2}{c|}{$f_{X,Y}(x,y) = f_X(x) \cdot f_Y(y)$} \\
 \subsection{Kovarianz und Korrelation}
 % ============================================================
 
+\definition{\textbf{Erwartungswert und Varianz:}
+Der Erwartungswert $\mu_X=\mathbb{E}[X]$ beschreibt die Lage einer Zufallsvariable, die Varianz $\mathrm{Var}(X)=\sigma_X^2=\mathbb{E}[(X-\mu_X)^2]$ ihre Streuung um den Erwartungswert.
+Für eine Stichprobe:
+$$\bar{x}=\frac{1}{n}\sum_{i=1}^n x_i, \qquad
+s_X^2=\frac{1}{n-1}\sum_{i=1}^n (x_i-\bar{x})^2.$$
+}
+
 \definition{\textbf{Kovarianz:} Maß für den linearen Zusammenhang zwischen $X$ und $Y$:
 $$\text{Cov}(X,Y) = \sigma_{XY} = \mathbb{E}[(X-\mu_X)(Y-\mu_Y)] = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$$
 Stichprobe: $s_{XY} = \frac{1}{n-1}\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})$.
@@ -489,14 +572,26 @@ Die \textbf{Korrelationsmatrix} $\mathbf{R}$ enthält $\rho_{ij}$ auf den Off-Di
 
 \subsubsection*{Einfache Lineare Regression (SLR)}
 
-\definition{\textbf{Modell:} $y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$ mit $\varepsilon_i \sim N(0, \sigma^2)$. \textbf{Annahmen:} Linearität, Unabhängigkeit der Fehler, Homoskedastizität (konstante Varianz), Normalverteilung der Fehler (für Inferenz).}
+\definition{\textbf{Modell:} $y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$ mit $\varepsilon_i \sim N(0, \sigma^2)$.
+
+\textbf{Annahmen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item Linearität: $\mathbb{E}[Y|X=x] = \beta_0 + \beta_1 x$
+    \item Unabhängigkeit der Fehler
+    \item Homoskedastizität (konstante Fehlervarianz)
+    \item Normalverteilung der Fehler (nur für Inferenz/Tests)
+\end{itemize}
+}
 
 \textbf{OLS-Schätzer} (Minimierung von $\sum_i (y_i - \hat{y}_i)^2$):
 $$\hat{\beta}_1 = \frac{s_{xy}}{s_x^2} = r_{xy}\frac{s_y}{s_x}, \qquad \hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}$$
 
-\textbf{Varianzzerlegung:} TSS $=$ ESS $+$ RSS, d.\,h. $\sum(y_i-\bar{y})^2 = \sum(\hat{y}_i-\bar{y})^2 + \sum e_i^2$.
+\textbf{Varianzzerlegung:}
+$$ \underbrace{\text{TSS}}_{\text{Total Sum of Squares}} = \underbrace{\text{ESS}}_{\text{Explained Sum of Squares}} + \underbrace{\text{RSS}}_{\text{Residual Sum of Squares}} $$ d.\,h. $$\sum(y_i-\bar{y})^2 = \sum(\hat{y}_i-\bar{y})^2 + \sum e_i^2.$$
 
-\textbf{Bestimmtheitsmaß:} $R^2 = \frac{\text{ESS}}{\text{TSS}} = 1 - \frac{\text{RSS}}{\text{TSS}} \in [0,1]$. Anteil der erklärten Variabilität. Für SLR: $R^2 = r_{xy}^2$.
+\textbf{Bestimmtheitsmaß:}
+$$R^2 = \frac{\text{ESS}}{\text{TSS}} = 1 - \frac{\text{RSS}}{\text{TSS}} \in [0,1].$$
+Anteil der durch das Modell erklärten Variabilität. Für SLR: $R^2 = r_{xy}^2$.
 
 \subsubsection*{Multiple Lineare Regression (MLR)}
 
@@ -626,6 +721,8 @@ Interpretation & Varianz-Richtungen & Objekt-Ähnlichkeiten \\
 
 \definition{\textbf{Regularisierung:} Techniken zur Begrenzung der Koeffizientengröße, um Overfitting bei Multikollinearität oder $p \gg n$ zu vermeiden. OLS wird instabil, wenn Eigenwerte von $\mathbf{X}^T\mathbf{X}$ nahe Null sind.}
 
+\textbf{Geschlossene Lösung:} Explizite Formel für den Schätzer; keine iterative numerische Optimierung nötig.
+
 \definition{\textbf{Ridge Regression (L2-Penalty):} Minimiere:
 $$L_{\text{ridge}} = \|\mathbf{y} - \mathbf{X}\boldsymbol{\beta}\|_2^2 + \lambda\|\boldsymbol{\beta}\|_2^2 = \text{RSS} + \lambda\sum_j \beta_j^2$$
 Geschlossene Lösung: $\hat{\boldsymbol{\beta}}_{\text{ridge}} = (\mathbf{X}^T\mathbf{X} + \lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}$. Für orthonormale Prädiktoren: $\hat{\boldsymbol{\beta}}_{\text{ridge}} = \frac{1}{1+\lambda}\hat{\boldsymbol{\beta}}_{\text{OLS}}$ -- alle Koeffizienten werden gleichmäßig geschrumpft, aber \emph{nie exakt zu Null}.}
@@ -677,13 +774,18 @@ $\alpha=0$: Ridge; $\alpha=1$: Lasso; dazwischen: Kompromiss aus Variablen-Auswa
     \item Stopp bei: alle Punkte einer Klasse, minimaler Knotengröße, maximaler Tiefe oder keiner weiteren Verbesserung.
 \end{enumerate}}
 
-\definition{\textbf{Unreinheitsmaße:}
+\definition{\textbf{Unreinheitsmaße (Impurity Measures):} Quantifizieren, wie \emph{gemischt} die Klassen in einem Knoten sind -- ein reiner Knoten enthält nur eine Klasse. Bei jedem Split wird die Variable und der Schwellwert gewählt, die die Unreinheit der Kindknoten minimieren. $p_k$ bezeichnet den \emph{Anteil der Klasse $k$} an den Beobachtungen im jeweiligen Knoten.
 
-\emph{Klassifikation:} \textbf{Gini-Index} $\text{Gini} = 1 - \sum_k p_k^2$ (0 = rein); \textbf{Entropie} $\text{Entropy} = -\sum_k p_k\log_2 p_k$; \textbf{Information Gain} $= \text{Entropy(Parent)} - \sum_i \frac{n_i}{n}\text{Entropy(Child}_i)$.
+\emph{Klassifikation:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Gini-Index:} $\text{Gini} = 1 - \sum_k p_k^2 \in [0, 0{,}5]$ (bei 2 Klassen); 0 = perfekt rein, Maximum bei Gleichverteilung. Misst die Wahrscheinlichkeit, zwei zufällig gewählte Beobachtungen verschiedenen Klassen zuzuordnen.
+    \item \textbf{Entropie:} $H = -\sum_k p_k \log_2 p_k \in [0, \log_2 K]$; 0 = rein. Strenger bestraft als Gini bei sehr ungleichen $p_k$.
+    \item \textbf{Information Gain:} $IG = H(\text{Parent}) - \sum_i \frac{n_i}{n} H(\text{Child}_i)$ -- Reduktion der Entropie durch den Split; wird maximiert.
+\end{itemize}
 
-\emph{Regression:} Minimierung der kombinierten RSS $= \sum_i (y_i - \hat{y})^2$ in beiden Kindknoten.}
+\emph{Regression:} Minimierung der kombinierten Residuenquadratsumme $\text{RSS} = \sum_i (y_i - \hat{y})^2$ in beiden Kindknoten, wobei $\hat{y}$ der Mittelwert der Beobachtungen im jeweiligen Kindknoten ist.}
 
-\definition{\textbf{Overfitting und Pruning:} Tiefe Bäume fitten Trainingsdaten perfekt, generalisieren aber schlecht. Gegenmaßnahmen: \emph{Early Stopping} (Tiefenlimit, Mindestgröße pro Knoten); \emph{Post-Pruning} (vollen Baum trainieren, dann von unten Knoten entfernen wenn Validierungsperformance steigt); \emph{Cost Complexity Pruning} (minimiert Trainingsfehler + Komplexitätsstrafe).}
+\definition{\textbf{Overfitting und Pruning:} Tiefe Bäume fitten Trainingsdaten perfekt, generalisieren aber schlecht. Gegenmaßnahmen: \emph{Early Stopping} (Tiefenlimit, Mindestgröße pro Knoten); \emph{Post-Pruning} (vollen Baum trainieren, dann von unten Knoten entfernen, wenn Validierungsperformance steigt); \emph{Cost Complexity Pruning} (minimiert Trainingsfehler + Komplexitätsstrafe $\alpha \cdot |T|$).}
 
 \begin{center}
 \small
@@ -721,15 +823,20 @@ Feature Importance & Einfach & MDI oder Permutation \\
 
 \definition{\textbf{Weitere Ensemble-Methoden:} \emph{Bagging}: Bootstrap-Aggregation auf beliebige Lerner. \emph{Boosting} (AdaBoost, Gradient Boosting): Bäume sequenziell trainieren, jeder korrigiert Fehler des vorigen -- höhere Accuracy, aber overfitting-anfälliger. \emph{XGBoost}: Regularisierte, hochoptimierte GBM-Implementierung, weit verbreitet in der Praxis.}
 
-% ============================================================
+%============================================================
 \newpage
 
-\subsection{Linear Discriminant Analysis (LDA) und Quadratic Discriminant Analysis (QDA)}
+subsection{Linear Discriminant Analysis (LDA) und Quadratic Discriminant Analysis (QDA)}
 % ============================================================
+ 
+\definition{\textbf{Klassifikations-Setting:} Datenmatrix $\mathbf{X}$ ($n \times p$), kategoriale Response $y \in \{1,\ldots,K\}$. Gesucht: eine Regel, die einer neuen Beobachtung $\mathbf{x}$ die wahrscheinlichste Klasse zuweist.
+ 
+\textbf{Naiver Ansatz -- Maximum Likelihood:} Schätze für jede Klasse $k$ eine Dichte $f_k(\mathbf{x})$ (z.\,B. Normalverteilung) und weise $\mathbf{x}$ der Klasse mit der größten Likelihood zu: $\hat{k} = \arg\max_k f_k(\mathbf{x})$. Problem: Klassen mit geringem Anteil in den Daten werden systematisch benachteiligt.
+ 
+\textbf{Bayes-Klassifikationsregel} behebt dies durch Einbeziehung der Prior-Wahrscheinlichkeiten $p_k$ (Klassenanteile):
+$$\hat{k} = \arg\max_{k}\; \underbrace{f_k(\mathbf{x})}_{\text{Likelihood}} \cdot \underbrace{p_k}_{\text{Prior}} \;\propto\; P(C=k \mid \mathbf{x})$$
+Selbst wenn $f_2(\mathbf{x}) > f_1(\mathbf{x})$, kann Klasse 1 bevorzugt werden, wenn $p_1 \gg p_2$ -- der Prior verhindert, dass seltene Klassen ignoriert werden.}
 
-\definition{\textbf{Klassifikations-Setting:} Datenmatrix $\mathbf{X}$ ($n \times p$), kategoriale Response $y \in \{1,\ldots,K\}$. Beobachtungen in Klasse $k$ entstammen Dichte $f_k(\mathbf{x})$. \textbf{Bayes-Klassifikationsregel} mit Prior-Wahrscheinlichkeiten $p_k$:
-$$\hat{k} = \arg\max_{k=1,\ldots,K}\; f_k(\mathbf{x}) \cdot p_k$$
-Intuition: Selbst wenn $f_2(\mathbf{x}) > f_1(\mathbf{x})$, kann Klasse 1 bevorzugt werden, wenn $p_1 \gg p_2$.}
 
 \definition{\textbf{LDA-Annahmen:} Multivariat normalverteilt innerhalb jeder Klasse, $\mathbf{x}|C{=}k \sim N_p(\boldsymbol{\mu}_k, \boldsymbol{\Sigma})$, mit \emph{gemeinsamer} Kovarianzmatrix $\boldsymbol{\Sigma}$ für alle Klassen $\Rightarrow$ \textbf{lineare} Entscheidungsgrenzen. \textbf{Diskriminanzfunktion:}
 $$\delta_k(\mathbf{x}) = \mathbf{x}^T\boldsymbol{\Sigma}^{-1}\boldsymbol{\mu}_k - \tfrac{1}{2}\boldsymbol{\mu}_k^T\boldsymbol{\Sigma}^{-1}\boldsymbol{\mu}_k + \log p_k$$
@@ -810,19 +917,7 @@ Keine Verteilungsannahmen & Ausreißer nah am Testpunkt schädlich \\
 
 \textbf{Anwendungen:} Klassifikation bei kleinem $p$ (Iris, Handschriften); Anomalieerkennung (Punkte weit von allen anderen); Recommender Systems (ähnliche Kunden/Produkte).
 
-
-
-
-
-
-
-
-
-
-
-% ============================================================
-
-% ============================================================
+\newpage
 
 \subsection{Ähnlichkeitsmaße und Distanzmaße}
 % ============================================================
@@ -907,6 +1002,8 @@ Nominale Kategorien & 0-1-Distanzmatrix & Nominal \\
 \end{tabular}
 \end{center}
 
+\newpage
+
 \subsection{K-means, K-medoids und Fuzzy-Clustering}
 % ============================================================
 
@@ -960,7 +1057,7 @@ Zusatzparameter & -- & -- & Fuzzifikator $m$ \\
 
 \definition{\textbf{Grundkonzept:} Daten werden als Realisierungen einer Mischung von $K$ Wahrscheinlichkeitsverteilungen modelliert (üblicherweise multivariate Normalverteilungen):
 $$f(\mathbf{x}) = \sum_{k=1}^{K} \pi_k\, f_k(\mathbf{x} \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)$$
-mit Mischungsgewichten $\pi_k > 0$, $\sum_k \pi_k = 1$. Im Gegensatz zu K-means liefert dieser Ansatz ein probabilistisches Framework mit weichen Zuordnungen und statistischer Inferenz.}
+mit Mischungsgewichten $\pi_k > 0$, $\sum_k \pi_k = 1$. Im Gegensatz zu K-means liefert dieser Ansatz ein probabilistisches Framework mit weichen Zuordnungen und statistischer Inferenz (Schätzung von Modellparametern und Clustor-Wahrscheinlichkeiten).}
 
 Die \textbf{multivariate Normalverteilung} $N_p(\boldsymbol{\mu}, \boldsymbol{\Sigma})$ hat die Dichte:
 $$f(\mathbf{x}) = \frac{1}{(2\pi)^{p/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\!\left(-\tfrac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})\right)$$
@@ -982,13 +1079,13 @@ $$f(\mathbf{x}) = \frac{1}{(2\pi)^{p/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\!\left(
 \subsection{Hierarchisches Clustering}
 % ============================================================
 
-\definition{\textbf{Grundkonzept:} Erzeugt eine vollständige Hierarchie von Clusterlösungen statt einer einzelnen festen Partition. \textbf{Agglomerative} Verfahren (gebräuchlicher) starten mit $n$ Einzelclustern und fusionieren iterativ die ähnlichsten Paare bis ein Gesamtcluster verbleibt. Divisive Verfahren (umgekehrt) sind rechenintensiver und seltener.}
+\definition{\textbf{Grundkonzept:} Erzeugt eine vollständige Hierarchie von Clusterlösungen statt einer einzelnen festen Partition. \textbf{Agglomerative} Verfahren (gebräuchlicher) starten mit \textbf{$n$ Einzelclustern} und fusionieren iterativ die ähnlichsten Paare bis ein Gesamtcluster verbleibt. Divisive Verfahren (umgekehrt) sind rechenintensiver und seltener.}
 
 \definition{\textbf{Linkage-Methoden} definieren den Abstand zwischen zwei Clustern $C_i$ und $C_j$:
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Complete Linkage:} $\max_{a \in C_i, b \in C_j} d(a,b)$ -- maximaler Abstand; globulare Cluster, kein Chaining.
     \item \textbf{Single Linkage:} $\min_{a \in C_i, b \in C_j} d(a,b)$ -- minimaler Abstand; anfällig für Kettenbildung.
-    \item \textbf{Average Linkage (UPGMA):} Mittlerer Abstand aller Punktpaare -- Kompromiss zwischen Complete und Single.
+    \item \textbf{Average Linkage:} Mittlerer Abstand aller Punktpaare -- Kompromiss zwischen Complete und Single.
     \item \textbf{Ward's Method:} $\frac{n_i n_j}{n_i+n_j}\|\mathbf{c}_i - \mathbf{c}_j\|^2$ -- minimiert Within-Cluster-Varianz bei Fusion; ähnlich K-means-Kriterium; oft bestes Ergebnis in der Praxis.
 \end{itemize}}
 
@@ -1000,37 +1097,53 @@ Werte nahe 1 deuten auf klare, gut getrennte Cluster hin.}
 
 \textbf{Vorteil:} Kein vorab festgelegtes $K$; Dendrogramm ermöglicht visuelle Exploration; verschiedene Linkage-Methoden erlauben unterschiedliche Clusterformen. \textbf{Nachteil:} $O(n^2)$ Komplexität; Fusionsentscheidungen sind final (keine Neuoptimierung).
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/dendogram.png}
+\end{figure}
+
 % ============================================================
 \newpage
 
 \subsection{Bedingte Wahrscheinlichkeit und Bayes-Theorem}
-% ============================================================
+% % ============================================================
 
-\definition{\textbf{Bedingte Wahrscheinlichkeit:} Wahrscheinlichkeit von $A$ unter der Bedingung, dass $B$ bereits eingetreten ist:
-$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0$$
-Interpretation: Das Eintreten von $B$ schränkt den Stichprobenraum auf $B$ ein -- $P(A\mid B)$ ist eine Neueinschätzung von $P(A)$ unter dieser Information.}
+% \definition{\textbf{Bedingte Wahrscheinlichkeit:} Wahrscheinlichkeit von $A$ unter der Bedingung, dass $B$ bereits eingetreten ist:
+% $$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0$$
+% Interpretation: Das Eintreten von $B$ schränkt den Stichprobenraum auf $B$ ein -- $P(A\mid B)$ ist eine Neueinschätzung von $P(A)$ unter dieser Information.}
 
-\textbf{Produktregel (Kettenregel):} $P(A \cap B) = P(A \mid B)\cdot P(B) = P(B \mid A)\cdot P(A)$; für mehrere Ereignisse: $P(A \cap B \cap C) = P(A)\cdot P(B\mid A)\cdot P(C \mid A \cap B)$.
+% \textbf{Produktregel (Kettenregel):} $P(A \cap B) = P(A \mid B)\cdot P(B) = P(B \mid A)\cdot P(A)$; für mehrere Ereignisse: $P(A \cap B \cap C) = P(A)\cdot P(B\mid A)\cdot P(C \mid A \cap B)$.
 
-\textbf{Satz der totalen Wahrscheinlichkeit:} Für eine Partition $B_1,\ldots,B_K$ von $\Omega$:
-$$P(A) = \sum_{k=1}^{K} P(A \mid B_k)\cdot P(B_k)$$
+% \textbf{Satz der totalen Wahrscheinlichkeit:} Für eine Partition $B_1,\ldots,B_K$ von $\Omega$:
+% $$P(A) = \sum_{k=1}^{K} P(A \mid B_k)\cdot P(B_k)$$
 
-\definition{\textbf{Satz von Bayes:}
-$$P(A \mid B) = \frac{P(B \mid A)\cdot P(A)}{P(B)} = \frac{P(B \mid A)\cdot P(A)}{\sum_k P(B \mid A_k)\cdot P(A_k)}$$
-Die vier Terme: \textbf{Posterior} $P(A|B)$ (aktualisiertes Wissen nach Beobachtung), \textbf{Likelihood} $P(B|A)$, \textbf{Prior} $P(A)$ (Vorwissen), \textbf{Evidenz} $P(B)$ (Normalisierungskonstante). Der Satz erlaubt, ``rückwärts'' zu schließen: von bekanntem $P(B|A)$ auf gesuchtes $P(A|B)$.}
+% \definition{\textbf{Satz von Bayes:}
+% $$P(A \mid B) = \frac{P(B \mid A)\cdot P(A)}{P(B)} = \frac{P(B \mid A)\cdot P(A)}{\sum_k P(B \mid A_k)\cdot P(A_k)}.$$
+% Der Satz erlaubt, ``rückwärts'' zu schließen: von bekanntem $P(B|A)$ auf gesuchtes $P(A|B)$. Die vier Terme: }
+% \begin{itemize}
+%     \item \textbf{Posterior} $P(A|B)$ (aktualisiertes Wissen nach Beobachtung), 
+%     \item \textbf{Likelihood} $P(B|A)$,
+%     \item \textbf{Prior} $P(A)$ (Vorwissen),
+%     \item \textbf{Evidenz} $P(B)$ (Normalisierungskonstante).
+% \end{itemize}
 
-\textbf{Beispiel -- Medizinischer Test:} Prävalenz 1\%, Sensitivität 95\%, Spezifität 90\%.
-$$P(+) = 0{,}95 \cdot 0{,}01 + 0{,}10 \cdot 0{,}99 = 0{,}1085$$
-$$P(\text{krank}\mid +) = \frac{0{,}95 \cdot 0{,}01}{0{,}1085} \approx 8{,}8\%$$
-Trotz gutem Test: ein positives Ergebnis bedeutet nur ca.\ 9\% Krankheitswahrscheinlichkeit -- die \textbf{Base-Rate Fallacy} (seltene Erkrankungen erzeugen viele falsch-positive Befunde).
+% \textbf{Beispiel -- Medizinischer Test:} Prävalenz 1\%, Sensitivität 95\%, Spezifität 90\%.
+% $$P(+) = 0{,}95 \cdot 0{,}01 + 0{,}10 \cdot 0{,}99 = 0{,}1085$$
+% $$P(\text{krank}\mid +) = \frac{0{,}95 \cdot 0{,}01}{0{,}1085} \approx 8{,}8\%$$
+% Trotz gutem Test: ein positives Ergebnis bedeutet nur ca.\ 9\% Krankheitswahrscheinlichkeit -- die \textbf{Base-Rate Fallacy} (seltene Erkrankungen erzeugen viele falsch-positive Befunde).
 
-% ============================================================
-\newpage
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.75\textwidth]{assets/bed_wsk.png}
+% \end{figure}
+
+% % ============================================================
+% \newpage
 
 \subsection{Probabilistische Graphische Modelle}
 % ============================================================
 
-\definition{\textbf{Graphische Modelle:} Repräsentation von Wahrscheinlichkeitsverteilungen über Graphen, wobei Knoten Zufallsvariablen und Kanten Abhängigkeiten repräsentieren. \textbf{Bayes-Netz:} Ein gerichteter, azyklischer Graph (DAG); eine Kante $A \to B$ drückt aus, dass $A$ direkter Elternknoten von $B$ ist. Die gemeinsame Verteilung faktorisiert über die Graphstruktur:
+\definition{\textbf{Graphische Modelle:} Repräsentation von Wahrscheinlichkeitsverteilungen über Graphen, wobei Knoten Zufallsvariablen und Kanten Abhängigkeiten repräsentieren. \textbf{Bayes-Netz:} Ein gerichteter, azyklischer Graph (DAG - enthält keine Kreise); eine Kante $A \to B$ drückt aus, dass $A$ direkter Elternknoten von $B$ ist. Die gemeinsame Verteilung faktorisiert über die Graphstruktur:
 $$P(X_1, \ldots, X_n) = \prod_{i=1}^{n} P(X_i \mid \text{Eltern}(X_i))$$
 Dies reduziert die Parametrisierung erheblich durch bedingte Unabhängigkeiten.}
 
@@ -1041,7 +1154,7 @@ Dies reduziert die Parametrisierung erheblich durch bedingte Unabhängigkeiten.}
     \item \textbf{Konvergent} $X \to Y \leftarrow Z$: Gemeinsamer Kindknoten; $X$ und $Z$ sind unabhängig, wenn $Y$ \emph{nicht} beobachtet wird. Beobachten von $Y$ (oder eines Nachfahren) aktiviert Abhängigkeit -- \emph{explaining away}.
 \end{itemize}}
 
-\definition{\textbf{Naive-Bayes-Klassifikator:} Nimmt bedingte Unabhängigkeit aller Features gegeben die Klasse an: $P(X_1,\ldots,X_p \mid C) = \prod_j P(X_j \mid C)$. Klassifikation via MAP-Schätzung im Log-Raum:
+\definition{\textbf{Naive-Bayes-Klassifikator:} Nimmt bedingte Unabhängigkeit aller Features gegeben die Klasse an: $P(X_1,\ldots,X_p \mid C) = \prod_j P(X_j \mid C)$. Klassifikation via MAP-Schätzung (Maximum A Posteriori) im Log-Raum:
 $$\hat{C} = \arg\max_c \left[\log P(C{=}c) + \sum_{j=1}^{p}\log P(X_j \mid C{=}c)\right]$$}
 
 \textbf{Laplace-Smoothing} verhindert Null-Wahrscheinlichkeiten bei ungesehenen Feature-Klasse-Kombinationen:
@@ -1049,6 +1162,11 @@ $$P(X_j{=}x \mid C{=}c) = \frac{\text{count}(X_j{=}x,\, C{=}c) + \alpha}{\text{c
 mit Smoothing-Parameter $\alpha$ (typisch $\alpha=1$) und $m$ möglichen Werten von $X_j$.
 
 \textbf{Vorteile:} Schnell, benötigt wenig Daten, liefert Klassifikationssicherheiten, funktioniert überraschend gut bei moderaten Verletzungen der Unabhängigkeitsannahme. \textbf{Nachteile:} Unabhängigkeitsannahme oft unrealistisch; schlechte Kalibrierung bei korrelierten Features.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/bed_unabhängigkeit.png}
+\end{figure}
 
 % ============================================================
 \newpage
@@ -1077,8 +1195,9 @@ $$p(\theta \mid \mathcal{D}) = \frac{p(\mathcal{D} \mid \theta)\cdot p(\theta)}{
 $$p(\theta \mid \mathcal{D}_1, \mathcal{D}_2) \propto p(\mathcal{D}_2 \mid \theta)\cdot p(\theta \mid \mathcal{D}_1)$$
 Die Reihenfolge der Datenpunkte ist unerheblich; Batch- und Online-Update liefern identische Ergebnisse.}
 
-\textbf{Beispiel -- Münzwurf:} Prior $p \sim \text{Beta}(1,1)$ (uninformativ), 5 Würfe, 3 Erfolge. Posterior: $\text{Beta}(4,3)$, Erwartungswert $4/7 \approx 0{,}57$. MLE wäre $3/5 = 0{,}6$; der Bayes-Schätzer ist durch den Prior leicht dazu gezogen.
-
+\textbf{Beispiel -- Münzwurf:} Prior $p \sim \text{Beta}(1,1)$, Daten: $n=5$ Würfe mit $k=3$ Erfolgen. Aus der Likelihood $p(\mathcal D\mid p)\propto p^3(1-p)^2$ folgt der Posterior
+$$p\mid\mathcal D \sim \text{Beta}(4,3).$$
+Der Posterior Mean ist $\mathbb E[p\mid\mathcal D]=4/7\approx0.57$, während der Maximum-Likelihood-Schätzer (MLE) $\hat p_{\text{MLE}}=3/5=0.6$ ergibt. Der Bayes-Schätzer wird durch den Prior leicht in Richtung $0.5$ gezogen.
 % ============================================================
 \newpage
 
@@ -1086,6 +1205,8 @@ Die Reihenfolge der Datenpunkte ist unerheblich; Batch- und Online-Update liefer
 % ============================================================
 
 \definition{\textbf{Konjugierter Prior:} Ein Prior $p(\theta)$ heißt konjugiert zur Likelihood $p(\mathcal{D}\mid\theta)$, wenn der Posterior $p(\theta\mid\mathcal{D})$ aus \emph{derselben Verteilungsfamilie} stammt wie der Prior. Vorteil: analytische Update-Regeln ohne numerische Integration.}
+
+\textbf{Intuition:} Konjugierte Priors sorgen dafür, dass Bayes-Updates nur die Parameter einer Verteilung verändern. Der Prior kann dabei als \emph{zusätzliche fiktive Daten} interpretiert werden, die mit den echten Beobachtungen kombiniert werden.
 
 \textbf{Wichtige Konjugationen:}
 \begin{itemize}[leftmargin=1.5em]
@@ -1124,6 +1245,16 @@ $$\kappa_n = \kappa_0 + n, \quad \mu_n = \frac{\kappa_0\mu_0 + n\bar{x}}{\kappa_
 $$\beta_n = \beta_0 + \frac{1}{2}\sum_i(x_i - \bar{x})^2 + \frac{n\kappa_0}{2\kappa_n}(\bar{x}-\mu_0)^2$$
 Der letzte Term in $\beta_n$ bestraft die Abweichung zwischen Stichprobenmittelwert und Prior-Mittelwert.}
 
+\textbf{Beispiel -- Schätzung des Mittelwerts einer Normalverteilung:}
+Sei $x_1,\dots,x_n \sim N(\mu,1)$ mit unbekanntem $\mu$ (Varianz bekannt).
+Wir wählen einen Prior $\mu \sim N(0,1)$ (Vorwissen: Werte liegen ungefähr um 0).
+
+Nach $n=4$ Beobachtungen mit $\bar{x}=1$ ergibt sich:
+$$\tau_n^{-2} = 1 + 4 = 5 \quad \Rightarrow \quad \tau_n^2 = \frac{1}{5}$$
+$$\mu_n = \frac{1\cdot 0 + 4\cdot 1}{5} = 0.8$$
+
+Interpretation: Der Posterior-Mittelwert liegt zwischen Prior ($0$) und Daten ($1$). Je mehr Daten, desto stärker dominiert $\bar{x}$.
+\newpage
 
 % ============================================================
 
@@ -1142,6 +1273,8 @@ $$\mathbb{E}[\text{Statistik} \mid D_{\text{obs}}] \neq \mathbb{E}[\text{Statist
 \definition{\textbf{Confirmation Bias:} Nur Daten werden erfasst oder bevorzugt, die bestehende Überzeugungen bestätigen -- in ML-Systemen entsteht dadurch eine gefährliche positive Rückkopplungsschleife.
 
 \textbf{Beispiel -- Algorithmischer Bias:} Polizei-Einsatzmodell berechnet Verbrechensdichte aus historischen Daten, weist mehr Polizei in betroffene Viertel zu, erfasst dadurch mehr Kleinkriminalität, erhöht die berechnete Dichte weiter -- self-reinforcing loop. Das System verstärkt die historische Verzerrung statt sie zu korrigieren.}
+
+\definition{\textbf{Verzerrung durch Anreize:} Anreize spielen oft auch in Datenerhebung eine Rolle und führen zu Verzerrungen. Beispiel: Ärzte dokumentieren eher schwere Fälle, da diese besser vergütet werden; Unternehmen melden eher positive Ergebnisse, um Investoren zu beeindrucken.}
 
 \definition{\textbf{Gegenmaßnahmen:} Prüfen, welche Daten \emph{fehlen} und warum (Selection Mechanism); Missing Data Analysis und Sensitivitätsanalyse; Blind Randomization; bei gesellschaftskritischen ML-Systemen aktives Fairness-Monitoring, Feedback-Loop-Kontrolle und explizite Fairness Constraints.}
 
@@ -1180,7 +1313,7 @@ FP = Fehlalarm (falsch positiv); FN = übersehen (falsch negativ).
 
 \textbf{Tradeoffs:} Sensitivity und Specificity sind negativ korreliert -- höherer Threshold $\Rightarrow$ mehr Spezifität, weniger Sensitivität. Wahl hängt vom Kontext ab: Krebsdiagnose bevorzugt hohe Sensitivity (lieber ein falsch-positives als einen Fall übersehen); Spam-Filter bevorzugt hohe Specificity (legitime Emails nicht löschen).
 
-\definition{\textbf{ROC-Kurve und AUC:} Plottet TPR (Y-Achse) gegen FPR $= 1-\text{Specificity}$ (X-Achse) über alle Threshold-Werte. Die Diagonale entspricht einem Zufallsklassifikator; je weiter die Kurve nach oben-links gewölbt, desto besser. \textbf{AUC} (Fläche unter der ROC-Kurve) ist ein threshold-unabhängiges Gütemaß: $0{,}5 =$ Zufall, $1{,}0 =$ perfekt. \textbf{Wahrscheinlichkeitsinterpretation:} AUC $= P(\hat{p}_+ > \hat{p}_-)$ für ein zufälliges positives vs.\ negatives Beispiel.}
+\definition{\textbf{ROC-Kurve und AUC:} Plottet TPR (Y-Achse) gegen FPR $= 1-\text{Specificity}$ (X-Achse) über alle Threshold-Werte. Die Diagonale entspricht einem Zufallsklassifikator; je weiter die Kurve nach oben-links gewölbt, desto besser. \textbf{AUC} (Fläche unter der ROC-Kurve) ist ein threshold-unabhängiges Gütemaß: $0{,}5 =$ Zufall, $1{,}0 =$ perfekt.}
 
 \begin{center}
 \small
@@ -1203,6 +1336,10 @@ AUC & Fläche unter ROC & Ranking-Qualität & Allgemeiner Vergleich \\
 \end{tabular}
 \end{center}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/roc_curve.png}
+\end{figure}
 % ============================================================
 \newpage
 
@@ -1273,6 +1410,16 @@ Overfitting & Niedrig & Hoch & Regularisierung, mehr Daten, einfacheres Modell \
 \end{tabular}
 \end{center}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/bias_var_tradeoff.png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/bias_var_sum.png}
+\end{figure}
+
 \definition{\textbf{Validierungsstrategien:}
 
 \emph{Hold-out:} Aufteilung in Trainings- (60--80\%) und Testset (20--40\%). Einfach, aber hohe Varianz der Schätzung bei kleinen Datensätzen.
@@ -1293,28 +1440,32 @@ Stabiler als Hold-out, nutzt alle Daten. Typisch: $k=5$ oder $k=10$. LOOCV ($k=n
 \subsection{Zeitreihenanalyse}
 % ============================================================
 
-\definition{\textbf{Zeitreihe:} Sequenz $(y_t)_{t=1}^T$ in fester zeitlicher Ordnung -- eine Realisierung eines stochastischen Prozesses $(Y_t)$. Beobachtungen sind zeitlich abhängig (nicht i.i.d.), typischerweise äquidistant.}
+\definition{\textbf{Zeitreihe} $(y_t)_{t=1}^T$: Realisierung eines stochastischen Prozesses $(Y_t)$ in fester zeitlicher Ordnung. Beobachtungen sind zeitlich \emph{abhängig} (nicht i.i.d.), typischerweise äquidistant diskret.}
 
-\definition{\textbf{Stationarität (schwache Form):} Konstanter Mittelwert $E(Y_t)=\mu$, konstante Varianz $\text{Var}(Y_t)=\sigma^2$, und Autokovarianz $\text{Cov}(Y_t,Y_{t+h})$ hängt nur vom Lag $h$ ab, nicht von $t$. Voraussetzung für ARMA-Modelle.}
+\definition{\textbf{Stationarität (schwach):} Konstanter Erwartungswert $E(Y_t)=\mu$, konstante Varianz $\operatorname{Var}(Y_t)=\sigma^2$, und Autokovarianz $\operatorname{Cov}(Y_t,Y_{t+h})$ hängt nur vom Lag $h$ ab. Voraussetzung für ARMA-Modelle; Prüfung via ACF.}
 
-\definition{\textbf{ACF und PACF:} Empirische Autokorrelation zum Lag $\omega$:
-$$r_\omega = \frac{\sum_{t=\omega+1}^{T}(y_t-\bar{y})(y_{t-\omega}-\bar{y})}{\sum_{t=1}^{T}(y_t-\bar{y})^2}$$
-Schnell abfallende ACF: Kurzzeitabhängigkeit (stationär); langsam abfallende ACF: nicht-stationär; saisonale Spitzen: periodische Struktur. Die \textbf{PACF} misst Korrelation bei Lag $\omega$ nach Entfernung dazwischenliegender Lags -- hilfreich zur AR-Ordnungsbestimmung.}
+\definition{\textbf{ACF \& PACF:} Empirische Autokorrelation zum Lag $\omega$:
+$$r_\omega = \frac{\sum_{t=\omega+1}^{T}(y_{t-\omega}-\bar{y})(y_t-\bar{y})}{\sum_{t=1}^{T}(y_t-\bar{y})^2}, \quad -1 \le r_\omega \le 1$$
+Langsam abfallende ACF $\Rightarrow$ nicht-stationär; saisonale Spitzen $\Rightarrow$ periodische Struktur. \textbf{PACF} misst Korrelation bei Lag $\omega$ nach Herauspartialisieren aller dazwischenliegenden Lags -- Faustregel: PACF bricht bei Lag $p$ ab $\Rightarrow$ AR($p$); ACF bricht bei Lag $q$ ab $\Rightarrow$ MA($q$).}
 
-\definition{\textbf{Komponentenmodell:} Zerlegung in Trend $\mu_t$, Saisonalität $s_t$ und Restkomponente $\varepsilon_t$. \textbf{Additiv:} $y_t = \mu_t + s_t + \varepsilon_t$ (konstante Saisonamplitude). \textbf{Multiplikativ:} $y_t = \mu_t \cdot s_t \cdot \varepsilon_t$ (proportionale Amplitude; durch Logarithmieren in additives Modell überführbar). Trendschätzung via \textbf{Simple Moving Average}:
-$$\hat{\mu}_t = \frac{1}{2q+1}\sum_{i=-q}^{q} y_{t+i}$$
-Größeres $q$ $\Rightarrow$ stärkere Glättung; $q$ Randbeobachtungen gehen verloren.}
+\definition{\textbf{Komponentenmodell:} Zerlegung in Trend $\mu_t$, Saisonkomponente $s_t$, Rest $\varepsilon_t$.
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+    \item \textbf{Additiv:} $y_t = \mu_t + s_t + \varepsilon_t$ \quad (konstante Saisonamplitude)
+    \item \textbf{Multiplikativ:} $y_t = \mu_t \cdot s_t \cdot \varepsilon_t$ \quad (proportionale Amplitude; $\log$ überführt in additives Modell)
+\end{itemize}
+Trendschätzung via \textbf{Moving Average} (gerade Periode $p=2q$): $\hat{\mu}_t = \tfrac{1}{p}\bigl(\tfrac{1}{2}y_{t-q}+y_{t-q+1}+\cdots+y_{t+q-1}+\tfrac{1}{2}y_{t+q}\bigr)$. Differenzenfilter: $\Delta y_t = y_t - y_{t-1}$ beseitigt lineare Trends; $\Delta_s y_t = y_t - y_{t-s}$ saisonale Differenz.}
 
-\definition{\textbf{AR, MA und ARMA-Prozesse:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{AR($p$):} $Y_t = \sum_{k=1}^p \phi_k Y_{t-k} + \varepsilon_t$ -- Regression auf $p$ Lags. PACF bricht bei Lag $p$ ab.
-    \item \textbf{MA($q$):} $Y_t = \varepsilon_t + \sum_{k=1}^q \theta_k \varepsilon_{t-k}$ -- gewichtete Summe vergangener Schocks. ACF bricht bei Lag $q$ ab.
-    \item \textbf{ARMA($p,q$):} Kombination; Voraussetzung: Stationarität.
+\definition{\textbf{AR, MA, ARMA} ($\varepsilon_t \sim \text{WN}$):
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+    \item \textbf{AR($p$):} $Y_t = \phi_1 Y_{t-1} + \cdots + \phi_p Y_{t-p} + \varepsilon_t$
+    \item \textbf{MA($q$):} $Y_t = \varepsilon_t + \theta_1\varepsilon_{t-1} + \cdots + \theta_q\varepsilon_{t-q}$
+    \item \textbf{ARMA($p,q$):} Kombination; \textbf{ARIMA($p,d,q$):} $d$-faches Differenzieren erzeugt Stationarität
+    \item \textbf{SARIMA$(p,d,q)\times(P,D,Q)_s$:} zusätzliche saisonale AR/MA-Terme mit Periode $s$
 \end{itemize}}
 
-\definition{\textbf{ARIMA und SARIMA:} \textbf{ARIMA($p,d,q$):} $d$-faches Differenzieren $\Delta^d Y_t$ erzeugt Stationarität aus trendebehafteten Reihen, dann ARMA. \textbf{SARIMA$(p,d,q)\times(P,D,Q)_s$:} Zusätzliche saisonale Komponenten mit Periode $s$.}
-
-\textbf{Modellidentifikation:} PACF bricht bei Lag $p$ ab $\Rightarrow$ AR($p$); ACF bricht bei Lag $q$ ab $\Rightarrow$ MA($q$). Modellwahl via AIC/BIC. Residuen müssen White Noise sein (Ljung-Box-Test, ACF nahe 0).
+\beispiel{\textbf{Modellierung in R:}\\
+\texttt{arima(x, order=c(p,d,q), seasonal=list(order=c(P,D,Q), period=s))}\\
+Modellwahl via AIC/BIC; Diagnose: Residuen $\overset{!}{\sim}$ WN (Ljung-Box-Test, ACF $\approx 0$).}
 
 % ============================================================
 \newpage
@@ -1322,42 +1473,58 @@ Größeres $q$ $\Rightarrow$ stärkere Glättung; $q$ Randbeobachtungen gehen ve
 \subsection{Importance Sampling und MCMC}
 % ============================================================
 
-\definition{\textbf{Monte Carlo Integration:} Schätze $E_p[f(x)] = \int f(x)p(x)\,dx$ durch $n$ Stichproben aus $p$: $\hat{E} = \frac{1}{n}\sum_i f(x_i) \xrightarrow{n\to\infty} E_p[f(x)]$ (LLN). Problem: Direktes Sampling aus $p$ oft intraktabel (z.\,B. Bayes-Posterior mit unbekannter Normalisierungskonstante).}
+\textbf{Motivation:} In der Bayes-Statistik interessieren uns Erwartungswerte unter dem Posterior $p(\theta \mid y) \propto p(y \mid \theta)\,p(\theta)$ -- also Integrale der Form $E_p[f(\theta)] = \int f(\theta)\,p(\theta\mid y)\,d\theta$. Diese sind analytisch meist intraktabel, weil die Normalisierungskonstante $p(y) = \int p(y\mid\theta)p(\theta)\,d\theta$ unbekannt ist. \textbf{Monte-Carlo-Methoden} approximieren solche Integrale durch Stichproben.
 
-\definition{\textbf{Importance Sampling:} Ziehe aus leicht zu samplender \textbf{Proposal-Verteilung} $q(x)$ und korrigiere mit \textbf{Importance Weights} $w(x) = p(x)/q(x)$:
-$$E_p[f(x)] = E_q\!\left[f(x)\frac{p(x)}{q(x)}\right] \approx \sum_i \tilde{w}_i f(x_i), \quad \tilde{w}_i = \frac{w_i}{\sum_j w_j}$$
-Anforderung: $q(x)>0$ überall wo $p(x)>0$. Schlechte Proposal $\Rightarrow$ extrem variable Gewichte $\Rightarrow$ wenige Stichproben dominieren (\emph{Degeneracy-Problem}). Die \textbf{Effective Sample Size} $\text{ESS} = (\sum w_i)^2/\sum w_i^2$ misst Effizienz ($\text{ESS}=n$: optimal). In hohen Dimensionen versagt Importance Sampling.}
+\definition{\textbf{Monte Carlo Integration:} Ziehe $x_1,\ldots,x_n \sim p$, dann gilt:
+$$\hat{E} = \frac{1}{n}\sum_{i=1}^n f(x_i) \xrightarrow{n\to\infty} E_p[f(x)] \quad \text{(LLN)}$$
+Problem: direktes Sampling aus $p$ ist oft unmöglich (unbekannte Normalisierungskonstante).}
 
-\definition{\textbf{Markov Chain Monte Carlo (MCMC):} Konstruiere eine Markov Chain mit stationärer Verteilung $p(x)$; nach Burn-in-Phase sind Stichproben approximativ aus $p$. \textbf{Metropolis-Hastings} pro Iteration: (1) schlage $x' \sim q(x'\mid x_t)$ vor; (2) akzeptiere mit
-$$\alpha = \min\!\left(1,\frac{p(x')\,q(x_t\mid x')}{p(x_t)\,q(x'\mid x_t)}\right)$$
-(3) sonst bleibe bei $x_t$. Detailed Balance garantiert stationäre Verteilung $p$.}
+\definition{\textbf{Importance Sampling:} Ziehe stattdessen aus einer einfach zu samplenden \textbf{Proposal-Verteilung} $q(x)$ und korrigiere mit \textbf{Importance Weights} $w_i = p(x_i)/q(x_i)$:
+$$E_p[f(x)] \approx \sum_i \tilde{w}_i\, f(x_i), \qquad \tilde{w}_i = \frac{w_i}{\sum_j w_j}$$
+Bedingung: $q(x)>0$ überall wo $p(x)>0$. \textbf{Problem:} Schlechte Proposal $\Rightarrow$ wenige Samples dominieren (\emph{Weight Degeneracy}). \textbf{Effective Sample Size} $\mathrm{ESS} = {(\sum w_i)^2}/{\sum w_i^2} \in [1, n]$ misst Effizienz. In hohen Dimensionen versagt IS zuverlässig.}
 
-\definition{\textbf{Gibbs Sampling:} Für multivariate $\mathbf{X}=(X_1,\ldots,X_p)$ sample iterativ aus den vollständig bedingten Verteilungen $p(x_j\mid x_{-j})$ -- Spezialfall von Metropolis-Hastings mit $\alpha=1$ (keine Rejections). Vorteil: hohe Akzeptanzrate wenn bedingte Verteilungen analytisch verfügbar.}
+\definition{\textbf{Markov Chain Monte Carlo (MCMC):} Konstruiere eine Markov Chain mit stationärer Verteilung $p(x)$; nach einer \emph{Burn-in}-Phase liefern die Zustände approximative Samples aus $p$ -- ohne die Normalisierungskonstante zu benötigen.
+
+\textbf{Metropolis-Hastings} pro Iteration: (1) schlage $x' \sim q(x'\mid x_t)$ vor; (2) akzeptiere mit
+$$\alpha = \min\!\left(1,\,\frac{p(x')\,q(x_t\mid x')}{p(x_t)\,q(x'\mid x_t)}\right)$$
+(3) sonst behalte $x_t$. Die \emph{Detailed Balance}-Bedingung garantiert $p$ als stationäre Verteilung.}
 
 \definition{\textbf{Konvergenzdiagnostik:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Trace Plots:} Chain sollte stationär um konstantes Niveau oszillieren (kein Trend, kein Drift).
-    \item \textbf{ACF der Chain:} Schnell abfallende ACF $\Rightarrow$ gutes Mixing (unabhängigere Stichproben).
-    \item \textbf{Gelman-Rubin $\hat{R}$:} Vergleicht Within- und Between-Chain-Varianz mehrerer paralleler Chains; $\hat{R} < 1{,}1$ deutet auf Konvergenz hin.
-    \item \textbf{ESS (mit Autokorrelation):} $\text{ESS} = N/(1 + 2\sum_{h=1}^\infty \rho_h)$ -- berücksichtigt, dass autokorrelierte Stichproben weniger Information tragen.
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+    \item \textbf{Trace Plots:} Chain soll stationär oszillieren (kein Trend, kein Drift).
+    \item \textbf{ACF der Chain:} Schnell abfallende ACF $\Rightarrow$ gutes Mixing.
+    \item \textbf{Gelman-Rubin $\hat{R}$:} Vergleicht Within- und Between-Chain-Varianz mehrerer paralleler Chains; $\hat{R} < 1{,}1$ $\Rightarrow$ Konvergenz.
+    \item \textbf{ESS (mit Autokorrelation):} $\mathrm{ESS} = N\big/(1 + 2\textstyle\sum_{h=1}^\infty \rho_h)$ -- autokorrelierte Samples tragen weniger Information.
 \end{itemize}}
 
-\begin{center}
-\small
+\begin{center}\small
 \begin{tabular}{|l|l|l|}
 \hline
-\textbf{Aspekt} & \textbf{Importance Sampling} & \textbf{MCMC} \\
+\textbf{Aspekt} & \textbf{Importance Sampling} & \textbf{MCMC (MH)} \\
 \hline
 Unabhängige Samples & Ja & Nein (autokorreliert) \\
-\hline
 Skalierung (hohe Dim.) & Schlecht & Besser \\
-\hline
 Normalisierungskonstante & Direkt schätzbar & Nicht direkt \\
-\hline
 Konvergenzdiagnose & Einfach (ESS) & Aufwendig ($\hat{R}$, ACF) \\
-\hline
-Ideal wenn & Niedrige Dim., gute Proposal & Hohe Dim., komplexer Posterior \\
 \hline
 \end{tabular}
 \end{center}
+
+\subsection{Gibbs Sampling}
+% ============================================================
+
+\textbf{Motivation:} Bei multivariaten Posteriors $p(x_1,\ldots,x_p\mid y)$ ist Metropolis-Hastings schwierig zu tunen -- eine gute gemeinsame Proposal für alle Dimensionen zu finden ist aufwendig. \textbf{Gibbs Sampling} umgeht das, indem man statt des gemeinsamen Posteriors nur noch univariate \emph{bedingte} Verteilungen sampelt, die oft analytisch verfügbar sind.
+
+\definition{\textbf{Gibbs Sampling:} Initialisiere $\mathbf{x}^{(0)}$. In jeder Iteration $t$ sample der Reihe nach:
+$$x_j^{(t)} \sim p\!\left(x_j \;\middle|\; x_1^{(t)},\ldots,x_{j-1}^{(t)},\, x_{j+1}^{(t-1)},\ldots,x_p^{(t-1)}\right) \quad \text{für } j=1,\ldots,p$$
+d.\,h. jede Variable wird aus ihrer \textbf{vollständig bedingten Verteilung} gezogen, während alle anderen auf ihrem aktuellen Wert fixiert bleiben.}
+
+\definition{\textbf{Eigenschaften:}
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+    \item Spezialfall von Metropolis-Hastings mit Akzeptanzrate $\alpha = 1$ (keine Rejections).
+    \item Konvergiert gegen den gemeinsamen Posterior $p(x_1,\ldots,x_p\mid y)$.
+    \item \textbf{Vorteil:} Kein Tuning einer Proposal nötig; hohe Akzeptanzrate.
+    \item \textbf{Nachteil:} Langsames Mixing bei stark korrelierten Variablen (Chain ``hängt fest'').
+    \item Anwendung: Normal-Normal-Modell, Mixture Models, Hierarchische Bayes-Modelle.
+\end{itemize}}
 \newpage
