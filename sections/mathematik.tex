@@ -3,11 +3,11 @@
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Abbildungen und deren Eigenschaften}
 
-\definition{Eine \textbf{Abbildung} $f: X \to Y$ ordnet jedem Element $x$ aus dem \textbf{Definitionsbereich} $X$ genau ein Element $f(x)$ aus dem \textbf{Wertebereich} $Y$ zu. Diese Definition stellt zwei wesentliche Anforderungen: Es muss für jedes $x \in X$ ein Funktionswert definiert sein (\emph{Totalität}), und dieser Wert muss eindeutig sein. Eine Relation, die einem $x$ mehrere $y$-Werte zuordnet, ist keine Abbildung (z.\,B.\ ist die Kreisgleichung $x^2+y^2=1$ keine Abbildung).}
+\definition{Eine \textbf{Abbildung} $f: X \to Y$ ordnet jedem Element $x$ aus dem \textbf{Definitionsbereich} $X$ genau ein Element $f(x)$ aus dem \textbf{Wertebereich} $Y$ zu. Es muss für jedes $x \in X$ ein Funktionswert definiert sein, dieser muss eindeutig sein. Eine Relation, die einem $x$ mehrere $y$-Werte zuordnet, ist keine Abbildung (z.\,B.\ ist die Kreisgleichung $x^2+y^2=1$ keine Abbildung).}
 
 \textbf{Wichtige Teilmengen:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Bildmenge} $f(X) = \{ f(x) \mid x \in X \} \subseteq Y$: die Menge aller tatsächlich angenommenen Werte. Zu unterscheiden vom Wertebereich $Y$, der lediglich ein Zielraum ist -- $f(X)$ kann eine echte Teilmenge davon sein.
+    \item \textbf{Bildmenge} $f(X) = \{ f(x) \mid x \in X \} \subseteq Y$: die Menge aller tatsächlich angenommenen Werte. Untersschied zu Wertebereich $Y$, der nur ein Zielraum ist.
     \item \textbf{Kern} $\ker(f) = \{ x \in X \mid f(x) = 0 \}$: Urbildmenge der Null (relevant bei linearen Abbildungen). Bei linearen Abbildungen ist $\ker(f)$ ein Untervektorraum von $X$.
     \item \textbf{Urbild} $f^{-1}(B) = \{x \in X \mid f(x) \in B\}$ einer Menge $B \subseteq Y$ -- allgemein definiert, auch wenn $f$ nicht umkehrbar ist.
 \end{itemize}
@@ -20,26 +20,25 @@
     \item \textbf{Monoton wachsend:} $x_1 < x_2 \Rightarrow f(x_1) \leq f(x_2)$; streng monoton: $<$ statt $\leq$ (impliziert Injektivität auf $\mathbb{R}$). Streng monotone Abbildungen sind stets injektiv.
     \item \textbf{Fixpunkte:} $x^*$ mit $f(x^*) = x^*$; relevant z.\,B.\ bei Iterationsverfahren. Der \textbf{Banachsche Fixpunktsatz} garantiert Existenz und Eindeutigkeit eines Fixpunktes, wenn $f$ eine Kontraktion ist ($\|f(x)-f(y)\| \leq L\|x-y\|$ mit $L<1$).
     \item \textbf{Stetig:} $\lim_{x \to x_0} f(x) = f(x_0)$. Bei linearen Abbildungen zwischen normierten Räumen äquivalent zu Beschränktheit: $\|f(\bm{x})\| \leq C\|\bm{x}\|$ für ein $C > 0$.
-    \item \textbf{Konvex:} $f: X \to \mathbb{R}$ heißt konvex, wenn für alle $x_1, x_2 \in X$ und alle $\lambda \in [0,1]$ gilt:
-    \formel{f(\lambda x_1 + (1-\lambda)x_2) \leq \lambda f(x_1) + (1-\lambda)f(x_2)}
-    Geometrisch: Die Verbindungsgerade (Sekante) zweier Punkte liegt \emph{oberhalb} des Graphen. Strenge Konvexität gilt mit $<$. Eine Abbildung ist \textbf{konkav}, wenn $-f$ konvex ist. Für zweimal differenzierbare Funktionen gilt: $f$ konvex $\Leftrightarrow$ $f''(x) \geq 0$ (bzw.\ Hesse-Matrix $H_f \succeq 0$ im Mehrdimensionalen). Konvexität ist entscheidend für die Optimierung: Jedes lokale Minimum einer konvexen Funktion ist auch ein globales Minimum.
+    \item \textbf{Konvex:} $f: X \to \mathbb{R}$ heißt konvex, wenn für alle $x_1, x_2 \in X$ und alle $\lambda \in [0,1]$ gilt: $f(\lambda x_1 + (1-\lambda)x_2) \leq \lambda f(x_1) + (1-\lambda)f(x_2)$. Geometrisch: Die Verbindungsgerade (Sekante) zweier Punkte liegt \emph{oberhalb} des Graphen. Konvexität ist entscheidend für die Optimierung.
 \end{itemize}
 
 \textbf{Umkehrbarkeit:} Eine Abbildung ist genau dann umkehrbar, wenn sie bijektiv ist. Bei linearen Abbildungen $f(\bm{x}) = A\bm{x}$ äquivalent zu $\det(A) \neq 0$ (reguläre Matrix). Die Umkehrabbildung erfüllt $f^{-1} \circ f = \mathrm{id}_X$ und $f \circ f^{-1} = \mathrm{id}_Y$.
 
 \textbf{Zusammensetzung von Abbildungen:} Sind $f: X \to Y$ und $g: Y \to Z$ Abbildungen, so ist die Komposition $g \circ f: X \to Z$ mit $(g \circ f)(x) = g(f(x))$ definiert. Ist $f$ injektiv und $g$ injektiv, so ist auch $g \circ f$ injektiv; analoges gilt für Surjektivität und Bijektivität.
 
-\beispiel{$f(x) = x^2$ ist weder injektiv ($f(1)=f(-1)$) noch surjektiv (negative Werte fehlen). Eingeschränkt auf $[0,\infty)$ ist $f$ bijektiv mit $f^{-1}(y) = \sqrt{y}$. Die Exponentialfunktion $e^x: \mathbb{R} \to (0,\infty)$ ist bijektiv; ihr Kern $\ker(e^x)$ ist leer (da $e^x > 0$ für alle $x$), ihr Fixpunkt erfüllt $e^{x^*}=x^*$, was in $\mathbb{R}$ keine Lösung hat. Die Funktion $f(x)=x^2$ ist konvex ($f''=2>0$): die Sekante zwischen zwei Punkten liegt stets oberhalb der Parabel. Im Gegensatz dazu ist $g(x)=-x^2$ konkav.}
+\beispiel{$f(x) = x^2$ ist weder injektiv ($f(1)=f(-1)$) noch surjektiv (negative Werte fehlen). Eingeschränkte Definitionsmenge $[0,\infty)$ ist $f$ bijektiv mit $f^{-1}(y) = \sqrt{y}$ mit $f: [0,\infty) \to [0,\infty)$. Die Exponentialfunktion $e^x: \mathbb{R} \to (0,\infty)$ ist bijektiv; ihr Kern $\ker(e^x)$ ist leer (da $e^x > 0$ für alle $x$), ihr Fixpunkt erfüllt $e^{x^*}=x^*$, was in $\mathbb{R}$ keine Lösung hat.}
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Vektor- und Matrixnormen}
 
 \definition{Eine \textbf{Norm} $\|\cdot\|$ auf einem Vektorraum ist eine Abbildung nach $\mathbb{R}_{\geq 0}$, die folgende vier Axiome erfüllt: Nichtnegativität, Definitheit ($\|\bm{v}\|=0 \Leftrightarrow \bm{v}=\bm{0}$), Homogenität ($\|\alpha\bm{v}\|=|\alpha|\cdot\|\bm{v}\|$) und Dreiecksungleichung ($\|\bm{u}+\bm{v}\|\leq\|\bm{u}\|+\|\bm{v}\|$).}
 
 Eine Norm ist ein Größenmaß für Vektoren und verallgemeinert die intuitive Länge aus der Geometrie auf beliebige Vektorräume. Zwei Normen auf einem endlichdimensionalen Raum sind stets \textbf{äquivalent}: es existieren $c_1, c_2 > 0$ mit $c_1\|\bm{v}\|_a \leq \|\bm{v}\|_b \leq c_2\|\bm{v}\|_a$. Für den $\mathbb{R}^n$ gilt konkret: $\|\bm{v}\|_\infty \leq \|\bm{v}\|_2 \leq \|\bm{v}\|_1 \leq \sqrt{n}\|\bm{v}\|_2 \leq n\|\bm{v}\|_\infty$.
 
-\textbf{Norm vs.\ Metrik (Abstand):} Eine Norm induziert stets eine \textbf{Metrik} (Abstandsfunktion) durch $d(\bm{u},\bm{v}) = \|\bm{u}-\bm{v}\|$. Eine Metrik erfüllt: Nichtnegativität, Symmetrie ($d(x,y)=d(y,x)$), Definitheit ($d(x,y)=0 \Leftrightarrow x=y$) und Dreiecksungleichung ($d(x,z)\leq d(x,y)+d(y,z)$). Umgekehrt ist nicht jede Metrik durch eine Norm erzeugbar -- eine Norm misst die \emph{Größe eines Vektors}, eine Metrik den \emph{Abstand zweier Punkte}. Beide sind unabhängige Konzepte, die für Vektornormen aber zusammenfallen.
+\textbf{Norm vs.\ Metrik:} Eine Norm erzeugt eine Metrik durch $d(u,v)=\|u-v\|$. Eine Metrik erfüllt Nichtnegativität, Symmetrie, Definitheit und Dreiecksungleichung. Nicht jede Metrik stammt von einer Norm. Normen messen Vektorlängen, Metriken Abstände zwischen Punkten.
 
 \textbf{Vektornormen ($p$-Normen):}
 \formel{\|\bm{v}\|_p = \left(\sum_{i=1}^n |v_i|^p\right)^{1/p}}
@@ -69,6 +68,7 @@ Je größer die Kondition, desto stärker werden Eingabefehler verstärkt. Ortho
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Eigen- und Singulärwerte sowie Eigen- und Singulärvektoren und deren geometrische Interpretation}
 
 \definition{Ein \textbf{Eigenvektor} $\bm{e}_i \neq \bm{0}$ einer Matrix $A$ mit zugehörigem \textbf{Eigenwert} $\lambda_i \in \mathbb{C}$ erfüllt $A \cdot \bm{e}_i = \lambda_i \cdot \bm{e}_i$. Der Eigenvektor ändert durch Multiplikation mit $A$ seine Richtung nicht (bei $\lambda_i < 0$ wird die Orientierung umgekehrt); er wird lediglich um den Faktor $\lambda_i$ gestreckt oder gestaucht.}
@@ -100,6 +100,7 @@ $\det(A) > 0$: Orientierung bleibt erhalten; $\det(A) < 0$: Transformation enth�
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Eigenwertproblem und Diagonalisierung von quadratischen Matrizen}
 
 \textbf{Charakteristisches Polynom:} Gesucht sind Vektoren $x \neq 0$, die durch die lineare Abbildung nur gestreckt oder gestaucht werden: $Ax=\lambda x.$ Umformen liefert$(A-\lambda E)x=0.$ Da eine nichttriviale Lösung $x\neq0$ existieren soll, muss die Matrix $A-\lambda E$ singulär (singulär bedeutet $\det(A-\lambda E) = 0$) sein. Daher gilt als notwendige und hinreichende Bedingung
@@ -151,6 +152,7 @@ Für symmetrische Matrizen gilt der direkte Zusammenhang zu den Eigenwerten $A \
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Fuzzy-Logik, Fuzzy-Sets und unscharfe Zahlen}
 
 \textbf{Motivation -- Grenzen der klassischen Logik:} Die zweiwertige Logik stößt bei graduellen Übergängen an Grenzen (Sorites-Paradoxon: Wann ist ein Sandhaufen kein Sandhaufen?). Reale Konzepte wie warm, groß oder jung haben keine scharfen Grenzen. Zudem gilt \emph{ex falso quodlibet}: aus einer falschen Aussage folgt klassisch-logisch alles (vgl. Implikation).
@@ -193,38 +195,35 @@ Operationen führen zu \emph{wachsender Unschärfe} und sind nicht exakt umkehrb
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Modulare Arithmetik und Integer-Darstellung am Computer}
 
-\textbf{Zahlendarstellung:} Jede ganze Zahl ist in Basis $b \geq 2$ darstellbar: $(a_{n-1}\cdots a_1 a_0)_b = \sum_{i=0}^{n-1} a_i \cdot b^i$ mit Ziffern $a_i \in \{0,\ldots,b-1\}$. Basen: Dezimal ($b=10$), Binär ($b=2$, physikalisch EIN/AUS), Oktal ($b=8$, veraltet), Hexadezimal ($b=16$, Umrechnung in 4-Bit-Blöcken: $\text{A}=10,\ldots,\text{F}=15$). Umrechnung Dezimal $\to$ Binär: sukzessive Division durch 2, Reste rückwärts ablesen.
+\textbf{Zahlendarstellung:} Jede ganze Zahl ist in Basis $b \geq 2$ darstellbar: $(a_{n-1}\cdots a_1 a_0)_b = \sum_{i=0}^{n-1} a_i \cdot b^i$ mit Ziffern $a_i \in \{0,\ldots,b-1\}$.
 
 \textbf{Integer am Computer:} Mit $n$ Bits lassen sich $2^n$ Werte darstellen.
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Vorzeichenlos (unsigned):} Bereich $[0, 2^n-1]$.
-    \item \textbf{Zweierkomplement (signed):} Bereich $[-2^{n-1}, 2^{n-1}-1]$. Vorteil: Addition und Subtraktion funktionieren mit derselben Hardware wie für unsigned. Negation: alle Bits invertieren, 1 addieren.
-    \item Beispiel 16 Bit: $[-32768, 32767]$. \textbf{Overflow} tritt auf bei Verlassen dieses Bereichs ($17000+18000=35000$ ergibt fälschlicherweise $-30536$, da $35000 - 65536 = -30536$).
+    \item \textbf{Unsigned:} Bereich $[0, 2^n-1]$.
+    \item \textbf{Zweierkomplement (signed):} Bereich $[-2^{n-1}, 2^{n-1}-1]$; Addition/Subtraktion nutzt dieselbe Hardware wie unsigned. Negation: alle Bits invertieren, 1 addieren.
+    \item Beispiel 16\,Bit: $[-32768, 32767]$. \textbf{Overflow} bei Bereichsverlassen ($17000+18000=35000$ ergibt fälschlicherweise $-30536$, da $35000-65536=-30536$).
 \end{itemize}
 
 \textbf{Teilbarkeit und Primzahlen:} $m \mid n$ wenn $\exists k \in \mathbb{Z}: n=k\cdot m$. Primzahlen ($p \geq 2$ mit nur trivialen Teilern $1$ und $p$) sind die multiplikativen Bausteine der ganzen Zahlen: jede Zahl $\geq 2$ hat eine eindeutige Primfaktorzerlegung (\textbf{Fundamentalsatz der Arithmetik}).
 
 \definition{\textbf{Modulare Arithmetik:} $a \equiv b \pmod{n}$ wenn $n \mid (a-b)$, d.\,h.\ $a$ und $b$ lassen bei Division durch $n$ denselben Rest. Restklassen $\mathbb{Z}/n\mathbb{Z} = \{[0],[1],\ldots,[n-1]\}$ bilden den \textbf{Restklassenring}. Addition, Subtraktion und Multiplikation sind verträglich mit der Restklassenstruktur: $(a+b) \bmod n = ((a \bmod n) + (b \bmod n)) \bmod n$.}
 
-\textbf{Euklidischer Algorithmus:} Berechnet den größten gemeinsamen Teiler (ggT) durch wiederholte Division mit Rest: $\gcd(a,b) = \gcd(b, a \bmod b)$ bis Rest $=0$.
+\textbf{Euklidischer Algorithmus:} Berechnet den ggT durch wiederholte Division mit Rest: $\gcd(a,b) = \gcd(b, a \bmod b)$ bis Rest $= 0$. Laufzeit: $\mathcal{O}(\log \min(a,b))$.
 
-\beispiel{$\gcd(48, 18)$: $48 = 2\cdot18 + 12$; $18 = 1\cdot12 + 6$; $12 = 2\cdot6 + 0 \;\Rightarrow\; \gcd(48,18) = 6$.}
+\beispiel{$\gcd(48,18)$: $48=2\cdot18+12$;\; $18=1\cdot12+6$;\; $12=2\cdot6+0 \;\Rightarrow\; \gcd(48,18)=6$.}
 
-Laufzeit: $\mathcal{O}(\log \min(a,b))$. Der \textbf{erweiterte euklidische Algorithmus} liefert zusätzlich Bézout-Koeffizienten $\alpha,\beta \in \mathbb{Z}$ mit $\alpha a + \beta b = \gcd(a,b)$ -- wichtig für die Berechnung modularer Inverser.
+Der \textbf{erweiterte euklidische Algorithmus} liefert zusätzlich Bézout-Koeffizienten $\alpha,\beta \in \mathbb{Z}$ mit $\alpha a + \beta b = \gcd(a,b)$ -- wichtig für modulare Inverse.
 
 \textbf{Multiplikatives Inverses:} Gesucht ist $b$ mit $a \cdot b \equiv 1 \pmod{n}$. Dies existiert genau dann, wenn $\gcd(a,n)=1$ (Koprimalität); $b$ erhält man aus den Bézout-Koeffizienten des erweiterten euklidischen Algorithmus.
 
-\beispiel{$\gcd(3, 7) = 1$, also existiert das Inverse von 3 mod 7. Erweiterter euklidischer Algorithmus liefert $3\cdot5 = 15 = 2\cdot7+1 \;\Rightarrow\; 3\cdot5 \equiv 1 \pmod{7}$, also ist $3^{-1} \equiv 5 \pmod 7$.}
+\beispiel{$\gcd(3,7)=1$, also existiert $3^{-1} \bmod 7$. Erweiterter eukl. Alg.: $3\cdot5=15=2\cdot7+1 \;\Rightarrow\; 3\cdot5\equiv1\pmod{7}$, also $3^{-1}\equiv 5\pmod{7}$.}
 
-Bei Primzahl $p$ hat jedes $a \not\equiv 0$ ein Inverses -- $\mathbb{Z}/p\mathbb{Z}$ ist ein \textbf{Körper}. Anwendung: RSA-Kryptographie nutzt Modularithmetik mit großen Primzahlen.
+Bei Primzahl $p$ hat jedes $a \not\equiv 0$ ein Inverses -- $\mathbb{Z}/p\mathbb{Z}$ ist ein \textbf{Körper}. Anwendung: RSA-Kryptographie nutzt Modulararithmetik mit großen Primzahlen.
 
-\textbf{Chinesischer Restsatz (CRT):} Ist $n = n_1 \cdot n_2 \cdots n_k$ mit paarweise koprimen $n_i$, so lässt sich ein Gleichungssystem der Form $x \equiv a_i \pmod{n_i}$ eindeutig modulo $n$ lösen.
+\textbf{Chinesischer Restsatz (CRT):} Ist $n = n_1 \cdots n_k$ mit paarweise koprimen $n_i$, so lässt sich $x \equiv a_i \pmod{n_i}$ eindeutig modulo $n$ lösen. Formal: $\mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}/n_1\mathbb{Z} \times \cdots \times \mathbb{Z}/n_k\mathbb{Z}$, was parallele Berechnung in kleineren Ringen ermöglicht.
 
-\beispiel{Gesucht: $x \equiv 2 \pmod{3}$ und $x \equiv 3 \pmod{5}$. Da $\gcd(3,5)=1$: eindeutige Lösung mod 15. Probe: $x = 8$: $8 = 2\cdot3+2\;\checkmark$, $8 = 1\cdot5+3\;\checkmark$.}
+\beispiel{$x \equiv 2 \pmod{3}$, $x \equiv 3 \pmod{5}$: Da $\gcd(3,5)=1$, eindeutige Lösung mod~15. Probe: $x=8$:\; $8=2\cdot3+2\;\checkmark$,\; $8=1\cdot5+3\;\checkmark$.}
 
-Formal gilt $\mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}/n_1\mathbb{Z} \times \cdots \times \mathbb{Z}/n_k\mathbb{Z}$, was parallele Berechnung in kleineren Ringen ermöglicht.
-
-\textbf{Hamming-Distanz:} $d_H(b_1,b_2)$ = Anzahl unterschiedlicher Stellen zweier Bitfolgen = Gewicht $w(b_1 \oplus b_2)$. Grundlage fehlererkennender und fehlerkorrigierender Codes: Ein Code mit minimaler Hamming-Distanz $d$ kann bis zu $d-1$ Fehler erkennen und $\lfloor(d-1)/2\rfloor$ Fehler korrigieren. Paritätsbit (ASCII): $d=2$ (erkennt 1-Bit-Fehler). Hamming-Code $(7,4)$: $d=3$ (korrigiert 1-Bit-Fehler).
 
 \begin{figure}[H]
     \centering
@@ -619,9 +618,9 @@ Ein \textbf{notwendiges und hinreichendes} Kriterium für Hamiltonkreise ist bis
 \subsection{Grundtypen von Netzwerken, Bipartität und Planarität}
 
 \textbf{Bekannte Grundtypen schlichter Netzwerke:}
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.95\textwidth]{assets/network_types.png}
+    \includegraphics[width=0.75\textwidth]{assets/network_types.png}
 \end{figure}
 
 \textbf{Wurzelbäume:} Tree Network mit einem ausgezeichneten Knoten (\textbf{Wurzel}, muss nicht oben sein). Terminologie: \textbf{Vorgänger} (näher an Wurzel), \textbf{Nachfolger} (weiter entfernt). Darstellung: Vorgänger stets oberhalb der Nachfolger. \textbf{Binärkodierung:} Baum von der Wurzel nach links unten umwandern; $1$ = Abstieg, $0$ = Aufstieg. Gleicher Baum kann unterschiedlich kodiert sein.

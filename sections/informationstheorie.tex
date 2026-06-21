@@ -17,6 +17,11 @@
     \item \textbf{Verbinde:} Zwei sortierte Hälften ordnungserhaltend zusammenführen (merge). Laufzeit: $\mathcal{O}(n \log n)$.
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{assets/mergesort.png}
+\end{figure}
+
 \beispiel{\textbf{Mergesort konkret:} Gegeben sei die Liste $[5, 2, 8, 1, 9, 3]$.
 \begin{enumerate}[leftmargin=2em]
     \item \textbf{Teile:} $[5, 2, 8]$ und $[1, 9, 3]$, dann weiter: $[5]$, $[2, 8]$, $[1]$, $[9, 3]$ usw.
@@ -55,16 +60,12 @@ Der optimale Wert eines Zustands $s$ ergibt sich als Funktion der optimalen Wert
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.55\textwidth]{assets/mergesort.png}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.55\textwidth]{assets/dyn_prog.png}
+    \includegraphics[width=0.45\textwidth]{assets/dyn_prog.png}
 \end{figure}
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Informationsentropie: Definition, Bedeutung, Einsatzmöglichkeiten}
 
 \textbf{Informationsgehalt:} Für ein Ereignis mit Wahrscheinlichkeit $p_i$ ist der Informationsgehalt:
@@ -102,6 +103,7 @@ Zum Vergleich: Bei Gleichverteilung ($p_i = \frac{1}{4}$) wäre $H_{\max} = \log
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Kreuzentropie und KL-Divergenz}
 
 Betrachte zwei Wahrscheinlichkeitsverteilungen $p$ (wahre/empirische Verteilung) und $q$ (Modellverteilung) auf einem Ereignisraum $X$.
@@ -146,6 +148,7 @@ Kodiert man Symbole aus $p$ mit dem für $q$ optimierten Code, braucht man im Mi
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Fehlererkennende und -korrigierende Codes}
 
 \textbf{Motivation:} Bei jeder Datenübertragung (WLAN, Glasfaser, DVD-Lesen, manuelle Eingabe) können Fehler auftreten. Mit systematischen Codes lassen sich typische Fehler erkennen oder sogar korrigieren, ohne die gesamte Übertragung zu wiederholen.
@@ -181,6 +184,7 @@ $145 \bmod 11 = 2$ (da $11 \cdot 13 = 143$) $\Rightarrow$ Prüfziffer ist \textb
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Strategien zum Umgang mit fehlenden Daten, Gibbs-Sampling und Imputation}
 
 \textbf{Klassifikation fehlender Daten (nach Rubin):}
@@ -201,11 +205,6 @@ $145 \bmod 11 = 2$ (da $11 \cdot 13 = 143$) $\Rightarrow$ Prüfziffer ist \textb
 
     \item \textbf{Predictive Mean Matching (PMM):} Findet aus den beobachteten Daten die $k$ nächsten Nachbarn anhand ihrer vorhergesagten Werte und imputiert zufällig einen deren tatsächlich beobachteten Werte. Vorteil: Imputierte Werte liegen stets im realistischen Wertebereich (z.\,B.\ keine negativen Altersangaben).
 \end{enumerate}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.55\textwidth]{assets/imputors.png}
-\end{figure}
 
 \definition{\textbf{Gibbs-Sampling:} Ein Markov-Chain-Monte-Carlo (MCMC)-Verfahren zur Erzeugung von Stichproben aus einer komplexen multivariaten Verteilung $p(\bm{x})$, wenn die direkte Stichprobenziehung schwierig ist, aber die \emph{bedingten Randverteilungen} $p(x_j | \bm{x}_{-j})$ bekannt und leicht zu samplen sind.
 
@@ -240,8 +239,14 @@ Gibbs-Sampling generiert abwechselnd: $x^{(t+1)} \sim p(x | y^{(t)})$, dann $y^{
 
 \textbf{Vorteil gegenüber Einfachimputation:} Die Between-Varianz (zweiter Term) spiegelt die Unsicherheit über den richtigen imputierten Wert wider. Einfachimputation ignoriert diese Quelle -- Konfidenzintervalle werden zu schmal, $p$-Werte zu klein.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{assets/imputors.png}
+\end{figure}
+
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Grundbegriffe der Kryptographie und des Hashings}
 
 \textbf{Ziel der Kryptographie:} Sichere Übertragung von Informationen, sodass Lauscher (Eve) die Nachricht auch mit Zugang zum verschlüsselten Text nicht verstehen können. Zentral ist das \textbf{Kerckhoffs'sche Prinzip}: Die Sicherheit hängt nur vom geheimen Schlüssel ab, nicht von der Geheimhaltung des Algorithmus selbst (security through transparency, nicht obscurity).

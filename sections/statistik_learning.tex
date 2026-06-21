@@ -76,7 +76,6 @@ Die Wahl des geeigneten Maßes hängt primär vom \emph{Skalenniveau} ab.
   Pearson $r$ \\
 \bottomrule
 \end{tabular}
-\caption*{Übersicht: zulässige Maße je Skalenniveau (jede Zelle gilt zusätzlich zu den Maßen links davon, außer wo gesondert angegeben)}
 \end{table}
 
 \medskip
@@ -352,7 +351,7 @@ Kombination mit WH: 3 Früchte aus 5 Sorten: $\binom{7}{3} = 35$.
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{$H_0$ (Nullhypothese):} Konservative Standardannahme, meist kein Effekt.
     \item \textbf{$H_1$ (Alternativhypothese):} Die zu prüfende Gegenhypothese.
-    \item \textbf{Einfach vs. zusammengesetzt:} Einzelner Parameterwert ($H_0: \mu = 10$) vs. Wertebereich ($H_0: \mu \leq 10$).
+    \item \textbf{Einzelner Parameterwert} ($H_0: \mu = 10$) vs. \textbf{Wertebereich} ($H_0: \mu \leq 10$).
     \item \textbf{Einseitig vs. zweiseitig:} $H_1: \mu > \mu_0$ bzw. $H_1: \mu < \mu_0$ vs. $H_1: \mu \neq \mu_0$. Einseitige Tests nur bei klar vorherbestimmter Effektrichtung gerechtfertigt.
 \end{itemize}
 
@@ -360,7 +359,7 @@ Kombination mit WH: 3 Früchte aus 5 Sorten: $\binom{7}{3} = 35$.
 \begin{enumerate}[leftmargin=1.5em]
     \item $H_0$, $H_1$ und Signifikanzniveau $\alpha$ festlegen.
     \item Teststatistik $t_{\text{obs}}$ aus der Stichprobe berechnen (z.\,B. $z$-, $t$-, $\chi^2$-, $F$-Statistik).
-    \item Kritischen Bereich (Ablehnungsbereich) basierend auf $\alpha$ und der Verteilung von $T$ unter $H_0$ bestimmen.
+    \item Kritischen Bereich basierend auf $\alpha$ und der Verteilung von $T$ unter $H_0$ bestimmen.
     \item Entscheidung: $t_{\text{obs}}$ im Ablehnungsbereich $\Rightarrow$ $H_0$ ablehnen; sonst $H_0$ nicht ablehnen.
 \end{enumerate}
 
@@ -369,22 +368,9 @@ $$p = P(T \geq t_{\text{obs}} \mid H_0 \text{ wahr})$$
 Entscheidungsregel: $p < \alpha \Rightarrow H_0$ ablehnen (Ergebnis statistisch signifikant); $p \geq \alpha \Rightarrow H_0$ nicht ablehnen. \textbf{Achtung:} Der p-Wert ist \emph{nicht} die Wahrscheinlichkeit, dass $H_0$ wahr ist!}
 
 \definition{\textbf{Fehlertypen und Teststärke:}}
-\begin{center}
-\small
-\begin{tabular}{|l|c|c|}
-\hline
- & $H_0$ tatsächlich wahr & $H_0$ tatsächlich falsch \\
-\hline
-$H_0$ nicht ablehnen & Korrekt ($1-\alpha$) & \textbf{Fehler II.\ Art} ($\beta$) \\
-\hline
-$H_0$ ablehnen & \textbf{Fehler I.\ Art} ($\alpha$) & Korrekt (Power $1-\beta$) \\
-\hline
-\end{tabular}
-\end{center}
-
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Fehler I.\ Art} ($\alpha$): $H_0$ abgelehnt, obwohl wahr -- \emph{Fehlalarm}. Kontrolliert durch die Wahl von $\alpha$ (üblich: $0{,}05$).
-    \item \textbf{Fehler II.\ Art} ($\beta$): $H_0$ nicht abgelehnt, obwohl $H_1$ wahr -- \emph{falsch negativ}. Hängt von Effektgröße und $n$ ab.
+    \item \textbf{Fehler I.\ Art} ($\alpha$): $H_0$ abgelehnt, obwohl wahr. Kontrolliert durch die Wahl von $\alpha$ (üblich: $0{,}05$).
+    \item \textbf{Fehler II.\ Art} ($\beta$): $H_0$ nicht abgelehnt, obwohl $H_1$ wahr. Hängt von Effektgröße und $n$ ab.
     \item \textbf{Teststärke (Power)} $= 1 - \beta$: Wahrscheinlichkeit, $H_0$ richtig abzulehnen.
     \item \textbf{Tradeoff:} $\alpha \downarrow$ führt zu $\beta \uparrow$. Beide gleichzeitig reduzieren $\Rightarrow$ größere Stichprobe nötig.
 \end{itemize}
@@ -394,16 +380,7 @@ $H_0$ ablehnen & \textbf{Fehler I.\ Art} ($\alpha$) & Korrekt (Power $1-\beta$) 
 
 \noindent Eine Maschine soll Schrauben mit $\mu_0 = 50\,\text{mm}$ produzieren. Aus $n = 20$ Schrauben ergibt sich $\bar{x} = 50{,}8\,\text{mm}$ und $s = 1{,}5\,\text{mm}$. Ist die Maschine falsch eingestellt?
 
-\begin{enumerate}[leftmargin=1.5em]
-    \item \textbf{Hypothesen:} $H_0: \mu = 50$ vs. $H_1: \mu \neq 50$ (zweiseitig); $\alpha = 0{,}05$.
-
-    \item \textbf{Teststatistik:}
-    $t_{\text{obs}} = \dfrac{\bar{x} - \mu_0}{s/\sqrt{n}} = \dfrac{50{,}8 - 50}{1{,}5/\sqrt{20}} \approx 2{,}39$
-
-    \item \textbf{Kritischer Bereich:} $t_{19;\,0{,}025} \approx 2{,}093$ (zweiseitig, $df=19$). Ablehnungsbereich: $|t_{\text{obs}}| > 2{,}093$.
-
-    \item \textbf{Entscheidung:} $2{,}39 > 2{,}093$ $\Rightarrow$ $H_0$ ablehnen; p-Wert $\approx 0{,}027 < 0{,}05$.
-\end{enumerate}
+Für den zweiseitigen t-Test mit \(H_0:\mu=50\) und \(H_1:\mu\neq 50\) bei \(\alpha=0{,}05\) ergibt sich die Teststatistik \(t_{\text{obs}} \approx 2{,}39\). Da dieser Wert den kritischen Wert \(t_{19;0{,}025}\approx 2{,}093\) überschreitet und der p-Wert (\(\approx 0{,}027\)) kleiner als \(0{,}05\) ist, wird die Nullhypothese verworfen. Der Mittelwert weicht somit signifikant von 50 ab.
 
 \noindent\textbf{Fehlertypen am Beispiel:}
 \begin{itemize}[leftmargin=1.5em]
@@ -574,24 +551,13 @@ Die \textbf{Korrelationsmatrix} $\mathbf{R}$ enthält $\rho_{ij}$ auf den Off-Di
 
 \definition{\textbf{Modell:} $y_i = \beta_0 + \beta_1 x_i + \varepsilon_i$ mit $\varepsilon_i \sim N(0, \sigma^2)$.
 
-\textbf{Annahmen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item Linearität: $\mathbb{E}[Y|X=x] = \beta_0 + \beta_1 x$
-    \item Unabhängigkeit der Fehler
-    \item Homoskedastizität (konstante Fehlervarianz)
-    \item Normalverteilung der Fehler (nur für Inferenz/Tests)
-\end{itemize}
-}
+\textbf{Annahmen:} Linearität: $\mathbb{E}[Y|X=x] = \beta_0 + \beta_1 x$, Unabhängigkeit der Fehler, Homoskedastizität (konstante Fehlervarianz), Normalverteilung der Fehler (nur für Inferenz/Tests).}
 
-\textbf{OLS-Schätzer} (Minimierung von $\sum_i (y_i - \hat{y}_i)^2$):
-$$\hat{\beta}_1 = \frac{s_{xy}}{s_x^2} = r_{xy}\frac{s_y}{s_x}, \qquad \hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}$$
+\textbf{OLS-Schätzer:} \(\hat{\beta}_1=\frac{s_{xy}}{s_x^2}=r_{xy}\frac{s_y}{s_x}\), \(\hat{\beta}_0=\bar y-\hat{\beta}_1\bar x\).
 
-\textbf{Varianzzerlegung:}
-$$ \underbrace{\text{TSS}}_{\text{Total Sum of Squares}} = \underbrace{\text{ESS}}_{\text{Explained Sum of Squares}} + \underbrace{\text{RSS}}_{\text{Residual Sum of Squares}} $$ d.\,h. $$\sum(y_i-\bar{y})^2 = \sum(\hat{y}_i-\bar{y})^2 + \sum e_i^2.$$
+\textbf{Varianzzerlegung:} \(\text{TSS}=\text{ESS}+\text{RSS}\), d.\,h. \(\sum (y_i-\bar y)^2=\sum (\hat y_i-\bar y)^2+\sum e_i^2\).
 
-\textbf{Bestimmtheitsmaß:}
-$$R^2 = \frac{\text{ESS}}{\text{TSS}} = 1 - \frac{\text{RSS}}{\text{TSS}} \in [0,1].$$
-Anteil der durch das Modell erklärten Variabilität. Für SLR: $R^2 = r_{xy}^2$.
+\textbf{Bestimmtheitsmaß:} \(R^2=\frac{\text{ESS}}{\text{TSS}}=1-\frac{\text{RSS}}{\text{TSS}}\in[0,1]\), Anteil der erklärten Variabilität; in der SLR gilt \(R^2=r_{xy}^2\).
 
 \subsubsection*{Multiple Lineare Regression (MLR)}
 
@@ -631,6 +597,7 @@ $$p_i = \frac{1}{1 + e^{-(\beta_0 + \boldsymbol{\beta}^T\mathbf{x}_i)}}$$
 
 
 % ============================================================
+\newpage
 
 \subsection{Polynomregression, Splines und additive Modelle}
 % ============================================================
@@ -826,7 +793,7 @@ Feature Importance & Einfach & MDI oder Permutation \\
 %============================================================
 \newpage
 
-subsection{Linear Discriminant Analysis (LDA) und Quadratic Discriminant Analysis (QDA)}
+\subsection{Linear Discriminant Analysis (LDA) und Quadratic Discriminant Analysis (QDA)}
 % ============================================================
  
 \definition{\textbf{Klassifikations-Setting:} Datenmatrix $\mathbf{X}$ ($n \times p$), kategoriale Response $y \in \{1,\ldots,K\}$. Gesucht: eine Regel, die einer neuen Beobachtung $\mathbf{x}$ die wahrscheinlichste Klasse zuweist.
@@ -944,6 +911,11 @@ Keine Verteilungsannahmen & Ausreißer nah am Testpunkt schädlich \\
     -- berücksichtigt Kovarianzstruktur und Skalierungen; keine separate Standardisierung nötig. Punkte gleicher Mahalanobis-Distanz bilden Ellipsen (vs. Kreise bei Euklidisch). Nachteil: erfordert invertierbare $\hat{\boldsymbol{\Sigma}}$, instabil bei $p > n$.
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{assets/mahalanobis_distance.png}
+\end{figure}
+
 \noindent\textbf{Ähnlichkeitsmaße:}
 
 \begin{itemize}[leftmargin=1.5em]
@@ -958,13 +930,6 @@ Keine Verteilungsannahmen & Ausreißer nah am Testpunkt schädlich \\
     \item \textbf{Dice-Koeffizient:}
     $S_{\text{Dice}} = \frac{2|A \cap B|}{|A| + |B|} = \frac{2\mathbf{x}_A^T\mathbf{x}_B}{\mathbf{x}_A^T\mathbf{1} + \mathbf{x}_B^T\mathbf{1}}$
     -- gewichtet gemeinsame Einsen stärker als Tanimoto. Zusammenhang: $S_{\text{Dice}} = \frac{2t_{AB}}{1+t_{AB}}$. Einsatz in NLP und Biologie.
-\end{itemize}
-
-\noindent\textbf{Korrelationsbasierte Distanzmaße:} Für $p$-dimensionale Vektoren $\mathbf{x}_A$, $\mathbf{x}_B$ (Beobachtungen als Vektoren über Variablen):
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Pearson-Distanz:} $d = 1 - r_{\text{Pearson}}$ -- misst lineare Abhängigkeit; invariant gegenüber linearen Transformationen.
-    \item \textbf{Spearman-Distanz:} $d = 1 - r_{\text{Spearman}}$ -- rangbasiert, robust gegenüber Ausreißern und monoton nichtlinearen Zusammenhängen.
-    \item \textbf{Kendall-Distanz:} $d = 1 - r_{\text{Kendall}}$ -- basiert auf konkordanten/diskordanten Paaren.
 \end{itemize}
 
 \noindent\textbf{Distanzmaße für ordinale und nominale Variablen:}
@@ -1059,6 +1024,8 @@ Zusatzparameter & -- & -- & Fuzzifikator $m$ \\
 $$f(\mathbf{x}) = \sum_{k=1}^{K} \pi_k\, f_k(\mathbf{x} \mid \boldsymbol{\mu}_k, \boldsymbol{\Sigma}_k)$$
 mit Mischungsgewichten $\pi_k > 0$, $\sum_k \pi_k = 1$. Im Gegensatz zu K-means liefert dieser Ansatz ein probabilistisches Framework mit weichen Zuordnungen und statistischer Inferenz (Schätzung von Modellparametern und Clustor-Wahrscheinlichkeiten).}
 
+\textbf{Unterschied zu Fuzzy C-Means:} Fuzzy C-Means ist ein distanzbasierter Optimierungsansatz mit weichen Zugehörigkeitsgraden. Model-based Clustering basiert dagegen auf einem Wahrscheinlichkeitsmodell; die Clusterzuordnungen sind posteriore Wahrscheinlichkeiten einer Mischungsverteilung.
+
 Die \textbf{multivariate Normalverteilung} $N_p(\boldsymbol{\mu}, \boldsymbol{\Sigma})$ hat die Dichte:
 $$f(\mathbf{x}) = \frac{1}{(2\pi)^{p/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\!\left(-\tfrac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T\boldsymbol{\Sigma}^{-1}(\mathbf{x}-\boldsymbol{\mu})\right)$$
 
@@ -1072,6 +1039,11 @@ $$f(\mathbf{x}) = \frac{1}{(2\pi)^{p/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\!\left(
 \end{enumerate}}
 
 \textbf{Vorteile:} Probabilistisches Framework; weiche Zuordnungen; Modellwahl via AIC/BIC möglich. \textbf{Nachteile:} Rechenaufwendiger als K-means; Normalverteilungsannahme nicht immer realistisch; Kovarianzmatrizen instabil bei $p \gg n$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{assets/model_based_clustering.png}
+\end{figure}
 
 % ============================================================
 \newpage
@@ -1099,46 +1071,46 @@ Werte nahe 1 deuten auf klare, gut getrennte Cluster hin.}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/dendogram.png}
+    \includegraphics[width=0.95\textwidth]{assets/dendogram.png}
 \end{figure}
 
 % ============================================================
 \newpage
 
 \subsection{Bedingte Wahrscheinlichkeit und Bayes-Theorem}
-% % ============================================================
+% ============================================================
 
-% \definition{\textbf{Bedingte Wahrscheinlichkeit:} Wahrscheinlichkeit von $A$ unter der Bedingung, dass $B$ bereits eingetreten ist:
-% $$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0$$
-% Interpretation: Das Eintreten von $B$ schränkt den Stichprobenraum auf $B$ ein -- $P(A\mid B)$ ist eine Neueinschätzung von $P(A)$ unter dieser Information.}
+\definition{\textbf{Bedingte Wahrscheinlichkeit:} Wahrscheinlichkeit von $A$ unter der Bedingung, dass $B$ bereits eingetreten ist:
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0$$
+Interpretation: Das Eintreten von $B$ schränkt den Stichprobenraum auf $B$ ein -- $P(A\mid B)$ ist eine Neueinschätzung von $P(A)$ unter dieser Information.}
 
-% \textbf{Produktregel (Kettenregel):} $P(A \cap B) = P(A \mid B)\cdot P(B) = P(B \mid A)\cdot P(A)$; für mehrere Ereignisse: $P(A \cap B \cap C) = P(A)\cdot P(B\mid A)\cdot P(C \mid A \cap B)$.
+\textbf{Produktregel (Kettenregel):} $P(A \cap B) = P(A \mid B)\cdot P(B) = P(B \mid A)\cdot P(A)$; für mehrere Ereignisse: $P(A \cap B \cap C) = P(A)\cdot P(B\mid A)\cdot P(C \mid A \cap B)$.
 
-% \textbf{Satz der totalen Wahrscheinlichkeit:} Für eine Partition $B_1,\ldots,B_K$ von $\Omega$:
-% $$P(A) = \sum_{k=1}^{K} P(A \mid B_k)\cdot P(B_k)$$
+\textbf{Satz der totalen Wahrscheinlichkeit:} Für eine Partition $B_1,\ldots,B_K$ von $\Omega$:
+$$P(A) = \sum_{k=1}^{K} P(A \mid B_k)\cdot P(B_k)$$
 
-% \definition{\textbf{Satz von Bayes:}
-% $$P(A \mid B) = \frac{P(B \mid A)\cdot P(A)}{P(B)} = \frac{P(B \mid A)\cdot P(A)}{\sum_k P(B \mid A_k)\cdot P(A_k)}.$$
-% Der Satz erlaubt, ``rückwärts'' zu schließen: von bekanntem $P(B|A)$ auf gesuchtes $P(A|B)$. Die vier Terme: }
-% \begin{itemize}
-%     \item \textbf{Posterior} $P(A|B)$ (aktualisiertes Wissen nach Beobachtung), 
-%     \item \textbf{Likelihood} $P(B|A)$,
-%     \item \textbf{Prior} $P(A)$ (Vorwissen),
-%     \item \textbf{Evidenz} $P(B)$ (Normalisierungskonstante).
-% \end{itemize}
+\definition{\textbf{Satz von Bayes:}
+$$P(A \mid B) = \frac{P(B \mid A)\cdot P(A)}{P(B)} = \frac{P(B \mid A)\cdot P(A)}{\sum_k P(B \mid A_k)\cdot P(A_k)}.$$
+Der Satz erlaubt, ``rückwärts'' zu schließen: von bekanntem $P(B|A)$ auf gesuchtes $P(A|B)$. Die vier Terme: }
+\begin{itemize}
+    \item \textbf{Posterior} $P(A|B)$ (aktualisiertes Wissen nach Beobachtung), 
+    \item \textbf{Likelihood} $P(B|A)$,
+    \item \textbf{Prior} $P(A)$ (Vorwissen),
+    \item \textbf{Evidenz} $P(B)$ (Normalisierungskonstante).
+\end{itemize}
 
-% \textbf{Beispiel -- Medizinischer Test:} Prävalenz 1\%, Sensitivität 95\%, Spezifität 90\%.
-% $$P(+) = 0{,}95 \cdot 0{,}01 + 0{,}10 \cdot 0{,}99 = 0{,}1085$$
-% $$P(\text{krank}\mid +) = \frac{0{,}95 \cdot 0{,}01}{0{,}1085} \approx 8{,}8\%$$
-% Trotz gutem Test: ein positives Ergebnis bedeutet nur ca.\ 9\% Krankheitswahrscheinlichkeit -- die \textbf{Base-Rate Fallacy} (seltene Erkrankungen erzeugen viele falsch-positive Befunde).
+\textbf{Beispiel -- Medizinischer Test:} Prävalenz 1\%, Sensitivität 95\%, Spezifität 90\%.
+$$P(+) = 0{,}95 \cdot 0{,}01 + 0{,}10 \cdot 0{,}99 = 0{,}1085$$
+$$P(\text{krank}\mid +) = \frac{0{,}95 \cdot 0{,}01}{0{,}1085} \approx 8{,}8\%$$
+Trotz gutem Test: ein positives Ergebnis bedeutet nur ca.\ 9\% Krankheitswahrscheinlichkeit -- die \textbf{Base-Rate Fallacy} (seltene Erkrankungen erzeugen viele falsch-positive Befunde).
 
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.75\textwidth]{assets/bed_wsk.png}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/bed_wsk.png}
+\end{figure}
 
-% % ============================================================
-% \newpage
+% ============================================================
+\newpage
 
 \subsection{Probabilistische Graphische Modelle}
 % ============================================================
@@ -1165,7 +1137,7 @@ mit Smoothing-Parameter $\alpha$ (typisch $\alpha=1$) und $m$ möglichen Werten 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/bed_unabhängigkeit.png}
+    \includegraphics[width=0.65\textwidth]{assets/bed_unabhängigkeit.png}
 \end{figure}
 
 % ============================================================
@@ -1338,7 +1310,7 @@ AUC & Fläche unter ROC & Ranking-Qualität & Allgemeiner Vergleich \\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/roc_curve.png}
+    \includegraphics[width=0.30\textwidth]{assets/roc_curve.png}
 \end{figure}
 % ============================================================
 \newpage
@@ -1442,11 +1414,11 @@ Stabiler als Hold-out, nutzt alle Daten. Typisch: $k=5$ oder $k=10$. LOOCV ($k=n
 
 \definition{\textbf{Zeitreihe} $(y_t)_{t=1}^T$: Realisierung eines stochastischen Prozesses $(Y_t)$ in fester zeitlicher Ordnung. Beobachtungen sind zeitlich \emph{abhängig} (nicht i.i.d.), typischerweise äquidistant diskret.}
 
-\definition{\textbf{Stationarität (schwach):} Konstanter Erwartungswert $E(Y_t)=\mu$, konstante Varianz $\operatorname{Var}(Y_t)=\sigma^2$, und Autokovarianz $\operatorname{Cov}(Y_t,Y_{t+h})$ hängt nur vom Lag $h$ ab. Voraussetzung für ARMA-Modelle; Prüfung via ACF.}
+\definition{\textbf{Stationarität (schwach):} Konstanter Erwartungswert $E(Y_t)=\mu$, konstante Varianz $\operatorname{Var}(Y_t)=\sigma^2$, und Autokovarianz $\operatorname{Cov}(Y_t,Y_{t+h})$ hängt nur vom Lag $h$ ab, nicht vom Zeitpunkt $t$ selbst. Anschaulich: Die Zeitreihe sieht zu jedem Zeitpunkt statistisch "gleich" aus -- kein Trend, keine sich ändernde Streuung. Stationarität ist Voraussetzung für ARMA-Modelle; Prüfung via ACF oder Trendvisualisierung.}
 
-\definition{\textbf{ACF \& PACF:} Empirische Autokorrelation zum Lag $\omega$:
+\definition{\textbf{ACF \& PACF:} Die \textbf{Autokorrelationsfunktion (ACF)} zeigt, wie ähnlich sich die Zeitreihe ist, wenn man sie mit sich selbst um $\omega$ Zeitschritte verschoben vergleicht -- also: hängt $y_t$ noch mit $y_{t-\omega}$ zusammen?
 $$r_\omega = \frac{\sum_{t=\omega+1}^{T}(y_{t-\omega}-\bar{y})(y_t-\bar{y})}{\sum_{t=1}^{T}(y_t-\bar{y})^2}, \quad -1 \le r_\omega \le 1$$
-Langsam abfallende ACF $\Rightarrow$ nicht-stationär; saisonale Spitzen $\Rightarrow$ periodische Struktur. \textbf{PACF} misst Korrelation bei Lag $\omega$ nach Herauspartialisieren aller dazwischenliegenden Lags -- Faustregel: PACF bricht bei Lag $p$ ab $\Rightarrow$ AR($p$); ACF bricht bei Lag $q$ ab $\Rightarrow$ MA($q$).}
+Fällt die ACF nur langsam ab, ist die Reihe vermutlich nicht stationär (Trend); saisonale Spitzen zeigen periodische Muster. Die \textbf{partielle Autokorrelation (PACF)} fragt dasselbe, blendet aber den Effekt der Lags dazwischen aus -- sie zeigt nur den \emph{direkten} Zusammenhang zwischen $Y_t$ und $Y_{t-\omega}$. \textbf{Faustregel zur Modellwahl:} Bricht die PACF nach Lag $p$ ab $\Rightarrow$ AR($p$); bricht die ACF nach Lag $q$ ab $\Rightarrow$ MA($q$).}
 
 \definition{\textbf{Komponentenmodell:} Zerlegung in Trend $\mu_t$, Saisonkomponente $s_t$, Rest $\varepsilon_t$.
 \begin{itemize}[leftmargin=1.5em,noitemsep]
@@ -1455,17 +1427,16 @@ Langsam abfallende ACF $\Rightarrow$ nicht-stationär; saisonale Spitzen $\Right
 \end{itemize}
 Trendschätzung via \textbf{Moving Average} (gerade Periode $p=2q$): $\hat{\mu}_t = \tfrac{1}{p}\bigl(\tfrac{1}{2}y_{t-q}+y_{t-q+1}+\cdots+y_{t+q-1}+\tfrac{1}{2}y_{t+q}\bigr)$. Differenzenfilter: $\Delta y_t = y_t - y_{t-1}$ beseitigt lineare Trends; $\Delta_s y_t = y_t - y_{t-s}$ saisonale Differenz.}
 
-\definition{\textbf{AR, MA, ARMA} ($\varepsilon_t \sim \text{WN}$):
+\definition{\textbf{AR, MA, ARMA, ARIMA, SARIMA} ($\varepsilon_t \sim \text{WN}$, Weißes Rauschen): Diese Modelle erklären den aktuellen Wert $Y_t$ durch seine eigene Vergangenheit (AR), durch vergangene Zufallsschocks (MA), oder beides.
 \begin{itemize}[leftmargin=1.5em,noitemsep]
-    \item \textbf{AR($p$):} $Y_t = \phi_1 Y_{t-1} + \cdots + \phi_p Y_{t-p} + \varepsilon_t$
-    \item \textbf{MA($q$):} $Y_t = \varepsilon_t + \theta_1\varepsilon_{t-1} + \cdots + \theta_q\varepsilon_{t-q}$
-    \item \textbf{ARMA($p,q$):} Kombination; \textbf{ARIMA($p,d,q$):} $d$-faches Differenzieren erzeugt Stationarität
-    \item \textbf{SARIMA$(p,d,q)\times(P,D,Q)_s$:} zusätzliche saisonale AR/MA-Terme mit Periode $s$
+    \item \textbf{AR($p$)} -- "Autoregressiv": $Y_t = \phi_1 Y_{t-1} + \cdots + \phi_p Y_{t-p} + \varepsilon_t$. Der heutige Wert ergibt sich aus den letzten $p$ Werten der \emph{eigenen} Reihe, ähnlich wie eine Wettervorhersage, die sich auf die letzten Tage stützt.
+    \item \textbf{MA($q$)} -- "Moving Average": $Y_t = \varepsilon_t + \theta_1\varepsilon_{t-1} + \cdots + \theta_q\varepsilon_{t-q}$. Hier wirken nicht die alten \emph{Werte} nach, sondern die alten \emph{Zufallsschocks} -- ein einmaliger Ausschlag klingt über $q$ Schritte langsam ab.
+    \item \textbf{ARMA($p,q$):} Kombiniert beide Effekte; passend für bereits stationäre Reihen.
+    \item \textbf{ARIMA($p,d,q$):} Wie ARMA, aber zuerst wird die Reihe $d$-mal differenziert ($\Delta^d y_t$), um einen Trend zu entfernen und sie stationär zu machen.
+    \item \textbf{SARIMA$(p,d,q)\times(P,D,Q)_s$:} ARIMA plus zusätzliche saisonale Terme mit Periode $s$ -- nötig, wenn sich Muster regelmäßig wiederholen (z.\,B.\ $s=12$ bei Monatsdaten mit Jahressaisonalität).
 \end{itemize}}
 
-\beispiel{\textbf{Modellierung in R:}\\
-\texttt{arima(x, order=c(p,d,q), seasonal=list(order=c(P,D,Q), period=s))}\\
-Modellwahl via AIC/BIC; Diagnose: Residuen $\overset{!}{\sim}$ WN (Ljung-Box-Test, ACF $\approx 0$).}
+\beispiel{Modellwahl erfolgt meist über AIC/BIC; zur Diagnose prüft man, ob die Residuen wie weißes Rauschen aussehen (Ljung-Box-Test, ACF $\approx 0$).}
 
 % ============================================================
 \newpage
@@ -1510,7 +1481,7 @@ Konvergenzdiagnose & Einfach (ESS) & Aufwendig ($\hat{R}$, ACF) \\
 \end{tabular}
 \end{center}
 
-\subsection{Gibbs Sampling}
+\subsubsection{Gibbs Sampling}
 % ============================================================
 
 \textbf{Motivation:} Bei multivariaten Posteriors $p(x_1,\ldots,x_p\mid y)$ ist Metropolis-Hastings schwierig zu tunen -- eine gute gemeinsame Proposal für alle Dimensionen zu finden ist aufwendig. \textbf{Gibbs Sampling} umgeht das, indem man statt des gemeinsamen Posteriors nur noch univariate \emph{bedingte} Verteilungen sampelt, die oft analytisch verfügbar sind.

@@ -2,7 +2,7 @@
 
 \subsection{Grundbegriffe: Modell, Modellierung, Simulation}
 
-\definition{Eine \textbf{Hypothese} ist eine allgemeingültige Annahme über Sachverhalte, die eine Beziehung zwischen $\geq 2$ Variablen formuliert. Sie muss als \emph{Konditionalsatz} (Wenn--dann/Je--desto) vorliegen und muss (zumindest potentiell) \textbf{falsifizierbar} sein -- zweiwertig (widerlegbar) oder graduell.}
+\definition{Eine \textbf{Hypothese} ist eine allgemeingültige Annahme über Sachverhalte, die eine Beziehung zwischen $\geq 2$ Variablen formuliert. Sie muss als \emph{Konditionalsatz} (Wenn--dann/Je--desto) vorliegen und muss (zumindest potentiell) \textbf{falsifizierbar} sein}
 
 Eine Aussage ist \textbf{falsifizierbar}, wenn es prinzipiell möglich ist, sie durch eine Beobachtung oder ein Experiment zu widerlegen. Nicht falsifizierbare Aussagen (z.\,B.\ \emph{,,Morgen regnet es oder es regnet nicht''}) sind tautologisch und damit wissenschaftlich wertlos. Beispiel: \emph{,,Wenn die Temperatur steigt, nimmt der Energieverbrauch ab''} ist falsifizierbar -- ein einziger Gegenfall (steigende Temperatur, steigender Verbrauch) würde die Hypothese widerlegen.
 
@@ -30,7 +30,7 @@ Eine Aussage ist \textbf{falsifizierbar}, wenn es prinzipiell möglich ist, sie 
 
 \definition{Eine \textbf{Simulation} ist im weiteren Sinne der Gesamtkomplex aus Modellieren, Simulieren und Auswerten. Im engeren Sinne: virtuelles Experiment auf Basis eines Simulationsmodells (fast ausschließlich Computersimulation).}
 
-\definition{Ein \textbf{Szenario} ist eine bestimmte Zusammenstellung von Modellannahmen bzw.\ Konfiguration der unabhängigen Variablen für eine Simulation (vgl.\ Treatments bei Experimenten).}
+\definition{Ein \textbf{Szenario} ist eine bestimmte Zusammenstellung von Modellannahmen bzw.\ Konfiguration der unabhängigen Variablen für eine Simulation.}
 
 \textbf{Typen von Computersimulationen:}
 \begin{itemize}[leftmargin=1.5em]
@@ -80,7 +80,7 @@ Eine Aussage ist \textbf{falsifizierbar}, wenn es prinzipiell möglich ist, sie 
 
 \subsection{Eigenschaftsdimensionen von Modellen}
 
-\textbf{Verhaltensbeschreibend vs.\ systemerklärend:}
+\textbf{Systemerklärend vs.\ Verhaltensbeschreibend (white vs black Box):}
 \begin{itemize}[leftmargin=1.5em]
     \item \textit{Systemerklärend} (glass box): gleiche Wirkungsstruktur und funktionsgleiche Elemente
     \item \textit{Verhaltensbeschreibend} (black box): ähnliches Verhalten, Struktur völlig anders
@@ -143,13 +143,9 @@ Eine Aussage ist \textbf{falsifizierbar}, wenn es prinzipiell möglich ist, sie 
 \]
 wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nicht} aus dem Kern entstammen, insbesondere $\vec{p}_0 \neq \vec{0}$). Kern: $\ker(A) = \{\vec{p} \in \mathbb{R}^n : A\vec{p} = \vec{0}\}$.
 
-\textbf{Zusammenhang Kern und Eigenwerte:} Der Kern von $A$ ist genau dann nicht-trivial ($\ker(A) \neq \{\vec{0}\}$), wenn $\lambda = 0$ ein Eigenwert von $A$ ist -- denn:
-\[
-A\vec{p} = \vec{0} = 0 \cdot \vec{p} \quad \Leftrightarrow \quad \vec{p} \text{ ist Eigenvektor zum Eigenwert } \lambda = 0.
-\]
-Ist $\lambda = 0$ ein Eigenwert, so ist $\det(A) = \prod_i \lambda_i = 0$, d.\,h.\ $A$ ist singulär. Startvektoren aus $\ker(A)$ ergeben $\vec{p}_1 = A \cdot \vec{p}_0 = \vec{0}$ und damit den trivialen (uninteressanten) Nullvektor für alle $k \geq 1$.
+\textbf{Zusammenhang Kern und Eigenwerte:} Der Kern von $A$ ist genau dann nicht-trivial ($\ker(A) \neq \{\vec{0}\}$), wenn $\lambda = 0$ ein Eigenwert von $A$ ist. Ist $\lambda = 0$ ein Eigenwert, so ist $\det(A) = \prod_i \lambda_i = 0$, d.\,h.\ $A$ ist singulär. Startvektoren aus $\ker(A)$ ergeben $\vec{p}_1 = A \cdot \vec{p}_0 = \vec{0}$ und damit den trivialen (uninteressanten) Nullvektor für alle $k \geq 1$.
 
-\definition{Ein Pulsmodell ist \textbf{pulsstabil}, wenn alle Eigenwerte im Betrag $\leq 1$ sind: $\forall i: |\lambda_i(A)| \leq 1$. Der \textbf{Spektralradius} $\rho(A) = \max_i |\lambda_i(A)|$ ist der Radius des kleinsten Kreises, der alle Eigenwerte enthält (Gaußscher Zahlenebene).}
+\definition{Ein Pulsmodell ist \textbf{pulsstabil}, wenn alle Eigenwerte im Betrag $\leq 1$ sind: $\forall i: |\lambda_i(A)| \leq 1$. Weiters ist es \textbf{konvergent}, wenn der Spektralradius $\rho(A) < 1$ (strikt kleiner) ist. Der \textbf{Spektralradius} $\rho(A) = \max_i |\lambda_i(A)|$ ist der Radius des kleinsten Kreises, der alle Eigenwerte enthält (Gaußscher Zahlenebene).}
 
 \textbf{Eigenkomponenten nach Eigenwertbetrag:}
 \begin{itemize}[leftmargin=1.5em]
@@ -166,21 +162,14 @@ Ist $\lambda = 0$ ein Eigenwert, so ist $\det(A) = \prod_i \lambda_i = 0$, d.\,h
 \]
 \textit{Achtung:} $\rho(A) \neq \|A\|_S$ im Allgemeinen!
 
-\definition{\textbf{Dualität:} $\mathrm{spec}(A) = \mathrm{spec}(A^T)$ $\Rightarrow$ Pulsmodell und duales Modell (umgekehrte Wirkungsrichtungen) haben gleiche Pulsdynamik.}
-
-\textbf{Zusammenhang Spur, Determinante und Eigenwerte:}
-\[
-\mathrm{Spur}(A) = \sum_i \lambda_i, \quad \det(A) = \prod_i \lambda_i
-\]
-
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/effect_matrix_stability.png}
+    \includegraphics[width=0.65\textwidth]{assets/effect_matrix_stability.png}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/pulse_stable.png}
+    \includegraphics[width=0.45\textwidth]{assets/pulse_stable.png}
 \end{figure}
 \newpage
 
@@ -335,3 +324,5 @@ z(t) = e^{At} \cdot z_0 + \int_0^t e^{A(t-\tau)} B\, u(\tau)\, \mathrm{d}\tau
     \centering
     \includegraphics[width=0.75\textwidth]{assets/common_math_formulation_lin_sys_3.png}
 \end{figure}
+
+\newpage

@@ -52,7 +52,7 @@ denn jede schwache Präferenz ist entweder eine strikte Präferenz \emph{oder} e
     \item Präferenzordnungen als \emph{gerichtete Graphen} oder \emph{Adjazenzmatrizen} darstellbar
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{assets/example_preferences.png}
 \end{figure}
@@ -236,17 +236,17 @@ $A_3$ & 50  & 50 & 50 & 50{,}0 & 50 & 50  & 50 & 250 \\
 NGG \text{ dominante Strategien} \subset NGG \text{ rein} \subset NGG \text{ gemischt}
 \]
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{assets/iesds_game_solved.png}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/best_answers_game_solved.png}
+    \includegraphics[width=0.5\textwidth]{assets/best_answers_game_solved.png}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{assets/mixed_strategy_game_solved.png}
 \end{figure}
@@ -269,14 +269,14 @@ NGG \text{ dominante Strategien} \subset NGG \text{ rein} \subset NGG \text{ gem
     \item Zweiter Spieler: weniger Freiheit, aber mehr Information
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/dyn_game_1.png}
+    \includegraphics[width=0.65\textwidth]{assets/dyn_game_1.png}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/dyn_game_2.png}
+    \includegraphics[width=0.65\textwidth]{assets/dyn_game_2.png}
 \end{figure}
 
 \newpage
@@ -319,48 +319,17 @@ Betrachte das klassische Gefangenendilemma mit folgender Auszahlungsmatrix (Zeil
 
 Das eindeutige NGG in $G$ ist $(D,D)$ mit Auszahlung $u^*_{\text{NGG}} = 1$. Kooperatives Ergebnis $(K,K)$: $u^*_{\text{Koop}} = 3$. Abweichungsauszahlung (einmalig defektieren, wenn Gegner kooperiert): $u^*_{\text{Abw}} = 5$.
 
-\textbf{Bedingung für Implementierbarkeit via Grim Trigger (Folk Theorem):}
-
-Kooperation ist als TSP-NGG in $G(\infty, \delta)$ implementierbar, wenn kein Spieler durch einmalige Abweichung profitiert. Vergleich der Barwerte:
-
-\[
-\underbrace{\frac{u^*_{\text{Koop}}}{1-\delta}}_{\text{Kooperation für immer}}
-\;\geq\;
-\underbrace{u^*_{\text{Abw}} + \frac{\delta \cdot u^*_{\text{NGG}}}{1-\delta}}_{\text{Abweichen, dann Strafe für immer}}
-\]
-
-\[
-\frac{3}{1-\delta} \;\geq\; 5 + \frac{\delta \cdot 1}{1-\delta}
-\]
-
-\[
-3 \;\geq\; 5(1-\delta) + \delta \;=\; 5 - 5\delta + \delta \;=\; 5 - 4\delta
-\]
-
-\[
-4\delta \;\geq\; 2 \quad\Rightarrow\quad \boxed{\delta \;\geq\; \tfrac{1}{2}}
-\]
-
-\textit{Interpretation:} Wenn Spieler die Zukunft hinreichend gewichten ($\delta \geq \tfrac{1}{2}$), ist dauerhaftes Kooperieren im unendlich wiederholten Spiel ein TSP-NGG -- obwohl $(K,K)$ kein NGG des Einmalspiels $G$ ist. Für $\delta < \tfrac{1}{2}$ überwiegt der kurzfristige Abweichungsanreiz.
-
-\textbf{Allgemeine Formel (aus dem Skript):}
-\[
-\delta \;\geq\; \frac{u^*_{\text{Abw}} - u^*_{\text{Koop}}}{u^*_{\text{Abw}} -
-u^*_{\text{NGG}}} \;=\; \frac{5-3}{5-1} \;=\; \frac{2}{4} \;=\; \frac{1}{2} \checkmark
-\]
-
-
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{assets/repeated_game_1.png}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{assets/repeated_game_2.png}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{assets/discont_factor.png}
 \end{figure}
@@ -434,3 +403,5 @@ Unendlich wiederholt $G(\infty,\delta\geq\frac{1}{2})$ & Folk Theorem / Grim Tri
 \end{table}
 
 Der entscheidende Unterschied: Erst durch \emph{unendliche} Wiederholung mit hinreichend großem Diskontierungsfaktor kann Kooperation als rationales Gleichgewicht entstehen -- im Einmalspiel und im endlich wiederholten Spiel (bei eindeutigem NGG) dominiert stets das nicht-kooperative Ergebnis.
+
+\newpage

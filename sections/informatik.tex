@@ -4,75 +4,88 @@
 
 \definition{\textbf{Datenbanken} (DB) sind strukturierte, persistente Sammlungen von Daten. Ein \textbf{Datenbankmanagementsystem} (DBMS) ist die Software zur Verwaltung dieser Datenbanken (z.\,B.\ PostgreSQL, Oracle, MySQL).}
 
-Im Kern unterscheiden sich Datenbanksysteme durch ihren Einsatzzweck. Geschäftsanwendungen benötigen Systeme, die schnelle, kleine Schreib- und Leseoperationen auf aktuellen Daten durchführen. Im Gegensatz dazu erfordert die analytische Auswertung von Geschäftsdaten ein anderes Paradigma -- komplexe Abfragen über große Datenvolumina mit weniger Fokus auf minimale Latenz.
+Datenbanksysteme unterscheiden sich primär durch ihren Einsatzzweck: operative Systeme brauchen schnelle, kleine Transaktionen auf aktuellen Daten, analytische Systeme brauchen komplexe Abfragen über große Datenmengen.
 
-\definition{\textbf{OLTP} (Online Transaction Processing) ist das Verarbeitungsparadigma für operative Systeme. Transaktionen sind klein, häufig und fokussiert auf Schreib- oder Lesezugriffe einzelner Records. Typische Antwortzeiten liegen im Millisekundenbereich. Beispiele sind Bankensysteme, Webshops oder Buchungssysteme, bei denen eine hohe Anzahl von Benutzern gleichzeitig Daten ändern und lesen.}
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\linewidth}{L{1.8cm} L{7.7cm} L{5cm}}
+    & \textbf{OLTP} (Online Transaction Processing) & \textbf{OLAP} (Online Analytical Processing) \\
+    \midrule
+    Zweck & operative Systeme: Banking, Webshops, Buchungen & analytische Auswertung: BI, Reporting, Data Mining \\
+    Queries & klein, häufig, einzelne Records & komplex, große Datenmengen, Aggregationen \\
+    Antwortzeit & Millisekunden & Sekunden bis Minuten \\
+    Datenmodell & \textbf{normalisiert} (3NF/BCNF) -- vermeidet Update-Anomalien & \textbf{denormalisiert} -- optimiert Lesezugriffe, vermeidet JOINs \\
+  \end{tabularx}
+\end{table}
 
-\definition{\textbf{OLAP} (Online Analytical Processing) serviert analytische Anfragen über historische Daten. Diese Queries sind komplex, lesen große Mengen an Daten und führen Aggregationen durch. Antwortzeiten können Sekunden bis Minuten betragen, was akzeptabel ist. Typische Anwendungen sind Business Intelligence, Reporting und Data Mining.}
+\definition{\textbf{Data Warehouse} (DWH): zentrale, integrierte, historisierte DB für analytische Abfragen. Daten fließen aus OLTP-Systemen via \textbf{ETL} (Extract, Transform, Load) ein.}
 
-Diese unterschiedlichen Anforderungen führen zu unterschiedlichen Datenmodellen. OLTP-Systeme speichern Daten \textbf{normalisiert} (3NF, BCNF) -- Redundanzen werden minimiert, um Update-Anomalien zu vermeiden. OLAP-Systeme hingegen \textbf{denormalisieren} bewusst, indem sie Daten redundant speichern, um Lesezugriffe zu optimieren. Die Normalisierung verursacht JOIN-Operationen; bei OLAP würde dies unerwünschte Performance-Einbußen bedeuten.
+\textbf{Schema-Muster im DWH:} \textbf{Star-Schema} -- zentrale \textbf{Faktentabelle} (Measures: Umsatz, Menge) mit FKs zu \textbf{Dimensionstabellen} (Zeit, Produkt, Region); einfach, wenig JOINs. \textbf{Snowflake-Schema} -- Dimensionen zusätzlich normalisiert (z.\,B.\ Produkt\,$\to$\,Kategorie\,$\to$\,Hersteller); spart Speicher, mehr JOINs.
 
-\definition{\textbf{Data Warehouses} (DWH) sind zentrale, integrierte und historisierte Datenbases, speziell für analytische Abfragen optimiert. Daten fließen von verschiedenen OLTP-Systemen via \textbf{ETL-Prozesse} (Extract, Transform, Load) in den Warehouse.}
+\textbf{Datenwürfel (OLAP-Kern):} $n$-dimensionale Struktur mit hierarchischen Dimensionen (Zeit: Jahr\,$\to$\,Quartal\,$\to$\,Tag). Operationen:
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+    \item \textbf{Slice} -- eine Dimension fixieren (z.\,B.\ nur 2023)
+    \item \textbf{Dice} -- Teilwürfel auswählen (z.\,B.\ 2023 \& Europa)
+    \item \textbf{Drill-Down} -- zu Details navigieren \quad / \quad \textbf{Roll-Up} -- zu Aggregaten aufsteigen
+\end{itemize}
 
-Im Data Warehouse organisieren sich Daten typischerweise nach zwei Schema-Mustern. Das \textbf{Star-Schema} ist einfach und verständlich: Eine zentrale \textbf{Faktentabelle} enthält Measures (Kennzahlen wie Umsatz, Gewinn, Menge) und Foreign Keys zu mehreren \textbf{Dimensionstabellen} (Zeit, Produkt, Region, Kunde). Der Name resultiert aus der grafischen Darstellung -- die Faktentabelle in der Mitte, Dimensionen rings herum. Das alternative \textbf{Snowflake-Schema} normalisiert die Dimensionstabellen weiter, indem es Hierarchien explizit modelliert (z.B. Produkt -> Kategorie -> Hersteller). Dies spart Speicher, erschwert aber Queries durch zusätzliche JOINs.
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\linewidth}{L{2cm} L{12cm}}
+    \textbf{MOLAP} & Speicherkuben, sehr schnell, hoher RAM-Bedarf \\
+    \textbf{ROLAP} & Standard-Relationstabellen, Würfel on-the-fly, flexibel aber langsamer \\
+    \textbf{HOLAP} & Hybrid: häufige Aggregationen im Speicher, Details relational \\
+  \end{tabularx}
+\end{table}
 
-Der Kern von OLAP ist der \textbf{Datenwürfel} -- eine n-dimensionale Struktur, bei der jede Dimension eine Hierarchie repräsentiert. Die zeitliche Dimension könnte sein: Jahr -> Quartal -> Monat -> Tag. Die geografische: Kontinent -> Land -> Stadt -> Bezirk. Innerhalb dieses Würfels können Benutzer mehrere klassische Operationen durchführen: \textbf{Slice} (eine Dimension fixieren, z.B. nur 2023), \textbf{Dice} (einen Teilwürfel auswählen, z.B. 2023 und Region='Europa'), \textbf{Drill-Down} (zu detaillierteren Ebenen navigieren) und \textbf{Roll-Up} (zu aggregierten Ebenen aufsteigen).
+\textbf{Data Lake:} speichert Rohdaten beliebigen Formats (strukturiert/semi/unstrukturiert); flexibler als DWH, erfordert aber starke Governance -- sonst Risiko der \emph{Data Swamp}.
 
-Für die Implementierung von OLAP gibt es drei Architekturen. \textbf{MOLAP} (Multidimensional OLAP) speichert Daten direkt in Speicherkuben -- extrem schnell für typische Queries, benötigt aber viel RAM. \textbf{ROLAP} (Relational OLAP) speichert alles in Standard-Relationstabellen und berechnet Würfel on-the-fly -- flexibler und skalierbarer, aber langsamer. \textbf{HOLAP} (Hybrid OLAP) kombiniert beide: häufig abgerufene Aggregationen im Speicher, detaillierte Daten relational.
-
-Eine neuere Alternative ist der \textbf{Data Lake} -- ein Repository, das Rohdaten in beliebigem Format speichert (strukturiert, semi-strukturiert, unstrukturiert). Data Lakes sind flexibler als Data Warehouses und ermöglichen exploratives Arbeiten. Sie erfordern aber stärkere Governance und Datenqualität-Management, um nicht zur ``Data Swamp'' zu degenerieren.
 \newpage
 
 \subsection{Entity-Relationship-Modell}
 
-\definition{Das \textbf{Entity-Relationship-Modell} (ERM) ist ein konzeptionelles Modellierungsverfahren zur Abbildung der fachlichen Realität (\textit{Miniwelt}) in eine Datenbankstruktur. Es besteht aus drei Kernkomponenten: \textbf{Entities} (Objekttypen der Realität, z.B. Person, Produkt), \textbf{Attribute} (Eigenschaften dieser Objekte, z.B. Name, Geburtsdatum) und \textbf{Relationships} (Beziehungen zwischen Entitäten).}
+\definition{Das \textbf{Entity-Relationship-Modell} (ERM) ist ein konzeptionelles Modellierungsverfahren für die \textit{Miniwelt}. Kernkomponenten: \textbf{Entities} (Objekttypen, z.\,B.\ Person), \textbf{Attribute} (Eigenschaften), \textbf{Relationships} (Beziehungen zwischen Entitäten).}
 
-Das ERM ist ein konzeptionelles Modell -- es versucht, die fachliche Logik zu erfassen, bevor technische Implementierungsdetails in Betracht gezogen werden. Die typische Modellierungskaskade verläuft über drei Ebenen: Zunächst erfolgt die \textbf{konzeptionelle} Modellierung (ER-Modell), die die Geschäftslogik in ihrer natürlichen Form abbildet. Dann folgt die \textbf{logische} Modellierung, bei der das ER-Modell in ein relationales Schema (Tabellen, Spalten, Schlüssel) transformiert wird. Abschließend erfolgt die \textbf{physische} Modellierung, die sich damit befasst, wie und wo die Daten im DBMS tatsächlich gespeichert werden.
+\textbf{Modellierungskaskade:} konzeptionell (ER-Modell, fachliche Logik) $\to$ logisch (relationales Schema: Tabellen, Spalten, Schlüssel) $\to$ physisch (Speicherung im DBMS).
 
-Zentral für das Verständnis von Relationships sind die **Kardinalitäten** -- sie beschreiben, wie viele Entitäten auf jeder Seite einer Beziehung beteiligt sein können. Eine 1:1-Beziehung (z.B. Person-Reisepass) bedeutet, dass jede Person höchstens einen Pass hat und jeder Pass genau zu einer Person gehört. Eine 1:N-Beziehung (z.B. Abteilung-Mitarbeiter) bedeutet, dass eine Abteilung viele Mitarbeiter haben kann, aber ein Mitarbeiter nur in einer Abteilung arbeitet. Eine N:M-Beziehung (z.B. Student-Kurs) bedeutet, dass Studenten in vielen Kursen sein können und Kurse viele Studenten haben können.
+\textbf{Kardinalitäten} beschreiben, wie viele Entitäten je Seite beteiligt sind:
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+    \item \textbf{1:1} (Person--Reisepass): je höchstens ein Partner auf jeder Seite
+    \item \textbf{1:N} (Abteilung--Mitarbeiter): eine Abteilung hat viele Mitarbeiter, jeder Mitarbeiter genau eine Abteilung
+    \item \textbf{N:M} (Student--Kurs): viele-zu-viele Zuordnung
+\end{itemize}
+\textbf{Optionalitäten} (Teilnahmebedingungen) ergänzen dies: optional (0..N) oder verpflichtend (1..N). Graphisch: einfacher Endpunkt = 1, Krähenfuß = N.
 
-Zusätzlich zu Kardinalitäten gibt es **Optionalitäten** (auch Teilnahmebedingungen genannt). Eine Beziehung kann optional sein (0..N) -- nicht jede Entität muss teilnehmen -- oder verpflichtend (1..N). Graphisch werden diese in ER-Diagrammen durch Linien und Symbole dargestellt: Eine Linie mit einfachem Endpunkt bedeutet 1, eine mit Krähenfuß bedeutet N.
+\textbf{Schwache Entitäten} besitzen keinen eigenen vollständigen Schlüssel, sondern werden über eine identifizierende Beziehung zu einer starken Entität bestimmt -- z.\,B.\ ist eine Bestellposition nur durch (Bestellnummer, Positionsnummer) eindeutig.
 
-Ein wichtiges Konzept sind **schwache Entitäten**. Im Gegensatz zu starken Entitäten, die einen eigenen eindeutigen Schlüssel besitzen (z.B. Mitarbeiternummer), besitzen schwache Entitäten keinen vollständigen eigenen Schlüssel. Stattdessen werden sie durch eine identifizierende Beziehung zu einer starken Entität bestimmt. Ein klassisches Beispiel: Eine Bestellposition ist schwach abhängig von der Bestellung -- die Position kann nur eindeutig identifiziert werden durch die Kombination von Bestellnummer und Positionsnummer.
+\textbf{Relationales Modell:} \textbf{Relation} = Tabelle, \textbf{Tupel} = Zeile, \textbf{Attribut} = Spalte, \textbf{Domäne} = zulässiger Wertebereich eines Attributs.
 
-Das ER-Modell wird dann in das \textbf{relationale Modell} transformiert. Die fundamentalen Konzepte sind: Eine \textbf{Relation} ist eine Tabelle; ein \textbf{Tupel} ist eine Zeile (ein Datensatz); ein \textbf{Attribut} ist eine Spalte. Die \textbf{Domäne} eines Attributs definiert den Wertebereich, z.B. alle positiven Ganzzahlen oder alle Zeichenketten bis 50 Zeichen.
-
-Die Abbildung erfolgt systematisch: Jeder Entity-Typ wird zu einer Tabelle; die Attribute des Entity werden zu Spalten. Bei Relationships muss fallweise unterschieden werden: 1:N-Beziehungen werden durch einen **Fremdschlüssel** (Foreign Key, FK) auf der N-Seite realisiert. N:M-Beziehungen erfordern eine separate **Verbindungstabelle** (Junction Table) mit Foreign Keys zu beiden Entitäten. 1:1-Beziehungen können entweder durch FK oder durch Zusammenführung der Relationen realisiert werden.
+\textbf{Transformation ER $\to$ relational:} Jeder Entity-Typ wird zur Tabelle, Attribute zu Spalten. Bei Relationships: 1:N $\to$ \textbf{Fremdschlüssel} auf der N-Seite; N:M $\to$ separate \textbf{Verbindungstabelle} mit FKs zu beiden Seiten; 1:1 $\to$ FK oder Zusammenführung der Relationen.
 
 \begin{table}[H]
   \centering
   \begin{tabularx}{\linewidth}{L{2.5cm} L{4cm} L{8.5cm}}
     \textbf{Schlüsseltyp} & \textbf{Eigenschaft} & \textbf{Beschreibung und Verwendung}                                                \\
     \midrule
-    Superkey              & Eindeutig            & Attributkombination, die Tupel eindeutig identifiziert (z.B. \{PersNr, Name\})      \\
+    Superkey              & Eindeutig            & Attributkombination, die Tupel eindeutig identifiziert (z.\,B.\ \{PersNr, Name\})   \\
     Candidate Key         & Minimal              & Minimaler Superkey; keine überflüssigen Attribute; mehrere möglich                  \\
-    Primärschlüssel       & Gewählt              & Ein Candidate Key, speziell ausgewählt zur Identifikation; NOT NULL, UNIQUE         \\
-    Fremdschlüssel        & Verweis              & Attribut, das einen PK einer anderen Tabelle referenziert; realisiert Relationships \\
-    Surrogate Key         & Künstlich            & Künstlich erzeugter Schlüssel (z.B. SERIAL, AUTO\_INCREMENT) für Eindeutigkeit      \\
+    Primärschlüssel       & Gewählt              & Ein Candidate Key, ausgewählt zur Identifikation; NOT NULL, UNIQUE                  \\
+    Fremdschlüssel        & Verweis              & Attribut, das einen PK einer anderen Tabelle referenziert                           \\
+    Surrogate Key         & Künstlich            & Künstlich erzeugt (SERIAL, AUTO\_INCREMENT) für Eindeutigkeit                       \\
   \end{tabularx}
 \end{table}
 
-Die Integrität relationaler Daten wird durch drei fundamentale Bedingungen gewährleistet. Die \textbf{Entitätsintegrität} fordert, dass der Primärschlüssel eindeutig und nicht NULL ist -- kein Datensatz kann doppelt vorkommen und muss identifizierbar sein. Die \textbf{referentielle Integrität} fordert, dass jeder Fremdschlüssel entweder NULL ist oder auf einen existierenden Primärschlüssel verweist -- es können keine Beziehungen zu nicht-existierenden Entitäten eingefügt werden. Die \textbf{Domänenintegrität} stellt sicher, dass Attributwerte innerhalb ihrer Domäne liegen.
+\textbf{Integritätsbedingungen:} \textbf{Entitätsintegrität} -- PK eindeutig und NOT NULL. \textbf{Referentielle Integrität} -- jeder FK ist NULL oder verweist auf existierenden PK. \textbf{Domänenintegrität} -- Attributwerte liegen innerhalb ihrer Domäne.
 
 \newpage
 
 \subsection{SQL als Data Query Language}
 
-\definition{\textbf{SQL} (Structured Query Language) ist die standardisierte Abfragesprache für relationale Datenbanksysteme. Sie wird typisiert in mehrere Kategorien: \textbf{DQL} (Data Query Language -- SELECT-Abfragen), \textbf{DML} (Data Manipulation Language -- INSERT, UPDATE, DELETE), \textbf{DDL} (Data Definition Language -- CREATE, ALTER, DROP), \textbf{DCL} (Data Control Language -- GRANT, REVOKE) und \textbf{TCL} (Transaction Control Language -- COMMIT, ROLLBACK).}
+\definition{\textbf{SQL} (Structured Query Language) ist die standardisierte Abfragesprache für relationale DBs, unterteilt in \textbf{DQL} (SELECT), \textbf{DML} (INSERT/UPDATE/DELETE), \textbf{DDL} (CREATE/ALTER/DROP), \textbf{DCL} (GRANT/REVOKE) und \textbf{TCL} (COMMIT/ROLLBACK).}
 
-Eine SQL-SELECT-Abfrage durchläuft bei der Ausführung nicht die Klauseln in der geschriebenen Reihenfolge. Stattdessen gibt es eine \textbf{logische Ausführungsreihenfolge}, die es dem Optimierer ermöglicht, Abfragen effizient zu planen. Diese Reihenfolge ist entscheidend zum Verständnis: (1) FROM -- Quellentabelle(n) laden, (2) WHERE -- Zeilenfilterung (Selektion auf Basis von Bedingungen), (3) GROUP BY -- Gruppierung nach Attributen, (4) HAVING -- Filterung auf Gruppen (nicht auf einzelne Zeilen!), (5) SELECT -- Spaltenprojektion und Transformationen, (6) ORDER BY -- Sortierung, (7) LIMIT/OFFSET -- Paginierung.
+\textbf{Logische Ausführungsreihenfolge} (nicht die Schreibreihenfolge!): \texttt{FROM} $\to$ \texttt{WHERE} $\to$ \texttt{GROUP BY} $\to$ \texttt{HAVING} $\to$ \texttt{SELECT} $\to$ \texttt{ORDER BY} $\to$ \texttt{LIMIT/OFFSET}. Häufiger Fehler: Aggregatfunktionen in \texttt{WHERE} -- funktioniert nicht, da \texttt{WHERE} vor \texttt{GROUP BY} evaluiert wird; dafür ist \texttt{HAVING} (Filterung auf Gruppen) zuständig.
 
-Das Verständnis dieser Reihenfolge ist essentiell. Viele Anfänger schreiben ORDER BY, als würde es als Erstes evaluiert -- dabei wird es erst am Ende angewendet. Ebenso ist es ein häufiger Fehler, in WHERE-Klauseln Aggregatfunktionen zu verwenden -- dies funktioniert nicht, weil WHERE vor GROUP BY evaluiert wird. Für Bedingungen auf Aggregaten muss HAVING verwendet werden.
-
-\definition{\textbf{NULL-Semantik} in SQL ist nicht intuitiv: NULL bedeutet ``unbekannt'', nicht ``Null-Wert'' oder ``leerer String''. Ein Vergleich `wert = NULL` ergibt nicht FALSE, sondern UNKNOWN -- eine dreiwertige Logik. Die Konsequenz: NULL-Vergleiche funktionieren nicht mit Operatoren; stattdessen muss `IS NULL` oder `IS NOT NULL` verwendet werden.}
-
-WHERE-Klauseln akzeptieren verschiedene Vergleichsoperatoren und Funktionen. Die klassischen sind: \texttt{=, <>, >, <, >=, <=}. Zusätzlich gibt es \texttt{BETWEEN} für Bereiche (z.B. \texttt{preis BETWEEN 10 AND 100}), \texttt{IN} für Mengen (z.B. \texttt{stadt IN ('Wien', 'Graz')}), und \texttt{LIKE} für Mustererkennung, die \texttt{\_} (genau ein beliebiges Zeichen) und \texttt{\%} (beliebig viele Zeichen) verwendet.
-
-**Aggregatfunktionen** fassen mehrere Zeilen zu einem Ergebnis zusammen: `COUNT(*)` zählt alle Zeilen (auch mit NULL), während `COUNT(spalte)` nur Nicht-NULL-Werte zählt. `SUM()` addiert Werte, `AVG()` berechnet Mittelwerte, `MIN()`/`MAX()` finden Extremwerte. Ohne GROUP BY wird eine einzelne Aggregation über alle Zeilen berechnet.
-
-**JOINs** sind das Herzstück von SQL für die Kombination mehrerer Tabellen. Ein `INNER JOIN` gibt nur Zeilen zurück, bei denen beide Tabellen ein Match für die Join-Bedingung haben. Ein `LEFT JOIN` gibt alle Zeilen der linken Tabelle zurück; bei fehlenden Matches wird die rechte Seite mit NULL aufgefüllt. Analog funktioniert `RIGHT JOIN` andersherum. `FULL OUTER JOIN` gibt alle Zeilen aus beiden Tabellen zurück. Ein `CROSS JOIN` erzeugt das kartesische Produkt -- alle Kombinationen zwischen beiden Tabellen.
-
-Weitere nützliche Konzepte sind: `DISTINCT` entfernt Duplikate aus Ergebnissen; **Subqueries** ermöglichen verschachtelte SELECT-Abfragen in WHERE-, FROM- oder SELECT-Klauseln; **Views** sind virtuelle Tabellen, die auf Basis von Queries definiert werden; **Indizes** beschleunigen Suchzugriffe; `COALESCE(a,b,...)` gibt den ersten Nicht-NULL-Wert zurück.
+\definition{\textbf{NULL-Semantik:} NULL bedeutet ``unbekannt'', nicht ``leer''. \texttt{wert = NULL} ergibt \texttt{UNKNOWN} (dreiwertige Logik), nicht \texttt{FALSE} -- daher \texttt{IS NULL} / \texttt{IS NOT NULL} verwenden.}
 
 \begin{table}[H]
   \centering
@@ -83,39 +96,55 @@ Weitere nützliche Konzepte sind: `DISTINCT` entfernt Duplikate aus Ergebnissen;
     IN                         & stadt IN ('Wien','Graz','Linz') & Wert muss in Menge enthalten sein        \\
     LIKE                       & name LIKE 'A\%'                 & Mustererkennung; \% beliebig, \_ einzeln \\
     IS NULL                    & alter IS NULL                   & Prüft auf NULL (nicht mit =)             \\
-    COUNT(*)                   & COUNT(*)                        & Zählt alle Zeilen                        \\
-    SUM/AVG                    & SUM(umsatz), AVG(gewinn)        & Summe / Durchschnitt                     \\
-    MIN/MAX                    & MIN(preis), MAX(datum)          & Minimum / Maximum                        \\
+    COUNT(*) / COUNT(spalte)   & COUNT(*), COUNT(email)          & alle Zeilen / nur Nicht-NULL-Werte       \\
+    SUM/AVG/ MIN/MAX            & SUM(umsatz), AVG(gewinn)        & Summe / Mittelwert / Extremwerte         \\
     COALESCE                   & COALESCE(bonus, 0)              & Erster Nicht-NULL-Wert                   \\
   \end{tabularx}
 \end{table}
+
+\textbf{JOINs:} \texttt{INNER JOIN} -- nur Matches beider Tabellen. \texttt{LEFT/RIGHT JOIN} -- alle Zeilen einer Seite, fehlende Matches mit NULL aufgefüllt. \texttt{FULL OUTER JOIN} -- alle Zeilen beider Tabellen. \texttt{CROSS JOIN} -- kartesisches Produkt aller Kombinationen.
+
+\textbf{Weitere Konzepte:} \texttt{DISTINCT} entfernt Duplikate; \textbf{Subqueries} sind verschachtelte SELECTs in WHERE/FROM/SELECT; \textbf{Views} sind virtuelle Tabellen auf Basis von Queries; \textbf{Indizes} beschleunigen Suchzugriffe.
+
 \newpage
 
 \subsection{Normalformen, Integritätsbedingungen und Transaktionen}
 
-\definition{\textbf{Normalisierung}} ist die systematische Umstrukturierung eines Relationenschemas, um Redundanzen zu reduzieren und Anomalien zu vermeiden. Ohne Normalisierung entstehen typische Probleme: **Insert-Anomalien** treten auf, wenn neue Entitäten nicht eingefügt werden können, ohne irrelevante Daten hinzuzufügen. **Update-Anomalien** entstehen, wenn eine Information an mehreren Stellen gepflegt werden muss, was Inkonsistenzen riskiert. **Delete-Anomalien** treten auf, wenn das Löschen einer Entität zu ungewolltem Datenverlust führt.
+\definition{\textbf{Normalisierung}: systematische Umstrukturierung zur Reduktion von Redundanz und Anomalien. \textbf{Insert-Anomalie} -- Entität nicht einfügbar ohne irrelevante Zusatzdaten. \textbf{Update-Anomalie} -- Information muss an mehreren Stellen synchron gepflegt werden. \textbf{Delete-Anomalie} -- Löschen verursacht ungewollten Datenverlust.}
 
-Die Normalformen bilden eine Hierarchie von immer strengeren Anforderungen. Die \textbf{1. Normalform (1NF)} fordert, dass alle Attributwerte atomar (unteilbar) sind und keine Wiederholungsgruppen existieren. Ein Beispiel für Verletzung: eine Spalte Hobbys mit dem Wert Lesen, Schwimmen, Joggen -- dies müsste stattdessen auf mehrere Zeilen verteilt sein.
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\linewidth}{L{1.6cm} L{12.4cm}}
+    \textbf{1NF} & Alle Attributwerte atomar, keine Wiederholungsgruppen. \textit{Verletzung:} Spalte ``Hobbys'' = ``Lesen, Schwimmen, Joggen''. \\
+    \textbf{2NF} & 1NF + keine \textbf{partiellen Abhängigkeiten} (relevant bei zusammengesetztem PK). \textit{Verletzung:} (StudentID, KursID, KursName) -- KursName hängt nur von KursID ab. \\
+    \textbf{3NF} & 2NF + keine \textbf{transitiven Abhängigkeiten} (Nicht-Schlüssel-Attribut hängt von anderem Nicht-Schlüssel-Attribut ab). \textit{Verletzung:} (PersonID, Name, AbtID, AbtName) -- AbtName hängt von AbtID ab. \\
+    \textbf{BCNF} & Strenger als 3NF: für jede funktionale Abhängigkeit $X\to Y$ muss $X$ Superschlüssel sein. \\
+  \end{tabularx}
+\end{table}
 
-Die \textbf{2. Normalform (2NF)} fordert 1NF plus: Es darf keine partiellen Abhängigkeiten geben. Dies ist relevant, wenn der Primärschlüssel aus mehreren Attributen besteht (zusammengesetzter Schlüssel). Eine partielle Abhängigkeit liegt vor, wenn ein Nicht-Schlüssel-Attribut nur von einem Teil des zusammengesetzten Schlüssels abhängt. Ein Beispiel: Tabelle (StudentenID, KursID, KursName) -- KursName hängt nur von KursID ab, nicht von der Kombination.
+In der Praxis ist \textbf{3NF} der gängige Kompromiss zwischen Redundanzreduktion und Query-Performance; höhere Normalformen (BCNF, 4NF, 5NF) führen oft zu stark fragmentierten Schemas mit vielen JOINs.
 
-Die \textbf{3. Normalform (3NF)} fordert 2NF plus: Es darf keine transitiven Abhängigkeiten geben. Das heißt, kein Nicht-Schlüssel-Attribut darf von einem anderen Nicht-Schlüssel-Attribut abhängen. Ein Beispiel: (PersonenID, Name, AbteilungsID, AbteilungsName) -- AbteilungsName hängt von AbteilungsID ab, nicht direkt vom PK PersonenID.
+\textbf{Integritätsbedingungen:} \texttt{PRIMARY KEY} (eindeutig, NOT NULL) $\cdot$ \texttt{FOREIGN KEY} (referentielle Integrität) $\cdot$ \texttt{UNIQUE} (eindeutig, NULL mehrfach erlaubt) $\cdot$ \texttt{NOT NULL} (Pflichtfeld) $\cdot$ \texttt{CHECK} (Bedingungsvalidierung, z.\,B.\ \texttt{Preis > 0}) $\cdot$ \texttt{DEFAULT} (Standardwert).
 
-Die \textbf{Boyce-Codd-Normalform (BCNF)} ist strenger als 3NF. Sie fordert, dass für jede funktionale Abhängigkeit $X \to Y$ die linke Seite $X$ ein Superschlüssel sein muss. BCNF eliminiert pathologische Spezialfälle, die in 3NF noch vorkommen können.
+\textbf{Referentielle Aktionen bei Löschung:} \texttt{ON DELETE CASCADE} -- abhängige Zeilen mitlöschen. \texttt{SET NULL} -- FK auf NULL setzen. \texttt{RESTRICT}/\texttt{NO ACTION} -- Löschung verweigern, falls Abhängigkeiten bestehen.
 
-In der Praxis werden die meisten kommerziellen Datenbanken in 3NF modelliert, weil sie einen guten Kompromiss zwischen Redundanzreduktion und Query-Performance darstellt. Höhere Normalformen (BCNF, 4NF, 5NF) sind theoretisch eleganter, führen aber oft zu übermäßig fragmentierten Schemas mit vielen JOINs.
+\definition{Eine \textbf{Transaktion}: logische Einheit mehrerer DB-Operationen, die vollständig (\texttt{COMMIT}) oder gar nicht (\texttt{ROLLBACK}) ausgeführt werden.}
 
-Integritätsbedingungen sichern die Konsistenz. Der bereits erwähnte **PRIMARY KEY** erzwingt Eindeutigkeit und NOT NULL. Ein **FOREIGN KEY** sorgt für referentielle Integrität -- er referenziert einen PK einer anderen Tabelle (oder NULL). Ein **UNIQUE**-Constraint macht ein Attribut eindeutig, erlaubt aber mehrfach NULL. **NOT NULL** erzwingt, dass ein Wert eingegeben werden muss. Ein **CHECK**-Constraint validiert Bedingungen (z.B. `ALTER TABLE Produkt ADD CHECK (Preis > 0)`). Ein **DEFAULT**-Wert wird automatisch eingesetzt, wenn beim Insert kein Wert angegeben wird.
+\textbf{ACID:} \textbf{Atomicity} -- unteilbar, ganz oder gar nicht. \textbf{Consistency} -- DB bleibt in gültigem Zustand. \textbf{Isolation} -- parallele Transaktionen beeinflussen sich nicht. \textbf{Durability} -- committete Daten überleben Systemausfälle.
 
-Referentielle Aktionen definieren das Verhalten bei Änderungen. Mit `ON DELETE CASCADE` werden abhängige Zeilen automatisch gelöscht. `ON DELETE SET NULL` setzt den FK auf NULL. `ON DELETE RESTRICT` (oder `NO ACTION`) verweigert die Löschung, wenn noch Abhängigkeiten bestehen.
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\linewidth}{L{3.2cm} L{9.8cm}}
+    \textbf{Isolationslevel} & \textbf{Verhindert / erlaubt} \\
+    \midrule
+    Read Uncommitted & erlaubt \textbf{Dirty Reads} (ungecommittete Änderungen sichtbar) \\
+    Read Committed & verhindert Dirty Reads, erlaubt \textbf{Non-repeatable Reads} \\
+    Repeatable Read & verhindert Non-repeatable Reads, erlaubt \textbf{Phantom Reads} \\
+    Serializable & verhindert alle Anomalien (serieller Zugriff, oft langsam) \\
+  \end{tabularx}
+\end{table}
 
-\definition{Eine \textbf{Transaktion}} ist eine logische Einheit mehrerer Datenbankoperationen. Alle Operationen werden entweder vollständig (COMMIT) oder gar nicht (ROLLBACK) ausgeführt -- ein Alles-oder-Nichts-Prinzip.
-
-Transaktionen müssen die **ACID-Eigenschaften** erfüllen: \textbf{Atomicity} (Atomarität) -- eine Transaktion ist unteilbar, entweder erfolgreich oder komplett rückgängig; \textbf{Consistency} (Konsistenz) -- die Datenbank bleibt in konsistentem Zustand, alle Integritätsbedingungen werden erfüllt; \textbf{Isolation} (Isolation) -- parallel laufende Transaktionen beeinflussen sich gegenseitig nicht; \textbf{Durability} (Dauerhaftigkeit) -- committete Daten sind persistent und bleiben selbst nach Systemausfällen erhalten.
-
-Die Isolationslevel beschreiben, wie sehr sich parallele Transaktionen gegenseitig beeinflussen dürfen. Vier sind standardisiert (aufsteigend in Strenge): \textbf{Read Uncommitted} (niedrigster Standard) erlaubt \textbf{Dirty Reads} -- eine Transaktion kann Änderungen sehen, die von einer parallelen Transaktion noch nicht committiert wurden. \textbf{Read Committed} verhindert Dirty Reads, aber erlaubt **Non-repeatable Reads** -- innerhalb einer Transaktion kann sich ein Wert ändern zwischen zwei Lesezugriffen. \textbf{Repeatable Read} verhindert Non-repeatable Reads, aber erlaubt **Phantom Reads** -- zwischen zwei Abfragen können neue Zeilen eingefügt werden, die die Aggregationen ändern. \textbf{Serializable} ist der höchste Level und verhindert alle Anomalien durch seriellen Zugriff (ist aber oft unpraktisch langsam).
-
-\definition{\textbf{Write-Ahead Logging (WAL)}} ist ein Mechanismus zur Sicherung der Durability. Änderungen werden zuerst ins Log geschrieben, bevor sie in die Datenbank übernommen werden. Im Fehlerfall kann der Zustand aus dem Log rekonstruiert werden.
+\definition{\textbf{Write-Ahead Logging (WAL)}: Änderungen werden zuerst ins Log geschrieben, bevor sie in die DB übernommen werden -- sichert Durability und ermöglicht Wiederherstellung nach Fehlern.}
 
 \newpage
 
@@ -123,86 +152,61 @@ Die Isolationslevel beschreiben, wie sehr sich parallele Transaktionen gegenseit
 
 \subsubsection{Begriffsabgrenzung}
 
-\textbf{Datenschutz} und \textbf{Datensicherheit} werden im Alltag oft synonym verwendet, bezeichnen aber unterschiedliche Konzepte:
+\textbf{Datenschutz} (\textit{data privacy}) und \textbf{Datensicherheit} (\textit{data security}) werden oft synonym verwendet, meinen aber Unterschiedliches:
 
-\begin{itemize}
-  \item \textbf{Datenschutz} (engl. \textit{data privacy}) ist das \textbf{rechtliche und organisatorische} Konzept, das den Schutz personenbezogener Daten natürlicher Personen vor unbefugter Verarbeitung sicherstellt. Es geht primär um die Frage: \emph{Darf} ein Unternehmen diese Daten überhaupt erheben und verarbeiten?
-  \item \textbf{Datensicherheit} (engl. \textit{data security / information security}) ist das \textbf{technische und organisatorische} Konzept, das alle Daten -- unabhängig ob personenbezogen -- vor Verlust, Manipulation, unbefugtem Zugriff und anderen Bedrohungen schützt. Es geht um die Frage: \emph{Wie} werden Daten technisch gesichert?
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+  \item \textbf{Datenschutz:} rechtliches/organisatorisches Konzept zum Schutz personenbezogener Daten vor unbefugter Verarbeitung. Kernfrage: \emph{Darf} man diese Daten erheben?
+  \item \textbf{Datensicherheit:} technisches/organisatorisches Konzept zum Schutz aller Daten (unabhängig vom Personenbezug) vor Verlust, Manipulation, unbefugtem Zugriff. Kernfrage: \emph{Wie} sichert man die Daten technisch?
 \end{itemize}
 
 \subsubsection{Rechtlicher Rahmen: DSGVO}
 
-Die \textbf{Datenschutz-Grundverordnung} (DSGVO), in Kraft seit Mai 2018, ist die maßgebliche europäische Rechtsgrundlage für den Umgang mit personenbezogenen Daten. Sie gilt für alle Unternehmen, die Daten von EU-Bürgern verarbeiten -- unabhängig vom Unternehmensstandort.
+Die \textbf{Datenschutz-Grundverordnung} (DSGVO, seit Mai 2018) ist die europäische Rechtsgrundlage für personenbezogene Daten -- gültig für alle Unternehmen, die Daten von EU-Bürgern verarbeiten, unabhängig vom Firmensitz.
 
-\textbf{Grundsätze der DSGVO:}
-\begin{enumerate}
-  \item \textbf{Rechtmäßigkeit, Transparenz:} Verarbeitung braucht eine Rechtsgrundlage (Einwilligung, Vertrag, rechtliche Verpflichtung, berechtigte Interessen)
-  \item \textbf{Zweckbindung:} Daten dürfen nur für den bei der Erhebung festgelegten Zweck verwendet werden
-  \item \textbf{Datenminimierung:} Es dürfen nur die Daten erhoben werden, die für den Zweck erforderlich sind
-  \item \textbf{Richtigkeit:} Daten müssen korrekt und aktuell sein
-  \item \textbf{Speicherbegrenzung:} Speicherung nur solange nötig
-  \item \textbf{Integrität und Vertraulichkeit:} Datenschutz durch Maßnahmen
-  \item \textbf{Rechenschaftspflicht:} Der Verantwortliche muss Einhaltung nachweisen
-\end{enumerate}
+\textbf{Grundsätze:} Rechtmäßigkeit \& Transparenz (Verarbeitung braucht Rechtsgrundlage: Einwilligung, Vertrag, gesetzliche Pflicht, berechtigtes Interesse) $\cdot$ Zweckbindung (nur für den festgelegten Zweck) $\cdot$ Datenminimierung (nur erforderliche Daten) $\cdot$ Richtigkeit $\cdot$ Speicherbegrenzung $\cdot$ Integrität \& Vertraulichkeit $\cdot$ Rechenschaftspflicht (Nachweispflicht des Verantwortlichen).
 
-\textbf{Betroffenenrechte:} Recht auf Auskunft, Berichtigung, Löschung (``Recht auf Vergessenwerden''), Datenportabilität, Widerspruch gegen automatisierte Entscheidungen.
+\textbf{Betroffenenrechte:} Auskunft, Berichtigung, Löschung (``Recht auf Vergessenwerden''), Datenportabilität, Widerspruch gegen automatisierte Entscheidungen.
 
-\textbf{Sanktionen:} Verstöße können mit bis zu \textbf{20 Millionen Euro} oder \textbf{4\,\% des weltweiten Jahresumsatzes} geahndet werden.
+\textbf{Sanktionen:} bis zu \textbf{20\,Mio.\ €} oder \textbf{4\,\% des weltweiten Jahresumsatzes}.
 
 \subsubsection{CIA-Modell der Informationssicherheit}
 
-Das klassische Rahmenwerk definiert drei Schutzziele:
-
-\begin{itemize}
-  \item \textbf{Confidentiality (Vertraulichkeit):} Unbefugte dürfen nicht auf Daten zugreifen. Maßnahmen: Verschlüsselung, Zugriffskontrolle
-  \item \textbf{Integrity (Integrität):} Daten dürfen nicht unbefugt verändert werden. Maßnahmen: Hashwerte, digitale Signaturen
-  \item \textbf{Availability (Verfügbarkeit):} Autorisierte Benutzer sollen jederzeit auf Daten zugreifen können. Maßnahmen: Redundanz, Backups, DDoS-Schutz
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+  \item \textbf{Confidentiality} (Vertraulichkeit): kein unbefugter Zugriff. \textit{Maßnahmen:} Verschlüsselung, Zugriffskontrolle
+  \item \textbf{Integrity} (Integrität): keine unbefugte Veränderung. \textit{Maßnahmen:} Hashwerte, digitale Signaturen
+  \item \textbf{Availability} (Verfügbarkeit): Zugriff jederzeit für Autorisierte. \textit{Maßnahmen:} Redundanz, Backups, DDoS-Schutz
 \end{itemize}
 
-\subsubsection{Technische und organisatorische Maßnahmen}
+\subsubsection{Technische und organisatorische Maßnahmen (TOMs)}
 
-Die DSGVO verlangt ``Privacy by Design'' sowie angemessene TOMs:
-
-\textbf{Wichtige Maßnahmen:}
-\begin{itemize}
-  \item Pseudonymisierung und Anonymisierung
-  \item Verschlüsselung (AES-256 für Daten, TLS 1.3 für Übertragung)
-  \item Role-Based Access Control (RBAC)
-  \item Backups nach 3-2-1-Regel (3 Kopien, 2 Medientypen, 1 Off-site)
-  \item Umfassendes Logging und Auditing
-  \item Regelmäßige Schulungen der Mitarbeiter
-\end{itemize}
+Die DSGVO verlangt ``Privacy by Design'' und angemessene TOMs, u.\,a.:
+Pseudonymisierung/Anonymisierung $\cdot$ Verschlüsselung (AES-256 für Daten, TLS\,1.3 für Übertragung) $\cdot$ Role-Based Access Control (RBAC) $\cdot$ Backups nach 3-2-1-Regel (3 Kopien, 2 Medientypen, 1 Off-site) $\cdot$ Logging \& Auditing $\cdot$ regelmäßige Mitarbeiterschulungen.
 
 \subsubsection{Datenschutz im ML/Data-Science-Kontext}
 
-In Data-Science-Projekten ergeben sich spezifische Herausforderungen:
-
-\begin{itemize}
-  \item \textbf{Datenvergiftung:} Unvorsichtige Nutzung von Trainingsdaten kann zu Datenlecks führen
-  \item \textbf{Model Inversion:} ML-Modelle können trainierte Daten teilweise rekonstruieren
-  \item \textbf{Fairness und Bias:} Diskriminierende Modelle verletzen DSGVO
-  \item \textbf{Datentransfers:} Übermittlung von EU-Daten in Drittländer ist oft nicht zulässig
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+  \item \textbf{Datenvergiftung:} unvorsichtiger Umgang mit Trainingsdaten kann zu Datenlecks führen
+  \item \textbf{Model Inversion:} ML-Modelle können Trainingsdaten teilweise rekonstruieren
+  \item \textbf{Fairness \& Bias:} diskriminierende Modelle verletzen die DSGVO
+  \item \textbf{Datentransfers:} Übermittlung von EU-Daten in Drittländer oft unzulässig
 \end{itemize}
 \newpage
 
 \subsection{Python: Listen, Tupel und Mengen}
 
-\definition{\textbf{Listen} (\texttt{list}), \textbf{Tupel} (\texttt{tuple}) und \textbf{Mengen} (\texttt{set}) sind fundamentale Python-Datenstrukturen für Sammlungen. Sie unterscheiden sich in ihren Eigenschaften: Veränderbarkeit, Ordnung, Eindeutigkeit und Verwendbarkeit als Dictionary-Keys.}
+\definition{\textbf{Listen} (\texttt{list}), \textbf{Tupel} (\texttt{tuple}) und \textbf{Mengen} (\texttt{set}) sind fundamentale Python-Datenstrukturen für Sammlungen. Sie unterscheiden sich in Veränderbarkeit, Ordnung, Eindeutigkeit und Verwendbarkeit als Dictionary-Keys. Alle drei sind iterierbar, unterstützen \texttt{in} sowie \texttt{len(), min(), max(), sum()}.}
 
-Alle drei sind iterierbar -- man kann sie in \texttt{for}-Schleifen durchlaufen. Alle unterstützen den \texttt{in}-Operator für Mitgliedschaftstests und die built-in Funktionen \texttt{len()}, \texttt{min()}, \texttt{max()} und \texttt{sum()}. Entscheidend sind aber ihre Unterschiede.
+\textbf{Liste:} \textbf{geordnet}, \textbf{veränderlich} (mutable), Duplikate erlaubt. Index-Zugriff $\mathcal{O}(1)$, Einfügen an beliebiger Position $\mathcal{O}(n)$ (Verschiebung nachfolgender Elemente). Einsatz: dynamische Sammlungen, wachsende Ergebnisse, Puffer, Warteschlangen.
 
-Die \textbf{Liste} ist die am häufigsten verwendete Struktur. Sie ist \textbf{geordnet} (die Einfügereihenfolge bleibt erhalten), \textbf{veränderlich} (mutable) -- Elemente können hinzugefügt, entfernt und modifiziert werden -- und erlaubt Duplikate. Listen unterstützen Index-Zugriffe in $\mathcal{O}(1)$, aber Einfügungen an beliebigen Positionen kosten $\mathcal{O}(n)$, weil nachfolgende Elemente verschoben werden müssen. Typisch werden Listen für dynamische Sammlungen verwendet: während Schleifen wachsende Ergebnisse, Puffern von Daten, oder Warteschlangen.
+\textbf{Tupel:} konzeptuell wie Liste, aber \textbf{unveränderlich} (immutable) -- keine \texttt{append()}/\texttt{remove()}. Dieser Constraint bringt zwei Vorteile: hashbar (also als Dictionary-Key nutzbar) und speichereffizienter, da kein Größen-Overhead vorgehalten wird. Mit \texttt{typing.NamedTuple} lassen sich benannte Felder definieren. Einsatz: Datenbankdatensätze, Funktionsrückgaben (Tuple Unpacking), Konfigurationsparameter.
 
-Das \textbf{Tupel} ist konzeptuell wie eine Liste, aber \textbf{unveränderlich} (immutable). Hat man ein Tupel, kann man es nicht mehr ändern -- keine \texttt{append()}, \texttt{remove()}-Methoden. Dieser Constraint bietet zwei Vorteile: Erstens kann ein Tupel als Dictionary-Key verwendet werden (nur hashbare Objekte dürfen Keys sein); Zweitens ist es speichereffizienter als eine Liste, da Python keine Größen-Overhead vorhalten muss. Ein Tupel mit benannten Feldern kann via \texttt{typing.NamedTuple} definiert werden, was Code-Lesbarkeit verbessert. Typisch werden Tupel für Datenbankdatensätze, Funktionsrückgaben (mehrere Werte als Tuple unpacking), oder Konfigurationsparameter verwendet.
+\textbf{Menge (set):} ungeordnet, nur eindeutige Werte, intern als Hash-Tabelle. Mitgliedschaftstest, Einfügen, Löschen $\mathcal{O}(1)$ im Durchschnitt -- entscheidender Vorteil gegenüber der Liste ($\mathcal{O}(n)$) bei Existenztests in großen Kollektionen. Mengenoperationen: Vereinigung (\texttt{|}), Schnitt (\texttt{\&}), Differenz (\texttt{-}), symmetrische Differenz (\texttt{\textasciicircum}). \texttt{frozenset} ist die unveränderliche, hashbare Variante. Einsatz: Eindeutigkeitstests, Deduplizierung, Mengenlogik.
 
-Die \textbf{Menge} (set) ist ungeordnet, speichert nur eindeutige Werte, und ist intern als Hash-Tabelle implementiert. Mitgliedschaftstests, Einfügungen und Löschungen sind $\mathcal{O}(1)$ im Durchschnitt. Das gewaltige Vorteil: Wenn man feststellen muss, ob ein Wert in einer großen Kollektion existiert, ist ein set $\mathcal{O}(1)$ schnell, während eine Liste $\mathcal{O}(n)$ Zeit braucht. Mengen unterstützen klassische Mengenoperationen: Vereinigung (\texttt{|}), Schnitt (\texttt{\&}), Differenz (\texttt{-}) und symmetrische Differenz (\texttt{\^}). Das \texttt{frozenset}-Pendant ist unveränderlich und hashbar. Typische Anwendungen sind schnelle Eindeutigkeitstests, Deduplizierung von Listen, oder Mengenlogik (alle Elemente aus A, die nicht in B sind).
-
-\begin{table}[h!]
+\begin{table}[H]
   \centering
   \begin{tabular}{l c c c}
     \textbf{Eigenschaft} & \textbf{list}    & \textbf{tuple}   & \textbf{set}     \\
     \midrule
-
     Geordnet             & \checkmark       & \checkmark       & --               \\
     Veränderlich         & \checkmark       & --               & \checkmark       \\
     Duplikate erlaubt    & \checkmark       & \checkmark       & --               \\
@@ -212,102 +216,105 @@ Die \textbf{Menge} (set) ist ungeordnet, speichert nur eindeutige Werte, und ist
   \end{tabular}
 \end{table}
 
-Für Anfänger ist es wichtig zu verstehen, wann welche Struktur die richtige Wahl ist. Benötigt man eine Sammlung mit Indexzugriff, die sich ändert? Dann Liste. Benötigt man einen unveränderlichen Schlüssel oder mehrere Rückgabewerte? Dann Tupel. Muss man schnell testen, ob ein Wert existiert, oder Mengenoperationen durchführen? Dann Set.
-
+\textbf{Wahl der Struktur:} Indexzugriff \& Veränderbarkeit nötig $\Rightarrow$ Liste. Unveränderlicher Key oder mehrere Rückgabewerte $\Rightarrow$ Tupel. Schneller Existenztest oder Mengenlogik $\Rightarrow$ Set.
 
 \newpage
 
 \subsection{Python: Kopien vs. Verweise, Shallow \& Deep Copies}
 
-\definition{In Python ist jede Variable ein \textbf{Name} oder Label, das auf ein Objekt im Speicher zeigt. Eine Zuweisung wie \texttt{b = a} kopiert nicht das Objekt, sondern lässt beide Namen auf \textbf{dasselbe Objekt} zeigen. Dies ist eine Referenzsemantik, die viele Python-Anfänger überrascht.}
+\definition{In Python ist jede Variable ein \textbf{Name}, der auf ein Objekt im Speicher zeigt. \texttt{b = a} kopiert nicht das Objekt -- beide Namen zeigen auf \textbf{dasselbe Objekt} (Referenzsemantik).}
 
-Der \texttt{is}-Operator prüft Identität (gleiche Speicheradresse), während \texttt{==} Gleichheit (gleicher Wert) prüft. Bei unveränderlichen Typen ist dieser Unterschied oft unsichtbar, weil Python kleinere Integers und kurze Strings intern cached. Bei veränderlichen Typen ist der Unterschied kritisch: zwei Listen können gleich sein (\texttt{==}), aber unterschiedliche Objekte (\texttt{is not}).
+\texttt{is} prüft Identität (gleiche Speicheradresse), \texttt{==} prüft Gleichheit (gleicher Wert). Bei unveränderlichen Typen oft unsichtbar (Python cached kleine Integers/kurze Strings); bei veränderlichen Typen kritisch: zwei Listen können gleich (\texttt{==}), aber unterschiedliche Objekte (\texttt{is not}) sein.
 
-Dies unterscheidet sich fundamenttal bei **unveränderlichen Typen** (\texttt{int, float, str, tuple, frozenset}), bei denen scheinbare ``Änderungen'' tatsächlich neue Objekte erzeugen. Wenn man ein Tupel ändern möchte, kann man das nicht -- Python wirft einen Fehler. Stattdessen erstellte man ein neues Tupel. Bei **veränderlichen Typen** (\texttt{list, dict, set}) können Attribute und Elemente in-place verändert werden.
+\textbf{Unveränderliche Typen} (\texttt{int, float, str, tuple, frozenset}): scheinbare Änderungen erzeugen neue Objekte; ein Tupel selbst lässt sich nicht modifizieren. \textbf{Veränderliche Typen} (\texttt{list, dict, set}): Elemente können in-place verändert werden -- mit der Konsequenz, dass mehrere Variablen, die auf dieselbe Liste zeigen, sich Mutationen teilen:
 
-Das hat eine große Konsequenz: Wenn man auf Basis einer Liste mehrere Variablen erstellt, teilen sich alle auf Mutations-Operationen. Ein beliebtes und tückisches Beispiel ist:
+\texttt{a = [1, 2, 3]; b = a; b.append(4)} \quad $\Rightarrow$ \quad \texttt{a} ist jetzt \texttt{[1, 2, 3, 4]}.
 
-\texttt{a = [1, 2, 3]} \\
-\texttt{b = a} \\
-\texttt{b.append(4)} \\
-\texttt{print(a)  \# [1, 2, 3, 4]!}
+\textbf{Shallow Copy:} neuer Container (äußerste Ebene), Elemente bleiben geteilt -- bei verschachtelten Strukturen oft unzureichend. Wege: \texttt{list(orig)}, \texttt{orig[:]}, \texttt{copy.copy(orig)}, \texttt{orig.copy()}.
 
-Um dieses Problem zu lösen, kann man eine **Shallow Copy** erstellen. Dies erzeugt einen neuen Container (die äußerste Ebene), aber die Elemente werden nicht kopiert -- sie werden noch geteilt. Bei verschachtelten Strukturen ist dies oft nicht ausreichend. Wege zur Shallow Copy sind: \texttt{list(orig)}, \texttt{orig[:]}, \texttt{copy.copy(orig)}, oder \texttt{orig.copy()}.
+\textbf{Deep Copy:} vollständig unabhängiges Objekt inkl. aller rekursiv erreichbaren Unterobjekte, keine geteilten mutable Objekte. Standard: \texttt{copy.deepcopy(orig)} (behandelt auch zyklische Referenzen via Memo-Dictionary). Deutlich teurer -- in Performance-kritischem Code vermeiden, stattdessen unveränderliche Strukturen oder explizite Rekonstruktion nutzen.
 
-Eine **Deep Copy** erzeugt ein vollständig unabhängiges Objekt inklusive aller rekursiv erreichbaren Unterobjekte. Es gibt keine gemeinsamen mutable Objekte zwischen Original und Kopie. Der Standard-Weg ist \texttt{copy.deepcopy(orig)}. Die Funktion durchquert den gesamten Objektgraph und erstellt eine Kopie jedes Objekts. Es behandelt auch zyklische Referenzen via internes Memo-Dictionary. Deep Copy ist aber erheblich teurer -- für Performance-kritischen Code sollte man sie vermeiden und stattdessen unveränderliche Strukturen oder explizite Rekonstruktion verwenden.
+\textbf{Funktionsparameter} folgen \textbf{Pass-by-Object-Reference}: die Funktion erhält eine Referenz; Mutation eines veränderlichen Objekts wirkt nach außen, eine Neuzuweisung (\texttt{param = param + 1}) nicht.
 
-Beim Übergeben von Parametern an Funktionen folgt Python einer **Pass-by-Object-Reference**-Semantik. Die Funktion erhält eine Referenz auf das Objekt. Wenn es veränderlich ist, können Mutationen in der Funktion den Original beeinflussen. Eine Neuzuweisung des Parameters (z.B. \texttt{param = param + 1}) beeinflusst aber nicht die aufrufende Seite.
+\textbf{Default-Argument-Falle:} Ein mutables Default-Argument wird nur \emph{einmal} bei Funktionsdefinition erstellt und über alle Aufrufe geteilt:
 
-Ein klassisches Anfänger-Fehler ist die **Default-Argument-Falle**:
+\texttt{def f(lst=[]):\ lst.append(1);\ return lst} \quad $\Rightarrow$ \quad \texttt{f(), f(), f()} liefert \texttt{[1], [1,1], [1,1,1]}, nicht dreimal \texttt{[1]}.
 
-\texttt{def f(lst=[]):} \\
-\texttt{\ \ \ \ lst.append(1)} \\
-\texttt{\ \ \ \ return lst}
-
-Die leere Liste wird einmal bei der Funktionsdefinition erstellt und über alle Aufrufe geteilt! Ruft man \texttt{f()}, \texttt{f()}, \texttt{f()} auf, erhält man \texttt{[1]}, \texttt{[1,1]}, \texttt{[1,1,1]}, nicht dreimal \texttt{[1]}. Die korrekte Lösung:
-
-\texttt{def f(lst=None):} \\
-\texttt{\ \ \ \ if lst is None:} \\
-\texttt{\ \ \ \ \ \ \ \ lst = []}
-
+\textbf{Korrekt:} \texttt{def f(lst=None):\ if lst is None:\ lst = []}.
 
 \newpage
 
 \subsection{Python: Schritte des Data-Preprocessings (scikit-learn)}
 
-\definition{\textbf{Data-Preprocessing} ist die systematische Vorbereitung von Rohdaten für Machine-Learning-Algorithmen. Viele Verfahren (SVM, k-NN, neuronale Netze) sind empfindlich gegenüber Skalierungen, fehlenden Werten oder falschen Kodierungen. Schlechte Vorbereitung führt zu systematisch schlechteren Modellen.}
+\definition{\textbf{Data-Preprocessing} bereitet Rohdaten systematisch für ML-Algorithmen vor. Viele Verfahren (SVM, k-NN, neuronale Netze) sind empfindlich gegenüber Skalierung, fehlenden Werten oder falscher Kodierung.}
 
-Das scikit-learn-Ökosystem strukturiert Preprocessing um das \textbf{Pipeline-Konzept}: Jeder Schritt hat eine \texttt{fit(X)}-Methode (auf Trainingsdaten lernen) und eine \texttt{transform(X)}-Methode (auf beliebigen Daten anwenden). Mehrere Schritte werden via \texttt{Pipeline} verkettet. Der kritische Punkt ist: \texttt{fit} wird **nur auf Trainingsdaten** aufgerufen! Würde man \texttt{fit} auf kombinierten Trainings- und Testdaten aufrufen, käme es zu **Data Leakage** -- der Test-Set beeinflusst die Preprocessing-Parameter, was unrealistisch optimistische Metriken ergibt.
+scikit-learn strukturiert Preprocessing über das \textbf{Pipeline-Konzept}: jeder Schritt hat \texttt{fit(X)} (auf Trainingsdaten lernen) und \texttt{transform(X)} (anwenden); mehrere Schritte werden via \texttt{Pipeline} verkettet. \textbf{Kritisch:} \texttt{fit} nur auf Trainingsdaten -- sonst \textbf{Data Leakage} (Test-Set beeinflusst Preprocessing-Parameter, unrealistisch optimistische Metriken).
 
-Der **erste Schritt ist Imputation** -- der Umgang mit fehlenden Werten (NaN, None). \texttt{SimpleImputer} unterstützt mehrere Strategien: \texttt{'mean'} (Durchschnitt, nur für Numerisches), \texttt{'median'} (robust gegen Ausreißer), \texttt{'most\_frequent'} (Modus, gut für kategorische Variablen), \texttt{'constant'} (ein fester Wert). Für komplexere Szenarien ist \texttt{KNNImputer} sinnvoll -- sie imputen basierend auf Nachbar-Werten in anderen Features.
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\linewidth}{L{2.6cm} L{4.6cm} L{6.8cm}}
+    \textbf{Schritt} & \textbf{Werkzeuge} & \textbf{Beschreibung} \\
+    \midrule
+    1. Imputation & \texttt{SimpleImputer}, \texttt{KNNImputer} & Strategien: \texttt{mean} (Durchschnitt), \texttt{median} (ausreißerrobust), \texttt{most\_frequent} (Modus, kategorisch), \texttt{constant}; KNNImputer nutzt Nachbarwerte \\
+    2. Skalierung & \texttt{StandardScaler}, \texttt{MinMaxScaler}, \texttt{RobustScaler} & $z=(x-\mu)/\sigma$ (Standard); $[0,1]$-Normierung (ausreißerempfindlich); IQR-basiert (ausreißerrobust) \\
+    3. Kodierung & \texttt{OrdinalEncoder}, \texttt{OneHotEncoder} & Ordinal: Ganzzahlen (nur bei echter Ordnung); OneHot: binäre Dummy-Spalten je Kategorie, vermeidet implizite Rangfolge \\
+    4. Feature Engineering & \texttt{PolynomialFeatures}, \texttt{PowerTransformer} & Interaktionsterme/Potenzen ($x_1^2, x_1x_2,\ldots$); Yeo-Johnson normalisiert schiefe Verteilungen \\
+    5. Feature-Selektion & \texttt{VarianceThreshold}, \texttt{SelectKBest}, \texttt{SelectFromModel} & entfernt (quasi-)konstante Features; Top-$k$ nach Teststatistik; Auswahl via Modell-Importances \\
+  \end{tabularx}
+\end{table}
 
-Der **zweite Schritt ist Feature-Skalierung** -- die Normalisierung numerischer Features auf vergleichbare Spannweiten. \texttt{StandardScaler} transformiert zu Z-Werten: $z = (x - \mu) / \sigma$, sodass $\mu=0, \sigma=1$. \texttt{MinMaxScaler} normalisiert auf $[0,1]$: $(x - \min) / (\max - \min)$, ist aber empfindlich gegen Ausreißer. \texttt{RobustScaler} basiert auf dem Interquartilbereich (IQR) und ist ausreißer-robust.
+\textbf{Class Imbalance:} bei stark unbalancierten Klassen (z.\,B.\ 99\,\%/1\,\%) klassifiziert das Modell sonst trivial die Mehrheitsklasse. Abhilfen: SMOTE (synthetisches Oversampling der Minoritätsklasse) oder \texttt{class\_weight='balanced'}.
 
-Der **dritte Schritt ist Kodierung kategorischer Features**. \texttt{OrdinalEncoder} konvertiert zu ganzen Zahlen (nur bei echten Ordnungen verwenden!). \texttt{OneHotEncoder} erzeugt binäre Dummy-Variablen -- für Kategorie $i$ wird eine neue Spalte mit 1 an Position $i$ und 0 sonst erstellt. Dies vermeidet implizite Rangfolgen, führt aber zu hochdimensionalen Daten bei vielen Kategorien.
+\textbf{ColumnTransformer:} wendet unterschiedliche Pipelines parallel auf verschiedene Feature-Gruppen an -- z.\,B.\ numerische Features mit StandardScaler, kategorische mit OneHotEncoder.
 
-Der **vierter Schritt ist Feature Engineering** -- das Erzeugen neuer Features aus bestehenden. \texttt{PolynomialFeatures} erzeugt Interaktionsterme und potenzen (z.B. aus $x_1, x_2$ werden $x_1^2, x_1 x_2, x_2^2$). \texttt{PowerTransformer} macht schiefe Verteilungen mittels Yeo-Johnson-Transformation annähernd normal, was manche Modelle stabilisiert.
-
-Der **fünfte Schritt ist Feature-Selektion** -- die Reduktion auf relevante Features. \texttt{VarianceThreshold} entfernt konstante oder quasi-konstante Features. \texttt{SelectKBest} wählt die Top-$k$ Features nach einer Teststatistik (z.B. F-Score). \texttt{SelectFromModel} nutzt Feature-Importances eines einfachen ersten Modells zur Auswahl.
-
-Ein kritisches Problem ist **Class Imbalance** -- wenn Klassen extrem unbalanciert sind (z.B. 99\% Negative, 1\% Positive). Das Modell könnte einfach alles als Majoritätsklasse klassifizieren. Abhilfen: SMOTE (synthetisches Oversampling der Minoritätsklasse), oder \texttt{class\_weight='balanced'} im Modell-Konstruktor.
-
-Die \texttt{ColumnTransformer} ist besonders praktisch, wenn verschiedene Features unterschiedliche Transformationen brauchen. Sie wendet verschiedene Pipelines parallel auf verschiedene Feature-Gruppen an -- z.B. numerische Features mit StandardScaler, kategorische mit OneHotEncoder.
 \newpage
 
 \subsection{NumPy -- Einsatzmöglichkeiten und Vorteile gegenüber \glqq plain\grqq{} Python}
 
-\definition{\textbf{NumPy} (Numerical Python) ist die Fundamentalbibliothek für numerisches Rechnen in Python. Sie stellt homogene, multidimensionale Arrays (\texttt{numpy.ndarray}) und eine umfangreiche Sammlung mathematischer Funktionen bereit. NumPy ist die Basis für praktisch alle anderen wissenschaftlichen Bibliotheken: SciPy, pandas, scikit-learn, PyTorch, TensorFlow.}
+\definition{\textbf{NumPy} (Numerical Python) stellt homogene, multidimensionale Arrays (\texttt{numpy.ndarray}) und mathematische Funktionen bereit -- die Basis für SciPy, pandas, scikit-learn, PyTorch, TensorFlow.}
 
-Der Kern-Vorteil von NumPy ist die **Performance**. Typischerweise ist NumPy 50-100x schneller als plain Python für numerische Operationen. Dies resultiert aus mehreren Faktoren. Erstens: **homogener, kompakter Speicher**. Alle Array-Elemente sind vom gleichen Typ (z.B. \texttt{float64} = 8 Bytes) und liegen zusammenhängend im Speicher -- nicht wie bei Listen, wo jedes Element ein separates Python-Objekt mit Overhead ist. Zweitens: **Vektorisierung**. Operationen werden ohne explizite Python-Schleifen ausgeführt und nutzen SIMD-Instruktionen (SSE, AVX) der CPU. Drittens: **Broadcasting**. Arrays unterschiedlicher Formen können kombiniert werden, ohne Daten zu kopieren. Viertens: **C/Fortran-Kernroutinen**. Die Performance-kritischen Teile sind in C oder Fortran geschrieben, nicht in Python.
+\textbf{Performance-Vorteil} (typisch 50--100$\times$ schneller als plain Python) resultiert aus: \textbf{homogenem, kompaktem Speicher} (alle Elemente gleicher Typ, z.\,B.\ \texttt{float64}, zusammenhängend gespeichert -- kein Objekt-Overhead wie bei Listen); \textbf{Vektorisierung} (keine expliziten Python-Schleifen, nutzt SIMD-Instruktionen); \textbf{Broadcasting} (Kombination unterschiedlicher Shapes ohne Datenkopie); \textbf{C/Fortran-Kernroutinen} für performancekritische Teile.
 
-Fundamentale Konzepte: Der \texttt{dtype} legt den einheitlichen Datentyp fest (\texttt{float64, int32, bool, complex128}, etc.). Die \texttt{shape} beschreibt die Dimensionen, z.B. \texttt{(100, 28, 28)} für 100 Bilder à 28x28 Pixel. Ein wichtiger und oft übersehener Punkt: Viele Operationen (Slicing, Transpose, Reshape) geben **Views** zurück -- sie teilen sich denselben unterligenden Speicherpuffer mit dem Original. Mit \texttt{arr.base} kann man prüfen, ob ein Array ein View ist.
+\textbf{Kernkonzepte:} \texttt{dtype} legt einheitlichen Datentyp fest (\texttt{float64, int32, bool,} \ldots); \texttt{shape} beschreibt Dimensionen (z.\,B.\ \texttt{(100,28,28)} für 100 Bilder à 28$\times$28). Viele Operationen (Slicing, Transpose, Reshape) liefern \textbf{Views} -- geteilter Speicherpuffer mit dem Original (prüfbar via \texttt{arr.base}).
 
-**Broadcasting-Regeln** ermöglichen elegante vektorisierte Operationen. Die Dimensionen werden von rechts ausgerichtet. Eine Dimension der Größe 1 wird konzeptuell auf die Größe des anderen Arrays ausgedehnt, ohne physische Datenkopie. Beispiel: \texttt{np.array([[1],[2],[3]])} (Shape 3x1) + \texttt{np.array([10, 20, 30])} (Shape (3,)) ergibt Shape (3x3), wo jede Spalte der zweiten addiert wird.
+\textbf{Broadcasting-Regeln:} Dimensionen werden von rechts ausgerichtet; eine Dimension der Größe 1 wird konzeptuell ausgedehnt, ohne zu kopieren. Beispiel: Shape $(3,1)$ + Shape $(3,)$ $\to$ Shape $(3,3)$.
 
-Wichtige Operationen: **Erstellung** via \texttt{np.zeros, np.ones, np.arange, np.linspace, np.random.rand}. **Indexing** wie \texttt{a[2:5]} (Slicing), \texttt{a[::2]} (jeden 2.),  \texttt{a[a > 0]} (Boolean Mask). **Aggregation** via \texttt{sum(), mean(), std(), max(axis=0)} (über erste Achse). **Lineare Algebra** mit \texttt{np.dot}, \texttt{a @ b} (Matrixmultiplikation), \texttt{np.linalg.inv, eig, solve}. **Ufuncs** (\texttt{np.exp, log, sqrt, sin}) sind elementweise vektorisierte Funktionen.
+\begin{table}[H]
+  \centering
+  \begin{tabularx}{\linewidth}{L{2.8cm} L{11.2cm}}
+    \textbf{Kategorie} & \textbf{Funktionen} \\
+    \midrule
+    Erstellung & \texttt{np.zeros, np.ones, np.arange, np.linspace, np.random.rand} \\
+    Indexing & \texttt{a[2:5]} (Slicing), \texttt{a[::2]} (jedes 2.), \texttt{a[a > 0]} (Boolean Mask) \\
+    Aggregation & \texttt{sum(), mean(), std(), max(axis=0)} \\
+    Lin.\ Algebra & \texttt{np.dot, a @ b} (Matrixmultiplikation), \texttt{np.linalg.inv, eig, solve} \\
+    Ufuncs & \texttt{np.exp, log, sqrt, sin} -- elementweise vektorisiert \\
+  \end{tabularx}
+\end{table}
 
-Die Einsatzmöglichkeiten sind vielfältig. Für **Lineare Algebra**: Matrixmultiplikation, Gleichungssysteme, Eigenwertzerlegung, FFT. Für **Machine Learning**: Feature-Matrizen werden als NumPy-Arrays repräsentiert; scikit-learn ist kompatibel; PyTorch-Tensoren können nahtlos aus/zu NumPy konvertiert werden. Für **Bilddaten**: Ein RGB-Bild wird als \texttt{(H, W, 3)}-Array repräsentiert; Normalisierung, Cropping, Filtering sind einfach. Für **Simulation**: ODE-Schritte, Wetterdaten-Interpolation, ohne Python-Schleifen.
+\textbf{Einsatzgebiete:} Lineare Algebra (Gleichungssysteme, Eigenwertzerlegung, FFT); Machine Learning (Feature-Matrizen, kompatibel mit scikit-learn, nahtlose PyTorch-Konvertierung); Bilddaten ($(H,W,3)$-Arrays, Normalisierung, Cropping); Simulation (ODE-Schritte, Interpolation ohne Python-Schleifen).
 
-Grenzen: NumPy läuft nur auf CPU; für GPU benötigt man CuPy, PyTorch oder TensorFlow. NumPy hat keine automatische Differentiation; dafür sind PyTorch oder JAX zuständig.
+\textbf{Grenzen:} nur CPU (für GPU: CuPy, PyTorch, TensorFlow); keine automatische Differentiation (dafür PyTorch oder JAX).
+
 \newpage
 
 \subsection{R: Vektoren, Matrizen, Arrays, DataFrames, Listen}
 
-\definition{\textbf{R} ist eine funktionale, objektorientierte Sprache spezialisiert auf Statistik und Data Science. Die fundamentale Philosophie von R: \textbf{Alles ist ein Vektor}. Sogar ein einzelner Wert ist eigentlich ein Vektor der Länge 1. Die Grunddatenstrukturen unterscheiden sich in Homogenität, Dimensionalität und Verwendungszweck.}
+\definition{\textbf{R} ist eine funktionale, objektorientierte Sprache spezialisiert auf Statistik und Data Science. Grundphilosophie: \textbf{Alles ist ein Vektor} -- auch ein einzelner Wert ist ein Vektor der Länge 1. Die Grunddatenstrukturen unterscheiden sich in Homogenität, Dimensionalität und Verwendungszweck.}
 
-Die **atomare Vektoren** sind die Bausteine. Sie sind homogen (ein Datentyp für alle Elemente) und können typsweise sein: \texttt{numeric} (Fließkommazahlen), \texttt{integer} (Ganzzahlen), \texttt{logical} (TRUE/FALSE), \texttt{character} (Zeichenketten), \texttt{complex} (komplexe Zahlen), \texttt{raw} (Rohdaten). Die zentrale Eigenschaft ist **Vektorisierung**: Operationen wie \texttt{x + y} oder \texttt{sin(x)} arbeiten elementweise ohne explizite Schleife. Das **Recycling**-Prinzip ist praktisch und manchmal tückisch: Ein kurzer Vektor wird automatisch wiederholt, bis seine Länge passt. Vektoren werden typischerweise für numerische Berechnungen, Zeitreihen oder Messreihen verwendet.
+\textbf{Atomare Vektoren} sind die Bausteine: homogen, Typen \texttt{numeric, integer, logical, character, complex, raw}. Zentrale Eigenschaft ist \textbf{Vektorisierung} -- \texttt{x + y} oder \texttt{sin(x)} arbeiten elementweise ohne explizite Schleife. \textbf{Recycling:} ein kürzerer Vektor wird automatisch wiederholt, bis die Länge passt. Einsatz: numerische Berechnungen, Zeitreihen, Messreihen.
 
-**Matrizen** sind 2D-Verallgemeinerungen von Vektoren. Sie sind homogen und spalten-major (wie in Fortran), was für Speicherlayout und Performance-Implikationen wichtig ist. Index-Zugriff erfolgt mit \texttt{[i,j]}. Lineare-Algebra-Operationen sind direkt verfügbar: \texttt{t(M)} transponiert, \texttt{M \%*\% N} ist Matrixmultiplikation. Der Vorteil ist numerische Effizienz und Stabilität; der Nachteil ist, dass nur ein Datentyp per Matrix möglich ist.
+\textbf{Matrizen} sind 2D-Verallgemeinerungen, homogen und spalten-major (wie Fortran). Zugriff via \texttt{[i,j]}; Lineare Algebra direkt verfügbar (\texttt{t(M)} transponiert, \texttt{M \%*\% N} multipliziert). Vorteil: numerische Effizienz; Nachteil: nur ein Datentyp pro Matrix.
 
-**Arrays** sind n-dimensionale Verallgemeinerungen. Sie sind homogen wie Matrizen, aber beliebig-dimensional. Index-Zugriff funktioniert mit \texttt{arr[i1, i2, ..., in]}, und Subsetting mit \texttt{arr[1:5, , 3]} (erste 5 Zeilen, alle Spalten, 3. Slice). Typische Einsätze: Zeitreihenanalyse mit mehreren Variablen, 3D-Daten (z.B. Neuronale-Netze-Preprocessing).
+\textbf{Arrays} sind $n$-dimensionale Verallgemeinerungen, homogen wie Matrizen. Zugriff via \texttt{arr[i1,...,in]}, Subsetting z.\,B.\ \texttt{arr[1:5, , 3]}. Einsatz: Zeitreihen mit mehreren Variablen, 3D-Daten (z.\,B.\ NN-Preprocessing).
 
-\definition{Der \textbf{Data Frame} ist R's Antwort auf eine relationale Tabelle. Im Gegensatz zu Matrizen ist ein Data Frame \textbf{heterogen} -- Spalten dürfen unterschiedliche Typen haben. Jede Spalte ist ein Vektor (oder faktorisiert), und alle Spalten müssen gleich lang sein. Spalten werden accessed via \texttt{\$}-Operator (\texttt{df\$Name}) oder Bracket-Notation (\texttt{df[, Name]}).}
+\definition{Der \textbf{Data Frame} ist R's Tabellen-Pendant: im Gegensatz zur Matrix \textbf{heterogen} -- Spalten dürfen unterschiedliche Typen haben, müssen aber gleich lang sein. Zugriff via \texttt{\$} (\texttt{df\$Name}) oder Bracket-Notation (\texttt{df[, Name]}).}
 
-Data Frames sind das Arbeitspferd von Statistik in R. Sie ermöglichen elegante statistische Formeln: \texttt{lm(y \textasciitilde\ x1 + x2, data=df)} regressiert $y$ auf $x_1$ und $x_2$. Der Vorteil ist Flexibilität und nahtlose Integration mit statistischen Funktionen. Der Nachteil ist, dass Data Frames bei rein numerischen Berechnungen langsamer sind als Matrizen. Moderne Alternativen sind \texttt{tibble} (verbesserter Data Frame mit strikterem Verhalten) und \texttt{data.table} (stark optimiert für große Datenmengen).
+Data Frames sind das Arbeitspferd der Statistik in R und erlauben Formel-Syntax wie \texttt{lm(y \textasciitilde\ x1 + x2, data=df)}. Vorteil: Flexibilität, nahtlose Integration mit statistischen Funktionen; Nachteil: langsamer als Matrizen bei rein numerischen Berechnungen. Moderne Alternativen: \texttt{tibble} (strikteres Verhalten) und \texttt{data.table} (optimiert für große Datenmengen).
 
-**Listen** sind R's generische Vektoren. Elemente einer Liste können beliebige Typen haben -- Zahlen, Strings, andere Listen, Funktionen. Sie sind die flexibelste Struktur. Index-Zugriff erfolgt mit \texttt{list[[i]]} (gibt Element zurück) oder \texttt{list[i]} (gibt Sub-Liste zurück) -- der Unterschied ist subtil aber wichtig. Benannte Elemente werden mit \texttt{list\$name} accessed. Listen werden typischerweise für Funktionsrückgaben (mehrere Objekte) oder komplexe, heterogene Datenstrukturen verwendet. Der Nachteil ist Performance -- Listen sind langsamer als homogene Strukturen.
+\textbf{Listen} sind R's generische Vektoren -- Elemente beliebigen Typs (Zahlen, Strings, Listen, Funktionen). Zugriff: \texttt{list[[i]]} (Element) vs.\ \texttt{list[i]} (Sub-Liste); benannte Elemente via \texttt{list\$name}. Einsatz: Funktionsrückgaben, komplexe heterogene Strukturen. Nachteil: langsamer als homogene Strukturen.
 
-\begin{table}[h!]
+\begin{table}[H]
   \centering
   \begin{tabularx}{\linewidth}{L{2.2cm} C{1.8cm} L{4.8cm} L{3.2cm}}
     \textbf{Struktur} & \textbf{Dim} & \textbf{Eigenschaft}     & \textbf{Use-Case}                        \\
@@ -324,45 +331,36 @@ Data Frames sind das Arbeitspferd von Statistik in R. Sie ermöglichen elegante 
 
 \subsection{Objektorientierte Programmierung in R}
 
-\subsubsection{Überblick und Besonderheit}
+\subsubsection{Überblick}
 
-R ist primär eine funktionale Sprache -- OOP ist ein nachträglich hinzugefügtes Konzept. Deshalb gibt es \textbf{mehrere, teils konkurrierende OOP-Systeme}, die historisch gewachsen sind. Die vier wichtigsten sind: \textbf{S3}, \textbf{S4}, \textbf{R5 (Reference Classes)} und \textbf{R6}.
+R ist primär funktional -- OOP wurde nachträglich ergänzt, daher existieren mehrere konkurrierende Systeme: \textbf{S3}, \textbf{S4}, \textbf{R5 (Reference Classes)} und \textbf{R6}.
 
 \subsubsection{S3 -- Informelles Dispatch-System}
 
-S3 ist das älteste und am häufigsten verwendete OOP-System in R. Es basiert auf \textbf{generischen Funktionen und Method Dispatch}: Eine generische Funktion (z.\,B.\ \texttt{print}, \texttt{summary}, \texttt{plot}) ruft die passende Methode auf Basis des \texttt{class}-Attributs des ersten Arguments auf.
+Das älteste und meistverwendete System, basiert auf \textbf{generischen Funktionen und Method Dispatch}: eine generische Funktion (\texttt{print}, \texttt{summary}, \texttt{plot}) ruft die passende Methode anhand des \texttt{class}-Attributs des ersten Arguments auf. Bei \texttt{speak(fido)} sucht R nach \texttt{speak.Dog}, dann \texttt{speak.default}; Vererbung läuft über einen \texttt{class}-Vektor mit mehreren Einträgen.
 
-\textbf{Method Dispatch:} Wenn \texttt{speak(fido)} aufgerufen wird, sucht R nach \texttt{speak.Dog}, dann \texttt{speak.default}. Die Vererbung wird über den \texttt{class}-Vektor mit mehreren Einträgen realisiert.
-
-\textbf{Vorteile:} Extrem leichtgewichtig; keine formale Definition nötig; kompatibel mit den meisten Base-R-Paketen. \\
-\textbf{Nachteile:} Keine formale Klassenvalidierung; fehleranfällig bei großen Projekten.
+\textbf{Vorteile:} leichtgewichtig, keine formale Definition nötig, kompatibel mit Base-R. \textbf{Nachteile:} keine Klassenvalidierung, fehleranfällig in großen Projekten.
 
 \subsubsection{S4 -- Formales Klassen-System}
 
-S4 ist ein formales OOP-System mit expliziter Klassendefinition, Slot-Validierung und Mehrfachvererbung. Es wird vor allem in Bioinformatik-Paketen (Bioconductor) eingesetzt.
+Formales System mit expliziter Klassendefinition, Slot-Validierung und Mehrfachvererbung; verbreitet in Bioconductor.
 
-\textbf{Schlüsselunterschiede zu S3:}
-\begin{itemize}
-  \item \textbf{Formale Deklaration} via \texttt{setClass} -- Slots (Felder) und ihre Typen sind explizit definiert
-  \item \textbf{Slot-Zugriff} via \texttt{@} (nicht \texttt{\$})
-  \item \textbf{Validierung} via \texttt{validity}-Argument möglich
-  \item \textbf{Mehrfachvererbung} via \texttt{contains}
-  \item \textbf{Multiple Dispatch}: \texttt{setMethod} kann auf der Kombination mehrerer Argument-Typen dispatchen
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+  \item \textbf{Formale Deklaration} via \texttt{setClass} -- Slots und Typen explizit definiert
+  \item \textbf{Slot-Zugriff} via \texttt{@} (nicht \texttt{\$}); \textbf{Validierung} via \texttt{validity}-Argument
+  \item \textbf{Mehrfachvererbung} via \texttt{contains}; \textbf{Multiple Dispatch} via \texttt{setMethod}
 \end{itemize}
-
-\textbf{Vor- und Nachteile:} Formal, sicher und gut dokumentierbar, aber verbos und deutlich komplexer als S3.
+\textbf{Vor-/Nachteile:} formal, sicher, dokumentierbar -- aber verbos und komplexer als S3.
 
 \subsubsection{R5 / Reference Classes -- Mutable OOP}
 
-Reference Classes (auch R5) bringen \textbf{echte Referenzsemantik} nach R -- ähnlich wie Klassen in Python oder Java. Objekte sind mutable: Methoden können Felder in-place ändern (kein Copy-on-Modify).
-
-\textbf{Vor- und Nachteile:} Referenzsemantik kann in manchen Situationen (z.\,B.\ Zustandsautomaten, Caches) eleganter sein. Allerdings ungewohnt für R-Programmierer; Debugging schwieriger; kaum in Standard-Paketen verwendet.
+Bringt echte \textbf{Referenzsemantik} nach R (wie Python/Java-Klassen): Objekte sind mutable, Methoden ändern Felder in-place. Vorteil bei Zustandsautomaten/Caches; Nachteil: ungewohnt, schwieriger zu debuggen, kaum in Standard-Paketen genutzt.
 
 \subsubsection{R6 -- Modernes, schlankes Referenz-System}
 
-Das Paket \texttt{R6} bietet eine moderne Alternative zu R5 mit saubererer Syntax, echter privater/öffentlicher Felddefinition und besserer Performance.
+Moderne Alternative zu R5 mit sauberer Syntax, echter privater/öffentlicher Felddefinition und besserer Performance.
 
-\subsubsection{Vergleichstabelle der OOP-Systeme}
+\subsubsection{Vergleichstabelle}
 
 \begin{table}[h!]
   \centering
@@ -379,78 +377,33 @@ Das Paket \texttt{R6} bietet eine moderne Alternative zu R5 mit saubererer Synta
   \end{tabularx}
 \end{table}
 
-\subsubsection{Empfehlungen}
-
-\begin{itemize}
-  \item \textbf{S3} für einfache Pakete und schnelle Prototypen -- die Default-Wahl in R
-  \item \textbf{S4} wenn formale Typsicherheit und Multiple Dispatch benötigt werden (z.\,B.\ Bioconductor)
-  \item \textbf{R6} wenn Zustandsverwaltung mit echter Kapselung gewünscht ist -- am nächsten an Python/Java-OOP
-  \item \textbf{R5} heute weitgehend durch R6 ersetzt
-\end{itemize}
-
 \newpage
 
 \subsection{Tidyverse -- Philosophie \& Funktionsweise}
 
 \subsubsection{Was ist das Tidyverse?}
 
-Das Tidyverse ist ein \textbf{kohärentes Ökosystem von R-Paketen}, das von Hadley Wickham und dem RStudio (heute Posit) Team entwickelt wurde. Es teilt eine gemeinsame Design-Philosophie, konsistente API und Datenstruktur. Kernpakete sind: \texttt{ggplot2}, \texttt{dplyr}, \texttt{tidyr}, \texttt{readr}, \texttt{purrr}, \texttt{tibble}, \texttt{stringr}, \texttt{forcats}.
+Ein \textbf{kohärentes Ökosystem von R-Paketen} (Hadley Wickham/Posit) mit gemeinsamer Design-Philosophie, konsistenter API und Datenstruktur. Kernpakete: \texttt{ggplot2, dplyr, tidyr, readr, purrr, tibble, stringr, forcats}.
 
-\subsubsection{Die Kernphilosophie: Tidy Data}
+\subsubsection{Tidy Data}
 
-Das Tidyverse basiert auf dem Konzept \textbf{Tidy Data} (Hadley Wickham, 2014):
-\begin{enumerate}
-  \item Jede \textbf{Variable} bildet eine \textbf{Spalte}
-  \item Jede \textbf{Beobachtung} bildet eine \textbf{Zeile}
-  \item Jeder \textbf{Wert} steht in genau \textbf{einer Zelle}
-\end{enumerate}
+Kernkonzept (Wickham, 2014): (1) jede \textbf{Variable} eine \textbf{Spalte}, (2) jede \textbf{Beobachtung} eine \textbf{Zeile}, (3) jeder \textbf{Wert} in genau einer Zelle. Tidy Data ist das standardisierte Eingabeformat aller Tidyverse-Funktionen und eliminiert häufiges Reshaping.
 
-Tidy Data ist das standardisierte Eingabeformat für alle Tidyverse-Funktionen und eliminiert das häufige Reshaping, das in Base-R notwendig wäre.
+\subsubsection{Tibble \& dplyr}
 
-\subsubsection{Das Tibble -- moderner Data Frame}
+\texttt{tibble} ist ein überarbeiteter Data Frame: besseres Druckverhalten, striktere Subsetting-Semantik, schnellere Erstellung.
 
-\texttt{tibble} ist eine überarbeitete Version des Data Frames mit besserem Druck-Verhalten, strikterer Subsetting-Semantik (kein automatisches Type-Dropping) und schnellerer Erstellung.
+\texttt{dplyr} stellt fünf \textbf{Kern-Verben} bereit: \textbf{filter()} (Zeilen filtern), \textbf{select()} (Spalten wählen), \textbf{mutate()} (neue Spalte berechnen), \textbf{arrange()} (sortieren), \textbf{summarise()} (aggregieren). Der \textbf{Pipe-Operator} \texttt{|>} (R\,4.1+) bzw.\ \texttt{\%>\%} (magrittr) übergibt das linke Ergebnis als erstes Argument rechts -- eine lesbare Transformationskette. \texttt{group\_by()} + \texttt{summarise()} ermöglichen Aggregation pro Gruppe.
 
-\subsubsection{dplyr -- Data Manipulation}
+\subsubsection{tidyr \& ggplot2}
 
-\texttt{dplyr} stellt fünf \textbf{Kern-Verben} bereit, die die häufigsten Datentransformationen abdecken:
-\begin{itemize}
-  \item \textbf{filter():} Zeilen filtern
-  \item \textbf{select():} Spalten auswählen
-  \item \textbf{mutate():} Neue Spalte berechnen
-  \item \textbf{arrange():} Sortieren
-  \item \textbf{summarise():} Aggregieren
-\end{itemize}
+\texttt{tidyr}: \textbf{pivot\_longer()} (Wide$\to$Long, für ggplot2 oft nötig), \textbf{pivot\_wider()} (Long$\to$Wide), \textbf{unnest()} (verschachtelte Daten expandieren).
 
-\textbf{Der Pipe-Operator:} Zentrales Stilelement ist der Pipe-Operator \texttt{|>} (seit R 4.1) oder \texttt{\%>\%} (aus \texttt{magrittr}). Der Pipe übergibt das Ergebnis der linken Seite als erstes Argument der rechten Seite -- eine links-nach-rechts-lesbare Kette von Transformationen.
+\texttt{ggplot2} implementiert die \textbf{Grammar of Graphics}: ein Plot entsteht aus Layers mit Daten (\texttt{aes}) und geometrischen Objekten (\texttt{geom}) -- deklarativ statt der manuellen Koordination von \texttt{plot(), points(), lines()} in Base-R.
 
-\textbf{Gruppierung und Aggregation:} \texttt{group\_by()} + \texttt{summarise()} ermöglichen komplexe Aggregationen pro Gruppe.
+\subsubsection{purrr}
 
-\subsubsection{tidyr -- Daten in Tidy Format}
-
-\texttt{tidyr} bietet Funktionen zum Reshaping:
-\begin{itemize}
-  \item \texttt{pivot\_longer():} Wide $\to$ Long Format (häufig nötig für ggplot2)
-  \item \texttt{pivot\_wider():} Long $\to$ Wide Format
-  \item \texttt{unnest():} Verschachtelte Daten expandieren
-\end{itemize}
-
-\subsubsection{ggplot2 -- Grafiken nach dem Grammar of Graphics}
-
-\texttt{ggplot2} implementiert die \textbf{Grammar of Graphics}: Ein Plot wird aus Schichten (Layers) aufgebaut, bestehend aus Daten (\texttt{aes}thetics) und geometrischen Objekten (\texttt{geom}s). Das ermöglicht eine deklarative, konsistente Beschreibung beliebig komplexer Grafiken.
-
-In Base-R würde dieselbe Grafik \texttt{plot()}, \texttt{points()}, \texttt{lines()}, \texttt{legend()} etc.\ erfordern -- jedes Mal mit manueller Koordination.
-
-\subsubsection{purrr -- Funktionale Programmierung}
-
-\texttt{purrr} bietet eine konsistente Familie von \texttt{map\_*}-Funktionen als typsichere Alternative zu \texttt{lapply}/\texttt{sapply}:
-\begin{itemize}
-  \item \texttt{map()} gibt immer eine Liste zur\u00fcck
-  \item \texttt{map\_dbl():} Ergebnis ist garantiert ein double-Vektor
-  \item \texttt{map2():} Zwei Listen parallel verarbeiten
-\end{itemize}
-
-Das \texttt{~}-Syntax erzeugt eine anonyme Funktion (\texttt{.x} referenziert das aktuelle Element).
+Konsistente \texttt{map\_*}-Familie als typsichere Alternative zu \texttt{lapply}/\texttt{sapply}: \texttt{map()} liefert immer eine Liste, \texttt{map\_dbl()} garantiert einen double-Vektor, \texttt{map2()} verarbeitet zwei Listen parallel. Die \texttt{\textasciitilde}-Syntax erzeugt anonyme Funktionen (\texttt{.x} referenziert das aktuelle Element).
 
 \subsubsection{Vorteile gegenüber plain R}
 
@@ -471,46 +424,34 @@ Das \texttt{~}-Syntax erzeugt eine anonyme Funktion (\texttt{.x} referenziert da
 
 \subsubsection{Nachteile und Kritik}
 
-\begin{itemize}
-  \item \textbf{Abhängigkeiten:} Das Tidyverse bringt viele Pakete mit -- Dependency-Management kann aufwändig sein
-  \item \textbf{Performance:} \texttt{dplyr} kann bei sehr großen Datensätzen langsamer sein als spezialisierte Pakete wie \texttt{data.table}
-  \item \textbf{Non-standard Evaluation (NSE):} \texttt{dplyr} nutzt NSE -- elegant, aber erschwert programmatische Nutzung in Funktionen
-  \item \textbf{Versionsstabilität:} Das Tidyverse entwickelt sich schnell; Breaking Changes erfordern Code-Aktualisierung
+\begin{itemize}[leftmargin=1.5em,noitemsep]
+  \item \textbf{Abhängigkeiten:} viele Pakete, aufwändiges Dependency-Management
+  \item \textbf{Performance:} \texttt{dplyr} bei sehr großen Datensätzen langsamer als \texttt{data.table}
+  \item \textbf{Non-standard Evaluation (NSE):} elegant, aber erschwert programmatische Nutzung in Funktionen
+  \item \textbf{Versionsstabilität:} schnelle Entwicklung, Breaking Changes erfordern Code-Updates
 \end{itemize}
 
 \newpage
 
 \subsection{Wichtige Dateiformate}
 
-Dateiformate spielen eine zentrale Rolle bei Datenspeicherung, -austausch und -verarbeitung. Sie lassen sich nach mehreren Dimensionen klassifizieren: \textbf{Text vs. Binär} -- Textformate (CSV, JSON, YAML, XML) sind menschenlesbar und mit Standard-Editoren bearbeitbar; Binärformate (HDF5, Parquet, Pickle) sind kompakt und schneller zu verarbeiten. \textbf{Hierarchisch vs. tabellarisch} -- XML, JSON, YAML können beliebig tiefe Strukturen darstellen; CSV und Parquet sind auf flache Tabellen optimiert. \textbf{Schema vs. schemalos} -- XML unterstützt formale Schemata (XSD); JSON Schema ist optional; CSV und YAML sind vollständig schemalos.
+Dateiformate lassen sich nach drei Dimensionen klassifizieren: \textbf{Text vs.\ Binär} (CSV/JSON/YAML/XML menschenlesbar vs.\ HDF5/Parquet/Pickle kompakt \& schnell), \textbf{hierarchisch vs.\ tabellarisch} (XML/JSON/YAML beliebig tief vs.\ CSV/Parquet flach optimiert), \textbf{Schema vs.\ schemalos} (XML formal via XSD, JSON optional, CSV/YAML schemalos).
 
-\textbf{CSV (Comma-Separated Values)} ist das universellste Format für tabellarische Daten. Jede Zeile repräsentiert einen Datensatz; Felder werden durch ein Trennzeichen (meist Komma, in deutschsprachigen Ländern oft Semikolon) getrennt. Der Vorteil liegt in universeller Kompatibilität, Lesbarkeit und praktisch null Parsing-Overhead. Nachteile: Kein Typ-System, keine Unterstützung für Hierarchien, Encoding-Probleme (UTF-8 vs. Latin-1), und große CSV-Dateien sind langsam zu lesen, weil der gesamte Inhalt als Text vorliegt.
-
-\textbf{XML (eXtensible Markup Language)} ist hierarchisch und textbasiert. Daten werden in verschachtelten Tags eingeschlossen. XML ist sehr ausdrucksstark und unterstützt formale Validierung via XSD-Schemata, was es im Unternehmensumfeld verbreitet macht. Nachteil: Sehr verbose (viel Overhead durch Tags), schwer zu lesen, teuer zu parsen im Vergleich zu modernen Alternativen.
-
-\textbf{JSON (JavaScript Object Notation)} hat XML als Web-Standard weitgehend verdrängt. JSON ist kompakt, direkt auf Programmiersprachenstrukturen (Dicts, Arrays, Primitives) abbildbar und leichter zu parsen. REST-APIs verwenden fast ausschließlich JSON. Das Konzept ist einfach: ein Objekt ist eine Key-Value-Sammlung (\texttt{\{...\}}), ein Array ist eine Sequenz (\texttt{[...]}), und atomic Typen sind String, Zahl, Boolean, Null. Einschränkungen: Keine Kommentare, keine nativen Datumstypen, keine Unterscheidung zwischen Integer und Float auf Protokoll-Ebene.
-
-\textbf{YAML (YAML Ain't Markup Language)} ist eine Obermenge von JSON und wurde für maximale menschliche Lesbarkeit optimiert. Einrückung definiert die Hierarchie; Anführungszeichen sind optional; Listen und Dicts sind intuitiv. Typische Einsätze sind Konfigurationsdateien (Docker Compose, Kubernetes, GitHub Actions, Ansible, CI/CD). Ein großes Problem ist, dass YAML-Parsing komplex und fehleranfällig ist. Kritisch für Sicherheit: \textbf{Immer \texttt{yaml.safe\_load()} verwenden, nie \texttt{yaml.load()}} aus unbekannten Quellen! Der ursprüngliche \texttt{yaml.load()} kann beliebigen Code ausführen (Pickle-Problem).
-
-\textbf{HDF5 (Hierarchical Data Format)} ist ein binäres, hierarchisches Format. Eine HDF5-Datei ist wie ein Dateisystem: es gibt \textbf{Groups} (Verzeichnisse) und \textbf{Datasets} (n-dimensionale Arrays). Eigenschaften (Metadaten) können an beide angehängt werden. Warum HDF5 für ML? \textbf{Lazy Loading} -- nur angeforderte Daten werden vom Disk geladen. Keras speichert Modellgewichte in HDF5. NumPy-Arrays werden direkt gespeichert mit vollständiger Typ-Information. Kompression ist integriert. Nachteile: Nicht human-readable, Parallelschreiben eingeschränkt, weniger flexibel als Parquet.
-
-\textbf{Apache Parquet} ist spaltenorientiert und aus dem Hadoop-Ökosystem. Der zentrale Vorteil: Alle Werte einer Spalte werden zusammen gespeichert. Das macht es extrem effizient bei Lesezugriffen auf wenige Spalten (typisch OLAP-Workload) -- um auf 5 von 100 Spalten zuzugreifen, liest man nur diese 5, nicht den ganzen Datensatz. Integrierte Kompression und vollständiges Typ-System. Standard in Apache Spark, AWS Athena, Google BigQuery, DuckDB. Im Gegensatz zu HDF5 ist Parquet spezialisiert auf Tabellendaten.
-
-Weitere Formate: \textbf{Pickle} ist Pythons natives Serialisierungsformat, praktisch aber \textbf{sicherheitskritisch} -- nie aus unbekannten Quellen laden! \textbf{NetCDF} ist der Standard in Klimawissenschaft und Meteorologie für multidimensionale Array-Daten.
-
-\begin{table}[h!]
+\begin{table}[H]
   \centering
-  \begin{tabular}{p{1.8cm} p{1.3cm} p{4.3cm} p{5.3cm}}
-    \textbf{Format} & \textbf{Typ} & \textbf{Stärken}             & \textbf{Schwächen}                 \\
+  \begin{tabularx}{\linewidth}{L{1.8cm} L{1.3cm} L{6cm} L{5cm}}
+    \textbf{Format} & \textbf{Typ} & \textbf{Stärken} & \textbf{Schwächen} \\
     \midrule
-    CSV             & Text         & Universell, einfach          & Kein Typ-System, langsam bei groß  \\
-    JSON            & Text         & Kompakt, Standard für APIs   & Keine Kommentare, kein Datumstyp   \\
-    XML             & Text         & Hierarchie, validierbar      & Verbose, Parsing komplex           \\
-    YAML            & Text         & Human-lesbar, Configs        & Parsing fehleranfällig             \\
-    HDF5            & Binär        & Hierarchie, Lazy Loading     & Nicht human-readable, Speicher     \\
-    Parquet         & Binär        & Spaltenorientiert, effizient & Nur Tabellen, Big-Data Tools nötig \\
-  \end{tabular}
+    CSV & Text & universell, einfach, kaum Parsing-Overhead & kein Typ-System, Encoding-Probleme, langsam bei großen Dateien \\
+    XML & Text & hierarchisch, formale Validierung (XSD), im Unternehmensumfeld verbreitet & sehr verbose, teuer zu parsen \\
+    JSON & Text & kompakt, direkt auf Dicts/Arrays abbildbar, Standard für REST-APIs & keine Kommentare, kein Datumstyp, kein Integer/Float-Unterschied \\
+    YAML & Text & maximal lesbar (Einrückung statt Tags), Standard für Configs (Docker, Kubernetes, CI/CD) & Parsing komplex \& fehleranfällig; \textbf{Sicherheit:} immer \texttt{yaml.safe\_load()}, nie \texttt{yaml.load()} aus unbekannten Quellen \\
+    HDF5 & Binär & hierarchisch (Groups/Datasets), Lazy Loading, integrierte Kompression, Standard für Keras-Gewichte & nicht lesbar, eingeschränktes Parallelschreiben \\
+    Parquet & Binär & spaltenorientiert -- liest nur benötigte Spalten, ideal für OLAP; Standard in Spark/Athena/BigQuery/DuckDB & nur für Tabellendaten, Big-Data-Tooling nötig \\
+  \end{tabularx}
 \end{table}
+
+Weitere Formate: \textbf{Pickle} -- Pythons native Serialisierung, praktisch aber \textbf{sicherheitskritisch} (nie aus unbekannten Quellen laden). \textbf{NetCDF} -- Standard in Klimawissenschaft/Meteorologie für multidimensionale Array-Daten.
 
 \newpage
 
