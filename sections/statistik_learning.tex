@@ -1082,33 +1082,33 @@ Werte nahe 1 deuten auf klare, gut getrennte Cluster hin.}
 
 \definition{\textbf{Bedingte Wahrscheinlichkeit:} Wahrscheinlichkeit von $A$ unter der Bedingung, dass $B$ bereits eingetreten ist:
 $$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0$$
-Interpretation: Das Eintreten von $B$ schränkt den Stichprobenraum auf $B$ ein -- $P(A\mid B)$ ist eine Neueinschätzung von $P(A)$ unter dieser Information.}
+Interpretation: $B$ schränkt den Stichprobenraum ein -- $P(A\mid B)$ ist die Neueinschätzung von $P(A)$ unter dieser Information.}
 
 \textbf{Produktregel (Kettenregel):} $P(A \cap B) = P(A \mid B)\cdot P(B) = P(B \mid A)\cdot P(A)$; für mehrere Ereignisse: $P(A \cap B \cap C) = P(A)\cdot P(B\mid A)\cdot P(C \mid A \cap B)$.
 
 \textbf{Satz der totalen Wahrscheinlichkeit:} Für eine Partition $B_1,\ldots,B_K$ von $\Omega$:
 $$P(A) = \sum_{k=1}^{K} P(A \mid B_k)\cdot P(B_k)$$
+$A$ wird dazu in die disjunkten Teile $A\cap B_k$ zerlegt und deren Wahrscheinlichkeiten summiert.
 
 \definition{\textbf{Satz von Bayes:}
 $$P(A \mid B) = \frac{P(B \mid A)\cdot P(A)}{P(B)} = \frac{P(B \mid A)\cdot P(A)}{\sum_k P(B \mid A_k)\cdot P(A_k)}.$$
-Der Satz erlaubt, ``rückwärts'' zu schließen: von bekanntem $P(B|A)$ auf gesuchtes $P(A|B)$. Die vier Terme: }
+Erlaubt das Schließen ``rückwärts'': von bekanntem $P(B|A)$ auf gesuchtes $P(A|B)$. Der Nenner ($P(B)$) folgt aus dem Satz der totalen Wahrscheinlichkeit über alle Hypothesen $A_k$ einer Partition (z.\,B. ``krank''/``gesund''). Die vier Terme:}
 \begin{itemize}
-    \item \textbf{Posterior} $P(A|B)$ (aktualisiertes Wissen nach Beobachtung), 
+    \item \textbf{Posterior} $P(A|B)$ -- aktualisiertes Wissen nach Beobachtung,
     \item \textbf{Likelihood} $P(B|A)$,
-    \item \textbf{Prior} $P(A)$ (Vorwissen),
-    \item \textbf{Evidenz} $P(B)$ (Normalisierungskonstante).
+    \item \textbf{Prior} $P(A)$ -- Vorwissen,
+    \item \textbf{Evidenz} $P(B)$ -- Normalisierungskonstante.
 \end{itemize}
 
-\textbf{Beispiel -- Medizinischer Test:} Prävalenz 1\%, Sensitivität 95\%, Spezifität 90\%.
-$$P(+) = 0{,}95 \cdot 0{,}01 + 0{,}10 \cdot 0{,}99 = 0{,}1085$$
-$$P(\text{krank}\mid +) = \frac{0{,}95 \cdot 0{,}01}{0{,}1085} \approx 8{,}8\%$$
-Trotz gutem Test: ein positives Ergebnis bedeutet nur ca.\ 9\% Krankheitswahrscheinlichkeit -- die \textbf{Base-Rate Fallacy} (seltene Erkrankungen erzeugen viele falsch-positive Befunde).
+\textbf{Beispiel -- Medizinischer Test:} Prävalenz $P(\text{krank})=0{,}01$, Sensitivität $P(+\mid\text{krank})=0{,}95$, Spezifität $P(-\mid\text{gesund})=0{,}90$ (also $P(+\mid\text{gesund})=0{,}10$).
+$$P(+) = 0{,}95\cdot 0{,}01 + 0{,}10\cdot 0{,}99 = 0{,}1085$$
+$$P(\text{krank}\mid +) = \frac{0{,}95\cdot 0{,}01}{0{,}1085} \approx 8{,}8\%$$
+Trotz gutem Test bedeutet ein positives Ergebnis nur ca.\ 9\% Krankheitswahrscheinlichkeit -- die \textbf{Base-Rate Fallacy} (seltene Erkrankungen erzeugen viele falsch-positive Befunde).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{assets/bed_wsk.png}
 \end{figure}
-
 % ============================================================
 \newpage
 
@@ -1119,19 +1119,17 @@ Trotz gutem Test: ein positives Ergebnis bedeutet nur ca.\ 9\% Krankheitswahrsch
 $$P(X_1, \ldots, X_n) = \prod_{i=1}^{n} P(X_i \mid \text{Eltern}(X_i))$$
 Dies reduziert die Parametrisierung erheblich durch bedingte Unabhängigkeiten.}
 
-\definition{\textbf{Bedingte Unabhängigkeit und d-Separation:} Drei kanonische Strukturen bestimmen den Informationsfluss:
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Seriell} $X \to Y \to Z$: Fluss von $X$ zu $Z$ wird blockiert, wenn $Y$ beobachtet wird ($X \perp Z \mid Y$).
-    \item \textbf{Divergent} $X \leftarrow Y \to Z$: Gemeinsamer Elternknoten; $X$ und $Z$ werden unabhängig, wenn $Y$ beobachtet wird ($X \perp Z \mid Y$).
-    \item \textbf{Konvergent} $X \to Y \leftarrow Z$: Gemeinsamer Kindknoten; $X$ und $Z$ sind unabhängig, wenn $Y$ \emph{nicht} beobachtet wird. Beobachten von $Y$ (oder eines Nachfahren) aktiviert Abhängigkeit -- \emph{explaining away}.
-\end{itemize}}
-
 \definition{\textbf{Naive-Bayes-Klassifikator:} Nimmt bedingte Unabhängigkeit aller Features gegeben die Klasse an: $P(X_1,\ldots,X_p \mid C) = \prod_j P(X_j \mid C)$. Klassifikation via MAP-Schätzung (Maximum A Posteriori) im Log-Raum:
 $$\hat{C} = \arg\max_c \left[\log P(C{=}c) + \sum_{j=1}^{p}\log P(X_j \mid C{=}c)\right]$$}
 
 \textbf{Laplace-Smoothing} verhindert Null-Wahrscheinlichkeiten bei ungesehenen Feature-Klasse-Kombinationen:
 $$P(X_j{=}x \mid C{=}c) = \frac{\text{count}(X_j{=}x,\, C{=}c) + \alpha}{\text{count}(C{=}c) + \alpha \cdot m}$$
 mit Smoothing-Parameter $\alpha$ (typisch $\alpha=1$) und $m$ möglichen Werten von $X_j$.
+
+\textbf{Beispiel -- Spam-Filter:} Klassen $C\in\{\text{Spam},\text{Ham}\}$, Features $X_1{=}$``enthält `Gewinn'\,'', $X_2{=}$``enthält Link''. Aus Trainingsdaten: $P(\text{Spam})=0{,}4$, $P(X_1{=}1\mid\text{Spam})=0{,}7$, $P(X_2{=}1\mid\text{Spam})=0{,}8$; $P(\text{Ham})=0{,}6$, $P(X_1{=}1\mid\text{Ham})=0{,}1$, $P(X_2{=}1\mid\text{Ham})=0{,}3$. Neue Mail mit $X_1{=}1, X_2{=}1$:
+$$\text{Score}_{\text{Spam}} = \log 0{,}4 + \log 0{,}7 + \log 0{,}8 \approx -0{,}916+(-0{,}357)+(-0{,}223) = -1{,}496$$
+$$\text{Score}_{\text{Ham}} = \log 0{,}6 + \log 0{,}1 + \log 0{,}3 \approx -0{,}511+(-2{,}303)+(-1{,}204) = -4{,}018$$
+Da $\text{Score}_{\text{Spam}} > \text{Score}_{\text{Ham}}$, wird die Mail als \textbf{Spam} klassifiziert -- trotz der (unrealistischen) Annahme, dass ``Gewinn'' und ``Link'' unabhängig voneinander auftreten.
 
 \textbf{Vorteile:} Schnell, benötigt wenig Daten, liefert Klassifikationssicherheiten, funktioniert überraschend gut bei moderaten Verletzungen der Unabhängigkeitsannahme. \textbf{Nachteile:} Unabhängigkeitsannahme oft unrealistisch; schlechte Kalibrierung bei korrelierten Features.
 
@@ -1146,30 +1144,47 @@ mit Smoothing-Parameter $\alpha$ (typisch $\alpha=1$) und $m$ möglichen Werten 
 \subsection{Bayes-Updates: Prior, Likelihood, Evidenz, Posterior}
 % ============================================================
 
-\definition{\textbf{Bayesianische Inferenz:} Unbekannte Parameter werden als Zufallsvariablen behandelt. Der Satz von Bayes dient als Update-Regel:
-$$p(\theta \mid \mathcal{D}) = \frac{p(\mathcal{D} \mid \theta)\cdot p(\theta)}{p(\mathcal{D})} \qquad \Leftrightarrow \qquad \text{Posterior} = \frac{\text{Likelihood} \times \text{Prior}}{\text{Evidenz}}$$
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Prior} $p(\theta)$: Vorwissen über $\theta$ vor Beobachtung der Daten; kann uninformativ sein.
-    \item \textbf{Likelihood} $p(\mathcal{D}\mid\theta) = \prod_i p(\mathbf{x}_i \mid \theta)$: Wie gut erklärt $\theta$ die Daten?
-    \item \textbf{Evidenz} $p(\mathcal{D}) = \int p(\mathcal{D}\mid\theta)\,p(\theta)\,d\theta$: Normalisierungskonstante; relevant für Modellvergleich (Bayes Factor).
-    \item \textbf{Posterior} $p(\theta\mid\mathcal{D})$: Aktualisiertes Wissen, balanciert Prior und Likelihood.
+\definition{\textbf{Bayesianische Inferenz:} Ein unbekannter Parameter $\theta$ wird als Zufallsvariable behandelt. Der Satz von Bayes aktualisiert das Wissen über $\theta$, sobald Daten $\mathcal D$ beobachtet werden:
+$$p(\theta \mid \mathcal{D}) = \frac{p(\mathcal{D} \mid \theta)\cdot p(\theta)}{p(\mathcal{D})} \qquad \Leftrightarrow \qquad \text{Posterior} = \frac{\text{Likelihood} \times \text{Prior}}{\text{Evidenz}}$$}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}p{2.2cm}p{2.4cm}p{8.5cm}@{}}
+\toprule
+\textbf{Term} & \textbf{Symbol} & \textbf{Bedeutung} \\
+\midrule
+Prior & $p(\theta)$ & Vorwissen über $\theta$ \emph{vor} den Daten \\
+Likelihood & $p(\mathcal D\mid\theta)$ & Wie plausibel sind die Daten unter $\theta$? \\
+Evidenz & $p(\mathcal D)=\int p(\mathcal D\mid\theta)p(\theta)\,d\theta$ & Normalisierung; relevant für Modellvergleich (Bayes Factor) \\
+Posterior & $p(\theta\mid\mathcal D)$ & Aktualisiertes Wissen \emph{nach} den Daten \\
+\bottomrule
+\end{tabular}
+\end{center}
+\textit{Praxis:} Die Evidenz ist nur eine Konstante (unabhängig von $\theta$), daher oft ignoriert: $p(\theta\mid\mathcal D) \propto p(\mathcal D\mid\theta)\cdot p(\theta)$.
+
+\definition{\textbf{Punktschätzer \& Unsicherheit:} Aus dem Posterior (einer Verteilung) leitet man ab:
+\begin{itemize}[leftmargin=1.5em, noitemsep]
+    \item \textbf{MAP}: $\hat\theta_{\text{MAP}} = \arg\max_\theta p(\theta\mid\mathcal D)$ (Modus)
+    \item \textbf{Posterior Mean}: $\mathbb E[\theta\mid\mathcal D]$
+    \item \textbf{Credible Interval}: $(1{-}\alpha)$-Bereich, in dem $\theta$ \emph{tatsächlich} mit Wahrscheinlichkeit $1{-}\alpha$ liegt (anders als das frequentistische KI).
 \end{itemize}}
 
-\definition{\textbf{Posterior-Punktschätzungen:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{MAP} (Maximum A Posteriori): $\hat{\theta}_{\text{MAP}} = \arg\max_\theta\, p(\theta\mid\mathcal{D})$ -- Modus des Posteriors.
-    \item \textbf{Posterior Mean}: $\hat{\theta} = \mathbb{E}[\theta\mid\mathcal{D}]$ -- Erwartungswert.
-    \item \textbf{Posterior Median}.
-\end{itemize}
-\textbf{Credible Intervals:} Im Gegensatz zum frequentistischen KI direkt probabilistisch interpretierbar: mit $(1-\alpha)$-Kredibilität liegt $\theta$ tatsächlich im Intervall.}
-
-\definition{\textbf{Sequential Bayesian Update:} Der alte Posterior wird zum neuen Prior:
+\definition{\textbf{Sequential Update:} Posterior wird zum neuen Prior:
 $$p(\theta \mid \mathcal{D}_1, \mathcal{D}_2) \propto p(\mathcal{D}_2 \mid \theta)\cdot p(\theta \mid \mathcal{D}_1)$$
-Die Reihenfolge der Datenpunkte ist unerheblich; Batch- und Online-Update liefern identische Ergebnisse.}
+Reihenfolge egal -- Batch- und Online-Update liefern dasselbe Ergebnis.}
 
-\textbf{Beispiel -- Münzwurf:} Prior $p \sim \text{Beta}(1,1)$, Daten: $n=5$ Würfe mit $k=3$ Erfolgen. Aus der Likelihood $p(\mathcal D\mid p)\propto p^3(1-p)^2$ folgt der Posterior
-$$p\mid\mathcal D \sim \text{Beta}(4,3).$$
-Der Posterior Mean ist $\mathbb E[p\mid\mathcal D]=4/7\approx0.57$, während der Maximum-Likelihood-Schätzer (MLE) $\hat p_{\text{MLE}}=3/5=0.6$ ergibt. Der Bayes-Schätzer wird durch den Prior leicht in Richtung $0.5$ gezogen.
+\textbf{Beispiel -- Münzwurf:} Prior $\text{Beta}(1,1)$.
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & Daten & Posterior & Mean \\
+\midrule
+Runde 1 & $n{=}5,\,k{=}3$ & $\text{Beta}(4,3)$ & $4/7\approx0{,}57$ \\
+Runde 2 (sequentiell) & $n{=}4,\,k{=}3$ & $\text{Beta}(7,4)$ & $7/11\approx0{,}64$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Gesamt ($n{=}9,k{=}6$) auf den Ausgangsprior angewendet ergibt ebenfalls $\text{Beta}(7,4)$ -- bestätigt das Sequential Update. Zum Vergleich: MLE wäre $\hat p=0{,}6$; der Bayes-Schätzer wird leicht zu $0{,}5$ gezogen.
 % ============================================================
 \newpage
 
@@ -1357,6 +1372,11 @@ Multi-class nativ & Nein & Ja & Ja \\
 \end{tabular}
 \end{center}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/svm.png}
+\end{figure}
+
 % ============================================================
 \newpage
 
@@ -1384,12 +1404,15 @@ Overfitting & Niedrig & Hoch & Regularisierung, mehr Daten, einfacheres Modell \
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/bias_var_tradeoff.png}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\textwidth]{assets/bias_var_sum.png}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/bias_var_tradeoff.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/bias_var_sum.png}
+    \end{minipage}
 \end{figure}
 
 \definition{\textbf{Validierungsstrategien:}
@@ -1448,19 +1471,19 @@ Trendschätzung via \textbf{Moving Average} (gerade Periode $p=2q$): $\hat{\mu}_
 
 \definition{\textbf{Monte Carlo Integration:} Ziehe $x_1,\ldots,x_n \sim p$, dann gilt:
 $$\hat{E} = \frac{1}{n}\sum_{i=1}^n f(x_i) \xrightarrow{n\to\infty} E_p[f(x)] \quad \text{(LLN)}$$
-Problem: direktes Sampling aus $p$ ist oft unmöglich (unbekannte Normalisierungskonstante).}
+Idee wie bei einer Wahlumfrage: Mittelwert über Stichproben statt Vollerhebung. Problem: direktes Sampling aus $p$ ist oft unmöglich (unbekannte Normalisierungskonstante).}
 
 \definition{\textbf{Importance Sampling:} Ziehe stattdessen aus einer einfach zu samplenden \textbf{Proposal-Verteilung} $q(x)$ und korrigiere mit \textbf{Importance Weights} $w_i = p(x_i)/q(x_i)$:
 $$E_p[f(x)] \approx \sum_i \tilde{w}_i\, f(x_i), \qquad \tilde{w}_i = \frac{w_i}{\sum_j w_j}$$
-Bedingung: $q(x)>0$ überall wo $p(x)>0$. \textbf{Problem:} Schlechte Proposal $\Rightarrow$ wenige Samples dominieren (\emph{Weight Degeneracy}). \textbf{Effective Sample Size} $\mathrm{ESS} = {(\sum w_i)^2}/{\sum w_i^2} \in [1, n]$ misst Effizienz. In hohen Dimensionen versagt IS zuverlässig.}
+Intuition: man "fischt" dort, wo es einfach ist ($q$), und gewichtet jeden Fang danach, wie wahrscheinlich er unter der echten Verteilung $p$ wäre. Bedingung: $q(x)>0$ überall wo $p(x)>0$. \textbf{Problem:} Schlechte Proposal $\Rightarrow$ ein einzelnes Sample dominiert mit riesigem Gewicht, der Rest trägt kaum bei (\emph{Weight Degeneracy}). \textbf{Effective Sample Size} $\mathrm{ESS} = {(\sum w_i)^2}/{\sum w_i^2} \in [1, n]$ misst, wie viele "echte" unabhängige Samples effektiv übrig bleiben. In hohen Dimensionen versagt IS zuverlässig.}
 
-\definition{\textbf{Markov Chain Monte Carlo (MCMC):} Konstruiere eine Markov Chain mit stationärer Verteilung $p(x)$; nach einer \emph{Burn-in}-Phase liefern die Zustände approximative Samples aus $p$ -- ohne die Normalisierungskonstante zu benötigen.
+\definition{\textbf{Markov Chain Monte Carlo (MCMC):} Konstruiere eine Markov Chain mit stationärer Verteilung $p(x)$; nach einer \emph{Burn-in}-Phase liefern die Zustände approximative Samples aus $p$ -- ohne die Normalisierungskonstante zu benötigen. Vorstellung: ein Spaziergänger, der sich bevorzugt in wahrscheinlichen Regionen aufhält und gelegentlich auch in unwahrscheinlichere wandert.
 
 \textbf{Metropolis-Hastings} pro Iteration: (1) schlage $x' \sim q(x'\mid x_t)$ vor; (2) akzeptiere mit
 $$\alpha = \min\!\left(1,\,\frac{p(x')\,q(x_t\mid x')}{p(x_t)\,q(x'\mid x_t)}\right)$$
-(3) sonst behalte $x_t$. Die \emph{Detailed Balance}-Bedingung garantiert $p$ als stationäre Verteilung.}
+(3) sonst behalte $x_t$. Ist $x'$ wahrscheinlicher, wird immer akzeptiert; ist er unwahrscheinlicher, nur manchmal -- das erlaubt Erkundung statt Steckenbleiben im lokalen Maximum. Die \emph{Detailed Balance}-Bedingung garantiert $p$ als stationäre Verteilung, und da nur das Verhältnis $p(x')/p(x_t)$ eingeht, kürzt sich die Normalisierungskonstante heraus.}
 
-\definition{\textbf{Konvergenzdiagnostik:}
+\definition{\textbf{Konvergenzdiagnostik:} (prüft, ob die Chain wirklich "eingeschwungen" ist und genug unabhängige Information liefert)
 \begin{itemize}[leftmargin=1.5em,noitemsep]
     \item \textbf{Trace Plots:} Chain soll stationär oszillieren (kein Trend, kein Drift).
     \item \textbf{ACF der Chain:} Schnell abfallende ACF $\Rightarrow$ gutes Mixing.
@@ -1481,21 +1504,39 @@ Konvergenzdiagnose & Einfach (ESS) & Aufwendig ($\hat{R}$, ACF) \\
 \end{tabular}
 \end{center}
 
-\subsubsection{Gibbs Sampling}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/metropolis_1.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/metropolis_2.png}
+    \end{minipage}
+\end{figure}
+
+\textbf{Gibbs Sampling}
 % ============================================================
 
 \textbf{Motivation:} Bei multivariaten Posteriors $p(x_1,\ldots,x_p\mid y)$ ist Metropolis-Hastings schwierig zu tunen -- eine gute gemeinsame Proposal für alle Dimensionen zu finden ist aufwendig. \textbf{Gibbs Sampling} umgeht das, indem man statt des gemeinsamen Posteriors nur noch univariate \emph{bedingte} Verteilungen sampelt, die oft analytisch verfügbar sind.
 
 \definition{\textbf{Gibbs Sampling:} Initialisiere $\mathbf{x}^{(0)}$. In jeder Iteration $t$ sample der Reihe nach:
 $$x_j^{(t)} \sim p\!\left(x_j \;\middle|\; x_1^{(t)},\ldots,x_{j-1}^{(t)},\, x_{j+1}^{(t-1)},\ldots,x_p^{(t-1)}\right) \quad \text{für } j=1,\ldots,p$$
-d.\,h. jede Variable wird aus ihrer \textbf{vollständig bedingten Verteilung} gezogen, während alle anderen auf ihrem aktuellen Wert fixiert bleiben.}
+d.\,h. jede Variable wird aus ihrer \textbf{vollständig bedingten Verteilung} gezogen, während alle anderen auf ihrem aktuellen Wert fixiert bleiben. Intuition: wie Tisch und Stuhl abwechselnd optimal positionieren, während das jeweils andere Möbelstück fix bleibt -- man muss nie im gesamten Raum auf einmal raten, sondern immer nur entlang einer Achse.}
 
 \definition{\textbf{Eigenschaften:}
 \begin{itemize}[leftmargin=1.5em,noitemsep]
     \item Spezialfall von Metropolis-Hastings mit Akzeptanzrate $\alpha = 1$ (keine Rejections).
     \item Konvergiert gegen den gemeinsamen Posterior $p(x_1,\ldots,x_p\mid y)$.
     \item \textbf{Vorteil:} Kein Tuning einer Proposal nötig; hohe Akzeptanzrate.
-    \item \textbf{Nachteil:} Langsames Mixing bei stark korrelierten Variablen (Chain ``hängt fest'').
+    \item \textbf{Nachteil:} Langsames Mixing bei stark korrelierten Variablen, da nur achsenweise (kleine) Schritte möglich sind -- die Chain ``hängt fest''.
     \item Anwendung: Normal-Normal-Modell, Mixture Models, Hierarchische Bayes-Modelle.
 \end{itemize}}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{assets/gibbs_sampling.png}
+\end{figure}
 \newpage

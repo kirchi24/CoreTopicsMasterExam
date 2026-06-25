@@ -32,14 +32,6 @@ In Worten: \textbf{Strikte Präferenz} ($\vec{x} \succ \vec{y}$) bedeutet, dass 
 
 In Worten: \textbf{Vollständigkeit} verlangt, dass ein Akteur je zwei Güterbündel stets vergleichen kann -- er muss sich für eines entscheiden oder Indifferenz feststellen, aber er darf nicht ratlos sein. \textbf{Transitivität} verlangt logische Konsistenz der Präferenzen: Wer $\vec{x}$ mindestens so gern mag wie $\vec{y}$ und $\vec{y}$ mindestens so gern wie $\vec{z}$, muss auch $\vec{x}$ mindestens so gern mögen wie $\vec{z}$. Ein einziger Gegenfall reicht, um Nicht-Transitivität zu zeigen; für Nicht-Vollständigkeit genügt ein Paar, für das weder $\vec{x}\succsim\vec{y}$ noch $\vec{y}\succsim\vec{x}$ gilt. Zwei Extremfälle: \emph{vollständige Indifferenz} (alles gleich lieb, stets transitiv) und \emph{eindeutige Präferenz} (keine Indifferenz, aber trotzdem möglicherweise nicht vollständig).
 
-\textit{Hinweis:} Zum Prüfen der \emph{Nicht}-Transitivität genügt \emph{ein} Gegenbeispiel. Für Nicht-Vollständigkeit: Paar finden, für das weder $\vec{x}\succsim\vec{y}$ noch $\vec{y}\succsim\vec{x}$ gilt.
-
-\textbf{Weitere Eigenschaften:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Konvexität}: $\vec{x}\succsim\vec{z} \wedge \vec{y}\succsim\vec{z} \Rightarrow \lambda\vec{x}+(1-\lambda)\vec{y}\succsim\vec{z}$ (für alle $\lambda\in[0,1]$)
-    \item \textit{Sonderfall}: Vollständige Indifferenz (alle gleich lieb, immer transitiv) oder eindeutige Präferenz (keine Indifferenz)
-\end{itemize}
-
 \textbf{Zusammenhang der abgeleiteten Präferenzordnungen:} Aus $\succsim_A$ lassen sich die Präferenzordnungen $\succ_A$ (strikte Präferenz) und $\sim_A$ (Indifferenz) ableiten. Es gilt:
 \[
 {\succsim_A} = {\succ_A} \cup {\sim_A},
@@ -54,7 +46,12 @@ denn jede schwache Präferenz ist entweder eine strikte Präferenz \emph{oder} e
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/example_preferences.png}
+    \includegraphics[width=0.95\textwidth]{assets/example_preferences.png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{assets/example_preferences_relations.png}
 \end{figure}
 
 \newpage
@@ -123,10 +120,10 @@ Standardverfahren der Mikroökonomie. Typischerweise: $v(x) = \sqrt{x}$ (risikoa
 \begin{tabular}{lccccccc}
 \hline
  & \multicolumn{3}{c}{\textbf{Ergebnis}} & $L_\mu$ & $L_{\mu\sigma}$ & $L_{\mathrm{EU}}$ \\
- & Flaute ($w=0{,}2$) & Normal ($w=0{,}7$) & Hochkonj.\ ($w=0{,}1$) & & ($q=-0{,}8$) & ($v=\sqrt{\cdot}$) \\
+ & Flaute ($w=0{,}1$) & Normal ($w=0{,}7$) & Hochkonj.\ ($w=0{,}2$) & & ($q=-0{,}8$) & ($v=\sqrt{\cdot}$) \\
 \hline
 $A_1$ & 100 & 50 & 30 & 51{,}0 & 36{,}49 & 7{,}05 \\
-$A_2$ & 300 & 40 & 0  & 58{,}0 & 7{,}76  & 6{,}16 \\
+$A_2$ & 300 & 40 & 0  & 58{,}0 & -7{,}76  & 6{,}16 \\
 $A_3$ & 50  & 50 & 50 & 50{,}0 & 50{,}00 & 7{,}07 \\
 \hline
 \multicolumn{4}{l}{\textbf{Optimum}} & $A_2$ & $A_3$ & $A_3$ \\
@@ -350,7 +347,7 @@ Dieses Unterkapitel illustriert die drei Spieltypen am selben Grundspiel (Gefang
 \end{array}
 \]
 
-Auszahlungen in ,,Strafmaß'' (kleiner = besser für Spieler). Zur Vermeidung von Vorzeichenverwirrung: Das NGG ist $(D,D)$ mit $u^* = -8$ für beide.
+Auszahlungen in ,,Strafmaß'' (negative Werte, da es geraubte Zeit vom Leben ist --> größere Zahlen besser). Zur Vermeidung von Vorzeichenverwirrung: Das NGG ist $(D,D)$ mit $u^* = -8$ für beide.
 
 \medskip
 \textbf{1. Statisches Spiel -- GK 1 (dominante Strategien):}
@@ -383,25 +380,6 @@ Da $G$ ein \emph{eindeutiges} NGG $(D,D)$ hat (1. Feststellung), wird in \emph{j
 \medskip
 \textbf{4. Unendlich wiederholtes Spiel $G(\infty,\delta)$ -- Folk Theorem:}
 
-Mit der Grim-Trigger-Strategie (,,Kooperiere, solange der andere kooperiert; bestraf für immer bei Abweichung'') ist $(K,K)$ als TSP-NGG implementierbar, falls $\delta \geq \tfrac{1}{2}$ (siehe vorheriger Abschnitt). Die langfristige Auszahlung beträgt dann $\tfrac{-1}{1-\delta}$ statt $\tfrac{-8}{1-\delta}$ -- eine deutliche Verbesserung für beide Spieler.
-
-\medskip
-\textbf{Zusammenfassung:}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{p{4.0cm} p{3.5cm} p{4.5cm}}
-\hline
-\textbf{Spieltyp} & \textbf{Lösungskonzept} & \textbf{Ergebnis} \\
-\hline
-Statisch & Dominante Strategien (GK 1) & $(D,D)$, $u=-8$ \\
-Dynamisch & TSP-NGG / Rückwärtsinduktion (GK 4) & $(D,D)$, $u=-8$ \\
-Endlich wiederholt $G(T)$ & TSP-NGG, Rückwärtsinduktion & $(D,D)$ in jeder Runde \\
-Unendlich wiederholt $G(\infty,\delta\geq\frac{1}{2})$ & Folk Theorem / Grim Trigger & $(K,K)$ möglich, $u=-1$ \\
-\hline
-\end{tabular}
-\end{table}
-
-Der entscheidende Unterschied: Erst durch \emph{unendliche} Wiederholung mit hinreichend großem Diskontierungsfaktor kann Kooperation als rationales Gleichgewicht entstehen -- im Einmalspiel und im endlich wiederholten Spiel (bei eindeutigem NGG) dominiert stets das nicht-kooperative Ergebnis.
+Mit der Grim-Trigger-Strategie (,,Kooperiere, solange der andere kooperiert; bestraf für immer bei Abweichung'') ist $(K,K)$ als TSP-NGG implementierbar, falls $\delta \geq \tfrac{1}{2}$ (siehe vorheriger Abschnitt). Die langfristige Auszahlung beträgt dann $\tfrac{-1}{1-\delta}$ statt $\tfrac{-8}{1-\delta}$ -- eine deutliche Verbesserung für beide Spieler. Erst durch \emph{unendliche} Wiederholung mit hinreichend großem Diskontierungsfaktor kann Kooperation als rationales Gleichgewicht entstehen.
 
 \newpage

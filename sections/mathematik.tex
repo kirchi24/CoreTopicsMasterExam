@@ -193,6 +193,7 @@ Operationen führen zu \emph{wachsender Unschärfe} und sind nicht exakt umkehrb
 \newpage
 
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Modulare Arithmetik und Integer-Darstellung am Computer}
 
 \textbf{Zahlendarstellung:} Jede ganze Zahl ist in Basis $b \geq 2$ darstellbar: $(a_{n-1}\cdots a_1 a_0)_b = \sum_{i=0}^{n-1} a_i \cdot b^i$ mit Ziffern $a_i \in \{0,\ldots,b-1\}$.
@@ -232,8 +233,10 @@ Bei Primzahl $p$ hat jedes $a \not\equiv 0$ ein Inverses -- $\mathbb{Z}/p\mathbb
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Darstellung reeller Zahlen am Computer und Numerische Fehler}
-\subsubsection{Darstellung reeller Zahlen am Computer}
+
+\textbf{Darstellung reeller Zahlen am Computer}
 
 Am Computer steht für eine Zahl nur eine \textbf{begrenzte Anzahl von Bits} zur Verfügung -- jede Darstellung reeller Zahlen ist daher ein Kompromiss zwischen Wertebereich und Genauigkeit.
 
@@ -268,7 +271,8 @@ bestehend aus Vorzeichen (1 Bit), Mantisse ($m$ Bits) und Exponent ($e$ Bits mit
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
-\subsubsection{Numerische Fehler}
+
+\textbf{Numerische Fehler}
 
 Rechnen mit begrenzter Genauigkeit führt zu Fehlern. Ziel ist stets, jede Zahl durch die nächste \textbf{Maschinenzahl} darzustellen -- aber auch die Summe bester Darstellungen muss nicht die beste Darstellung des Ergebnisses sein ($0{,}333+0{,}333+0{,}333 = 0{,}999 \neq 1{,}000$).
 
@@ -297,6 +301,7 @@ Vorkommen bei Wahrscheinlichkeitsprodukten (z.\,B.\ in Hidden Markov Models) -- 
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Kondition von Problemen}
 
 \definition{Die \textbf{Kondition} beschreibt die prinzipielle Gutartigkeit eines Problems -- unabhängig vom Algorithmus. Kernfrage: Wie empfindlich ist das Ergebnis gegenüber kleinen Störungen der Eingangsdaten?
@@ -324,6 +329,7 @@ Die Kondition ist eine \emph{Untergrenze} des zu erwartenden Fehlers -- selbst d
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Minimumsuche: Gradientenabstieg, Newton-Verfahren, Momentum}
 
 Optimierungsaufgaben werden als Minimierungsprobleme formuliert ($\max f = \min{-f}$). Da $\nabla f = 0$ meist nicht analytisch lösbar, verwendet man iterative \textbf{Abstiegsverfahren}: Wähle $\bm{x}_0$, bestimme Richtung $\bm{d}_k$ und Schrittweite $\lambda_k > 0$, setze $\bm{x}_{k+1} = \bm{x}_k + \lambda_k\bm{d}_k$ mit $f(\bm{x}_{k+1}) < f(\bm{x}_k)$.
@@ -359,6 +365,7 @@ Zick-Zack & Ja (bei hohem $\kappa$) & Nein \\
 \end{figure}
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Fourier-Reihen und Fourier-Transformation}
 
 \textbf{Grundidee:} Beliebige (hinreichend gutartige) Funktionen lassen sich als Überlagerung von Sinus- und Kosinus-Schwingungen darstellen. Fourier-Theorie ermöglicht den Wechsel zwischen Zeit- und Frequenzbereich -- eine der mächtigsten Ideen der angewandten Mathematik.
@@ -386,6 +393,7 @@ mit $a_n = \frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega_0 t)\,\mathrm{d}t$ und 
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Aliasing-Effekt und Shannon-Nyquist-Theorem}
 
 \textbf{Zwei Arten der Diskretisierung:} Wertdiskretisierung (Quantisierung: endliche Amplitudenauflösung, meist weniger kritisch für qualitative Aussagen) und \textbf{Zeitliche Diskretisierung} (Abtastung mit Schrittweite $\Delta t$, kann zu extremen Fehlschlüssen führen, wenn die Abtastrate unzureichend ist).
@@ -419,15 +427,18 @@ mit $a_n = \frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega_0 t)\,\mathrm{d}t$ und 
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Faltung (diskret und stetig) sowie Faltungskerne und Anwendungen}
 
 \textbf{Kernidee:} Der Ausgabewert zum Zeitpunkt $t$ ist ein gewichtetes Mittel der Vergangenheit/Umgebung -- das Gewicht gibt der \textbf{Faltungskern} (Filter, Impulsantwort) vor. Tritt bei linearen zeitinvarianten (LTI) Systemen auf: Linearität und Zeitinvarianz implizieren gemeinsam die Faltungsstruktur.
 
-\definition{\textbf{Diskrete Faltung:} $(x*k)_n = \sum_{m=-\infty}^{\infty} x_m\,k_{n-m}$. Anschaulich: Der gespiegelte und verschobene Kern gleitet über das Signal; an jeder Position wird das Skalarprodukt von Signal und Kern gebildet. Für endliche Sequenzen hat das Ergebnis Länge $|x| + |k| - 1$.}
+\definition{\textbf{Diskrete Faltung:} $(x*k)_n = \sum_{m=-\infty}^{\infty} x_m\,k_{n-m}$. Dabei wird der Kern gespiegelt und über das Signal verschoben; außerhalb des Signals werden fehlende Werte als $0$ angenommen (Zero Padding). Für endliche Sequenzen hat das Ergebnis Länge $|x| + |k| - 1$.}
 
-\beispiel{Signal $x = [1, 2, 3]$, Kern $k = [1, -1]$ (Vorwärtsdifferenz):
-\[(x*k)_n = [\,1,\;2{-}1,\;3{-}2,\;0{-}3\,] = [\,1,\;1,\;1,\;{-}3\,]\]
-Jedes Ausgabeelement ist die Differenz zweier benachbarter Eingabewerte -- der Kern erkennt also Änderungen (Kantendetektion in 1D).}
+\beispiel{Signal $x = [1,2,3]$, Kern $k = [1,-1]$:}
+\[
+x*k = [1\cdot1,\; 2\cdot1+1\cdot(-1),\; 3\cdot1+2\cdot(-1),\; 0\cdot1+3\cdot(-1)] = [1,1,1,-3]
+\]
+Durch die Spiegelung wirkt der Kern wie die Differenz $x_n-x_{n-1}$; die letzten Werte entstehen durch das Zero Padding. Der Kern hebt Änderungen im Signal hervor (1D-Kantendetektion).
 
 \definition{\textbf{Stetige Faltung:} $(f*g)(t) = \int_{-\infty}^{\infty}f(\tau)\,g(t-\tau)\,\mathrm{d}\tau$. Eigenschaften: kommutativ, assoziativ, linear, distributiv. \textbf{Faltungssatz:} $\widehat{f*g}(\nu)=\hat{f}(\nu)\cdot\hat{g}(\nu)$ -- Faltung im Zeitbereich entspricht Multiplikation im Frequenzbereich.}
 
@@ -451,6 +462,7 @@ Jedes Ausgabeelement ist die Differenz zweier benachbarter Eingabewerte -- der K
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Methoden zur numerischen Bestimmung von Integralen}
 
 \textbf{Motivation:} Symbolisches Integrieren oft nicht möglich (kein geschlossener Ausdruck für Stammfunktion) oder unpraktikabel (nur Messpunkte vorhanden). Numerisches Integrieren ist -- im Unterschied zum numerischen Differenzieren -- eine \emph{gutartige} Aufgabe: Integration glättet, kleine Fehler werden herausgemittelt (Tiefpasscharakter). Numerisches Differenzieren ist heikel (Hochpassfilter, verstärkt Rauschen).
@@ -522,6 +534,7 @@ Dabei werden $N$ Punkte $\bm{x}_i$ zufällig im Integrationsgebiet gewählt und 
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Graphentheorie: Matrizen und ihre Zusammenhänge}
 
 Sei $G=(V,E)$ mit $n=|V|$ Knoten und $m=|E|$ Kanten. Als durchgehendes Beispiel dient folgender Graph:
@@ -563,6 +576,7 @@ Daraus folgen die Exzentrizitäten: $e(1)=2,\;e(2)=2,\;e(3)=3,\;e(4)=3,\;e(5)=3$
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Graphentheorie: Eulersche Kantenfolgen und Eulersche Touren sowie Hamiltonwege und Hamiltonkreise}
 
 \textbf{Begriffe und Definitionen:}
@@ -620,7 +634,7 @@ Ein \textbf{notwendiges und hinreichendes} Kriterium für Hamiltonkreise ist bis
 \textbf{Bekannte Grundtypen schlichter Netzwerke:}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/network_types.png}
+    \includegraphics[width=0.65\textwidth]{assets/network_types.png}
 \end{figure}
 
 \textbf{Wurzelbäume:} Tree Network mit einem ausgezeichneten Knoten (\textbf{Wurzel}, muss nicht oben sein). Terminologie: \textbf{Vorgänger} (näher an Wurzel), \textbf{Nachfolger} (weiter entfernt). Darstellung: Vorgänger stets oberhalb der Nachfolger. \textbf{Binärkodierung:} Baum von der Wurzel nach links unten umwandern; $1$ = Abstieg, $0$ = Aufstieg. Gleicher Baum kann unterschiedlich kodiert sein.

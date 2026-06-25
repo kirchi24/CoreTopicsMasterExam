@@ -8,7 +8,7 @@
 
 \begin{table}[H]
 \centering
-\begin{tabular}{p{3.5cm} p{12cm}}
+\begin{tabular}{p{5cm} p{10cm}}
 \hline
 \textbf{Eigenschaft} & \textbf{Beschreibung} \\
 \hline
@@ -47,7 +47,7 @@ Proactivity & Eigeninitiative zur Zielerreichung \\
 
 \begin{table}[H]
 \centering
-\begin{tabular}{p{3.5cm} p{12cm}}
+\begin{tabular}{p{5cm} p{10cm}}
 \hline
 \textbf{Konzept} & \textbf{Beschreibung} \\
 \hline
@@ -206,10 +206,7 @@ Reproduktion & Touren pro Iteration & Keine (nur Bewegung) \\
 
 \definition{Ein \textbf{MDP} ist ein stochastisches Entscheidungsproblem, bei dem der nächste Zustand und Reward nur vom \emph{aktuellen} Zustand und der gewählten Aktion abhängen (\textbf{Markov-Eigenschaft} -- keine Vorgeschichte relevant).}
 
-\textbf{Grundelemente:} State $S$ (Zustand des Environments, durch Aktionen veränderbar), Action $A$ (gewählte Aktion), Reward $R$ (Feedback auf die Aktion), Policy $\pi(a|s)$ (Wahrscheinlichkeitsverteilung über Aktionen je Zustand -- entspricht einer gemischten Strategie in der Spieltheorie). Sequenzieller Prozess:
-\[
-S_0 \to A_0 \to R_1 \to S_1 \to A_1 \to R_2 \to S_2 \to \cdots
-\]
+\textbf{Grundelemente:} State $S$ (Zustand des Environments, durch Aktionen veränderbar), Action $A$ (gewählte Aktion), Reward $R$ (Feedback auf die Aktion), Policy $\pi(a|s)$ (Wahrscheinlichkeitsverteilung über Aktionen je Zustand -- entspricht einer gemischten Strategie in der Spieltheorie).
 
 \begin{figure}[H]
     \centering
@@ -373,10 +370,9 @@ Das menschliche Gehirn umfasst $\geq 10^{10}$ Neuronen mit je $\sim 1000$ Verbin
 
 \definition{\textbf{Training} ist ein Optimierungsproblem: Gegeben Trainingspaare $(x_i, y_i)$, finde Gewichte $W$ und Bias $b$, die eine Kostenfunktion minimieren.}
 
-\textbf{Typische Kostenfunktionen:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{MSE} (Regression): $\mathcal{L} = \frac{1}{M}\sum_{i=1}^{M}(y_i - \hat{y}_i)^2$
-    \item \textbf{Cross-Entropy} (Klassifikation): $\mathcal{L} = -\frac{1}{M}\sum_{i=1}^{M}[y_i\log\hat{y}_i + (1-y_i)\log(1-\hat{y}_i)]$
+    \item \textbf{Cross-Entropy} (Klassifikation binär): $\mathcal{L} = -\frac{1}{M}\sum_{i=1}^{M}[y_i\log\hat{y}_i + (1-y_i)\log(1-\hat{y}_i)]$
     \item \textbf{L2-Regularisierung} (Overfitting-Prävention): $\mathcal{L}_\text{tot} = \mathcal{L}_\text{data} + \lambda\sum_i w_i^2$
 \end{itemize}
 
@@ -386,19 +382,16 @@ W \leftarrow W - \alpha\,\frac{\partial \mathcal{L}}{\partial W}
 \]
 Der Gradient $\frac{\partial\mathcal{L}}{\partial W}$ gibt an, wie stark die Kostenfunktion in jede Parameter-Richtung ansteigt. Varianten: \textit{Batch} (gesamter Datensatz, stabil aber langsam), \textit{SGD} (ein Sample pro Update, schnell aber verrauscht), \textit{Mini-Batch} (typisch $B \in \{32,64,128\}$, Standardkompromiss).
 
-\definition{\textbf{Backpropagation} ist der Standardalgorithmus zur Gradientenberechnung in neuronalen Netzen mittels \textbf{Kettenregel}. Komplexität: $\mathcal{O}(W)$ -- nur ein konstanter Faktor mehr als der Vorwärtsdurchlauf.}
+\definition{\textbf{Backpropagation} ist der Standardalgorithmus zur Gradientenberechnung in neuronalen Netzen mittels \textbf{Kettenregel}: der Fehler wird schichtweise von hinten nach vorne propagiert, wobei jede Schicht ihren Gradienten aus dem bereits berechneten Gradienten der Folgeschicht ableitet. Im Vorwärtsdurchlauf gespeicherte Zwischenergebnisse (Aktivierungen) werden wiederverwendet, statt jeden Pfad einzeln neu zu differenzieren. Komplexität: $\mathcal{O}(W)$ -- nur ein konstanter Faktor mehr als der Vorwärtsdurchlauf.}
 
 \textbf{Forward Pass} (schichtweise Aktivierungen berechnen):
 \[
 z^{(l)} = W^{(l)} h^{(l-1)} + b^{(l)}, \qquad h^{(l)} = \sigma(z^{(l)})
 \]
 
-\textbf{Backward Pass} (Fehlergradienten von hinten nach vorne propagieren):
+\textbf{Backward Pass} (Kettenregel angewandt auf $\mathcal{L} \to h^{(l)} \to z^{(l)} \to W^{(l)}$):
 \[
-\delta^{(L)} = \frac{\partial\mathcal{L}}{\partial h^{(L)}}\cdot\sigma'(z^{(L)}), \qquad \delta^{(l)} = \bigl(W^{(l+1)}\bigr)^T\delta^{(l+1)}\cdot\sigma'(z^{(l)})
-\]
-\[
-\frac{\partial\mathcal{L}}{\partial W^{(l)}} = \delta^{(l)}\bigl(h^{(l-1)}\bigr)^T, \qquad \frac{\partial\mathcal{L}}{\partial b^{(l)}} = \delta^{(l)}
+\frac{\partial\mathcal{L}}{\partial W^{(l)}} = \underbrace{\frac{\partial\mathcal{L}}{\partial h^{(l)}}\cdot\frac{\partial h^{(l)}}{\partial z^{(l)}}}_{=\;\delta^{(l)}}\cdot\frac{\partial z^{(l)}}{\partial W^{(l)}} = \delta^{(l)}\bigl(h^{(l-1)}\bigr)^T, \qquad \delta^{(l)} = \bigl(W^{(l+1)}\bigr)^T\delta^{(l+1)}\cdot\sigma'(z^{(l)})
 \]
 
 \textbf{Adaptive Optimierer:}
@@ -412,14 +405,14 @@ z^{(l)} = W^{(l)} h^{(l-1)} + b^{(l)}, \qquad h^{(l)} = \sigma(z^{(l)})
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.80\textwidth]{assets/backpropagation.png}
+    \includegraphics[width=0.70\textwidth]{assets/backpropagation.png}
 \end{figure}
 
 \newpage
 
 \subsection{Aktivierungsfunktionen}
 
-\definition{\textbf{Aktivierungsfunktionen} $\sigma(z)$ führen \textbf{Nichtlinearität} in neuronale Netze ein. Ohne sie wäre selbst ein tiefes Netz äquivalent zu einem einzigen linearen Modell -- unabhängig von der Anzahl der Schichten. Anforderungen: nichtlinear, differenzierbar, recheneffizient, berechenbare Ableitungen.}
+\definition{\textbf{Aktivierungsfunktionen} $\sigma(z)$ führen \textbf{Nichtlinearität} in neuronale Netze ein. Ohne sie wäre selbst ein tiefes Netz äquivalent zu einem einzigen linearen Modell -- unabhängig von der Anzahl der Schichten. Anforderungen: nichtlinear, differenzierbar und effizient berechenbare Ableitungen, recheneffizient.}
 
 \begin{table}[H]
 \centering
@@ -593,7 +586,7 @@ Im Nash-Gleichgewicht gilt $p_G = p_\text{data}$ und $D(x) = \tfrac{1}{2}$ über
 
 \begin{table}[H]
 \centering
-\begin{tabular}{p{2.6cm} p{4.5cm} p{4.5cm}}
+\begin{tabular}{p{2.5cm} p{4.5cm} p{8.0cm}}
 \hline
 \textbf{Darstellung} & \textbf{Beschreibung} & \textbf{Eigenschaften} \\
 \hline
@@ -619,7 +612,7 @@ TF-IDF & $\text{TF}(t,d)\cdot\log(|D|/n_D(t))$; TF normiert auf Dokumentlänge, 
 
 \begin{table}[H]
 \centering
-\begin{tabular}{p{2cm} p{7cm} p{7cm}}
+\begin{tabular}{p{2cm} p{6.5cm} p{6.5cm}}
 \hline
 \textbf{Methode} & \textbf{Idee} & \textbf{Eigenschaften} \\
 \hline
@@ -649,7 +642,7 @@ Ein neuronales Netz wird trainiert; die Gewichtsmatrix \emph{nach} dem Training 
 
 \begin{table}[H]
 \centering
-\begin{tabular}{p{3.0cm} p{6.5cm} p{6.5cm}}
+\begin{tabular}{p{3.0cm} p{5.5cm} p{6.0cm}}
 \hline
 \textbf{Typ} & \textbf{Beschreibung} & \textbf{Beispiel} \\
 \hline

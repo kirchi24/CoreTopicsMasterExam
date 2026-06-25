@@ -135,12 +135,12 @@ Eine Aussage ist \textbf{falsifizierbar}, wenn es prinzipiell möglich ist, sie 
 
 \subsection{Pulsmodelle und deren Dynamik}
 
-\definition{Ein \textbf{Pulsmodell} ermöglicht die diskrete, lineare sowie dynamische Betrachtung der Ausbreitung von Systemstörungen. Ein \textbf{Puls} ist eine Systemstörung an einem bestimmten Knoten zu einem bestimmten Zeitpunkt. \emph{Hinweis:} Ein Pulsmodell ist \emph{kein} vollständiges Simulationsmodell -- es betrachtet nur die Fortpflanzung von Störungen.}
+\definition{Ein \textbf{Pulsmodell} ermöglicht die diskrete, lineare sowie dynamische Betrachtung der Ausbreitung von Systemstörungen. Ein \textbf{Puls} ist eine Systemstörung an einem bestimmten Knoten zu einem bestimmten Zeitpunkt. \emph{Hinweis:} Ein Pulsmodell ist \emph{kein} vollständiges Simulationsmodell -- es betrachtet nur die Fortpflanzung von Störungen und nicht das vollständige Systemverhalten.}
 
 \textbf{Mathematische Formulierung:}
-\[
+$$
 \vec{p}_k = A^k \cdot \vec{p}_0
-\]
+$$
 wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nicht} aus dem Kern entstammen, insbesondere $\vec{p}_0 \neq \vec{0}$). Kern: $\ker(A) = \{\vec{p} \in \mathbb{R}^n : A\vec{p} = \vec{0}\}$.
 
 \textbf{Zusammenhang Kern und Eigenwerte:} Der Kern von $A$ ist genau dann nicht-trivial ($\ker(A) \neq \{\vec{0}\}$), wenn $\lambda = 0$ ein Eigenwert von $A$ ist. Ist $\lambda = 0$ ein Eigenwert, so ist $\det(A) = \prod_i \lambda_i = 0$, d.\,h.\ $A$ ist singulär. Startvektoren aus $\ker(A)$ ergeben $\vec{p}_1 = A \cdot \vec{p}_0 = \vec{0}$ und damit den trivialen (uninteressanten) Nullvektor für alle $k \geq 1$.
@@ -157,9 +157,9 @@ wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nic
 \end{itemize}
 
 \textbf{Kontraktion (Spektralnorm):}
-\[
-\|A\|_S = \sqrt{\rho(A^T A)}, \quad \|\vec{p}_k\|_2 \leq \|A\|_S \cdot \|\vec{p}_{k-1}\|_2
-\]
+$$
+\|A\|_S = \sqrt{\rho(A^T A)} = \sqrt{\max_i \sigma_i^2(A)}, \quad \|\vec{p}_k\|_2 \leq \|A\|_S \cdot \|\vec{p}_{k-1}\|_2
+$$
 \textit{Achtung:} $\rho(A) \neq \|A\|_S$ im Allgemeinen!
 
 \begin{figure}[H]
