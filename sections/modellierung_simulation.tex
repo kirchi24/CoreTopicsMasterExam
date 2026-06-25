@@ -2,7 +2,9 @@
 
 \subsection{Grundbegriffe: Modell, Modellierung, Simulation}
 
-\definition{Eine \textbf{Hypothese} ist eine allgemeingültige Annahme über Sachverhalte, die eine Beziehung zwischen $\geq 2$ Variablen formuliert. Sie muss als \emph{Konditionalsatz} ("Wenn--dann"/"Je--desto") vorliegen und muss (zumindest potentiell) \textbf{falsifizierbar} sein -- zweiwertig (widerlegbar) oder graduell.}
+\definition{Eine \textbf{Hypothese} ist eine allgemeingültige Annahme über Sachverhalte, die eine Beziehung zwischen $\geq 2$ Variablen formuliert. Sie muss als \emph{Konditionalsatz} (Wenn--dann/Je--desto) vorliegen und muss (zumindest potentiell) \textbf{falsifizierbar} sein}
+
+Eine Aussage ist \textbf{falsifizierbar}, wenn es prinzipiell möglich ist, sie durch eine Beobachtung oder ein Experiment zu widerlegen. Nicht falsifizierbare Aussagen (z.\,B.\ \emph{,,Morgen regnet es oder es regnet nicht''}) sind tautologisch und damit wissenschaftlich wertlos. Beispiel: \emph{,,Wenn die Temperatur steigt, nimmt der Energieverbrauch ab''} ist falsifizierbar -- ein einziger Gegenfall (steigende Temperatur, steigender Verbrauch) würde die Hypothese widerlegen.
 
 \definition{Eine \textbf{Theorie} ist eine Vernetzung von gut bewährten Hypothesen. Mit zunehmendem Grad ihrer Bewährung erlangt sie den Charakter einer \emph{Gesetzmäßigkeit}.}
 
@@ -13,22 +15,22 @@
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Variable} ($x, y, \varepsilon$): Symbol für eine Menge von Merkmalsausprägungen
     \begin{itemize}[leftmargin=1.5em]
-        \item \textit{Unabhängige Variable} ($x$): gehört zum "Wenn-/Je-Teil" (Ursache/Bedingung)
-        \item \textit{Abhängige Variable} ($y$): gehört zum "Dann-/Desto-Teil" (Wirkung/Konsequenz)
+        \item \textit{Unabhängige Variable} ($x$): gehört zum Wenn-/Je-Teil (Ursache/Bedingung)
+        \item \textit{Abhängige Variable} ($y$): gehört zum Dann-/Desto-Teil (Wirkung/Konsequenz)
         \item \textit{Störvariable} ($\varepsilon$): nicht erfasste Ursache (vergessene unabhängige Variable)
     \end{itemize}
     \item \textbf{Parameter} ($a$): festgesetzter Wert, Teil der Struktur, nicht durch Variablen beeinflusst
 \end{itemize}
 
-\definition{Ein \textbf{Modell} ist eine vereinfachte, formale (meist mathematische) Abbildung einer partiellen Realität -- notwendigerweise \emph{Abstraktionen} bzw.\ "Karikaturen" des Realsystems. Maxime: so einfach wie möglich, aber so komplex wie notwendig. Jedes Modell wird für einen \textbf{Modellzweck} entwickelt.}
+\definition{Ein \textbf{Modell} ist eine vereinfachte, formale (meist mathematische) Abbildung einer partiellen Realität -- notwendigerweise \emph{Abstraktionen} bzw.\ Karikaturen des Realsystems. Maxime: so einfach wie möglich, aber so komplex wie notwendig. Jedes Modell wird für einen \textbf{Modellzweck} entwickelt.}
 
-\definition{Die \textbf{Modellierung} ist der Prozess der Erstellung eines Modells: (1) Nichtformale Beschreibung, (2) Semiformale Beschreibung ("Modellkonzept"), (3) Streng formale mathematische Formulierung.}
+\definition{Die \textbf{Modellierung} ist der Prozess der Erstellung eines Modells: (1) Nichtformale Beschreibung, (2) Semiformale Beschreibung (Modellkonzept), (3) Streng formale mathematische Formulierung.}
 
 \definition{Ein \textbf{Experiment} ist eine empirische Forschungsmethode, bei der eine oder mehrere unabhängige Variablen variiert werden.}
 
 \definition{Eine \textbf{Simulation} ist im weiteren Sinne der Gesamtkomplex aus Modellieren, Simulieren und Auswerten. Im engeren Sinne: virtuelles Experiment auf Basis eines Simulationsmodells (fast ausschließlich Computersimulation).}
 
-\definition{Ein \textbf{Szenario} ist eine bestimmte Zusammenstellung von Modellannahmen bzw.\ Konfiguration der unabhängigen Variablen für eine Simulation (vgl.\ "Treatments" bei Experimenten).}
+\definition{Ein \textbf{Szenario} ist eine bestimmte Zusammenstellung von Modellannahmen bzw.\ Konfiguration der unabhängigen Variablen für eine Simulation.}
 
 \textbf{Typen von Computersimulationen:}
 \begin{itemize}[leftmargin=1.5em]
@@ -60,7 +62,7 @@
     \item \textbf{Negativer Kreislauf}: Produkt aller Vorzeichen ist negativ $\Rightarrow$ \emph{selbstregulierend/stabilisierend}
 \end{itemize}
 
-\definition{Die \textbf{Wirkungsmatrix} $W$ stellt den Wirkungsgraphen kompakt dar: $w_{i,j}$ gibt Wirkungsintensität von Knoten $j$ auf $i$ an.}
+\definition{Die \textbf{Wirkungsmatrix} $W$ stellt den Wirkungsgraphen kompakt dar: $w_{i,j}$ gibt Wirkungsintensität von Knoten $j$ auf $i$ an. Die Wirkungsmatrix ist die transponierte Adjazenzmatrix für gerichtete Graphen.}
 
 \textbf{Graphentheoretische Eigenschaften:}
 \begin{itemize}[leftmargin=1.5em]
@@ -69,11 +71,16 @@
     \item \textbf{Schlichtheit}: Graph ohne Schlingen und parallele Bögen
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/effect_matrix.png}
+\end{figure}
+
 \newpage
 
 \subsection{Eigenschaftsdimensionen von Modellen}
 
-\textbf{Verhaltensbeschreibend vs.\ systemerklärend:}
+\textbf{Systemerklärend vs.\ Verhaltensbeschreibend (white vs black Box):}
 \begin{itemize}[leftmargin=1.5em]
     \item \textit{Systemerklärend} (glass box): gleiche Wirkungsstruktur und funktionsgleiche Elemente
     \item \textit{Verhaltensbeschreibend} (black box): ähnliches Verhalten, Struktur völlig anders
@@ -82,18 +89,34 @@
 
 \textbf{Aggregiert vs.\ individuell:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textit{Aggregiert}: statistische Mittelwerte (z.\,B.\  System Dynamics)
+    \item \textit{Aggregiert}: statistische Mittelwerte (z.\,B.\  System Dynamics) -- die Bevölkerung als Ganzes
     \item \textit{Individuell}: Schlüsselaktöre explizit modelliert (z.\,B.\  agentenbasiert)
 \end{itemize}
 
 \textbf{Linear vs.\ nichtlinear:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textit{Homogen linear}: $f(\vec{x}) = A \cdot \vec{x}$ (analytisch lösbar)
-    \item \textit{Inhomogen linear}: $f(\vec{x}) = A \cdot \vec{x} + \vec{b}$ (gut handhabbar)
+    \item \textit{Inhomogen linear}: $f(\vec{x}) = A \cdot \vec{x} + \vec{b}$ (gut handhabbar; im Vgl.\ zu homogen geht die Proportionalität verloren)
     \item \textit{Nichtlinear}: numerisch/simulativ lösbar
 \end{itemize}
 
-\textbf{Zeitkontinuierlich vs.\ zeitdiskret} | \textbf{Wertkontinuierlich vs.\ wertdiskret} | \textbf{Raumkontinuierlich vs.\ raumdiskret}
+\textbf{Zeitkontinuierlich vs.\ zeitdiskret:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textit{Zeitkontinuierlich}: Zustände sind zu \emph{jedem} beliebigen Zeitpunkt $t \in \mathbb{R}$ definiert und messbar -- typisch für Differentialgleichungsmodelle (z.\,B.\ System Dynamics).
+    \item \textit{Zeitdiskret}: Zustände sind nur zu bestimmten diskreten Zeitpunkten $k \in \mathbb{N}$ (oder $\mathbb{Z}$) definiert -- typisch für Differenzengleichungen, Markow-Ketten und digitale Regelungen.
+\end{itemize}
+
+\textbf{Wertkontinuierlich vs.\ wertdiskret:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textit{Wertkontinuierlich}: Zustände können jeden beliebigen reellen Wert annehmen, z.\,B.\ $z(t) \in \mathbb{R}$ -- typisch für physikalische Größen wie Temperatur oder Druck.
+    \item \textit{Wertdiskret}: Zustände können nur bestimmte diskrete Werte annehmen, z.\,B.\ $z_k \in \mathbb{N}$ -- typisch für Personenzählungen, Zustandsautomaten oder Warteschlangenmodelle.
+\end{itemize}
+
+\textbf{Raumkontinuierlich vs.\ raumdiskret:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textit{Raumkontinuierlich}: Modellgrößen sind an \emph{jedem} Koordinatenpunkt definiert, z.\,B.\ $\mathbb{R}^2$ oder $\mathbb{R}^3$ -- typisch für partielle Differentialgleichungen (Strömungssimulation, Wärmeleitung).
+    \item \textit{Raumdiskret}: Modellgrößen sind nur an bestimmten Gitterpunkten definiert, z.\,B.\ $\mathbb{Z}^2$ -- typisch für zelluläre Automaten oder Finite-Elemente-Diskretisierungen.
+\end{itemize}
 
 \textbf{Deterministisch vs.\ stochastisch:}
 \begin{itemize}[leftmargin=1.5em]
@@ -101,35 +124,28 @@
     \item \textit{Stochastisch}: Wahrscheinlichkeitsmodellierung (z.\,B.\  Monte-Carlo)
 \end{itemize}
 
-\textbf{Wahrscheinlichkeit (Kolmogorov):} $P: \mathcal{A} \to [0,1]$ mit $P(\emptyset)=0$, $P(\Omega)=1$, $P(X \cup Y) = P(X) + P(Y)$ für $X \cap Y = \emptyset$.
-
-\textbf{Ungleichung von Tschebyscheff:}
-\[
-P(|x - \mu| \geq k\sigma) \leq \frac{1}{k^2}
-\]
-
 \textbf{Spezielle Parameter-Eigenschaften:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Numerisch vs.\ nicht-numerisch}: quantifizierbar vs.\ nicht quantifizierbar
-    \item \textbf{Konstant vs.\ zeitvariant}: $a$ vs.\ $a(t)$
+    \item \textbf{Numerisch vs.\ nicht-numerisch}: quantifizierbar (Geschwindigkeit, Temperatur) vs.\ nicht quantifizierbar (Emotionen, Farben)
+    \item \textbf{Konstant vs.\ zeitvariant}: $a$ vs.\ $a(t)$ -- über die Zeit konstant vs.\ ändert sich über die Zeit
     \item \textbf{Realparameter vs.\ Anpassung}: realer vs.\ gefitteter Parameterwert
 \end{itemize}
-
-\textit{Hinweis:} Gewöhnliche System-Dynamics-Modelle modellieren räumliche Ausdehnungen oft gar nicht.
 
 \newpage
 
 \subsection{Pulsmodelle und deren Dynamik}
 
-\definition{Ein \textbf{Pulsmodell} ermöglicht die diskrete, lineare sowie dynamische Betrachtung der Ausbreitung von Systemstörungen. Ein \textbf{Puls} ist eine Systemstörung an einem bestimmten Knoten zu einem bestimmten Zeitpunkt. \emph{Hinweis:} Ein Pulsmodell ist \emph{kein} vollständiges Simulationsmodell -- es betrachtet nur die Fortpflanzung von Störungen.}
+\definition{Ein \textbf{Pulsmodell} ermöglicht die diskrete, lineare sowie dynamische Betrachtung der Ausbreitung von Systemstörungen. Ein \textbf{Puls} ist eine Systemstörung an einem bestimmten Knoten zu einem bestimmten Zeitpunkt. \emph{Hinweis:} Ein Pulsmodell ist \emph{kein} vollständiges Simulationsmodell -- es betrachtet nur die Fortpflanzung von Störungen und nicht das vollständige Systemverhalten.}
 
 \textbf{Mathematische Formulierung:}
-\[
+$$
 \vec{p}_k = A^k \cdot \vec{p}_0
-\]
+$$
 wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nicht} aus dem Kern entstammen, insbesondere $\vec{p}_0 \neq \vec{0}$). Kern: $\ker(A) = \{\vec{p} \in \mathbb{R}^n : A\vec{p} = \vec{0}\}$.
 
-\definition{Ein Pulsmodell ist \textbf{pulsstabil}, wenn alle Eigenwerte im Betrag $\leq 1$ sind: $\forall i: |\lambda_i(A)| \leq 1$. Der \textbf{Spektralradius} $\rho(A) = \max_i |\lambda_i(A)|$ ist der Radius des kleinsten Kreises, der alle Eigenwerte enthält (Gaußscher Zahlenebene).}
+\textbf{Zusammenhang Kern und Eigenwerte:} Der Kern von $A$ ist genau dann nicht-trivial ($\ker(A) \neq \{\vec{0}\}$), wenn $\lambda = 0$ ein Eigenwert von $A$ ist. Ist $\lambda = 0$ ein Eigenwert, so ist $\det(A) = \prod_i \lambda_i = 0$, d.\,h.\ $A$ ist singulär. Startvektoren aus $\ker(A)$ ergeben $\vec{p}_1 = A \cdot \vec{p}_0 = \vec{0}$ und damit den trivialen (uninteressanten) Nullvektor für alle $k \geq 1$.
+
+\definition{Ein Pulsmodell ist \textbf{pulsstabil}, wenn alle Eigenwerte im Betrag $\leq 1$ sind: $\forall i: |\lambda_i(A)| \leq 1$. Weiters ist es \textbf{konvergent}, wenn der Spektralradius $\rho(A) < 1$ (strikt kleiner) ist. Der \textbf{Spektralradius} $\rho(A) = \max_i |\lambda_i(A)|$ ist der Radius des kleinsten Kreises, der alle Eigenwerte enthält (Gaußscher Zahlenebene).}
 
 \textbf{Eigenkomponenten nach Eigenwertbetrag:}
 \begin{itemize}[leftmargin=1.5em]
@@ -141,18 +157,20 @@ wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nic
 \end{itemize}
 
 \textbf{Kontraktion (Spektralnorm):}
-\[
-\|A\|_S = \sqrt{\rho(A^T A)}, \quad \|\vec{p}_k\|_2 \leq \|A\|_S \cdot \|\vec{p}_{k-1}\|_2
-\]
+$$
+\|A\|_S = \sqrt{\rho(A^T A)} = \sqrt{\max_i \sigma_i^2(A)}, \quad \|\vec{p}_k\|_2 \leq \|A\|_S \cdot \|\vec{p}_{k-1}\|_2
+$$
 \textit{Achtung:} $\rho(A) \neq \|A\|_S$ im Allgemeinen!
 
-\definition{\textbf{Dualität:} $\mathrm{spec}(A) = \mathrm{spec}(A^T)$ $\Rightarrow$ Pulsmodell und duales Modell (umgekehrte Wirkungsrichtungen) haben gleiche Pulsdynamik.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{assets/effect_matrix_stability.png}
+\end{figure}
 
-\textbf{Zusammenhang Spur, Determinante und Eigenwerte:}
-\[
-\mathrm{Spur}(A) = \sum_i \lambda_i, \quad \det(A) = \prod_i \lambda_i
-\]
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\textwidth]{assets/pulse_stable.png}
+\end{figure}
 \newpage
 
 \subsection{Diskrete Markow-Ketten}
@@ -167,10 +185,16 @@ wobei $A$ die Wirkungsmatrix ist und $\vec{p}_0$ der Startvektor (darf \emph{nic
 \]
 wobei $\vec{g}^{(0)}$ die Startverteilung ist ($\sum_i g_i = 1$).
 
-\definition{Die \textbf{stationäre Verteilung} ist der normierte Eigenvektor zum Eigenwert $\lambda = 1$:}
+\definition{Die \textbf{stationäre Verteilung} ist der normierte Eigenvektor zum Eigenwert $\lambda = 1$ (auf Summe = 1 normiert, damit die Elemente Wahrscheinlichkeiten sind):}
 \[
 P \cdot \vec{\zeta} = \vec{\zeta} \quad \Rightarrow \quad \lim_{k \to \infty} P^k \cdot \vec{g}^{(0)} = \vec{\zeta}
 \]
+
+\textbf{Fixpunkte und stationäre Verteilung:} Die stationäre Verteilung $\vec{\zeta}$ ist ein \textbf{Fixpunkt} der Markow-Kette, d.\,h.\ eine einmal erreichte Verteilung ändert sich nicht mehr:
+\[
+f(\vec{\zeta}) = P \cdot \vec{\zeta} = \vec{\zeta}.
+\]
+Dies folgt direkt aus der Eigenwertgleichung $A \cdot \vec{e} = \lambda \cdot \vec{e}$: Für $\lambda = 1$ gilt $P \cdot \vec{\zeta} = 1 \cdot \vec{\zeta} = \vec{\zeta}$ -- der Eigenvektor zum Eigenwert 1 \emph{ist} per Definition ein Fixpunkt. Allgemein gilt: Jeder Eigenvektor zu $\lambda = 1$ definiert einen Fixpunkt; bei mehrfachem Eigenwert $1$ (unzusammenhängender Graph) existieren mehrere linear unabhängige Fixpunkte, und die langfristige Verteilung hängt dann von der Startverteilung $\vec{g}^{(0)}$ ab.
 
 \textbf{Sonderfälle:}
 \begin{itemize}[leftmargin=1.5em]
@@ -181,6 +205,11 @@ P \cdot \vec{\zeta} = \vec{\zeta} \quad \Rightarrow \quad \lim_{k \to \infty} P^
 \textbf{Berechnung der stationären Verteilung:} (1) Eigenwerte von $P$, (2) Eigenvektor zu $\lambda = 1$, (3) Normalisierung: $\vec{\zeta}_{\mathrm{norm}} = \frac{\vec{\zeta}}{\sum_i \zeta_i}$.
 
 \textbf{Unterschied zu Pulsmodellen:} Bei stochastischen Matrizen sind die \emph{Spaltensummen} gleich 1 (normiert), bei Pulsmodellen nicht. Iterationsvorschrift ist formal identisch.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/markow_chain.png}
+\end{figure}
 
 \newpage
 
@@ -210,6 +239,11 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
 
 \textbf{Unterschied SD vs.\ allgemeine Systemtheorie:} SD modelliert keine explizite Systemumgebung -- alle Einflüsse werden als Teil des Modells behandelt. Trajektorien in autonomen SD-Modellen können sich niemals schneiden.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/system_dynamics_representation.png}
+\end{figure}
+
 \newpage
 
 \subsection{Zustandsräume, Zustandsvektoren, Trajektorien und Attraktoren}
@@ -222,32 +256,25 @@ z(t + \Delta t) \approx z(t) + \dot{z}(t) \cdot \Delta t
 
 \definition{Die \textbf{Zustandsebene} wird von zwei Zustandsgrößen aufgespannt. Ein \textbf{Zustandsbild} ist die Projektion der Zustandsbahn in einen niederdimensionaleren Raum.}
 
-\textbf{Grundtypen von Attraktoren:}
+\textbf{Zusammenhang Attraktoren und Stabilität:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Punktattraktor}: Zustandsbahnen konvergieren auf stabilen Gleichgewichtspunkt
-    \item \textbf{Grenzzyklus}: Zustandsbahnen laufen auf geschlossene Kurven zu
+    \item \textbf{Punktattraktor} $\leftrightarrow$ \textit{asymptotisch stabiler Gleichgewichtspunkt}: alle benachbarten Trajektorien konvergieren gegen diesen Punkt ($\mathrm{Re}(\lambda_i) < 0$ für alle $\lambda_i$ bei LTI-Systemen).
+    \item \textbf{Repellor} $\leftrightarrow$ \textit{instabiler Gleichgewichtspunkt}: Trajektorien entfernen sich -- kleinste Störung führt zum Verlassen des Punktes ($\mathrm{Re}(\lambda_i) > 0$ für mind.\ ein $\lambda_i$).
+    \item \textbf{Grenzzyklus} $\leftrightarrow$ \textit{Grenzstabilität}: Trajektorien laufen auf eine geschlossene Kurve zu, ohne zu konvergieren oder zu divergieren.
     \item \textbf{Torus}: Zyklus höherer Ordnung (bei $\geq 3$ Zustandsgrößen)
-    \item \textbf{Seltsamer Attraktor}: Chaotisch und/oder fraktal (starke Sensitivität gegenüber Anfangsbedingungen)
+    \item \textbf{Seltsamer Attraktor} $\leftrightarrow$ \textit{deterministisches Chaos}: trotz deterministischem Modell starke Sensitivität gegenüber Anfangsbedingungen (positiver Lyapunov-Exponent).
+    \item \textbf{Separatrizen} verlaufen durch Repelloren und trennen die Einzugsbereiche (\emph{Bassins}) verschiedener Attraktoren.
 \end{itemize}
 
-\definition{Ein \textbf{Repellor} ist ein instabiler Gleichgewichtspunkt -- Trajektorien entfernen sich von ihm.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/system_dynamics_bifurkation.png}
+\end{figure}
 
-\definition{\textbf{Separatrizen} trennen Regionen unterschiedlichen Verhaltens und verlaufen durch Repelloren (stabile und instabile Mannigfaltigkeit). \textbf{Bifurkationen} treten auf, wenn eine Parameteränderung qualitativ anderes Verhalten ergibt -- z.\,B.\ Übergang von Punktattraktor zu Grenzzyklus.}
+\newpage
 
-\definition{\textbf{Ljapunov-Stabilität:} Ein Gleichgewichtspunkt $\vec{z}^*$ heißt textbf{stabil im Sinne von Ljapunov}, wenn Trajektorien, die nahe bei $\vec{z}^*$ starten, in dessen Nähe bleiben:
+\subsection{Dynamische lineare Systeme}
 
-\[
-\forall\,\varepsilon > 0\;\exists\,\delta > 0:\;
-\|\vec{z}(0) - \vec{z}^*\| < \delta
-\;\Rightarrow\;
-\|\vec{z}(t) - \vec{z}^*\| < \varepsilon \quad \forall\, t \geq 0
-\]
-
-Er heißt \textbf{asymptotisch stabil}, wenn er zusätzlich anzieht: $\lim_{t\to\infty}\vec{z}(t) = \vec{z}^*$. Er heißt \textbf{instabil}, wenn er nicht einmal Ljapunov-stabil ist.}
-
-\textbf{Zusammenhang Attraktoren und Stabilität:} Punktattraktoren entsprechen asymptotisch stabilen Gleichgewichtspunkten. Grenzzyklen sind stabil im Sinne von Ljapunov, aber kein Gleichgewichtspunkt. Repelloren entsprechen instabilen Gleichgewichtspunkten. asymptotisch stabilen Gleichgewichtspunkten. Grenzzyklen sind stabil im Sinne von Ljapunov, aber kein Gleichgewichtspunkt. Repelloren entsprechen instabilen Systemzustand die zukünftige Dynamik eindeutig bestimmt.
-
-\subsection{Dynamische lineare Systeme} 
 \definition{Ein \textbf{dynamisches System} wird formal beschrieben durch die
 \textbf{Zustandsgleichung} und \textbf{Verhaltensgleichung}:}
 \[
@@ -281,31 +308,21 @@ z(t) = e^{At} \cdot z_0 + \int_0^t e^{A(t-\tau)} B\, u(\tau)\, \mathrm{d}\tau
     \item $\mathrm{Re}(\lambda_i) = 0$: \textbf{grenzstabil} (Dauerschwingungen)
 \end{itemize}
 
-\definition{\textbf{Steuerbarkeit (Kalman):} Ein LTI-System $(\dot{z} = Az + Bu)$ ist
-\textbf{vollständig steuerbar}, wenn die \textbf{Steuerbarkeitsmatrix}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/common_math_formulation_lin_sys_1.png}
+\end{figure}
 
-\[
-\mathcal{S} = \begin{bmatrix} B & AB & A^2B & \cdots & A^{n-1}B \end{bmatrix}
-\in \mathbb{R}^{n \times nm}
-\]
 
-vollen Zeilenrang hat: $\mathrm{rank}(\mathcal{S}) = n$. Interpretation: Jeder Zustand $z^*$ ist von jedem Startzustand $z_0$ aus in endlicher Zeit durch geeignete Eingabe $u(t)$ erreichbar.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/common_math_formulation_lin_sys_2.png}
+\end{figure}
 
-\definition{\textbf{Beobachtbarkeit (Kalman):} Ein LTI-System $(\dot{z} = Az,\; v = Cz)$
-ist \textbf{vollständig beobachtbar}, wenn die \textbf{Beobachtbarkeitsmatrix}
 
-\[
-\mathcal{O} = \begin{bmatrix} C \\ CA \\ CA^2 \\ \vdots \\ CA^{n-1} \end{bmatrix}
-\in \mathbb{R}^{nm \times n}
-\]
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/common_math_formulation_lin_sys_3.png}
+\end{figure}
 
-vollen Spaltenrang hat: $\mathrm{rank}(\mathcal{O}) = n$. Interpretation: Der interne Zustand $z(t)$ kann eindeutig aus den Ausgaben $v(t)$ rekonstruiert werden, ohne direkten Zugriff auf $z$.}
-
-\textbf{Praktische Bedeutung:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Nicht steuerbar}: Es gibt Zustände, die durch keine Eingabe erreichbar sind -- Reglerentwurf eingeschränkt.
-    \item \textbf{Nicht beobachtbar}: Es gibt Zustandsanteile, die in der Ausgabe unsichtbar bleiben -- Zustandsschätzung (z.\,B.\ Kalman-Filter) nicht möglich.
-    \item Beide Eigenschaften sind \emph{strukturelle} Systemeigenschaften, unabhängig von konkreten Eingaben oder Anfangsbedingungen.
-\end{itemize}
-
-\textit{Hinweis:} LTI-Theorie ist grundlegend für Regelungstechnik und lineare Pulsmodelle. SD modelliert keine explizite Systemumgebung.
+\newpage

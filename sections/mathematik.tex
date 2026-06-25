@@ -3,160 +3,305 @@
 % ─────────────────────────────────────────────────────────────────────────────
 \subsection{Abbildungen und deren Eigenschaften}
 
-\definition{Eine \textbf{Abbildung} $f: X \to Y$ ordnet jedem Element $x$ aus dem \textbf{Definitionsbereich} $X$ genau ein Element $f(x)$ aus dem \textbf{Wertebereich} $Y$ zu.}
+\definition{Eine \textbf{Abbildung} $f: X \to Y$ ordnet jedem Element $x$ aus dem \textbf{Definitionsbereich} $X$ genau ein Element $f(x)$ aus dem \textbf{Wertebereich} $Y$ zu. Es muss für jedes $x \in X$ ein Funktionswert definiert sein, dieser muss eindeutig sein. Eine Relation, die einem $x$ mehrere $y$-Werte zuordnet, ist keine Abbildung (z.\,B.\ ist die Kreisgleichung $x^2+y^2=1$ keine Abbildung).}
 
 \textbf{Wichtige Teilmengen:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Bildmenge} $f(X) = \{ f(x) \mid x \in X \} \subseteq Y$: die Menge aller tatsächlich angenommenen Werte.
-    \item \textbf{Kern} $\ker(f) = \{ x \in X \mid f(x) = 0 \}$: Urbildmenge der Null (relevant bei linearen Abbildungen).
+    \item \textbf{Bildmenge} $f(X) = \{ f(x) \mid x \in X \} \subseteq Y$: die Menge aller tatsächlich angenommenen Werte. Untersschied zu Wertebereich $Y$, der nur ein Zielraum ist.
+    \item \textbf{Kern} $\ker(f) = \{ x \in X \mid f(x) = 0 \}$: Urbildmenge der Null (relevant bei linearen Abbildungen). Bei linearen Abbildungen ist $\ker(f)$ ein Untervektorraum von $X$.
+    \item \textbf{Urbild} $f^{-1}(B) = \{x \in X \mid f(x) \in B\}$ einer Menge $B \subseteq Y$ -- allgemein definiert, auch wenn $f$ nicht umkehrbar ist.
 \end{itemize}
 
 \textbf{Eigenschaften:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Injektiv:} $f(x_1) = f(x_2) \Rightarrow x_1 = x_2$. Für lineare Abbildungen äquivalent zu $\ker(f) = \{0\}$.
-    \item \textbf{Surjektiv:} $f(X) = Y$, d.\,h.\ jedes $y \in Y$ wird angenommen.
-    \item \textbf{Bijektiv:} injektiv und surjektiv -- Voraussetzung für die Umkehrabbildung $f^{-1}: Y \to X$.
-    \item \textbf{Monoton wachsend:} $x_1 < x_2 \Rightarrow f(x_1) \leq f(x_2)$; streng monoton: $<$ statt $\leq$ (impliziert Injektivität auf $\mathbb{R}$).
-    \item \textbf{Fixpunkte:} $x^*$ mit $f(x^*) = x^*$; relevant z.\,B.\ bei Iterationsverfahren.
+    \item \textbf{Injektiv:} $f(x_1) = f(x_2) \Rightarrow x_1 = x_2$. Keine zwei verschiedenen Inputs liefern denselben Output. Für lineare Abbildungen äquivalent zu $\ker(f) = \{0\}$. Geometrisch: keine Zusammenklappung des Definitionsbereichs.
+    \item \textbf{Surjektiv:} $f(X) = Y$, d.\,h.\ jedes $y \in Y$ wird angenommen. Es gibt kein Element im Wertebereich, das unerreichbar ist.
+    \item \textbf{Bijektiv:} injektiv und surjektiv -- Voraussetzung für die Umkehrabbildung $f^{-1}: Y \to X$. Bei bijektiven Abbildungen ist $|X| = |Y|$ (für endliche Mengen).
+    \item \textbf{Monoton wachsend:} $x_1 < x_2 \Rightarrow f(x_1) \leq f(x_2)$; streng monoton: $<$ statt $\leq$ (impliziert Injektivität auf $\mathbb{R}$). Streng monotone Abbildungen sind stets injektiv.
+    \item \textbf{Fixpunkte:} $x^*$ mit $f(x^*) = x^*$; relevant z.\,B.\ bei Iterationsverfahren. Der \textbf{Banachsche Fixpunktsatz} garantiert Existenz und Eindeutigkeit eines Fixpunktes, wenn $f$ eine Kontraktion ist ($\|f(x)-f(y)\| \leq L\|x-y\|$ mit $L<1$).
+    \item \textbf{Stetig:} $\lim_{x \to x_0} f(x) = f(x_0)$. Bei linearen Abbildungen zwischen normierten Räumen äquivalent zu Beschränktheit: $\|f(\bm{x})\| \leq C\|\bm{x}\|$ für ein $C > 0$.
+    \item \textbf{Konvex:} $f: X \to \mathbb{R}$ heißt konvex, wenn für alle $x_1, x_2 \in X$ und alle $\lambda \in [0,1]$ gilt: $f(\lambda x_1 + (1-\lambda)x_2) \leq \lambda f(x_1) + (1-\lambda)f(x_2)$. Geometrisch: Die Verbindungsgerade (Sekante) zweier Punkte liegt \emph{oberhalb} des Graphen. Konvexität ist entscheidend für die Optimierung.
 \end{itemize}
 
-\textbf{Umkehrbarkeit:} Eine Abbildung ist genau dann umkehrbar, wenn sie bijektiv ist. Bei linearen Abbildungen $f(\bm{x}) = A\bm{x}$ äquivalent zu $\det(A) \neq 0$ (reguläre Matrix).
+\textbf{Umkehrbarkeit:} Eine Abbildung ist genau dann umkehrbar, wenn sie bijektiv ist. Bei linearen Abbildungen $f(\bm{x}) = A\bm{x}$ äquivalent zu $\det(A) \neq 0$ (reguläre Matrix). Die Umkehrabbildung erfüllt $f^{-1} \circ f = \mathrm{id}_X$ und $f \circ f^{-1} = \mathrm{id}_Y$.
 
-\beispiel{$f(x) = x^2$ ist weder injektiv ($f(1)=f(-1)$) noch surjektiv (negative Werte fehlen). Eingeschränkt auf $[0,\infty)$ ist $f$ bijektiv mit $f^{-1}(y) = \sqrt{y}$.}
+\textbf{Zusammensetzung von Abbildungen:} Sind $f: X \to Y$ und $g: Y \to Z$ Abbildungen, so ist die Komposition $g \circ f: X \to Z$ mit $(g \circ f)(x) = g(f(x))$ definiert. Ist $f$ injektiv und $g$ injektiv, so ist auch $g \circ f$ injektiv; analoges gilt für Surjektivität und Bijektivität.
+
+\beispiel{$f(x) = x^2$ ist weder injektiv ($f(1)=f(-1)$) noch surjektiv (negative Werte fehlen). Eingeschränkte Definitionsmenge $[0,\infty)$ ist $f$ bijektiv mit $f^{-1}(y) = \sqrt{y}$ mit $f: [0,\infty) \to [0,\infty)$. Die Exponentialfunktion $e^x: \mathbb{R} \to (0,\infty)$ ist bijektiv; ihr Kern $\ker(e^x)$ ist leer (da $e^x > 0$ für alle $x$), ihr Fixpunkt erfüllt $e^{x^*}=x^*$, was in $\mathbb{R}$ keine Lösung hat.}
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Vektor- und Matrixnormen}
 
 \definition{Eine \textbf{Norm} $\|\cdot\|$ auf einem Vektorraum ist eine Abbildung nach $\mathbb{R}_{\geq 0}$, die folgende vier Axiome erfüllt: Nichtnegativität, Definitheit ($\|\bm{v}\|=0 \Leftrightarrow \bm{v}=\bm{0}$), Homogenität ($\|\alpha\bm{v}\|=|\alpha|\cdot\|\bm{v}\|$) und Dreiecksungleichung ($\|\bm{u}+\bm{v}\|\leq\|\bm{u}\|+\|\bm{v}\|$).}
 
+Eine Norm ist ein Größenmaß für Vektoren und verallgemeinert die intuitive Länge aus der Geometrie auf beliebige Vektorräume. Zwei Normen auf einem endlichdimensionalen Raum sind stets \textbf{äquivalent}: es existieren $c_1, c_2 > 0$ mit $c_1\|\bm{v}\|_a \leq \|\bm{v}\|_b \leq c_2\|\bm{v}\|_a$. Für den $\mathbb{R}^n$ gilt konkret: $\|\bm{v}\|_\infty \leq \|\bm{v}\|_2 \leq \|\bm{v}\|_1 \leq \sqrt{n}\|\bm{v}\|_2 \leq n\|\bm{v}\|_\infty$.
+
+\textbf{Norm vs.\ Metrik:} Eine Norm erzeugt eine Metrik durch $d(u,v)=\|u-v\|$. Eine Metrik erfüllt Nichtnegativität, Symmetrie, Definitheit und Dreiecksungleichung. Nicht jede Metrik stammt von einer Norm. Normen messen Vektorlängen, Metriken Abstände zwischen Punkten.
+
 \textbf{Vektornormen ($p$-Normen):}
 \formel{\|\bm{v}\|_p = \left(\sum_{i=1}^n |v_i|^p\right)^{1/p}}
-Wichtige Spezialfälle: $\|\bm{v}\|_1 = \sum|v_i|$ (Betragssumme), $\|\bm{v}\|_2 = \sqrt{\sum v_i^2}$ (euklidisch), $\|\bm{v}\|_\infty = \max_i|v_i|$ (Maximum).
+Wichtige Spezialfälle:
+\begin{itemize}[leftmargin=1.5em]
+    \item $\|\bm{v}\|_1 = \sum|v_i|$ (Betragssumme, Manhattan-Norm, Taxicab-Metrik)
+    \item $\|\bm{v}\|_2 = \sqrt{\sum v_i^2}$ (euklidische Norm, induziert durch das Standardskalarprodukt $\|\bm{v}\|_2 = \sqrt{\langle\bm{v},\bm{v}\rangle}$)
+    \item $\|\bm{v}\|_\infty = \max_i|v_i|$ (Maximumnorm, entsteht als Grenzwert $p \to \infty$)
+\end{itemize}
+Geometrisch: Der Einheitsball $\{\bm{v} \mid \|\bm{v}\| \leq 1\}$ ist für $p=1$ ein Rhombus, für $p=2$ eine Kugel, für $p=\infty$ ein Hyperwürfel.
 
 \textbf{Matrixnormen:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Höldersche-$p$-Norm:} $\|A\|_{Hp} = \left(\sum_{i,j}|a_{ij}|^p\right)^{1/p}$
-    \item \textbf{Frobenius-Norm} ($H_2$ = Schatten-2-Norm): $\|A\|_F = \sqrt{\sum_{i,j} a_{ij}^2} = \sqrt{\mathrm{Spur}(A^\top A)}$
-    \item \textbf{Spektralnorm} (Schatten-$\infty$-Norm): $\|A\|_S = \sqrt{\rho(A^\top A)} = \sigma_{\max}(A)$
+    \item \textbf{Höldersche-$p$-Norm:} $\|A\|_{Hp} = \left(\sum_{i,j}|a_{ij}|^p\right)^{1/p}$ -- behandelt die Matrix als langen Vektor.
+    \item \textbf{Frobenius-Norm} ($H_2$): $\|A\|_F = \sqrt{\sum_{i,j} a_{ij}^2} = \sqrt{\mathrm{Spur}(A^\top A)}$ -- entspricht der euklidischen Norm auf dem Raum der Matrizen.
+    \item \textbf{Spektralnorm} (induzierte 2-Norm): $\|A\|_S = \sqrt{\rho(A^\top A)} = \sigma_{\max}(A)$ -- maximale Streckung eines Einheitsvektors durch $A$.
+    \item \textbf{Induzierte $p$-Matrixnorm:} $\|A\|_p = \sup_{\bm{x}\neq\bm{0}} \frac{\|A\bm{x}\|_p}{\|\bm{x}\|_p}$; für $p=1$: Spaltensummennorm; für $p=\infty$: Zeilensummennorm.
 \end{itemize}
 
-\textbf{Zusammenhang mit Dynamik:} Für $\rho(A) = \max_i |\lambda_i|$ gilt $\rho(A) \leq \|A\|_S \leq \|A\|_F$. Ein System ist \emph{kontrahierend} wenn $\|A\|_S < 1$, \emph{konvergent} wenn $\rho(A) < 1$. Jedes kontrahierende System ist konvergent, nicht umgekehrt.
+\textbf{Submultiplikativität:} Eine Matrixnorm heißt submultiplikativ, wenn $\|AB\| \leq \|A\|\cdot\|B\|$ gilt. Dies ist für alle induzierten Normen und die Frobenius-Norm erfüllt -- notwendig für Fehleranalysen bei Matrizenprodukten.
+
+\textbf{Zusammenhang mit Dynamik:} Für $\rho(A) = \max_i |\lambda_i|$ (Spektralradius) gilt $\rho(A) \leq \|A\|_S \leq \|A\|_F$. Ein System $\bm{x}_{k+1} = A\bm{x}_k$ ist \emph{kontrahierend} wenn $\|A\|_S < 1$, \emph{konvergent} wenn $\rho(A) < 1$. Jedes kontrahierende System ist konvergent, nicht umgekehrt -- die Spektralnorm ist ein stärkeres Kriterium.
 
 \textbf{Kondition einer Matrix:}
 \formel{\kappa_S(A) = \|A\|_S \cdot \|A^{-1}\|_S = \frac{\sigma_{\max}(A)}{\sigma_{\min}(A)}}
-Je größer die Kondition, desto stärker werden Fehler verstärkt. Optimale Kondition = 1 (orthogonale Matrizen). Submultiplikativität: $\|AB\| \leq \|A\|\cdot\|B\|$.
+Je größer die Kondition, desto stärker werden Eingabefehler verstärkt. Orthogonale Matrizen haben optimale Kondition $\kappa = 1$, da $\|Q\|_S = \|Q^{-1}\|_S = 1$. Eine fast-singuläre Matrix hat $\sigma_{\min} \approx 0$ und damit $\kappa \gg 1$.
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Eigen- und Singulärwerte sowie Eigen- und Singulärvektoren und deren geometrische Interpretation}
 
 \definition{Ein \textbf{Eigenvektor} $\bm{e}_i \neq \bm{0}$ einer Matrix $A$ mit zugehörigem \textbf{Eigenwert} $\lambda_i \in \mathbb{C}$ erfüllt $A \cdot \bm{e}_i = \lambda_i \cdot \bm{e}_i$. Der Eigenvektor ändert durch Multiplikation mit $A$ seine Richtung nicht (bei $\lambda_i < 0$ wird die Orientierung umgekehrt); er wird lediglich um den Faktor $\lambda_i$ gestreckt oder gestaucht.}
 
-\textbf{Singulärwerte und -vektoren:} Die \textbf{Singulärwerte} $\sigma_i(A) = \sqrt{\lambda_i(A^\top A)} \geq 0$ sind die Wurzeln der Eigenwerte von $A^\top A$. Die zugehörigen \textbf{Singulärvektoren} stehen paarweise \emph{orthogonal} aufeinander (im Gegensatz zu Eigenvektoren).
+Eigenvektoren spannen den sogenannten \textbf{Eigenraum} $E_{\lambda_i} = \ker(A - \lambda_i I)$ auf. Die Dimension dieses Raumes heißt \textbf{geometrische Vielfachheit} des Eigenwertes. Eigenvektoren zu verschiedenen Eigenwerten sind stets linear unabhängig; bei symmetrischen (bzw.\ hermiteschen) Matrizen sind sie sogar orthogonal.
 
-\textbf{Geometrische Interpretation:} Eine Matrix $A$ transformiert alle Vektoren des Einheitskreises in eine \textbf{Ellipse}.
+\textbf{Singulärwerte und -vektoren:} Die \textbf{Singulärwerte} $\sigma_i(A) = \sqrt{\lambda_i(A^\top A)} \geq 0$ sind die Wurzeln der Eigenwerte von $A^\top A$. Die \textbf{Singulärwertzerlegung (SVD)} schreibt jede $m \times n$-Matrix als:
+\formel{A = U \Sigma V^\top}
+wobei $U \in \mathbb{R}^{m\times m}$ und $V \in \mathbb{R}^{n\times n}$ orthogonale Matrizen (mit den Links- bzw.\ Rechts-Singulärvektoren als Spalten) und $\Sigma$ eine Diagonalmatrix der Singulärwerte sind. Im Gegensatz zur Eigenzerlegung existiert die SVD für jede Matrix -- auch nicht-quadratische.
+
+\textbf{Zusammenhang zwischen Eigenwerten und Singulärwerten:} Bei symmetrisch positiv semidefiniten Matrizen stimmen Eigenwerte und Singulärwerte überein. Allgemein gilt: $|\lambda_i| \leq \sigma_{\max}$ für alle Eigenwerte.
+
+\textbf{Geometrische Interpretation:} Eine lineare Abbildung $A$ transformiert alle Vektoren des Einheitskreises in eine \textbf{Ellipse}.
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Eigenvektoren:} Richtungen, die unter $A$ unverändert bleiben; Eigenwerte = Streckungsfaktoren.
-    \item \textbf{Singulärvektoren:} zeigen auf die Halbachsen der Ellipse; Singulärwerte = Halbachsenlängen. Input- und Output-Singulärvektoren stehen jeweils orthogonal aufeinander.
+    \item \textbf{Eigenvektoren:} Richtungen, die unter $A$ unverändert bleiben (nur Skalierung); Eigenwerte = Streckungsfaktoren. Sie zeigen die natürlichen Achsen der Transformation.
+    \item \textbf{Singulärvektoren:} Die rechten Singulärvektoren (Spalten von $V$) geben die Eingangsrichtungen an, die auf die Halbachsen der Ausgangsellipse abgebildet werden. Die linken Singulärvektoren (Spalten von $U$) zeigen die Richtungen dieser Halbachsen. Singulärwerte = Halbachsenlängen. Input- und Output-Singulärvektoren stehen jeweils orthogonal aufeinander.
+    \item In 2D: Eine Einheitskreisscheibe wird durch $A$ in eine Ellipse transformiert; $\sigma_1$ ist die große Halbachse, $\sigma_2$ die kleine.
+\end{itemize}
+
+\textbf{Anwendungen der SVD:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Rang einer Matrix:} $\mathrm{rank}(A) = $ Anzahl der Singulärwerte $\sigma_i > 0$.
+    \item \textbf{Pseudoinverse:} $A^+ = V \Sigma^+ U^\top$, wobei $\Sigma^+$ die Kehrwerte der Singulärwerte (für $\sigma_i \neq 0$) enthält.
 \end{itemize}
 
 \textbf{Zusammenhang Determinante und Singulärwerte:}
 \formel{|\det(A)| = \prod_i \sigma_i(A)}
-$\det(A) > 0$: Orientierung bleibt erhalten; $\det(A) < 0$: Transformation enthält eine Spiegelung; $\det(A) = 0$: Matrix kollabiert mindestens eine Dimension (singulär).
+$\det(A) > 0$: Orientierung bleibt erhalten; $\det(A) < 0$: Transformation enthält eine Spiegelung; $\det(A) = 0$: Matrix kollabiert mindestens eine Dimension (singulär, d.\,h.\ $\sigma_{\min} = 0$).
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Eigenwertproblem und Diagonalisierung von quadratischen Matrizen}
 
-\textbf{Charakteristisches Polynom:} Die Eigenwerte $\lambda_i$ einer $n \times n$-Matrix $A$ sind die Nullstellen von:
-\formel{P_n(\lambda) = \det(A - \lambda E) = 0}
-Das Polynom hat Grad $n$ und liefert über $\mathbb{C}$ genau $n$ Eigenwerte (mit Vielfachheit).
+\textbf{Charakteristisches Polynom:} Gesucht sind Vektoren $x \neq 0$, die durch die lineare Abbildung nur gestreckt oder gestaucht werden: $Ax=\lambda x.$ Umformen liefert$(A-\lambda E)x=0.$ Da eine nichttriviale Lösung $x\neq0$ existieren soll, muss die Matrix $A-\lambda E$ singulär (singulär bedeutet $\det(A-\lambda E) = 0$) sein. Daher gilt als notwendige und hinreichende Bedingung
+
+\formel{P_n(\lambda)=\det(A-\lambda E)=0}
+
+Das Polynom hat Grad $n$ und liefert über $\mathbb{C}$ genau $n$ Eigenwerte (mit Vielfachheit, nach dem Fundamentalsatz der Algebra). Auf die Eigenwerte und Vektoren kommt man wie folgend:
+
+$$
+A-\lambda E
+\;\xrightarrow{\det}\;
+P_n(\lambda)
+\;\xrightarrow{P_n(\lambda)=0}\;
+\lambda_i
+\;\xrightarrow{(A-\lambda_i E)x=0}\;
+\text{Eigenvektoren}
+$$
 
 \textbf{Eigenschaften:}
 \begin{itemize}[leftmargin=1.5em]
     \item $\mathrm{Spur}(A) = \sum_i a_{ii} = \sum_i \lambda_i$ (Summe Hauptdiagonale = Summe Eigenwerte)
     \item $\det(A) = \prod_i \lambda_i$; ist ein $\lambda_i = 0$: $A$ ist singulär.
-    \item Komplexe Eigenwerte treten bei reellen Matrizen stets als konjugierte Paare auf.
+    \item Komplexe Eigenwerte treten bei reellen Matrizen stets als konjugierte Paare auf: $\lambda = a \pm bi$.
+    \item \textbf{Algebraische Vielfachheit} $\mu_a(\lambda_i)$: Vielfachheit als Nullstelle von $P_n$. \textbf{Geometrische Vielfachheit} $\mu_g(\lambda_i) = \dim\ker(A-\lambda_i I) \leq \mu_a(\lambda_i)$.
 \end{itemize}
 
 \textbf{Diagonalisierung:} $A$ ist \textbf{diagonalisierbar}, wenn sie $n$ linear unabhängige Eigenvektoren besitzt:
 \formel{A = V \Lambda V^{-1}, \quad \Lambda = \mathrm{diag}(\lambda_1, \ldots, \lambda_n)}
-Matrizen mit $n$ verschiedenen Eigenwerten sind stets diagonalisierbar. Eine Matrix heißt \textbf{defekt}, wenn die geometrische Vielfachheit eines Eigenwertes kleiner als dessen algebraische ist -- defekte Matrizen sind nicht diagonalisierbar.
+wobei $V$ die Matrix der Eigenvektoren als Spalten ist. In $\Lambda$ stehen die Eigenwerte auf der Hauptdiagonale. Besitzt eine Matrix nicht genügend linear unabhängige Eigenvektoren, so ist sie nicht diagonalisierbar; solche Matrizen nennt man \textbf{defekt}.
 
-\beispiel{$2\times2$-Matrix: $P_2(\lambda) = \lambda^2 - (a+d)\lambda + (ad-bc) = 0$, Lösung $\lambda_{1,2} = \frac{(a+d) \pm \sqrt{(a+d)^2 - 4(ad-bc)}}{2}$. Check: $\lambda_1 + \lambda_2 = \mathrm{Spur}(A)$, $\lambda_1 \cdot \lambda_2 = \det(A)$.}
+\textbf{Spezielle Matrixklassen und Diagonalisierbarkeit:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Symmetrische Matrizen} ($A = A^\top$): Eigenwerte stets reell, Eigenvektoren zu verschiedenen Eigenwerten orthogonal. Stets diagonalisierbar: $A = Q \Lambda Q^\top$ mit orthogonaler Matrix $Q$ (\textbf{Spektralzerlegung}).
+    \item \textbf{Positiv definit} ($\bm{x}^\top A \bm{x} > 0$): alle Eigenwerte $> 0$, alle Singulärwerte $= $ Eigenwerte.
+    \item \textbf{Normale Matrizen} ($AA^\top = A^\top A$): unitär diagonalisierbar.
+\end{itemize}
+
+\textbf{Vorteil der Diagonalform:} Operationen vereinfachen sich drastisch. Matrixpotenzen: $A^k = V\Lambda^k V^{-1}$, da $\Lambda^k = \mathrm{diag}(\lambda_1^k,\ldots,\lambda_n^k)$. Matrixexponential: $e^A = Ve^{\Lambda}V^{-1}$ mit $e^{\Lambda} = \mathrm{diag}(e^{\lambda_1},\ldots,e^{\lambda_n})$ -- zentral für die Lösung linearer Differentialgleichungssysteme $\dot{\bm{x}} = A\bm{x}$.
+
+\textbf{Definitheit:} Für eine symmetrische Matrix $A = A^\top$ betrachtet man die quadratische Form $x^\top A x$. Sie beschreibt, ob diese für alle $x \neq 0$ positiv oder negativ ist.
+
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{positiv definit:} $x^\top A x > 0 \;\forall x \neq 0$
+    \item \textbf{negativ definit:} $x^\top A x < 0 \;\forall x \neq 0$
+    \item \textbf{indefinit:} sowohl positive als auch negative Werte möglich
+\end{itemize}
+
+Für symmetrische Matrizen gilt der direkte Zusammenhang zu den Eigenwerten $A \text{ positiv definit } \iff \lambda_i > 0 \;\forall i$ bzw. $A \text{ negativ definit } \iff \lambda_i < 0 \;\forall i$.
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Fuzzy-Logik, Fuzzy-Sets und unscharfe Zahlen}
 
-\textbf{Motivation -- Grenzen der klassischen Logik:} Die zweiwertige Logik stößt bei graduellen Übergängen an Grenzen (Sorites-Paradoxon: „Wann ist ein Sandhaufen kein Sandhaufen?"). Zudem gilt \emph{ex falso quodlibet}: aus einer falschen Aussage folgt klassisch-logisch alles.
+\textbf{Motivation -- Grenzen der klassischen Logik:} Die zweiwertige Logik stößt bei graduellen Übergängen an Grenzen (Sorites-Paradoxon: Wann ist ein Sandhaufen kein Sandhaufen?). Reale Konzepte wie warm, groß oder jung haben keine scharfen Grenzen. Zudem gilt \emph{ex falso quodlibet}: aus einer falschen Aussage folgt klassisch-logisch alles (vgl. Implikation).
 
 \definition{In der \textbf{Fuzzy-Logik} (L.\,A.\ Zadeh, 1965) werden Wahrheitswerte von $\{0,1\}$ auf $[0,1]$ verallgemeinert. Standardverknüpfungen:
 \formel{\llbracket \lnot A \rrbracket = 1 - \llbracket A \rrbracket, \quad \llbracket A \land B \rrbracket = \min(\llbracket A \rrbracket, \llbracket B \rrbracket), \quad \llbracket A \lor B \rrbracket = \max(\llbracket A \rrbracket, \llbracket B \rrbracket)}
-Weitere Varianten: \textbf{t-Normen} für $\land$ (z.\,B.\ Produkt $T_\mathrm{prod}(x,y)=x\cdot y$) und \textbf{t-Conormen} für $\lor$, jeweils mit 4 Grundaxiomen.}
+Weitere Varianten: \textbf{t-Normen} für $\land$ (z.\,B.\ Produkt $T_\mathrm{prod}(x,y)=x\cdot y$ und \textbf{t-Conormen} für $\lor$, jeweils mit den 4 Grundaxiomen: Kommutativität, Assoziativität, Monotonie, Randbedingung.}
 
-\definition{Eine \textbf{Fuzzy-Menge} $M \subseteq X$ ist definiert durch eine \textbf{Zugehörigkeitsfunktion} $\mu_M: X \to [0,1]$. Scharfe Mengen sind Spezialfall mit $\mu_M(x) \in \{0,1\}$. Mengenoperationen: $\mu_{M^c}(x) = 1-\mu_M(x)$, $\mu_{A\cap B}(x)=\min(\mu_A,\mu_B)$, $\mu_{A\cup B}(x)=\max(\mu_A,\mu_B)$.}
+\definition{Eine \textbf{Fuzzy-Menge} $M \subseteq X$ ist definiert durch eine \textbf{Zugehörigkeitsfunktion} $\mu_M: X \to [0,1]$. Scharfe Mengen sind Spezialfall mit $\mu_M(x) \in \{0,1\}$. Typische Formen: Dreieck (einfach, stückweise linear), Trapez, Gauß-förmig. Mengenoperationen: $\mu_{M^c}(x) = 1-\mu_M(x)$, $\mu_{A\cap B}(x)=\min(\mu_A,\mu_B)$, $\mu_{A\cup B}(x)=\max(\mu_A,\mu_B)$.}
 
-\textbf{$\alpha$-Schnitte:} $[\mu]_\alpha = \{x \in X \mid \mu(x) \geq \alpha\}$ -- algorithmisch handhabbare Darstellung (z.\,B.\ verkettete Listen). Eine Fuzzy-Menge ist \textbf{konvex}, wenn $\mu_M(\lambda x_1+(1-\lambda)x_2) \geq \min(\mu_M(x_1),\mu_M(x_2))$ für alle $\lambda\in[0,1]$.
+\textbf{Wichtige Kenngrößen einer Fuzzy-Menge:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Träger (Support):} $\{x \mid \mu_M(x) > 0\}$ -- die Menge aller Elemente mit positiver Zugehörigkeit.
+    \item \textbf{Kern:} $\{x \mid \mu_M(x) = 1\}$ -- die Menge der vollständig zugehörigen Elemente.
+    \item \textbf{Höhe:} $\sup_x \mu_M(x)$; normiert wenn $= 1$.
+\end{itemize}
 
-\textbf{Unscharfe Zahlen und Fuzzy-Arithmetik:} Fuzzy-Mengen können unscharfe Zahlen (z.\,B.\ „ungefähr 2") darstellen. Rechenoperationen sind möglich, führen aber zu \emph{wachsender Unschärfe} und sind nicht exakt umkehrbar: $(\sim\!2)+(\sim\!2)-(\sim\!2)\neq(\sim\!2)$.
+\textbf{$\alpha$-Schnitte:} $[\mu]_\alpha = \{x \in X \mid \mu(x) \geq \alpha\}$ -- algorithmisch handhabbare Darstellung (z.\,B.\ als Intervall oder verkettete Listen). Eine Fuzzy-Menge ist vollständig durch ihre $\alpha$-Schnitte charakterisiert. Eine Fuzzy-Menge ist \textbf{konvex}, wenn alle $\alpha$-Schnitte konvex sind, d.\,h.\ $\mu_M(\lambda x_1+(1-\lambda)x_2) \geq \min(\mu_M(x_1),\mu_M(x_2))$ für alle $\lambda\in[0,1]$.
 
+\textbf{Unscharfe Zahlen und Fuzzy-Arithmetik:} Fuzzy-Mengen können unscharfe Zahlen (z.\,B.\ ungefähr 2) darstellen. Rechenoperationen erfolgen über das \textbf{Erweiterungsprinzip} von Zadeh:
+\formel{\mu_{f(A,B)}(z) = \sup_{z = f(x,y)} \min(\mu_A(x), \mu_B(y))}
+Operationen führen zu \emph{wachsender Unschärfe} und sind nicht exakt umkehrbar: $(\sim\!2)+(\sim\!2)-(\sim\!2)\neq(\sim\!2)$. Mit $\alpha$-Schnitten lässt sich Arithmetik auf Intervallrechnung zurückführen.
+
+\textbf{Fuzzy-Regler (Fuzzy Control):} Praktische Anwendung in der Regelungstechnik: Eingabegrößen werden \emph{fuzzifiziert}, Regelbasis (z.\,B.\ IF Temperatur hoch AND Fehler groß THEN Kühlung stark) wird ausgewertet, Ausgabe wird \emph{defuzzifiziert} (z.\,B.\ Schwerpunktmethode). Vorteil: intuitives Expertenwissen direkt kodierbar.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/add_fuzzy_numbers.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{assets/defuzzy.png}
+    \end{minipage}
+\end{figure}
 \newpage
+
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Modulare Arithmetik und Integer-Darstellung am Computer}
 
-\textbf{Zahlendarstellung:} Jede ganze Zahl ist in Basis $b \geq 2$ darstellbar. Basen: Dezimal ($b=10$), Binär ($b=2$, physikalisch EIN/AUS), Oktal ($b=8$), Hexadezimal ($b=16$, Umrechnung in 4-Bit-Blöcken). Umrechnung Dezimal $\to$ Binär: sukzessive Division durch 2, Reste rückwärts.
+\textbf{Zahlendarstellung:} Jede ganze Zahl ist in Basis $b \geq 2$ darstellbar: $(a_{n-1}\cdots a_1 a_0)_b = \sum_{i=0}^{n-1} a_i \cdot b^i$ mit Ziffern $a_i \in \{0,\ldots,b-1\}$.
 
-\textbf{Integer am Computer:} Mit $n$ Bits lassen sich $2^n$ Werte darstellen. Im Zweierkomplement (16 Bit): $[-32768, 32767]$. \textbf{Overflow} tritt auf bei Verlassen dieses Bereichs (z.\,B.\ $17000+18000=35000$ ergibt fälschlicherweise $-30536$).
+\textbf{Integer am Computer:} Mit $n$ Bits lassen sich $2^n$ Werte darstellen.
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Unsigned:} Bereich $[0, 2^n-1]$.
+    \item \textbf{Zweierkomplement (signed):} Bereich $[-2^{n-1}, 2^{n-1}-1]$; Addition/Subtraktion nutzt dieselbe Hardware wie unsigned. Negation: alle Bits invertieren, 1 addieren.
+    \item Beispiel 16\,Bit: $[-32768, 32767]$. \textbf{Overflow} bei Bereichsverlassen ($17000+18000=35000$ ergibt fälschlicherweise $-30536$, da $35000-65536=-30536$).
+\end{itemize}
 
-\textbf{Teilbarkeit und Primzahlen:} $m \mid n$ wenn $n=k\cdot m$. Primzahlen haben nur triviale Teiler; eindeutige Primfaktorzerlegung für jede Zahl $\geq 2$.
+\textbf{Teilbarkeit und Primzahlen:} $m \mid n$ wenn $\exists k \in \mathbb{Z}: n=k\cdot m$. Primzahlen ($p \geq 2$ mit nur trivialen Teilern $1$ und $p$) sind die multiplikativen Bausteine der ganzen Zahlen: jede Zahl $\geq 2$ hat eine eindeutige Primfaktorzerlegung (\textbf{Fundamentalsatz der Arithmetik}).
 
-\definition{\textbf{Modulare Arithmetik:} $a \equiv b \pmod{n}$ wenn $n \mid (a-b)$. Restklassen $\mathbb{Z}/n\mathbb{Z} = \{0,\ldots,n-1\}$ bilden den \textbf{Restklassenring}. Addition, Subtraktion und Multiplikation sind verträglich.}
+\definition{\textbf{Modulare Arithmetik:} $a \equiv b \pmod{n}$ wenn $n \mid (a-b)$, d.\,h.\ $a$ und $b$ lassen bei Division durch $n$ denselben Rest. Restklassen $\mathbb{Z}/n\mathbb{Z} = \{[0],[1],\ldots,[n-1]\}$ bilden den \textbf{Restklassenring}. Addition, Subtraktion und Multiplikation sind verträglich mit der Restklassenstruktur: $(a+b) \bmod n = ((a \bmod n) + (b \bmod n)) \bmod n$.}
 
-\textbf{Euklidischer Algorithmus:} $\gcd(a,b) = \gcd(a \bmod b,\, b)$ bis Rest $=0$. Der \textbf{erweiterte} Algorithmus liefert zusätzlich Bézout-Koeffizienten $\alpha,\beta \in \mathbb{Z}$ mit $\alpha a + \beta b = \gcd(a,b)$.
+\textbf{Euklidischer Algorithmus:} Berechnet den ggT durch wiederholte Division mit Rest: $\gcd(a,b) = \gcd(b, a \bmod b)$ bis Rest $= 0$. Laufzeit: $\mathcal{O}(\log \min(a,b))$.
 
-\textbf{Multiplikatives Inverses:} $b$ mit $a\cdot b \equiv 1 \pmod{n}$; existiert genau wenn $\gcd(a,n)=1$. Bei Primzahl $p$ existiert es für alle $a\neq 0$ -- $\mathbb{Z}/p\mathbb{Z}$ ist ein \textbf{Körper}.
+\beispiel{$\gcd(48,18)$: $48=2\cdot18+12$;\; $18=1\cdot12+6$;\; $12=2\cdot6+0 \;\Rightarrow\; \gcd(48,18)=6$.}
 
-\textbf{Hamming-Distanz:} $d_H(b_1,b_2)$ = Anzahl unterschiedlicher Stellen zweier Bitfolgen = $w(b_1 \oplus b_2)$. Grundlage fehlererkennender Codes (Paritätsbit ASCII, Hamming-Code).
+Der \textbf{erweiterte euklidische Algorithmus} liefert zusätzlich Bézout-Koeffizienten $\alpha,\beta \in \mathbb{Z}$ mit $\alpha a + \beta b = \gcd(a,b)$ -- wichtig für modulare Inverse.
+
+\textbf{Multiplikatives Inverses:} Gesucht ist $b$ mit $a \cdot b \equiv 1 \pmod{n}$. Dies existiert genau dann, wenn $\gcd(a,n)=1$ (Koprimalität); $b$ erhält man aus den Bézout-Koeffizienten des erweiterten euklidischen Algorithmus.
+
+\beispiel{$\gcd(3,7)=1$, also existiert $3^{-1} \bmod 7$. Erweiterter eukl. Alg.: $3\cdot5=15=2\cdot7+1 \;\Rightarrow\; 3\cdot5\equiv1\pmod{7}$, also $3^{-1}\equiv 5\pmod{7}$.}
+
+Bei Primzahl $p$ hat jedes $a \not\equiv 0$ ein Inverses -- $\mathbb{Z}/p\mathbb{Z}$ ist ein \textbf{Körper}. Anwendung: RSA-Kryptographie nutzt Modulararithmetik mit großen Primzahlen.
+
+\textbf{Chinesischer Restsatz (CRT):} Ist $n = n_1 \cdots n_k$ mit paarweise koprimen $n_i$, so lässt sich $x \equiv a_i \pmod{n_i}$ eindeutig modulo $n$ lösen. Formal: $\mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}/n_1\mathbb{Z} \times \cdots \times \mathbb{Z}/n_k\mathbb{Z}$, was parallele Berechnung in kleineren Ringen ermöglicht.
+
+\beispiel{$x \equiv 2 \pmod{3}$, $x \equiv 3 \pmod{5}$: Da $\gcd(3,5)=1$, eindeutige Lösung mod~15. Probe: $x=8$:\; $8=2\cdot3+2\;\checkmark$,\; $8=1\cdot5+3\;\checkmark$.}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/bin_dec_bin.png}
+\end{figure}
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
-\subsection{Darstellung reeller Zahlen am Computer}
 
-Am Computer steht für eine Zahl nur eine \textbf{begrenzte Anzahl von Bits} zur Verfügung.
+\subsection{Darstellung reeller Zahlen am Computer und Numerische Fehler}
 
-\textbf{Festkommadarstellung:} Feste Anzahl Bits vor und nach dem Komma; absoluter Fehler überall gleich groß; geringer Wertebereich. Heute selten verwendet.
+\textbf{Darstellung reeller Zahlen am Computer}
+
+Am Computer steht für eine Zahl nur eine \textbf{begrenzte Anzahl von Bits} zur Verfügung -- jede Darstellung reeller Zahlen ist daher ein Kompromiss zwischen Wertebereich und Genauigkeit.
+
+\textbf{Festkommadarstellung:} Feste Anzahl Bits vor und nach dem Komma; absoluter Fehler überall gleich groß (äquidistante Darstellung); geringer Wertebereich. Heute selten für allgemeine Berechnungen, aber relevant in eingebetteten Systemen und DSPs (z.\,B.\ Signalverarbeitung in Echtzeit) sowie bei FPGA-Implementierungen.
 
 \definition{\textbf{Gleitkommadarstellung (IEEE-754):} Eine Gleitkommazahl hat die Form
-\formel{x = \pm\; 1{,}b_1 b_2 \cdots b_m \;\times\; 2^{\pm e}}
-bestehend aus Vorzeichen, Mantisse und Exponent. Das führende \texttt{1.} wird nicht gespeichert (\emph{Hidden Bit}).
+\formel{x = \pm\; 1{,}b_1 b_2 \cdots b_m \;\times\; 2^{e - \text{Bias}}}
+bestehend aus Vorzeichen (1 Bit), Mantisse ($m$ Bits) und Exponent ($e$ Bits mit Bias-Kodierung). Das führende \texttt{1.} wird nicht gespeichert (\emph{Hidden Bit} -- spart 1 Bit Genauigkeit).
 \begin{itemize}[leftmargin=1.5em]
-    \item Single Precision: 32 Bit (1 Vorzeichen, 8 Exponent, 23 Mantisse)
-    \item Double Precision: 64 Bit (1 Vorzeichen, 11 Exponent, 52 Mantisse)
+    \item \textbf{Single Precision (float):} 32 Bit (1 Vorzeichen, 8 Exponent, 23 Mantisse), Bias $= 127$, Wertebereich $\approx \pm 3{,}4 \times 10^{38}$, ca.\ 7 signifikante Dezimalstellen.
+    \item \textbf{Double Precision (double):} 64 Bit (1 Vorzeichen, 11 Exponent, 52 Mantisse), Bias $= 1023$, Wertebereich $\approx \pm 1{,}8 \times 10^{308}$, ca.\ 15--16 signifikante Dezimalstellen.
+    \item \textbf{Half Precision (float16):} 16 Bit -- in KI-Anwendungen und GPUs verbreitet.
 \end{itemize}}
 
-\textbf{Eigenschaften:} Sehr großer Wertebereich. Gleich viele darstellbare Zahlen pro Größenordnung (logarithmische Skalierung -- nahe $0$ dichter). Innerhalb des Wertebereichs nur näherungsweise Darstellung $\Rightarrow$ Rundungsfehler. Dezimalzahlen sind im Binärsystem oft nicht exakt darstellbar ($0{,}1_{10} = 0{,}\overline{0011}_2$). Exakte Gleichheitsabfragen bei Gleitkommazahlen daher kritisch -- Abhilfe: $|x - y| < \varepsilon$.
+\textbf{Spezielle Werte in IEEE-754:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $\pm\texttt{Inf}$: Überlauf oder Division durch $0$.
+    \item $\texttt{NaN}$ (Not a Number): undefinierte Operationen wie $0/0$, $\sqrt{-1}$.
+    \item \textbf{Denormalisierte Zahlen}: Exponent $= 0$, erlaubt darstellbare Zahlen nahe $0$ unterhalb des Normalbereichs (gradueller Unterlauf).
+\end{itemize}
+
+\textbf{Maschinenepsilon:} $\varepsilon_{\mathrm{mach}}$ ist die kleinste Zahl mit $\mathrm{fl}(1 + \varepsilon_{\mathrm{mach}}) > 1$. Für Single: $\varepsilon \approx 1{,}19 \times 10^{-7}$; für Double: $\varepsilon \approx 2{,}22 \times 10^{-16}$. Der relative Rundungsfehler bei jeder Operation ist $\leq \varepsilon_{\mathrm{mach}}/2$.
+
+\textbf{Eigenschaften:} Sehr großer Wertebereich. Gleich viele darstellbare Zahlen pro Größenordnung (logarithmische Skalierung -- nahe $0$ dichter, bei großen Zahlen gröber). Innerhalb des Wertebereichs nur näherungsweise Darstellung $\Rightarrow$ Rundungsfehler. Dezimalzahlen sind im Binärsystem oft nicht exakt darstellbar ($0{,}1_{10} = 0{,}\overline{0011}_2$, periodisch). Exakte Gleichheitsabfragen bei Gleitkommazahlen daher kritisch -- Abhilfe: $|x - y| < \varepsilon$.
+
+\textbf{Rundungsmodi:} IEEE-754 definiert mehrere Modi: zur nächsten Maschinenzahl (Standard), Richtung $+\infty$, Richtung $-\infty$, Richtung $0$. Intervallarithmetik nutzt gerichtetes Runden für garantierte Fehlerschranken.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/decimal_to_bin.png}
+\end{figure}
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
-\subsection{Numerische Fehler}
+
+\textbf{Numerische Fehler}
 
 Rechnen mit begrenzter Genauigkeit führt zu Fehlern. Ziel ist stets, jede Zahl durch die nächste \textbf{Maschinenzahl} darzustellen -- aber auch die Summe bester Darstellungen muss nicht die beste Darstellung des Ergebnisses sein ($0{,}333+0{,}333+0{,}333 = 0{,}999 \neq 1{,}000$).
 
+\textbf{Fehlerfortpflanzung:} Jede arithmetische Operation kann einen neuen Rundungsfehler einbringen. Bei einer Folge von $n$ Operationen akkumulieren sich Fehler -- im besten Fall (Fehler heben sich teilweise auf) proportional zu $\sqrt{n}$, im schlimmsten Fall proportional zu $n$. Deshalb ist die Reihenfolge von Operationen relevant.
+
 \definition{\textbf{Auslöschung:} Subtraktion zweier fast gleich großer Zahlen führt zu drastischem Genauigkeitsverlust.
 \formel{1{,}234567 - 1{,}234565 = 0{,}000002 \quad \text{(von 7 auf 1 signifikante Stelle!)}}
-\textbf{Regel:} Wenn möglich, keine kleine Zahl als Differenz zweier großer Zahlen berechnen.}
+Die relativen Fehler der Operanden werden durch die Subtraktion drastisch vergrößert. \textbf{Regel:} Wenn möglich, keine kleine Zahl als Differenz zweier großer Zahlen berechnen. Umformungen können helfen: $\sqrt{x+1} - \sqrt{x} = \frac{1}{\sqrt{x+1}+\sqrt{x}}$ vermeidet Auslöschung für große $x$.}
 
-\definition{\textbf{Absorption:} Addition einer kleinen Zahl zu einer betragsmäßig viel größeren kann keine Veränderung bewirken: $1\,245\,327 + 0{,}215231 \approx 1\,245\,327$ (bei 7 Stellen Genauigkeit). Gefahr bei wiederholter Addition kleiner Inkremente.}
+\definition{\textbf{Absorption (Aufsummierung):} Addition einer kleinen Zahl zu einer betragsmäßig viel größeren kann keine Veränderung bewirken: 
+\formel{1\,245\,327 + 0{,}215231 \approx 1\,245\,327 \quad \text{(bei 7 Stellen Genauigkeit)}}
+Gefahr bei wiederholter Addition kleiner Inkremente zu einem großen Akkumulator. Abhilfe: \textbf{Kahan-Summation} akkumuliert den Rundungsfehler in einer Hilfsvariablen und kompensiert ihn bei der nächsten Addition.}
 
-\definition{\textbf{Unterlauf (Underflow):} Multiplikation betragsmäßig kleiner Zahlen liefert 0, obwohl das mathematisch falsch ist:
-$10^{-70} \cdot 10^{-70} \cdot 10^{70} \cdot 10^{70} \to 0 \cdot 10^{70} \cdot 10^{70} = 0$ (falsch, da $\approx 1$).}
+\definition{\textbf{Unterlauf (Underflow):} Multiplikation betragsmäßig kleiner Zahlen liefert $0$, obwohl das mathematisch falsch ist:
+\formel{10^{-70} \cdot 10^{-70} \cdot 10^{70} \cdot 10^{70} \to 0 \cdot 10^{70} \cdot 10^{70} = 0 \quad \text{(falsch, da $\approx 1$)}}
+Vorkommen bei Wahrscheinlichkeitsprodukten (z.\,B.\ in Hidden Markov Models) -- Abhilfe: Rechnen im Logarithmussraum ($\log p_1 + \log p_2$ statt $p_1 \cdot p_2$).}
 
-\textbf{Überlauf (Overflow):} Ergebnis außerhalb des darstellbaren Bereichs; bei Gleitkomma spezieller Wert \texttt{Inf}.
+\textbf{Überlauf (Overflow):} Ergebnis außerhalb des darstellbaren Bereichs; bei Gleitkomma spezieller Wert \texttt{Inf}. Arithmetik mit \texttt{Inf}: $\texttt{Inf} + x = \texttt{Inf}$, $\texttt{Inf} - \texttt{Inf} = \texttt{NaN}$, $0 \cdot \texttt{Inf} = \texttt{NaN}$.
+
+\textbf{Weitere Fehlerquellen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Abbruchfehler (Truncation Error):} Diskretisierung einer kontinuierlichen Größe (z.\,B.\ endliche Differenz statt exakter Ableitung). Unabhängig von der Gleitkommaarithmetik.
+    \item \textbf{Konversionsfehler:} Umrechnung zwischen Basen (Dezimal $\leftrightarrow$ Binär) erzeugt Rundungsfehler.
+    \item \textbf{Katastrophale Auslöschung in der Praxis:} Raketenstart Ariane 5 (1996): Konvertierungsfehler eines 64-Bit-Floats in 16-Bit-Integer führte zum Totalverlust.
+\end{itemize}
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Kondition von Problemen}
 
 \definition{Die \textbf{Kondition} beschreibt die prinzipielle Gutartigkeit eines Problems -- unabhängig vom Algorithmus. Kernfrage: Wie empfindlich ist das Ergebnis gegenüber kleinen Störungen der Eingangsdaten?
@@ -164,122 +309,197 @@ $10^{-70} \cdot 10^{-70} \cdot 10^{70} \cdot 10^{70} \to 0 \cdot 10^{70} \cdot 1
     \item \textbf{Gut konditioniert:} kleine Störung $\Rightarrow$ geringe Ergebnisänderung
     \item \textbf{Schlecht konditioniert:} kleine Störung $\Rightarrow$ große Ergebnisänderung
 \end{itemize}
-Die Kondition ist eine \emph{Untergrenze} des zu erwartenden Fehlers.}
+Die Kondition ist eine \emph{Untergrenze} des zu erwartenden Fehlers -- selbst der beste Algorithmus kann schlecht konditionierte Probleme nicht besser lösen.}
 
-\textbf{Absoluter und relativer Fehler:} Bei Störung $\delta x$: absoluter Fehler $\|\delta x\|$, relativer Fehler $\delta_x = \frac{\|\delta x\|}{\|x\|}$. Relative Fehler sind oft aussagekräftiger.
+\textbf{Ursachen schlechter Kondition:} Das Problem selbst ist nahe an der Singularität -- z.\,B.\ ein lineares Gleichungssystem mit fast linearen abhängigen Gleichungen, eine Auslöschungssituation, oder die Berechnung kleiner Differenzen großer Zahlen.
 
-\definition{\textbf{Relative Konditionszahl:} $\kappa_\mathrm{rel} = \limsup_{\delta_x \to 0} \frac{\delta_y}{\delta_x}$. Für differenzierbare Abbildungen (1D): $\kappa_\mathrm{rel}(x) = \left|\frac{f'(x)\cdot x}{f(x)}\right|$.}
+\textbf{Absoluter und relativer Fehler:} Bei Störung $\delta x$: absoluter Fehler $\|\delta x\|$, relativer Fehler $\delta_x = \frac{\|\delta x\|}{\|x\|}$. Relative Fehler sind oft aussagekräftiger, da sie die Größenordnung berücksichtigen. Ein absoluter Fehler von $1$ mm ist bei einem Nagel kritisch, bei einer Brücke vernachlässigbar.
+
+\definition{\textbf{Relative Konditionszahl:} $\kappa_\mathrm{rel} = \limsup_{\delta_x \to 0} \frac{\delta_y}{\delta_x} = \limsup_{\|\delta x\|\to 0} \frac{\|\delta y\|/\|y\|}{\|\delta x\|/\|x\|}$. Für differenzierbare Abbildungen (1D): $\kappa_\mathrm{rel}(x) = \left|\frac{f'(x)\cdot x}{f(x)}\right|$. Bedeutung: Ein $\kappa = 1000$ bedeutet, dass ein relativer Eingabefehler von $10^{-6}$ zu einem relativen Ausgabefehler von bis zu $10^{-3}$ führen kann.}
 
 \textbf{Wichtige Spezialfälle:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Addition:} $\kappa_\mathrm{rel} = \max\!\left\{\frac{|x_1|}{|x_1+x_2|}, \frac{|x_2|}{|x_1+x_2|}\right\}$. Bei $x_1 \approx -x_2$: $\kappa \gg 1$ -- dies ist der Effekt der \textbf{Auslöschung}.
-    \item \textbf{Multiplikation:} $\kappa_\mathrm{rel} = 1$ -- gut konditioniert.
-    \item \textbf{Lineares Gleichungssystem} $y=Ax$: $\mathrm{cond}(A) = \frac{\sigma_{\max}}{\sigma_{\min}} = \|A\|_S \cdot \|A^{-1}\|_S \geq 1$. Fast singuläre Matrix $\Rightarrow$ kleine Störung verschiebt Lösung dramatisch. Die Determinante allein ist kein guter Indikator.
+    \item \textbf{Addition:} $\kappa_\mathrm{rel} = \max\!\left\{\frac{|x_1|}{|x_1+x_2|}, \frac{|x_2|}{|x_1+x_2|}\right\}$. Bei $x_1 \approx -x_2$: $\kappa \gg 1$ -- dies ist der Effekt der \textbf{Auslöschung}. Addition gleichartiger Zahlen ist gut konditioniert ($\kappa \leq 1$).
+    \item \textbf{Multiplikation:} $\kappa_\mathrm{rel} = 1$ -- gut konditioniert (relative Fehler addieren sich).
+    \item \textbf{Lineares Gleichungssystem} $y=Ax$: $\mathrm{cond}(A) = \|A\|_S \cdot \|A^{-1}\|_S = \frac{\sigma_{\max}}{\sigma_{\min}} \geq 1$. Fast singuläre Matrix $\Rightarrow$ kleine Störung verschiebt Lösung dramatisch. Die Determinante allein ist kein guter Indikator (sie kann groß sein und $\kappa$ trotzdem riesig).
+    \item \textbf{Eigenwertproblem:} Für symmetrische Matrizen gut konditioniert. Für nicht-symmetrische Matrizen mit nahe beieinanderliegenden Eigenwerten kann $\kappa$ sehr groß sein.
 \end{itemize}
 
-\textbf{Kondition vs.\ Stabilität:} Kondition ist eine Eigenschaft des \emph{Problems}. Stabilität beschreibt, ob ein Algorithmus den durch die Kondition vorgegebenen Fehler nicht zusätzlich vergrößert.
+\textbf{Kondition vs.\ Stabilität:} Kondition ist eine Eigenschaft des \emph{Problems}. Stabilität beschreibt, ob ein Algorithmus den durch die Kondition vorgegebenen Fehler nicht zusätzlich vergrößert. Ein \textbf{stabiler Algorithmus} löst ein leicht gestörtes Problem exakt: $\tilde{y} = f(x + \delta x)$ mit kleinem $\delta x$. Ein instabiler Algorithmus kann selbst ein gut konditioniertes Problem schlecht lösen (z.\,B.\ naiver Gauß ohne Pivotisierung). Idealzustand: gut konditioniertes Problem + stabiler Algorithmus.
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
-\subsection{Minimumsuche: Gradientenabstieg, Newton-Verfahren, Impulsmethode}
 
-Optimierungsaufgaben werden als Minimierungsprobleme formuliert. Da $\nabla f = 0$ meist nicht direkt lösbar, verwendet man iterative \textbf{Abstiegsverfahren}: Wähle $\bm{x}_0$, bestimme Abstiegsrichtung $\bm{d}_k$, wähle Schrittweite $\lambda_k > 0$, setze $\bm{x}_{k+1} = \bm{x}_k + \lambda_k\bm{d}_k$; es muss gelten $f(\bm{x}_{k+1}) < f(\bm{x}_k)$.
+\subsection{Minimumsuche: Gradientenabstieg, Newton-Verfahren, Momentum}
 
-\definition{\textbf{Gradientenabstieg (Steepest Descent):} $\bm{d}_k = -\nabla f(\bm{x}_k)$. Reduziert auf ein 1D-Linesearch-Problem. Problem: \textbf{Zick-Zack-Verhalten} bei schlecht konditionierten Problemen. \textbf{Armijo-Regel:} Schrittweite von $\lambda=1$ ausgehend mit Faktor $q\in(0,1)$ reduzieren bis $f(\bm{x}_k+\lambda_k\bm{d}_k)-f(\bm{x}_k) \leq \lambda_k\alpha(\nabla f)^\top\bm{d}_k$.}
+Optimierungsaufgaben werden als Minimierungsprobleme formuliert ($\max f = \min{-f}$). Da $\nabla f = 0$ meist nicht analytisch lösbar, verwendet man iterative \textbf{Abstiegsverfahren}: Wähle $\bm{x}_0$, bestimme Richtung $\bm{d}_k$ und Schrittweite $\lambda_k > 0$, setze $\bm{x}_{k+1} = \bm{x}_k + \lambda_k\bm{d}_k$ mit $f(\bm{x}_{k+1}) < f(\bm{x}_k)$.
 
-\definition{\textbf{Konjugierte Gradienten (CG):} Neue Suchrichtung $A$-orthogonal zur vorherigen ($\bm{d}_{k+1}^\top A\bm{d}_k=0$). Behebt Zick-Zack; bei quadratischen Problemen exakte Lösung nach $n$ Schritten.}
+\definition{\textbf{Gradientenabstieg:} $\bm{d}_k = -\nabla f(\bm{x}_k)$ -- lokal steilste Richtung (nur 1. Ableitung). \textbf{Schrittweite} via \emph{Armijo-Backtracking}: Start bei $\lambda=1$, reduziere mit Faktor $q\in(0,1)$ bis $f(\bm{x}_k+\lambda\bm{d}_k) \leq f(\bm{x}_k) + \lambda\alpha\,\nabla f^\top\bm{d}_k$. \textbf{Problem:} Zick-Zack-Verhalten bei schlecht konditionierten Problemen; Konvergenzrate $\tfrac{\kappa-1}{\kappa+1}$ (bei $\kappa=1000$ sehr langsam). Nur lineare Konvergenz.}
 
-\definition{\textbf{Newton-Abstieg:} Löst $H_f(\bm{x}_k)\bm{s}_k = -\nabla f(\bm{x}_k)$, setzt $\bm{x}_{k+1}=\bm{x}_k+\bm{s}_k$. Quadratische Konvergenz, aber teuer ($\mathcal{O}(n^3)$). Varianten: \textbf{Frozen Newton} (Hesse einfrieren), \textbf{Inexact Newton} (LGS nur näherungsweise lösen), \textbf{BFGS} (Rang-2-Update der Hesse-Matrix -- beliebtestes Quasi-Newton-Verfahren).}
+\definition{\textbf{Newton-Abstieg:} Löse $H_f(\bm{x}_k)\,\bm{s}_k = -\nabla f(\bm{x}_k)$, setze $\bm{x}_{k+1}=\bm{x}_k+\bm{s}_k$ (1. \emph{und} 2. Ableitung). Nutzt die \textbf{Krümmungsinformation} der Hesse-Matrix: flache Richtungen $\Rightarrow$ großer Schritt, steile $\Rightarrow$ kleiner Schritt -- kein Zick-Zack. \textbf{Quadratische Konvergenz} nahe dem Minimum (Anzahl korrekter Stellen verdoppelt sich). \textbf{Nachteil:} $H_f$ muss positiv definit sein; Berechnung/Invertierung kostet $\mathcal{O}(n^3)$.}
 
-\definition{\textbf{Impulsmethode (Momentum):} $\bm{v}_\mathrm{neu} = \beta\bm{v}_\mathrm{alt} - \alpha\nabla_W L$, $0\leq\beta<1$. Mischt aktuelle Gradienteninformation mit alter Bewegungsrichtung. Schneller als klassischer Abstieg, kann lokale Minima überwinden, aber Overshoot möglich. \textbf{Adam} kombiniert Momentum mit adaptiven Lernraten (RMSprop) und Bias-Korrektur -- aktuell verbreitetster Optimierer für neuronale Netze.}
+\begin{center}\small
+\begin{tabular}{|l|l|l|}
+\hline
+& \textbf{Gradientenabstieg} & \textbf{Newton} \\
+\hline
+Ableitungen & $\nabla f$ (1. Ordnung) & $\nabla f$, $H_f$ (2. Ordnung) \\
+Konvergenz & Linear & Quadratisch \\
+Kosten/Schritt & $\mathcal{O}(n)$ & $\mathcal{O}(n^3)$ \\
+Zick-Zack & Ja (bei hohem $\kappa$) & Nein \\
+\hline
+\end{tabular}
+\end{center}
 
-\textbf{Line Search vs.\ Trust Region:} Line Search bestimmt Richtung, sucht dann Minimum entlang dieser. Trust Region approximiert die Zielfunktion lokal durch ein Modell und minimiert dieses innerhalb eines Vertrauensbereichs (wird je nach Qualität vergrößert/verkleinert).
+\definition{\textbf{Quasi-Newton (BFGS / L-BFGS):} Approximiert $H_f^{-1}$ via Rang-2-Updates aus Gradienten-Differenzen -- kein explizites Aufstellen von $H_f$. \textbf{L-BFGS} speichert nur die letzten $m$ Vektorpaare: $\mathcal{O}(mn)$ statt $\mathcal{O}(n^2)$ -- Standardwahl für hochdimensionale Probleme. Superlineare Konvergenz.}
 
+\definition{\textbf{Konjugierte Gradienten (CG):} Suchrichtungen $A$-orthogonal zur vorherigen ($\bm{d}_{k+1}^\top A\bm{d}_k=0$). Behebt Zick-Zack ohne Hesse-Matrix; bei quadratischen Problemen exakte Lösung nach $\leq n$ Schritten.}
+
+\definition{\textbf{Momentum / Adam:} $\bm{v}_{k+1} = \beta\bm{v}_k - \alpha\nabla L$, $W_{k+1}=W_k+\bm{v}_{k+1}$ -- Trägheit glättet Zick-Zack und hilft Sattelpunkte zu überwinden. \textbf{Nesterov}: Gradient am antizipierten Punkt -- stabileres Verhalten. \textbf{Adam}: Momentum + adaptive Lernraten (RMSprop) + Bias-Korrektur -- verbreitetster Optimierer für neuronale Netze.}
+
+\textbf{Globale Optima:} Abstiegsverfahren konvergieren nur zu lokalen Minima. Abhilfe: Mehrfachstarts, Simulated Annealing, evolutionäre Algorithmen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/gradient_descent.png}
+\end{figure}
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Fourier-Reihen und Fourier-Transformation}
 
-\textbf{Grundidee:} Beliebige (hinreichend gutartige) Funktionen lassen sich als Überlagerung von Sinus- und Kosinus-Schwingungen darstellen. Fourier-Theorie ermöglicht den Wechsel zwischen Zeit- und Frequenzbereich.
+\textbf{Grundidee:} Beliebige (hinreichend gutartige) Funktionen lassen sich als Überlagerung von Sinus- und Kosinus-Schwingungen darstellen. Fourier-Theorie ermöglicht den Wechsel zwischen Zeit- und Frequenzbereich -- eine der mächtigsten Ideen der angewandten Mathematik.
 
-\textbf{Orthogonalität:} Die trigonometrischen Funktionen $\{1,\cos(n\omega_0 t),\sin(n\omega_0 t)\}$ mit $\omega_0=\frac{2\pi}{T}$ bilden ein \textbf{orthogonales System}: $\int_{-T/2}^{T/2}\cos(n\omega_0 t)\cos(m\omega_0 t)\,\mathrm{d}t = 0$ für $n\neq m$. Ebenso die komplexen Exponentialfunktionen $e^{in\omega_0 t}$.
+\textbf{Orthogonalität:} Die trigonometrischen Funktionen $\{1,\cos(n\omega_0 t),\sin(n\omega_0 t)\}$ mit $\omega_0=\frac{2\pi}{T}$ bilden ein \textbf{orthogonales System} bezüglich des Skalarprodukts $\langle f,g \rangle = \int_{-T/2}^{T/2} f(t)g(t)\,\mathrm{d}t$. Dies ergibt $\int_{-T/2}^{T/2}\cos(n\omega_0 t)\cos(m\omega_0 t)\,\mathrm{d}t = 0$ für $n\neq m$, und $= T/2$ für $n=m\neq 0$. Ebenso die komplexen Exponentialfunktionen $e^{in\omega_0 t}$. Dieses System ist sogar \textbf{vollständig} (Basis des $L^2$-Raums).
 
 \definition{\textbf{Fourier-Reihe} ($T$-periodische Funktion):
-\formel{f(t) = \frac{a_0}{2} + \sum_{n=1}^{\infty}\left[a_n\cos(n\omega_0 t) + b_n\sin(n\omega_0 t)\right], \quad a_n = \frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega_0 t)\,\mathrm{d}t}
-\textbf{Komplexe Form:} $f(t) = \sum_{n=-\infty}^{+\infty}c_n e^{in\omega_0 t}$ mit $c_n = \frac{1}{T}\int_{-T/2}^{T/2}f(t)e^{-in\omega_0 t}\,\mathrm{d}t$. Für reelles $f$: $c_{-n}=\overline{c_n}$.}
+\formel{f(t) = \frac{a_0}{2} + \sum_{n=1}^{\infty}\left[a_n\cos(n\omega_0 t) + b_n\sin(n\omega_0 t)\right]}
+mit $a_n = \frac{2}{T}\int_{-T/2}^{T/2} f(t)\cos(n\omega_0 t)\,\mathrm{d}t$ und $b_n = \frac{2}{T}\int_{-T/2}^{T/2} f(t)\sin(n\omega_0 t)\,\mathrm{d}t$.
 
-\textbf{Gibbs'sches Phänomen:} An Sprungstellen überschießt die Fourier-Reihe stets um ca.\ $9\%$ der Sprungamplitude, unabhängig von der Anzahl der Terme.
+\textbf{Komplexe Form:} $f(t) = \sum_{n=-\infty}^{+\infty}c_n e^{in\omega_0 t}$ mit $c_n = \frac{1}{T}\int_{-T/2}^{T/2}f(t)e^{-in\omega_0 t}\,\mathrm{d}t$. Für reelles $f$: $c_{-n}=\overline{c_n}$, $|c_n|$ ist das \textbf{Amplitudenspektrum}.}
 
-\definition{\textbf{Fourier-Transformation} (nicht-periodisch): $\hat{f}(\nu) = \int_{-\infty}^{\infty}f(t)e^{-2\pi i\nu t}\,\mathrm{d}t$. Wichtige Eigenschaften: Linearität, Parsevals Theorem ($\int|f|^2\,\mathrm{d}t = \int|\hat{f}|^2\,\mathrm{d}\nu$), \textbf{Faltungssatz} ($\widehat{f*g}=\hat{f}\cdot\hat{g}$).}
+\textbf{Konvergenzaussagen:} Für stetige, stückweise glatte Funktionen: punktweise Konvergenz überall. An Sprungstellen: Konvergenz gegen den Mittelwert $\frac{f(t^+)+f(t^-)}{2}$.
 
-\textbf{DFT und FFT:} $X_k = \sum_{n=0}^{N-1}x_n e^{-2\pi ikn/N}$. Naiver Aufwand $\mathcal{O}(N^2)$; \textbf{FFT} (Cooley-Tukey) reduziert auf $\mathcal{O}(N\log N)$. Anwendung: JPEG verwendet 2D-Diskrete-Kosinus-Transformation auf $8\times8$-Blöcken.
+\textbf{Gibbs'sches Phänomen:} An Sprungstellen überschießt die Fourier-Reihe stets um ca.\ $9\%$ der Sprungamplitude, unabhängig von der Anzahl der Terme. Das Überschwingen verschiebt sich nur zur Sprungstelle hin, wird aber nicht kleiner.
+
+\definition{\textbf{Fourier-Transformation} (nicht-periodisch, $T \to \infty$): $\hat{f}(\nu) = \int_{-\infty}^{\infty}f(t)e^{-2\pi i\nu t}\,\mathrm{d}t$. Umkehrung: $f(t) = \int_{-\infty}^{\infty}\hat{f}(\nu)e^{2\pi i\nu t}\,\mathrm{d}\nu$. Wichtige Eigenschaften: Linearität, \textbf{Verschiebungssatz} ($f(t-t_0) \leftrightarrow e^{-2\pi i\nu t_0}\hat{f}(\nu)$), \textbf{Faltungssatz} ($\widehat{f*g}=\hat{f}\cdot\hat{g}$).}
+
+\textbf{DFT und FFT:} $X_k = \sum_{n=0}^{N-1}x_n e^{-2\pi ikn/N}$ für $k=0,\ldots,N-1$. Naiver Aufwand $\mathcal{O}(N^2)$; \textbf{FFT} (Cooley-Tukey, 1965) nutzt Symmetrieeigenschaften der Einheitswurzeln und teilt das Problem rekursiv in zwei Hälften: $\mathcal{O}(N\log N)$. Praktische Anwendungen: Signalverarbeitung, Spektralanalyse. JPEG verwendet 2D-Diskrete-Kosinus-Transformation (DCT, reellwertige Variante) auf $8\times8$-Blöcken -- Hochfrequenzanteile werden stärker quantisiert (psychovisuelle Kompression).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/fourier.png}
+\end{figure}
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Aliasing-Effekt und Shannon-Nyquist-Theorem}
 
-\textbf{Zwei Arten der Diskretisierung:} Wertdiskretisierung (Quantisierung, meist weniger kritisch) und \textbf{Zeitliche Diskretisierung} (Abtastung, kann zu extremen Fehlschlüssen führen).
+\textbf{Zwei Arten der Diskretisierung:} Wertdiskretisierung (Quantisierung: endliche Amplitudenauflösung, meist weniger kritisch für qualitative Aussagen) und \textbf{Zeitliche Diskretisierung} (Abtastung mit Schrittweite $\Delta t$, kann zu extremen Fehlschlüssen führen, wenn die Abtastrate unzureichend ist).
 
-\definition{\textbf{Aliasing:} Wird ein Signal mit Frequenz $\nu$ abgetastet, die höher ist als die halbe Abtastfrequenz, kann es nicht korrekt rekonstruiert werden. Es erscheint als niedrigere Alias-Frequenz $\nu_\mathrm{alias}$ -- zwei verschiedene Schwingungen erzeugen an den Abtastzeitpunkten exakt dieselben Messwerte (ununterscheidbar).}
+\definition{\textbf{Aliasing:} Wird ein Signal mit Frequenz $\nu$ abgetastet, die höher ist als die halbe Abtastfrequenz $\nu_s = 1/\Delta t$, kann es nicht korrekt rekonstruiert werden. Es erscheint als niedrigere Alias-Frequenz $\nu_\mathrm{alias}$ -- zwei verschiedene Schwingungen erzeugen an den Abtastzeitpunkten exakt dieselben Messwerte (ununterscheidbar ohne zusätzliche Information).}
+
+\textbf{Mathematische Erklärung:} Für ein abgetastetes Signal der Frequenz $\nu$ sind die Frequenzen $\nu + k\nu_s$ (für $k \in \mathbb{Z}$) nicht von $\nu$ zu unterscheiden. Das Spektrum des abgetasteten Signals ist die $\nu_s$-periodische Fortsetzung des Originalspektrums. Überlappen sich diese Kopien, entsteht Aliasing.
 
 \beispiel{Stroboskop-Effekt: Ein schnell drehendes Rad wirkt im Film rückwärts drehend, weil die Bildwiederholrate kleiner ist als die doppelte Umdrehungsfrequenz.}
 
-\definition{\textbf{Shannon-Nyquist-Theorem:} Bei Abtastung mit Zeitschritt $\Delta t$ können nur Frequenzen $\nu < \nu_\mathrm{Nyquist} = \frac{1}{2\Delta t}$ korrekt rekonstruiert werden. Höhere Frequenzen werden auf Alias-Frequenzen abgebildet: $\nu_\mathrm{alias} = |\nu - k\nu_s|$.}
+\definition{\textbf{Shannon-Nyquist-Theorem (Abtasttheorem):} Ein Signal, das nur Frequenzanteile $< \nu_\mathrm{max}$ enthält, kann aus seinen Abtastwerten mit Schrittweite $\Delta t$ vollständig rekonstruiert werden, wenn gilt:
+\formel{\nu_s = \frac{1}{\Delta t} > 2\nu_\mathrm{max} \quad \Leftrightarrow \quad \nu_\mathrm{Nyquist} = \frac{\nu_s}{2} > \nu_\mathrm{max}}}
 
-\textbf{Aliasing ist nicht reparierbar!} Ist das Signal bereits abgetastet, lassen sich die ursprünglichen hohen Frequenzen nicht mehr rekonstruieren.
+\textbf{Alias-Frequenz:} Liegt $\nu > \nu_\mathrm{Nyquist}$, wird es abgebildet auf $\nu_\mathrm{alias} = |\nu - k\nu_s|$ für das $k$, das $\nu_\mathrm{alias}$ minimiert (Faltung ins Basisband).
+
+\textbf{Aliasing ist nicht reparierbar!} Ist das Signal bereits abgetastet, lassen sich die ursprünglichen hohen Frequenzen nicht mehr rekonstruieren -- die Information ist unwiederbringlich verloren.
 
 \textbf{Gegenmaßnahmen:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Höhere Abtastrate:} $\Delta t$ verkleinern (Audio-CD: $44{,}1$ kHz $\Rightarrow$ Nyquist $22{,}05$ kHz, deckt menschliches Gehör bis $\approx 20$ kHz ab).
-    \item \textbf{Anti-Aliasing-Filter:} Tiefpassfilter \emph{vor} der Abtastung -- entfernt alle Frequenzen $> \nu_\mathrm{Nyquist}$.
+    \item \textbf{Höhere Abtastrate:} $\Delta t$ verkleinern (Audio-CD: $44{,}1$ kHz $\Rightarrow$ Nyquist $22{,}05$ kHz, deckt menschliches Gehör bis $\approx 20$ kHz ab; DVD-Audio: $96$ kHz; professionelle Aufnahmen: $192$ kHz).
+    \item \textbf{Anti-Aliasing-Filter:} Tiefpassfilter (Hardware) \emph{vor} der Abtastung -- entfernt alle Frequenzen $> \nu_\mathrm{Nyquist}$. Kritisch ist die Steilheit der Filterflanke.
+    \item \textbf{Oversampling + digitaler Filter:} Abtastung mit vielfacher Nyquist-Rate, dann digitales Decimation-Filtering -- einfachere analoge Hardware bei besserer Kontrolle über das digitale Filter.
 \end{itemize}
 
-\textbf{Domänenwissen:} Zu grobe Abtastung $\Rightarrow$ Aliasing; zu feine $\Rightarrow$ unnötig große Datenmengen. Optimale Wahl erfordert Kenntnis des Prozesses.
+\textbf{Domänenwissen ist entscheidend:} Zu grobe Abtastung $\Rightarrow$ Aliasing; zu feine $\Rightarrow$ unnötig große Datenmengen. Optimale Wahl aus physikalischen Überlegungen oder Voruntersuchungen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/aliasing.png}
+\end{figure}
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Faltung (diskret und stetig) sowie Faltungskerne und Anwendungen}
 
-\textbf{Kernidee:} Der Ausgabewert zum Zeitpunkt $t$ hängt von einem gewichteten Mittel der Vergangenheit/Umgebung ab -- das Gewicht gibt der \textbf{Faltungskern} (Filter, Impulsantwort) vor. Tritt bei linearen zeitinvarianten (LTI) Systemen auf.
+\textbf{Kernidee:} Der Ausgabewert zum Zeitpunkt $t$ ist ein gewichtetes Mittel der Vergangenheit/Umgebung -- das Gewicht gibt der \textbf{Faltungskern} (Filter, Impulsantwort) vor. Tritt bei linearen zeitinvarianten (LTI) Systemen auf: Linearität und Zeitinvarianz implizieren gemeinsam die Faltungsstruktur.
 
-\definition{\textbf{Stetige Faltung:} $(f*g)(t) = \int_{-\infty}^{\infty}f(\tau)\,g(t-\tau)\,\mathrm{d}\tau$. Eigenschaften: kommutativ, assoziativ, linear. \textbf{Faltungssatz:} $\widehat{f*g}(\nu)=\hat{f}(\nu)\cdot\hat{g}(\nu)$ -- Faltung im Zeitbereich = Multiplikation im Frequenzbereich.}
+\definition{\textbf{Diskrete Faltung:} $(x*k)_n = \sum_{m=-\infty}^{\infty} x_m\,k_{n-m}$. Dabei wird der Kern gespiegelt und über das Signal verschoben; außerhalb des Signals werden fehlende Werte als $0$ angenommen (Zero Padding). Für endliche Sequenzen hat das Ergebnis Länge $|x| + |k| - 1$.}
 
-\definition{\textbf{Diskrete Faltung:} $(x*k)_n = \sum_m x_m\,k_{n-m}$. Randbehandlung: Zero-padding, periodische Fortsetzung oder Spiegelung (beeinflusst Ränder).}
+\beispiel{Signal $x = [1,2,3]$, Kern $k = [1,-1]$:}
+\[
+x*k = [1\cdot1,\; 2\cdot1+1\cdot(-1),\; 3\cdot1+2\cdot(-1),\; 0\cdot1+3\cdot(-1)] = [1,1,1,-3]
+\]
+Durch die Spiegelung wirkt der Kern wie die Differenz $x_n-x_{n-1}$; die letzten Werte entstehen durch das Zero Padding. Der Kern hebt Änderungen im Signal hervor (1D-Kantendetektion).
+
+\definition{\textbf{Stetige Faltung:} $(f*g)(t) = \int_{-\infty}^{\infty}f(\tau)\,g(t-\tau)\,\mathrm{d}\tau$. Eigenschaften: kommutativ, assoziativ, linear, distributiv. \textbf{Faltungssatz:} $\widehat{f*g}(\nu)=\hat{f}(\nu)\cdot\hat{g}(\nu)$ -- Faltung im Zeitbereich entspricht Multiplikation im Frequenzbereich.}
+
+\textbf{Randbehandlung} bei endlichen Signalen: Zero-padding (Nullen anhängen, häufigste Wahl), periodische Fortsetzung (zirkuläre Faltung, für FFT-basierte Berechnung), oder Spiegelung (vermeidet Artefakte an Bildrändern).
 
 \textbf{Wichtige Faltungskerne:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Mittelwert-Kern} $k=\frac{1}{M}(1,\ldots,1)$: Glättung, Tiefpassfilter.
-    \item \textbf{Gauß-Kern} $k_m \propto e^{-m^2/(2\sigma^2)}$: weiche Glättung, kein Gibbs-Effekt.
-    \item \textbf{Differenzierungskern} $k=(1,-1)$ oder $(-1,0,1)$: Kantendetektion, Hochpassfilter.
-    \item \textbf{Laplace-/Sobel-Kern (2D):} gerichtete/ungerichtete Kantendetektion in Bildern.
-    \item \textbf{Dirac-Delta:} Identität -- $f*\delta = f$.
+    \item \textbf{Mittelwert-Kern} $k=\frac{1}{M}(1,\ldots,1)$: Glättung, Tiefpassfilter (dämpft hohe Frequenzen). Einfach, aber Box-Filter hat im Frequenzbereich Nebenmaxima (Gibbs-artige Artefakte).
+    \item \textbf{Gauß-Kern} $k_m \propto e^{-m^2/(2\sigma^2)}$: weiche Glättung, optimaler Kompromiss zwischen Zeit- und Frequenzbereichslokalisierung (Heisenbergsche Unschärferelation: Gauß ist seine eigene Fourier-Transformierte). Kein Gibbs-Effekt.
+    \item \textbf{Differenzierungskern} $k=(1,-1)$ (vorwärts) oder $k=(-1,0,1)/2$ (zentral, genauer): Kantendetektion, Hochpassfilter. Verstärkt Rauschen!
+    \item \textbf{Laplace-Kern (2D):} $\begin{pmatrix}0&1&0\\1&-4&1\\0&1&0\end{pmatrix}$: isotrope Kantendetektion (ungerichtet).
+    \item \textbf{Sobel-Kern (2D):} $\begin{pmatrix}-1&0&1\\-2&0&2\\-1&0&1\end{pmatrix}$ (horizontal): gerichtete Kantendetektion, rauschrobuster als reiner Differenzkern.
+    \item \textbf{Dirac-Delta:} Identität -- $f*\delta = f$, da $\delta$ im Frequenzbereich konstant 1 ist (flaches Spektrum).
 \end{itemize}
 
-\textbf{Anwendungen:} Rauschunterdrückung in Messsignalen, Hall-Effekt (Audiotechnik), Bildverarbeitung (Weichzeichnen, Kantendetektion), JPEG-Kompression. In \textbf{CNNs} sind Kerngewichte lernbar; Translationsinvarianz durch Schieben des Kerns.
+\textbf{2D-Faltung in der Bildverarbeitung:} $(I * K)(x,y) = \sum_{i,j} I(x-i, y-j) \cdot K(i,j)$. Der Kern wird über das Bild geschoben. Separierbare Kerne ($K = \bm{u}\bm{v}^\top$) ermöglichen Berechnung als zwei 1D-Faltungen: von $\mathcal{O}(N \cdot k^2)$ auf $\mathcal{O}(N \cdot 2k)$.
 
-\textbf{Effizienz:} Direkte Faltung: $\mathcal{O}(N^2)$; über FFT: $\mathcal{O}(N\log N)$ via $x*k = \mathcal{F}^{-1}(\mathcal{F}(x)\cdot\mathcal{F}(k))$.
+\textbf{Anwendungen:} Rauschunterdrückung in Messsignalen (Gauß/Mittelwert), Hall-Effekt (Audiotechnik -- Raumimpulsantwort), Bildverarbeitung (Weichzeichnen, Kantendetektion, Schärfen). In \textbf{CNNs} sind Kerngewichte lernbar (Backpropagation); Translationsinvarianz durch Weight Sharing reduziert Parameter drastisch.
+
+\textbf{Effizienz:} Direkte Faltung: $\mathcal{O}(N \cdot M)$; über FFT: $\mathcal{O}(N\log N)$ -- vorteilhaft für lange Kerne ($M > \log N$).
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Methoden zur numerischen Bestimmung von Integralen}
 
-\textbf{Motivation:} Symbolisches Integrieren oft nicht möglich. Numerisches Integrieren ist -- im Unterschied zum Differenzieren -- eine \emph{gutartige} Aufgabe: Integration glättet, kleine Fehler werden herausgemittelt. Numerisches Differenzieren ist heikel (Hochpassfilter, verstärkt Rauschen).
+\textbf{Motivation:} Symbolisches Integrieren oft nicht möglich (kein geschlossener Ausdruck für Stammfunktion) oder unpraktikabel (nur Messpunkte vorhanden). Numerisches Integrieren ist -- im Unterschied zum numerischen Differenzieren -- eine \emph{gutartige} Aufgabe: Integration glättet, kleine Fehler werden herausgemittelt (Tiefpasscharakter). Numerisches Differenzieren ist heikel (Hochpassfilter, verstärkt Rauschen).
 
-\definition{\textbf{Newton-Cotes-Formeln:} $\int_a^b f(x)\,\mathrm{d}x \approx (b-a)\sum_{k=0}^{n}w_k f(x_k)$ mit äquidistanten Stützstellen und $\sum w_k = 1$.}
+\textbf{Grundprinzip:} Approximiere $f$ durch eine einfach integrierbare Funktion (Polynom), integriere diese exakt. Die Güte der Approximation bestimmt den \textbf{Quadraturfehler} (Abschneidefehler).
 
-\definition{\textbf{Trapezregel:}
-\formel{\int_a^b f\,\mathrm{d}x \approx \frac{h}{2}\left(f(x_0) + 2\sum_{k=1}^{n-1}f(x_k) + f(x_n)\right), \quad h=\frac{b-a}{n}}
-Lineare Interpolation zwischen Stützpunkten. Fehlerordnung: $\mathcal{O}(h^2)$.}
+\definition{\textbf{Newton-Cotes-Formeln:} Äquidistante Stützstellen $x_k = a + kh$, $h = (b-a)/n$, wobei die Gewichte $w_k$ durch Interpolation mit Lagrange-Polynomen bestimmt werden:
+\formel{\int_a^b f(x)\,\mathrm{d}x \approx (b-a)\sum_{k=0}^{n}w_k f(x_k), \quad \sum w_k = 1}
+}
 
-\definition{\textbf{Simpson-Regel:} Parabolisches Stück über je drei Stützpunkte (Gewichte $\frac{1}{6},\frac{4}{6},\frac{1}{6}$). Fehlerordnung: $\mathcal{O}(h^4)$ -- deutlich besser, da kubische Polynome exakt integriert werden.}
+\definition{\textbf{Trapezregel} (Newton-Cotes $n=1$):
+\formel{\int_a^b f\,\mathrm{d}x \approx \frac{h}{2}\left(f(x_0) + 2\sum_{k=1}^{n-1}f(x_k) + f(x_n)\right), \quad h=\frac{b-a}{n}}}
 
-\definition{\textbf{Romberg-Integration:} Kombiniert Trapezregeln mit unterschiedlicher Schrittweite durch \textbf{Richardson-Extrapolation}: $Q_n^{(m+1)} = Q_n^{(m)} + \frac{Q_n^{(m)} - Q_{n/2}^{(m)}}{4^m-1}$. Jede weitere Spalte im Romberg-Schema erhöht die Fehlerordnung um $\mathcal{O}(h^2)$.}
+\definition{\textbf{Simpson-Regel} (Newton-Cotes $n=2$, auch $\frac{1}{3}$-Regel): Parabolisches Stück über je drei Stützpunkte (Gewichte $\frac{h}{3}(1,4,1)$). Benötigt gerade Anzahl Teilintervalle. Beispiel im Bild}
 
-\definition{\textbf{Gauß-Legendre:} Nicht-äquidistante, optimal gewählte Stützstellen (Nullstellen der Legendre-Polynome). Mit $n$ Stützstellen werden Polynome bis Grad $2n-1$ exakt integriert. Nachteil: Stützstellen fest vorgegeben, keine schönen Zahlen.}
+\textbf{Verbesserte Quadraturmethoden:} Statt fester Schrittweite werden sowohl Stützstellen als auch Gewichte an die Struktur von $f$ angepasst.
 
-\textbf{Monte-Carlo-Integration:} Für hochdimensionale Integrale: zufällig gezogene Stützpunkte, Fehler $\mathcal{O}(N^{-1/2})$ unabhängig von der Dimension -- Standardmethode gegen den \emph{Fluch der Dimensionalität}.
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Romberg-Integration:} Kombination von Trapezregeln mit unterschiedlichen Schrittweiten und Extrapolation zur systematischen Fehlerreduktion.
+    
+    \item \textbf{Gauß-Quadratur:} Optimale Wahl von Stützstellen und Gewichten (nicht äquidistant). Maximale Genauigkeit: exakt für Polynome bis Grad $2n-1$ bei $n$ Punkten.
+    
+    \item \textbf{Adaptive Quadratur:} Dynamische Verfeinerung der Schrittweite dort, wo $f$ stark variiert; Fehlerabschätzung durch Vergleich von grober und feiner Approximation.
+\end{itemize}
 
-\newpage
+\textbf{Monte-Carlo-Integration:} Das Integral wird durch zufällig verteilte Punkte im Gebiet $\Omega$ approximiert:
+\formel{\int_\Omega f(x)\,dx \approx |\Omega| \cdot \frac{1}{N}\sum_{i=1}^N f(x_i)}
+
+Dabei werden $N$ Punkte $\bm{x}_i$ zufällig im Integrationsgebiet gewählt und der Funktionswert gemittelt. Die Idee: Statt ein festes Gitter zu verwenden, probiert man viele zufällige Punkte aus und nähert so den Mittelwert der Funktion im Gebiet an.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.55\textwidth]{assets/sum_simpson_regel.png}
+\end{figure}
+
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Grundbegriffe der Graphentheorie}
 
 \definition{Ein \textbf{Graph} $G = (V, E)$ besteht aus Knotenmenge $V$ und Kantenmenge $E$. Jeder Kante sind zwei inzidente Knoten zugeordnet. Graphen modellieren netzartige Strukturen topologisch -- die konkrete Beschaffenheit der Knoten und Kanten spielt keine Rolle.}
@@ -287,112 +507,153 @@ Lineare Interpolation zwischen Stützpunkten. Fehlerordnung: $\mathcal{O}(h^2)$.
 \textbf{Grundbegriffe:}
 \begin{itemize}[leftmargin=1.5em]
     \item \textbf{Schlinge:} $e=\{v,v\}$. \textbf{Parallele Kanten:} zwei Kanten mit identischen Endknoten. Graphen ohne beides: \textbf{schlicht}; sonst \textbf{Multigraph}.
-    \item \textbf{Nachbarschaft:} $\Gamma(v)=\{w\in V\mid\{v,w\}\in E,\,w\neq v\}$. Knoten mit $\Gamma(v)=\emptyset$: \textbf{isoliert}.
-    \item \textbf{Grad:} $\deg(v)$ = Anzahl Kanten (Schlingen doppelt). \textbf{Handshaking-Lemma:} $\sum_v\deg(v)=2|E|$ -- Anzahl der Knoten mit ungeradem Grad stets gerade.
-    \item \textbf{Kenngrößen:} $\Delta(G)=\max_v\deg(v)$, $\delta(G)=\min_v\deg(v)$, $\Phi(G)=\frac{2|E|}{|V|}$.
-    \item \textbf{Dichte} (schlicht): $\rho(G)=\frac{2|E|}{|V|(|V|-1)}$.
+    \item \textbf{Nachbarschaft:} $\Gamma(v)=\{w\in V\mid\{v,w\}\in E,\,w\neq v\}$. Knoten mit $\Gamma(v)=\emptyset$: \textbf{isoliert} (auch bei ausschließlich Schlingen!).
+    \item \textbf{Grad:} $\deg(v)$ = Anzahl inzidenter Kanten; Schlingen zählen \emph{doppelt}. \textbf{Handshaking-Lemma:}
+    \[\sum_{v\in V}\deg(v)=2|E|\]
+    Folgerung: Die Anzahl der Knoten mit ungeradem Grad ist stets gerade.
+    \item \textbf{Gradmatrix:} $D(G)=\mathrm{diag}(\deg(1),\ldots,\deg(n))$.
+    \item \textbf{Kenngrößen:} Maximalgrad $\Delta(G)=\max_v\deg(v)$, Minimalgrad $\delta(G)=\min_v\deg(v)$, mittlerer Grad $\Phi(G)=\frac{2|E|}{|V|}$.
+    \item \textbf{Dichte} (nur für schlichte Graphen): $\rho(G)=\frac{2|E|}{|V|(|V|-1)}\in[0,1]$. Bei nicht-schlichten Graphen kann $\rho>1$ sein (parallele Kanten), daher nicht sinnvoll definierbar. Dichte sagt aus, wie vollständig der Graph ist, gemessen an den Kanten zu max. Kantenanzahl.
 \end{itemize}
 
-\textbf{Wege und Abstände:}
+\textbf{Wege, Kreise und Abstände:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Kantenfolge:} $v_1,e_1,v_2,\ldots,e_{k-1},v_k$. \textbf{Weg:} ohne wiederholte Knoten. \textbf{Kreis:} geschlossener Weg. \textbf{Taille:} kürzester Kreis. \textbf{Umfang:} längster. \textbf{Brücke:} Kante auf keinem Kreis.
-    \item \textbf{Abstand:} $\mathrm{dist}(v,w)$ = kürzester Weg; $\mathrm{dist}(v,v)=0$; $\infty$ falls kein Weg.
-    \item \textbf{Exzentrizität:} $e(v)=\max_w\mathrm{dist}(v,w)$. \textbf{Durchmesser:} $d(G)=\max_v e(v)$. \textbf{Radius:} $r(G)=\min_v e(v)$. \textbf{Zentrum:} Knoten mit $e(v)=r(G)$. Es gilt $r(G)\leq d(G)\leq 2r(G)$.
+    \item \textbf{Kantenfolge:} $v_1,e_1,v_2,\ldots,e_{k-1},v_k$; Länge = Anzahl Kanten. \textbf{Geschlossen:} $v_1=v_k$.
+    \item \textbf{Weg:} Kantenfolge ohne wiederholte Knoten. Bei einem Weg dürfen Kanten \emph{nicht} doppelt auftreten, da dies zwangsläufig einen bereits besuchten Knoten erzwingen würde (bei schlichten Graphen).
+    \item \textbf{Kreis:} geschlossene Kantenfolge, bei der Anfangs- und Endknoten identisch sind und kein weiterer Knoten wiederholt wird. Ein Kreis ist kein Weg.
+    \item \textbf{Taille:} Länge des kürzesten Kreises. \textbf{Umfang:} Länge des längsten Kreises. \textbf{Brücke:} Kante, die auf keinem Kreis liegt -- ihr Entfernen erhöht die Komponentenanzahl.
+    \item \textbf{Abstand:} $\mathrm{dist}(v,w)$ = Länge des kürzesten Weges; $\mathrm{dist}(v,v)=0$; $\mathrm{dist}(v,w)=\infty$ falls kein Weg existiert.
+    \item \textbf{Exzentrizität:} $e(v)=\max_{w\in V}\mathrm{dist}(v,w)$.
+    \item \textbf{Durchmesser:} $d(G)=\max_{v\in V}e(v)=\max_{i,j}m_{ij}$.
+    \item \textbf{Radius:} $r(G)=\min_{v\in V}e(v)$.
+    \item \textbf{Zentrum:} $\{v\in V\mid e(v)=r(G)\}$; \textbf{Randknoten:} $\{v\in V\mid e(v)=d(G)\}$.
+    \item Es gilt stets: $r(G)\leq d(G)\leq 2\,r(G)$.
 \end{itemize}
 
-\textbf{Zusammenhang:} Zwischen jedem Knotenpaar existiert ein Weg. Äquivalent: sukzessive Kantenkontraktionen führen auf einen einzelnen Knoten.
+\textbf{Zusammenhang:} $G$ heißt \textbf{zusammenhängend}, wenn zwischen jedem Knotenpaar $v\neq w$ ein Weg existiert, d.h.\ $\mathrm{dist}(v,w)<\infty$ für alle Paare. Äquivalent: sukzessive Kantenkontraktionen ($e=\{v,w\}$ entfernen + $v,w$ fusionieren) führen auf einen Einzelknoten; jeder Zwischengraph ist ein \textbf{Minor} von $G$. Ein nicht zusammenhängender Graph besteht aus mehreren \textbf{Komponenten}. Bei nicht zusammenhängenden Graphen sind Exzentrizitäten, Durchmesser und Radius $\infty$.
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
-\subsection{Graphentheorie: Inzidenz-, Grad-, Adjazenz-, Laplace- und Abstandsmatrizen sowie deren Zusammenhang}
 
-Sei $G=(V,E)$ mit $n=|V|$ Knoten und $m=|E|$ Kanten.
+\subsection{Graphentheorie: Matrizen und ihre Zusammenhänge}
 
-\textbf{Inzidenzmatrix $B(G)$} ($n\times m$): $b_{ve}=1$ wenn $v$ und $e$ inzidieren; Schlingen: $b_{ve}=2$. Jede Spaltensumme $=2$.
+Sei $G=(V,E)$ mit $n=|V|$ Knoten und $m=|E|$ Kanten. Als durchgehendes Beispiel dient folgender Graph:
+\[G:\quad V=\{1,2,3,4,5\},\quad E=\{a,b,c,d,e,f\}\]
+\[a=\{1,2\},\;b=\{1,5\},\;c=\{1,3\},\;d=\{1,3\},\;e=\{2,4\},\;f=\{5,5\}\]
 
-\textbf{Gradmatrix $D(G)$:} Diagonalmatrix $\mathrm{diag}(\deg(1),\ldots,\deg(n))$.
+\textbf{Inzidenzmatrix $B(G)$} ($n\times m$, Knoten $\times$ Kanten): $b_{ve}=1$ wenn $v$ und $e$ inzidieren; bei Schlingen $b_{ve}=2$. Jede Spaltensumme $=2$ (Handshaking). Für das Beispiel:
+\[B(G)=\begin{pmatrix}1&1&1&1&0&0\\1&0&0&0&1&0\\0&0&1&1&0&0\\0&0&0&0&1&0\\0&1&0&0&0&2\end{pmatrix}\]
 
-\textbf{Adjazenzmatrix $A(G)$} ($n\times n$): $a_{ij}$ = Anzahl Kanten zwischen $i$ und $j$. Stets symmetrisch; bei schlichten Graphen nur 0/1, Nulldiagonale. Zeilen-/Spaltensumme = Grad (Schlingen doppelt). \textbf{Potenzen:} $(A^p)_{ij}$ = Anzahl Kantenfolgen der Länge $p$ von $i$ nach $j$. Ist $A$ durch Permutation in Blockform bringbar: $G$ nicht zusammenhängend.
+\textbf{Gradmatrix $D(G)$} ($n\times n$, Diagonalmatrix): $D(G)=\mathrm{diag}(\deg(1),\ldots,\deg(n))$. Schlingen zählen doppelt. Für das Beispiel: $\deg(1)=4,\;\deg(2)=2,\;\deg(3)=2,\;\deg(4)=1,\;\deg(5)=3$:
+\[D(G)=\begin{pmatrix}4&0&0&0&0\\0&2&0&0&0\\0&0&2&0&0\\0&0&0&1&0\\0&0&0&0&3\end{pmatrix}\]
+
+\textbf{Adjazenzmatrix $A(G)$} ($n\times n$, Knoten $\times$ Knoten): $a_{ij}$ = Anzahl Kanten zwischen $i$ und $j$. Stets \textbf{symmetrisch}. Bei schlichten Graphen: nur $0/1$, Nulldiagonale. Zeilen-/Spaltensumme $=\deg(i)$ (Schlingen doppelt). Zerlegbarkeit durch Permutation in Blockform $\Leftrightarrow$ $G$ nicht zusammenhängend. Für das Beispiel (Schlinge $f$ doppelt):
+\[A(G)=\begin{pmatrix}0&1&2&0&1\\1&0&0&1&0\\2&0&0&0&0\\0&1&0&0&0\\1&0&0&0&2\end{pmatrix}\]
+
+\textbf{Potenzen der Adjazenzmatrix:} $(A^p)_{ij}$ = Anzahl der Kantenfolgen der Länge $p$ von $i$ nach $j$ (Schlingen dabei nur \emph{einfach} zählen).
 
 \textbf{Laplace- und vorzeichenlose Laplace-Matrix:}
-\formel{L(G) = D(G) - A(G), \qquad Q(G) = D(G) + A(G) = B(G)\cdot B(G)^\top}
-$L(G)$ ist positiv semidefinit; Anzahl der Eigenwerte $0$ = Anzahl der Zusammenhangskomponenten.
+\[L(G) = D(G) - A(G), \qquad Q(G) = D(G) + A(G) = B(G)\cdot B(G)^\top\]
+$L(G)$ ist positiv semidefinit; die Vielfachheit des Eigenwertes $0$ entspricht der Anzahl der Zusammenhangskomponenten.
 
-\textbf{Abstandsmatrix $\mathcal{M}(G)$:} $m_{ij}=\mathrm{dist}(i,j)$. Berechnung: Potenzen von $A$ sukzessive auswerten; bei erstem $(A^p)_{ij}>0$ für offenes Paar: $m_{ij}=p$.
-
-\textbf{Zusammenhang der Matrizen:}
+\textbf{Zusammenhang der Normen} (Hölder-1-Norm $\|X\|_{H1}=\sum_{i,j}|x_{ij}|$, Schlingen doppelt):
 \begin{itemize}[leftmargin=1.5em]
-    \item $\|B(G)\|_{H1} = \|D(G)\|_{H1} = \|A(G)\|_{H1} = 2|E|$
-    \item $Q(G) = B(G)\cdot B(G)^\top = D(G)+A(G)$; \quad $L(G) = D(G)-A(G)$
-    \item Exzentrizitäten, Durchmesser und Radius direkt aus $\mathcal{M}(G)$ ablesbar.
+    \item $\|B(G)\|_{H1} = \|D(G)\|_{H1} = \|A(G)\|_{H1} = 2|E| = \deg(G)$
+    \item $\|Q(G)\|_{H1} = \|B\cdot B^\top\|_{H1} = 4|E| = 2\cdot\deg(G)$
+    \item $\|L(G)\|_{H1} = 2\|A(G)\|_{H1} - \mathrm{spur}(D(G))$
 \end{itemize}
+
+\textbf{Abstandsmatrix $\mathcal{M}(G)$} ($n\times n$): $m_{ij}=\mathrm{dist}(i,j)$; symmetrisch, Nulldiagonale. \textbf{Berechnung:} Potenzen $A^1, A^2, A^3,\ldots$ sukzessive auswerten (Schlingen einfach zählen); sobald $(A^p)_{ij}>0$ für ein noch offenes Paar: setze $m_{ij}=p$. Abbruch wenn alle Einträge gefüllt (spätestens nach $|V|-1$ Schritten bei zusammenhängendem $G$).
+
+\textbf{Exzentrizitäten, Durchmesser und Radius} direkt aus $\mathcal{M}(G)$:
+\[e(v)=\max_j m_{vj},\quad d(G)=\max_{i,j}m_{ij},\quad r(G)=\min_v\max_j m_{vj}\]
+
+\beispiel{Fortsetzung des Beispielgraphen $G$. Die Abstandsmatrix ergibt sich schrittweise aus $A^1, A^2, \ldots$ (Schlingen einfach): Knoten 4 ist nur über Knoten 2 erreichbar, Knoten 3 direkt über die parallelen Kanten $c,d$.
+\[\mathcal{M}(G)=\begin{pmatrix}0&1&1&2&1\\1&0&2&1&2\\1&2&0&3&2\\2&1&3&0&3\\1&2&2&3&0\end{pmatrix}\]
+Daraus folgen die Exzentrizitäten: $e(1)=2,\;e(2)=2,\;e(3)=3,\;e(4)=3,\;e(5)=3$. Radius $r(G)=2$ (Zentrum: Knoten 1 und 2), Durchmesser $d(G)=3$. Es gilt $r(G)\leq d(G)\leq 2\,r(G)$, hier $2\leq 3\leq 4$. \checkmark}
+
+\newpage
 
 \newpage
 % ─────────────────────────────────────────────────────────────────────────────
+
 \subsection{Graphentheorie: Eulersche Kantenfolgen und Eulersche Touren sowie Hamiltonwege und Hamiltonkreise}
 
-\textbf{Definitionen:}
+\textbf{Begriffe und Definitionen:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Eulersche Kantenfolge:} Kantenfolge, die jede Kante genau einmal durchläuft (Knoten dürfen mehrfach vorkommen).
-    \item \textbf{Eulersche Tour:} Geschlossene Eulersche Kantenfolge. Graph heißt \textbf{eulersch}.
-    \item \textbf{Hamiltonweg:} Weg durch jeden Knoten genau einmal.
-    \item \textbf{Hamiltonkreis:} Kreis durch jeden Knoten. Graph heißt \textbf{hamiltonsch}.
+    \item \textbf{Kantenfolge:} $v_1, e_1, v_2, \ldots, e_{k-1}, v_k$, wobei $e_i$ jeweils $v_i$ und $v_{i+1}$ verbindet. Länge = Anzahl der Kanten. \textbf{Geschlossen:} wenn $v_1 = v_k$.
+    \item \textbf{Weg:} Kantenfolge ohne wiederholte Knoten.
+    \item \textbf{Kreis:} Geschlossene Kantenfolge, bei der kein Knoten (außer Anfang\,=\,Ende) wiederholt wird -- ein Kreis ist kein Weg. \textbf{Taille:} kürzester Kreis. \textbf{Umfang:} längster Kreis.
+    \item \textbf{Brücke:} Kante, die auf keinem Kreis liegt; ihr Entfernen erhöht die Komponentenanzahl.
+    \item \textbf{Eulersche Kantenfolge:} Kantenfolge, die \emph{jede Kante genau einmal} durchläuft. Knoten dürfen mehrfach besucht werden -- daher im Allgemeinen kein Weg.
+    \item \textbf{Eulersche Tour (Eulerkreis):} Geschlossene Eulersche Kantenfolge. Graph heißt \textbf{eulersch}. Im Allgemeinen kein Kreis, da Knoten mehrfach auftreten können.
+    \item \textbf{Hamiltonweg:} Weg, der \emph{jeden Knoten genau einmal} enthält. Anfangs- und Endknoten müssen nicht identisch sein.
+    \item \textbf{Hamiltonkreis:} Kreis, der jeden Knoten genau einmal enthält (Anfang\,=\,Ende erzwungen). Graph heißt \textbf{hamiltonsch}.
 \end{itemize}
 
-\definition{\textbf{Satz von Euler-Hierholzer:} Zusammenhängender Graph enthält genau dann
-eine \textbf{Eulersche Tour}, wenn jeder Knoten geraden Grad hat
-($\forall v: \deg(v)\bmod 2=0$); genau dann eine \textbf{Eulersche Kantenfolge}, wenn
-maximal zwei Knoten ungeraden Grad haben (diese bilden dann Start- und Endknoten).}
+\definition{\textbf{Existenzsatz -- Eulersche Kantenfolge:} Ein zusammenhängender Graph enthält genau dann eine Eulersche Kantenfolge, wenn \textbf{höchstens zwei Knoten} ungeraden Grad haben:
+\[ |\{v \in V : \deg(v) \bmod 2 \neq 0\}| \leq 2 \]
+Diese (höchstens zwei) Knoten bilden zwingend Start- und Endknoten der Kantenfolge.}
 
-\beispiel{Königsberger Brückenproblem (Euler, 1736): Alle vier Knoten haben ungeraden
-Grad $\Rightarrow$ keine Eulersche Kantenfolge möglich.}
+\definition{\textbf{Satz von Euler--Hierholzer -- Eulersche Tour:} Ein zusammenhängender Graph enthält genau dann eine Eulersche Tour, wenn \textbf{jeder Knoten geraden Grad} hat:
+\[ \forall v \in V : \deg(v) \bmod 2 = 0 \]
+Dies ist ein notwendiges \emph{und} hinreichendes Kriterium.}
 
-\textbf{Hierholzers Algorithmus} (konstruktiv, $\mathcal{O}(|E|)$):
-\begin{enumerate}[leftmargin=1.5em]
-    \item Starte an einem beliebigen Knoten (bei Eulersche Kantenfolge: an einem Knoten ungeraden Grads) und folge Kanten, bis man zum Startknoten zurückgelangt
-    $\Rightarrow$ ergibt einen ersten Teilkreis $C_1$.
-    \item Entferne $C_1$ aus dem Graphen. Wähle einen Knoten $v \in C_1$, der noch nicht verwendete Kanten besitzt.
-    \item Starte von $v$ einen weiteren Teilkreis $C_2$ im Restgraphen.
-    \item Füge $C_2$ an der Stelle $v$ in $C_1$ ein. Wiederhole ab Schritt~2, bis alle Kanten verwendet sind.
-\end{enumerate}
+\beispiel{Königsberger Brückenproblem (Euler, 1736): Sieben Brücken über den Pregel in Königsberg -- modelliert als Graph mit 4 Knoten. Alle vier Knoten haben ungeraden Grad $\Rightarrow$ keine Eulersche Kantenfolge (und damit auch keine Eulersche Tour) möglich.}
 
-\definition{\textbf{Satz von Dirac:} Schlichtgraph, $|V|\geq 3$,
-$\deg(v)\geq\frac{|V|}{2}$ für alle $v$ $\Rightarrow$ Hamiltonkreis (hinreichend,
-nicht notwendig). \textbf{Satz von Ore:} Für alle nicht-benachbarten Paare $u,v$:
-$\deg(u)+\deg(v)\geq|V|$ $\Rightarrow$ Hamiltonkreis (verallgemeinert Dirac).}
+\definition{\textbf{Hinreichende Bedingung -- Satz von Dirac:} Sei $G$ ein schlichter Graph mit $|V| \geq 3$. Gilt $\deg(v) \geq \frac{|V|}{2}$ für alle $v \in V$, so besitzt $G$ einen Hamiltonkreis (und damit auch einen Hamiltonweg). Die Bedingung impliziert bereits Zusammenhang.}
 
-\textbf{Notwendige Bedingungen:} Graph mit Hamiltonkreis: zusammenhängend, kein Knoten
-mit Grad~1. Mit Hamiltonweg: höchstens zwei Knoten mit Grad~1.
+\definition{\textbf{Hinreichende Bedingung -- Satz von Ore:} Sei $G$ ein schlichter Graph mit $|V| \geq 3$. Gilt für alle \emph{nicht benachbarten} Paare $u, v \in V$:
+\[ \deg(u) + \deg(v) \geq |V| \]
+so besitzt $G$ einen Hamiltonkreis. Der Satz von Dirac ist ein Spezialfall von Ore.}
 
-\textbf{Euler vs.\ Hamilton -- fundamentaler Unterschied:}
+\textbf{Notwendige Bedingungen:}
 \begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Euler:} Exaktes notwendiges-und-hinreichendes Kriterium (Gradparität), effizienter Konstruktionsalgorithmus in $\mathcal{O}(|E|)$ -- polynomiell lösbar.
-    \item \textbf{Hamilton:} Kein solches Kriterium bekannt. Das Entscheidungsproblem ``Enthält $G$ einen Hamiltonkreis?'' ist \textbf{NP-vollständig} -- es ist bis heute unbekannt, ob ein polynomieller Algorithmus existiert (äquivalent zur offenen Frage P$\,\stackrel{?}{=}\,$NP). In der Praxis werden Heuristiken oder exponentielle Backtracking-Verfahren verwendet.
+    \item Graph mit \textbf{Hamiltonweg}: zusammenhängend; höchstens zwei Knoten mit $\deg(v) = 1$.
+    \item Graph mit \textbf{Hamiltonkreis}: zusammenhängend; kein Knoten mit $\deg(v) = 1$.
 \end{itemize}
 
-\subsection{Bipartite und planare Graphen}
+Ein \textbf{notwendiges und hinreichendes} Kriterium für Hamiltonkreise ist bis heute \textbf{nicht bekannt} -- dies ist eines der schwierigsten ungelösten Probleme der Mathematik. Im Gegensatz zu Euler (exaktes Gradkriterium, effizient prüfbar) ist die Frage nach der Existenz eines Hamiltonkreises \textbf{NP-vollständig}.
 
-\definition{\textbf{Bipartiter Graph:} $G=(V,E)$ heißt bipartit, wenn $V=U\cup W$ (disjunkt) mit allen Kanten zwischen $U$ und $W$. Äquivalent: $G$ enthält keinen Kreis ungerader Länge.}
+\textbf{Allgemeiner Exkurs -- Notwendige und hinreichende Bedingungen:}
+\begin{itemize}[leftmargin=1.5em]
+    \item $A$ ist \textbf{hinreichend} für $B$: $A \Rightarrow B$ \quad (,,wenn $A$, dann $B$``)
+    \item $A$ ist \textbf{notwendig} für $B$: $A \Leftarrow B$ \quad (,,wenn $B$, dann $A$``)
+    \item $A$ ist \textbf{notwendig und hinreichend} für $B$: $A \Leftrightarrow B$
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{assets/euler_hamilton.png}
+\end{figure}
+
+\newpage
+
+\subsection{Grundtypen von Netzwerken, Bipartität und Planarität}
+
+\textbf{Bekannte Grundtypen schlichter Netzwerke:}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{assets/network_types.png}
+\end{figure}
+
+\textbf{Wurzelbäume:} Tree Network mit einem ausgezeichneten Knoten (\textbf{Wurzel}, muss nicht oben sein). Terminologie: \textbf{Vorgänger} (näher an Wurzel), \textbf{Nachfolger} (weiter entfernt). Darstellung: Vorgänger stets oberhalb der Nachfolger. \textbf{Binärkodierung:} Baum von der Wurzel nach links unten umwandern; $1$ = Abstieg, $0$ = Aufstieg. Gleicher Baum kann unterschiedlich kodiert sein.
+
+\definition{\textbf{Bipartiter Graph:} $G=(V,E)$ heißt bipartit, wenn $V=U\cup W$ (disjunkt) mit allen Kanten zwischen $U$ und $W$. Äquivalent: $G$ enthält \textbf{keinen Kreis ungerader Länge}.}
 
 \textbf{Vollständiger bipartiter Graph $K_{m,n}$:} Alle $m$ Knoten aus $U$ mit allen $n$ Knoten aus $W$ verbunden; $|E|=m\cdot n$.
 
-\definition{\textbf{Planarer Graph:} $G$ heißt planar, wenn er sich ohne Kantenkreuzungen in die Ebene zeichnen lässt. Planarität ist eine Eigenschaft des Graphen, nicht der Zeichnung.}
+Bipartite Graphen können Schlingen und parallele Kanten enthalten (dann kein schlichter Graph). Schlingen erzeugen jedoch Kreise der Länge 1 (ungerade) -- bipartit und Schlingen schließen sich damit faktisch aus.
 
-\textbf{Satz von Kuratowski:} $G$ ist genau dann planar, wenn er weder $K_5$ noch $K_{3,3}$ als Minor enthält.
+\definition{\textbf{Planarer Graph:} $G$ heißt planar, wenn er sich ohne Kantenkreuzungen in die Ebene zeichnen lässt. Planarität ist eine Eigenschaft des Graphen, nicht der konkreten Zeichnung.}
 
-\textbf{Grundtypen von Netzwerken:}
-\begin{itemize}[leftmargin=1.5em]
-    \item \textbf{Complete Network:} Jeder Knoten mit jedem; $|E|=\binom{|V|}{2}$; Knoten bilden eine Clique.
-    \item \textbf{Star Network:} Ein Zentralknoten verbunden mit allen anderen.
-    \item \textbf{Tree Network:} Genau ein Weg zwischen je zwei Knoten; kreisfrei; $|V|=|E|+1$; alle Kanten Brücken.
-    \item \textbf{Ring Network:} Kreisförmig, jeder Knoten mit $k$ Nachbarn. Complete Network ist Spezialfall.
-    \item \textbf{Grid Network (Torus):} Schachbrettartig, horizontal und vertikal periodisch.
-    \item \textbf{Small-World Network:} Ring mit zufälligen Zusatzkanten -- kurze Pfade, hohe lokale Vernetzung.
-    \item \textbf{Power/Free-scale Network:} Wenige Hubs mit hohem Grad, viele mit geringem (Potenzgesetz).
-\end{itemize}
+\textbf{Satz von Kuratowski:} $G$ ist genau dann planar, wenn er weder $K_5$ (vollständiger Graph auf 5 Knoten) noch $K_{3,3}$ (vollständiger bipartiter Graph) als \textbf{Minor} enthält. Jedes $K_n$ mit $n\geq 5$ bzw.\ $K_{m,n}$ mit $m,n\geq 3$ ist nicht planar.
 
-\textbf{Wurzelbäume:} Tree Network mit ausgezeichnetem Knoten (Wurzel). Terminologie: Vorgänger/Vater, Nachfolger/Sohn. Binärkodierung: 1 = Abstieg, 0 = Aufstieg; hexadezimal darstellbar.
+\textbf{Merke:} Bipartit $\not\Rightarrow$ planar (z.B.\ $K_{3,3}$); planar $\not\Rightarrow$ bipartit (z.B.\ $K_4$ -- planar, aber nicht bipartit da ungerade Kreise).
 
-\textbf{Merke:} Bipartit $\not\Rightarrow$ planar; planar $\not\Rightarrow$ bipartit.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{assets/bipartit_planar.png}
+\end{figure}
 
 \newpage
