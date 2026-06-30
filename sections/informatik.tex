@@ -288,7 +288,9 @@ scikit-learn strukturiert Preprocessing über das \textbf{Pipeline-Konzept}: jed
 
 \newpage
 
-\definition{\textbf{NumPy} (Numerical Python) stellt homogene, multidimensionale Arrays (\texttt{numpy.ndarray}) und mathematische Funktionen bereit -- die Basis für SciPy, pandas, scikit-learn, PyTorch, TensorFlow.}
+\subsection{NumPy -- Einsatzmöglichkeiten und Vorteile gegenüber \glqq plain\grqq{} Python}
+
+\definition{\textbf{NumPy} (Numerical Python) stellt homogene, multidimensionale Arrays (in Python (\texttt{numpy.ndarray})) und mathematische Funktionen bereit -- die Basis für SciPy, pandas, scikit-learn, PyTorch, TensorFlow.}
 
 \textbf{Performance-Vorteil} (typisch 50--100$\times$ schneller als plain Python) resultiert aus: \textbf{homogenem, kompaktem Speicher} (alle Elemente gleicher Typ, z.\,B.\ \texttt{float64}, zusammenhängend gespeichert -- kein Objekt-Overhead wie bei Listen); \textbf{Vektorisierung} (keine expliziten Python-Schleifen, nutzt SIMD-Instruktionen); \textbf{Broadcasting} (Kombination unterschiedlicher Shapes ohne Datenkopie); \textbf{C/Fortran-Kernroutinen} für performancekritische Teile.
 

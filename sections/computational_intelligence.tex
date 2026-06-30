@@ -597,6 +597,12 @@ TF-IDF & $\text{TF}(t,d)\cdot\log(|D|/n_D(t))$; TF normiert auf Dokumentlänge, 
 \end{tabular}
 \end{table}
 
+\definition{\textbf{TF (Term Frequency):} relative Häufigkeit eines Terms $t$ im Dokument $d$: $\text{TF}(t,d) = \frac{\text{Anzahl } t \text{ in } d}{\text{Anzahl Tokens in } d}$ Normierung auf Dokumentlänge verhindert, dass lange Dokumente allein wegen ihrer Länge höhere Werte bekommen.
+
+\textbf{IDF (Inverse Document Frequency):} bestraft Terme, die in vielen Dokumenten vorkommen (und damit wenig unterscheidungskräftig sind): $\text{IDF}(t) = \log\frac{|D|}{n_D(t)}, \qquad n_D(t)$ --- Anzahl Dokumente, die $t$ enthalten. Kommt $t$ in \emph{allen} Dokumenten vor ($n_D(t)=|D|$), ist $\text{IDF}(t)=\log 1=0$ -- der Term trägt nichts zur Unterscheidung bei. Je seltener $t$ im Corpus, desto größer $\text{IDF}(t)$.
+
+\textbf{TF-IDF:} Produkt aus beidem, $\text{TF-IDF}(t,d) = \text{TF}(t,d)\cdot\text{IDF}(t)$ -- hoch nur für Terme, die in \emph{diesem} Dokument häufig, aber im Corpus insgesamt selten sind.}
+
 \textbf{Kosinus-Ähnlichkeit} auf Dokumentvektoren: normiertes Skalarprodukt, längenunabhängig. Ermöglicht Dokumentsuche (Abfrage als Vektor, Dokumente mit höchster Ähnlichkeit), Clustering (k-Means, hierarchisch) und Klassifikation (Lineare Diskriminanzanalyse, SVM).
 
 \begin{figure}[H]
@@ -605,7 +611,6 @@ TF-IDF & $\text{TF}(t,d)\cdot\log(|D|/n_D(t))$; TF normiert auf Dokumentlänge, 
 \end{figure}
 
 \newpage
-
 \subsection{Topic Modelling}
 
 \textbf{Kernproblem:} One-Hot/BoW erfassen keine Semantik -- Synonyme erscheinen unverbunden, Polysemie unsichtbar. Grundprinzip (J.\,R.\ Firth): \textit{``You shall know a word by the company it keeps''} -- gemeinsam vorkommende Wörter gehören zu einem Thema und lassen sich aus der Document-Term-Matrix extrahieren.
@@ -642,7 +647,7 @@ Ein neuronales Netz wird trainiert; die Gewichtsmatrix \emph{nach} dem Training 
 
 \begin{table}[H]
 \centering
-\begin{tabular}{p{3.0cm} p{5.5cm} p{6.0cm}}
+\begin{tabular}{p{3.5cm} p{5.5cm} p{5.5cm}}
 \hline
 \textbf{Typ} & \textbf{Beschreibung} & \textbf{Beispiel} \\
 \hline
